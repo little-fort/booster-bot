@@ -29,22 +29,26 @@ Source can be cloned directly. Project is built on .NET 6, so you will need [Vis
 The .exe can also be run from the command line with the following arguments:
 
 **Scaling** `--scaling, -scaling, -s`
-Used to adjust display scale, if necessary. You can check your current display scale in the display properties under System > Display > Custom scaling. If the display where Marvel SNAP will be running is currently set to 100% scale, this value does not need to be used. If you have a custom scale value set, divide it by 100 and then pass in the value as an argument.
+
+Used to adjust display scale, if necessary. You can check your current display scale in the display properties under System > Display > Custom scaling. If the display where Marvel SNAP will be running is currently set to 100% scale (Windows 10) or the custom scaling entry field is empty (Windows 11), this value does not need to be used. If you have a custom scale value set, divide it by 100 and then pass in the value as an argument. Should be the first thing to check if you are running the game on something other than a standard 1080p monitor and the bot is not working.
 
 Usage: `BoosterBot.exe --scaling 2.75`
 
 **Verbose** `--verbose, -verbose, -v`
-Enables full log details in the console window. Typically only used to debug issues with the OCR failing to recognize words on screen.
+
+Enables full log details in the console window. Typically only used to debug issues with the OCR failing to recognize words on screen. If the `OCR RESULT` entries are failing to print words like 'Play' or 'Retreat', the OCR may be failing. Next step would be to enable the screencap log and verify that the images being scanned by OCR contain the relevant text.
 
 **No Autoplay** `--noautoplay, -noautoplay, -na`
-Disables the feature that attempts to play cards to the board. Useful if you're running an Agatha deck but you want to take over manual control when she plays herself early. Or if you want to guarantee that you'll lose games, I guess.
+
+Disables the feature that attempts to play cards to the board. Useful if you're running an Agatha deck but you want to take over manual control when she plays herself early. Or if you want even more guarantee that you'll lose games, I guess.
 
 **Save Screens** `--savescreens, -savescreens, -ss`
-The OCR system works by taking a screenshot of the game (and only the game) at regular intervals and scanning certain areas of the screen for certain text. Each new screenshot overwrites the last one so there is only one image at a time in the working directory. By enabling this feature, ***ALL*** screenshots taken by the game are preserved in the `screens` folder of the working directory. Useful for debugging OCR if the game is consistently failing to read text from the game window. However, should be used with caution, as it can create a huge number of images if the bot is left unattended for a long time while this option is enabled.
+
+The OCR system works by taking a screenshot of the game (and only the game) at regular intervals and scanning certain areas of the screencap for certain text. Each new screenshot overwrites the last one so there is only one image at a time in the working directory. By enabling this feature, ***ALL*** screenshots taken by the bot are preserved in the `screens` subfolder of the working directory. Useful for debugging OCR if the game is consistently failing to read text from the game window. However, should be used with caution, as it can create a huge number of images if the bot is left unattended for a long time while this option is enabled.
 
 ## Notes
 
 - Bot averages 11-14 matches per hour, which translates into about 66-84 boosters per hour. Hard limit of 1000 boosters per day still applies.
 - Bot will always play out matches to the end, and will occasionally snap just for the sake of randomness.
-- The game will sometimes hang at the end and not progress to the Collect Rewards screen, so the bot will detect matches that have gone on too long and auto-retreat.
-- Any deck will work fine, but there is no logic to the plays it attempts to make. It will just try to move and drop cards, regardless of board state.
+- The game will sometimes hang at the end and not progress to the booster collection screen, so the bot will detect matches that have gone on too long and auto-retreat.
+- Any deck will work fine, but there is no logic to the plays it attempts to make. It will just try to move and drop cards to random locations, regardless of board state.
