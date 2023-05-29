@@ -26,23 +26,31 @@ This is only intended for use with the Steam version of Marvel SNAP on Windows 1
 
 Source can be cloned directly. Project is built on .NET 6, so you will need [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) or the [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) installed in order to run. Project also makes use of the [Tesseract](https://github.com/charlesw/tesseract/) library, which may require you to download the [Visual Studio 2019 Runtime](https://visualstudio.microsoft.com/downloads/).
 
-The .exe can also be run from the command line with the following arguments:
+The .exe can also be run from the command line with the following options:
 
-**Scaling** `--scaling, -scaling, -s`
+**Scaling** 
+
+`--scaling, -scaling, -s`
 
 Used to adjust display scale, if necessary. You can check your current display scale in the display properties under System > Display > Custom scaling. If the display where Marvel SNAP will be running is currently set to 100% scale (Windows 10) or the custom scaling entry field is empty (Windows 11), this value does not need to be used. If you have a custom scale value set, divide it by 100 and then pass in the value as an argument. Should be the first thing to check if you are running the game on something other than a standard 1080p monitor and the bot is not working.
 
 Usage: `BoosterBot.exe --scaling 2.75`
 
-**Verbose** `--verbose, -verbose, -v`
+**Verbose** 
+
+`--verbose, -verbose, -v`
 
 Enables full log details in the console window. Typically only used to debug issues with the OCR failing to recognize words on screen. If the `OCR RESULT` entries are failing to print words like 'Play' or 'Retreat', the OCR may be failing. Next step would be to enable the screencap log and verify that the images being scanned by OCR contain the relevant text.
 
-**No Autoplay** `--noautoplay, -noautoplay, -na`
+**No Autoplay** 
+
+`--noautoplay, -noautoplay, -na`
 
 Disables the feature that attempts to play cards to the board. Useful if you're running an Agatha deck but you want to take over manual control when she plays herself early. Or if you want even more guarantee that you'll lose games, I guess.
 
-**Save Screens** `--savescreens, -savescreens, -ss`
+**Save Screens** 
+
+`--savescreens, -savescreens, -ss`
 
 The OCR system works by taking a screenshot of the game (and only the game) at regular intervals and scanning certain areas of the screencap for certain text. Each new screenshot overwrites the last one so there is only one image at a time in the working directory. By enabling this feature, ***ALL*** screenshots taken by the bot are preserved in the `screens` subfolder of the working directory. Useful for debugging OCR if the game is consistently failing to read text from the game window. However, should be used with caution, as it can create a huge number of images if the bot is left unattended for a long time while this option is enabled.
 
