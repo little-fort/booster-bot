@@ -3,7 +3,7 @@ A bot that could ***hypothetically*** be used to farm boosters for any deck in M
 
 ## Features
 
-- Randomly plays cards and progresses turns from any deck you've chosen
+- Randomly plays cards and progresses turns using any deck
 - Will farm matches on loop until stopped 
 - Simulates user input with randomness to prevent detection. Does not modify game files in any way
 - No additional third-party software required 
