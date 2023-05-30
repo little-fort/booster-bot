@@ -189,7 +189,7 @@ internal class BoosterBot
 
                 var ts = MatchTimer.Elapsed;
                 var elapsedTime = string.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
-                Console.WriteLine("Match time: " + elapsedTime);
+                Console.WriteLine("Match time: " + elapsedTime, true);
                 if (ts.Minutes > 15)
                 {
                     // Game is likely bugged out and need to attempt retreating:
@@ -403,15 +403,15 @@ internal class BoosterBot
     private void LogAttempts()
     {
         if (Attempts > 0)
-            Log($"Attempts: {Attempts}");
+            Log($"Attempts: {Attempts}", true);
     }
 
     /// <summary>
     /// Prints the given text to the console.
     /// </summary>
-    private void Log(string text)
+    private void Log(string text, bool onlyVerbose = false)
     {
-        if (Verbose)
+        if (!onlyVerbose || Verbose)
             Console.WriteLine(text);
     }
 
@@ -449,7 +449,7 @@ internal class BoosterBot
 
         // Read from image:
         var result = page.GetText()?.Trim();
-        Log($"OCR RESULT: {result}"); // Print read result for debugging
+        Log($"OCR RESULT: {result}", true); // Print read result for debugging
         return result;
     }
 

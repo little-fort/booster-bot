@@ -48,7 +48,16 @@ internal class Program
                         break;
                 }
 
-        var bot = new SnapBot(scaling, verbose, autoplay);
-        bot.Run();
+        try
+        {
+            var bot = new BoosterBot(scaling, verbose, autoplay, saveScreens);
+            bot.Run();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine();
+            Console.WriteLine(ex.StackTrace);
+        }
     }
 }
