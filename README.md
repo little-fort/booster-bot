@@ -1,3 +1,7 @@
+<p align="center">
+ <img src="https://github.com/TurmanTech/booster-bot/assets/39720285/0bbc5968-6c91-4bc7-95ed-99727e48062e" />
+</p>
+
 # BoosterBot for Marvel SNAP
 A bot that could ***hypothetically*** be used to farm boosters for any deck in Marvel SNAP. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to effectively farm missions and seasonal ranks. The bot uses OCR powered by [Tesseract](https://github.com/charlesw/tesseract/) to detect on-screen controls and then performs relevant actions.
 
@@ -60,3 +64,4 @@ The OCR system works by taking a screenshot of the game (and only the game) at r
 - Bot will always play out matches to the end, and will occasionally snap just for the sake of randomness.
 - The game will sometimes hang at the end and not progress to the booster collection screen, so the bot will detect matches that have gone on too long and auto-retreat.
 - Any deck will work fine, but there is no logic to the plays it attempts to make. It will just try to move and drop cards to random locations, regardless of board state.
+
