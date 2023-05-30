@@ -52,7 +52,7 @@ Enables full log details in the console window. Typically only used to debug iss
 
 `--noautoplay, -noautoplay, -na`
 
-Disables the feature that attempts to play cards to the board. Useful if you're running an Agatha deck but you want to take over manual control when she plays herself early. Or if you want even more guarantee that you'll lose games, I guess.
+Disables the feature that attempts to play cards to the board. Useful if you're running an Agatha deck but you want to take over manual control when she plays herself early. Or if you really want to insist on losing games, I guess.
 
 **Save Screens** 
 
