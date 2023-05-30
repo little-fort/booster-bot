@@ -66,6 +66,6 @@ The OCR system works by taking a screenshot of the game (and only the game) at r
 
 - Bot averages 11-14 matches per hour, which translates into about 66-84 boosters per hour. Hard limit of 1000 boosters per day still applies.
 - Bot will always play out matches to the end, and will occasionally snap just for the sake of randomness.
-- The game will sometimes hang at the end and not progress to the booster collection screen, so the bot will detect matches that have gone on too long and auto-retreat.
+- The game has bugs that will sometimes cause matches to hang at the end and not progress to the booster collection screen. The bot will try to detect matches that have gone on too long and auto-retreat, but this doesn't always work and sometimes the game will require a restart to unblock.
 - Any deck will work fine, but there is no logic to the plays it attempts to make. It will just try to move and drop cards to random locations, regardless of board state.
 
