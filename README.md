@@ -3,7 +3,7 @@
 </p>
 
 # BoosterBot for Marvel SNAP
-A bot that could ***hypothetically*** be used to farm boosters for any deck in Marvel SNAP. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to effectively farm missions and seasonal ranks. The bot uses OCR powered by [Tesseract](https://github.com/charlesw/tesseract/) to detect on-screen controls and then performs relevant actions.
+A bot that could ***hypothetically*** be used to farm boosters for any deck in Marvel SNAP. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to effectively farm missions and seasonal ranks. The bot uses OCR powered by [Tesseract](https://github.com/charlesw/tesseract/) to detect on-screen controls and then simulates user clicks to perform relevant actions.
 
 ## Features
 
