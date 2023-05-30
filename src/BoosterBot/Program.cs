@@ -59,5 +59,8 @@ internal class Program
             Console.WriteLine();
             Console.WriteLine(ex.StackTrace);
         }
+
+        Console.WriteLine("\nPress [Enter] to continue...");
+        Console.ReadLine();
     }
 }
