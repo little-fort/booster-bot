@@ -5,7 +5,7 @@
 # BoosterBot for Marvel Snap
 A bot that could ***hypothetically*** be used to farm boosters for any deck in Marvel Snap. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to effectively farm missions and seasonal ranks. The bot uses OCR powered by [Tesseract](https://github.com/charlesw/tesseract/) to detect on-screen controls and then simulates user clicks to perform relevant actions.
 
-**NOTE:** Because this is simulating user input, the bot will keep giving the Snap window focus and moving the mouse pointer to various locations of the game screen. It cannot run in the background and you will be mostly blocked from doing anything else on the PC while the bot is running. For best results, turn it on when you're going to be AFK for a while.
+**NOTE:** Because this is simulating user input, the bot will keep giving the Snap window focus and moving the mouse pointer to various locations of the game screen. It cannot run in the background and it will be difficult to do anything else on the PC while the bot is running. For best results, turn it on when you're going to be AFK for a while.
 
 ## Features
 
