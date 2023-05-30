@@ -60,7 +60,7 @@ Disables the feature that attempts to play cards to the board. Useful if you're 
 
 `--savescreens, -savescreens, -ss`
 
-The OCR system works by taking a screenshot of the game (and only the game) at regular intervals and scanning certain areas of the screencap for certain text. Each new screenshot overwrites the last one so there is only one image at a time in the working directory. By enabling this feature, ***ALL*** screenshots taken by the bot are preserved in the `screens` subfolder of the working directory. Useful for debugging OCR if the game is consistently failing to read text from the game window. However, should be used with caution, as it can create a huge number of images if the bot is left unattended for a long time while this option is enabled.
+The OCR system works by taking a screenshot of the game (and only the game) at regular intervals and scanning certain areas of the screencap for key words. Each new screenshot overwrites the last one so there is only one image at a time in the working directory. By enabling this feature, ***ALL*** screenshots taken by the bot are preserved in the `screens` subfolder of the working directory. Useful for debugging OCR if the game is consistently failing to read text from the game window. However, should be used with caution, as it can create a huge number of images if the bot is left unattended for a long time while this option is enabled.
 
 ## Notes
 
