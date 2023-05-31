@@ -1,0 +1,41 @@
+name: build-booster-bot
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    strategy:
+      matrix:
+        configuration: [ Release ]
+
+    runs-on: windows-latest
+
+    env:
+      Solution_Path: src/BoosterBot/BoosterBot.sln
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+        
+    - name: Restore
+      run: dotnet restore ${{ env.Solution_Path }}
+        
+    - name: Build
+      run: dotnet build ${{ env.Solution_Path }} --configuration Release
+
+    - name: Publish
+      run: dotnet publish ${{ env.Solution_Path }} -o ./artifacts/booster-bot --configuration Release -r win-x64 --self-contained true
+
+    - name: Create ZIP
+      run: Compress-Archive -Path ./artifacts/* -DestinationPath ./artifacts/booster-bot.zip
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: drop
+        path: ./artifacts/booster-bot.zip
