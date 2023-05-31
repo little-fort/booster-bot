@@ -43,14 +43,14 @@ jobs:
         if ('${{ github.event_name }}' -eq 'push') {
           $label = '${{ github.event.inputs.label }}'
           if ($label) {
-            echo "label=$label" >> $GITHUB_OUTPUT
+            echo "label=$label" >> $env:GITHUB_OUTPUT
           }
           else {
-            echo "label=-preview" >> $GITHUB_OUTPUT
+            echo "label=-preview" >> $env:GITHUB_OUTPUT
           }
         }
         else {
-          echo "label=${{ github.event.inputs.label }} " >> $GITHUB_OUTPUT
+          echo "label=${{ github.event.inputs.label }} " >> $env:GITHUB_OUTPUT
         }
       shell: pwsh
     
