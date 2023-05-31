@@ -41,12 +41,13 @@ jobs:
       id: set_label
       run: |
         if ('${{ github.event_name }}' -eq 'push') {
+          $build = '.${{ github.run_number }}'
           $label = '${{ github.event.inputs.label }}'
           if ($label) {
-            echo "label=$label" >> $env:GITHUB_OUTPUT
+            echo "label=$build$label" >> $env:GITHUB_OUTPUT
           }
           else {
-            echo "label=-preview" >> $env:GITHUB_OUTPUT
+            echo "label=$build-preview" >> $env:GITHUB_OUTPUT
           }
         }
         else {
