@@ -220,7 +220,7 @@ internal class BoosterBot
                     }
 
                     if (Autoplay)
-                        Thread.Sleep(Rand.Next(500, 2000)); 
+                        Thread.Sleep(Rand.Next(3000, 5000)); 
                     else
                         Thread.Sleep(Rand.Next(5000, 10000)); // Wait 12-20 seconds to check again to avoid spamming the button
                 }
@@ -314,8 +314,8 @@ internal class BoosterBot
 
     private Rect GetCollectCrop() => new Rect
     {
-        Left = Center + 225,
-        Right = Center + 390,
+        Left = Center + 215,
+        Right = Center + 380,
         Top = Screencap.Height - 95,
         Bottom = Screencap.Height - 45
     };
