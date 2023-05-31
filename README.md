@@ -13,7 +13,8 @@ A bot that could ***hypothetically*** be used to farm boosters for any deck in M
 - Will farm matches on loop until stopped 
 - Simulates user input with randomness to prevent detection. Does not modify game files in any way
 - No additional third-party software required 
-- Portable executable that does not require installation. Simply download latest release, start Snap, and run the .exe
+- Portable executable that does not require installation. Simply download latest release, start Snap, and run `BoosterBot.exe`
+- Runs under randomized process name to help prevent detection
 
 ## Prerequisites
 
@@ -28,7 +29,7 @@ Game should be run in fullscreen mode for best results. Although the bot *can* f
 1. Download the latest .zip from the Releases page.
 2. Unpack the archive into directory of your choice. 
 3. Start the game and wait until main menu is loaded.
-4. Start BoosterBot.exe 
+4. Start `BoosterBot.exe`
 
 ### Advanced
 
@@ -68,4 +69,5 @@ The OCR system works by taking a screenshot of the game (and only the game) at r
 - Bot will always play out matches to the end, and will occasionally snap just for the sake of randomness.
 - The game has bugs that will sometimes cause matches to hang at the end and not progress to the booster collection screen. The bot will try to detect matches that have gone on too long and auto-retreat, but this doesn't always work and sometimes the game will require a restart to unblock.
 - Any deck will work fine, but there is no logic to the plays it attempts to make. It will just try to move and drop cards to random locations, regardless of board state.
+- The process name will be masked with a randomly generated string each time to avoid detection by the game client. As a result, `BoosterBot.exe` will not appear in the list of active processes after starting the bot, but you will see something like `nskeqpsv.exe` running instead.
 
