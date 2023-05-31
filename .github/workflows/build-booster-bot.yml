@@ -7,6 +7,10 @@ on:
         description: 'Version number'
         required: true
         default: '1.1.0'
+      label:
+        description: 'Label'
+        required: false
+        default: '-preview'
   push:
     branches: [ "main" ]
   pull_request:
@@ -38,12 +42,15 @@ jobs:
     - name: Get build number
       id: build_number
       run: echo "::set-output name=number::$(printf "%03d" $(($GITHUB_RUN_NUMBER % 10000)))"
-      
+    
     - name: Update version
       run: |
-        dotnet xmlpoke ${{ env.Project_Path }} /Project/PropertyGroup/Version '${{ github.event.inputs.version }}.${{ steps.build_number.outputs.number }}'
-        dotnet xmlpoke ${{ env.Project_Path }} /Project/PropertyGroup/FileVersion '${{ github.event.inputs.version }}.${{ steps.build_number.outputs.number }}'
-        dotnet xmlpoke ${{ env.Project_Path }} /Project/PropertyGroup/InformationalVersion '${{ github.event.inputs.version }}.${{ steps.build_number.outputs.number }}'
+        $csprojPath = "${{ env.Project_Path }}"
+        $csprojContent = Get-Content $csprojPath -Raw
+        $newVersion = "${{ github.event.inputs.version }}.${{ steps.build_number.outputs.number }}"
+        $updatedContent = $csprojContent -replace '(<Version>).*(</Version>)', "`${1}$newVersion`$2"
+        Set-Content -Path $csprojPath -Value $updatedContent
+      shell: pwsh
         
     - name: Build
       run: dotnet build ${{ env.Solution_Path }} --configuration Release
@@ -54,5 +61,5 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: booster-bot-v${{ github.event.inputs.version }}
+        name: booster-bot-v${{ github.event.inputs.version }}${{ github.event.inputs.version }}
         path: ./artifacts
