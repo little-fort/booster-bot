@@ -40,9 +40,9 @@ jobs:
     - name: Set label
       id: set_label
       run: |
+        $label = '${{ github.event.inputs.label }}'
         if ('${{ github.event_name }}' -eq 'push') {
           $build = '.${{ github.run_number }}'
-          $label = '${{ github.event.inputs.label }}'
           if ($label) {
             echo "label=$build$label" >> $env:GITHUB_OUTPUT
           }
@@ -51,7 +51,7 @@ jobs:
           }
         }
         else {
-          echo "label=${{ github.event.inputs.label }} " >> $env:GITHUB_OUTPUT
+          echo "label=$label" >> $env:GITHUB_OUTPUT
         }
       shell: pwsh
     
