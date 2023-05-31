@@ -81,9 +81,6 @@ internal class Program
             process.StartInfo = startInfo;
             process.StartInfo.Arguments = "-masked " + string.Join(' ', args);
 
-            Console.WriteLine("\nPress [Enter] to start bot...");
-            Console.ReadLine();
-
             process.Start();
         }
     }
