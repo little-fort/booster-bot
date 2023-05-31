@@ -70,12 +70,12 @@ jobs:
 
     - name: Publish
       run: dotnet publish ${{ env.Project_Path }} -o './artifacts/booster-bot-v${{ env.Version_Number }}${{ steps.set_label.outputs.label }}' --configuration Release -r win-x64 --self-contained true
-    
-    - name: Purge Artifacts
-      uses: jimschubert/delete-artifacts-action@v1
+  
+    - name: Purge artifacts
+      uses: d-fournier/delete-workflow-artifacts@v1.0
       with:
-        GITHUB_TOKEN: ${{github.token}}
-        GITHUB_REPOSITORY: ${{github.repository}}
+        workflow-id: build-booster-bot
+        github-token: ${{github.token}}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
