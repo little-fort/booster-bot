@@ -75,7 +75,7 @@ jobs:
       uses: d-fournier/delete-workflow-artifacts@v1.0
       with:
         workflow-id: build-booster-bot
-        github-token: ${{github.token}}
+        github-token: ${{ secrets.API_REPOSITORY_PAT }}
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
