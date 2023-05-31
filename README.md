@@ -13,7 +13,7 @@ A bot that could ***hypothetically*** be used to farm boosters for any deck in M
 - Will farm matches on loop until stopped 
 - Simulates user input with randomness to prevent detection. Does not modify game files in any way
 - No additional third-party software required 
-- Portable executable that does not require installation. Simply download latest release, start Snap, and run the .exe
+- Portable executable that does not require installation. Simply download latest release, start Snap, and run `BoosterBot.exe`
 - Runs under randomized process name to help prevent detection
 
 ## Prerequisites
