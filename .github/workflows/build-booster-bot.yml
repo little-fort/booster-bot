@@ -42,7 +42,7 @@ jobs:
       run: |
         $csprojPath = "${{ env.Project_Path }}"
         $csprojContent = Get-Content $csprojPath -Raw
-        $newVersion = "${{ env.Version_Number }}.${{ github.run_attempt }}"
+        $newVersion = "${{ env.Version_Number }}.${{ github.run_number }}"
         Write-Output "Version number: $newVersion"
         $updatedContent = $csprojContent -replace '(<Version>).*(</Version>)', "`${1}$newVersion`$2"
         Set-Content -Path $csprojPath -Value $updatedContent
