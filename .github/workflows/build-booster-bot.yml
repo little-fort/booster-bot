@@ -49,6 +49,9 @@ jobs:
             echo "label=-preview" >> $GITHUB_OUTPUT
           }
         }
+        else {
+          echo "label=${{ github.event.inputs.label }} " >> $GITHUB_OUTPUT
+        }
       shell: pwsh
     
     - name: Update version
