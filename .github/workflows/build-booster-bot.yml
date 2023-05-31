@@ -37,16 +37,12 @@ jobs:
         
     - name: Restore
       run: dotnet restore ${{ env.Solution_Path }}
-      
-    - name: Get build number
-      id: build_number
-      run: echo "name=number::$(printf "%03d" $(($GITHUB_RUN_NUMBER % 10000)))" >> $GITHUB_OUTPUT
     
     - name: Update version
       run: |
         $csprojPath = "${{ env.Project_Path }}"
         $csprojContent = Get-Content $csprojPath -Raw
-        $newVersion = "${{ env.Version_Number }}.${{ steps.build_number.outputs.number }}"
+        $newVersion = "${{ env.Version_Number }}.$GITHUB_RUN_NUMBER"
         Write-Output "Version number: $newVersion"
         $updatedContent = $csprojContent -replace '(<Version>).*(</Version>)', "`${1}$newVersion`$2"
         Set-Content -Path $csprojPath -Value $updatedContent
