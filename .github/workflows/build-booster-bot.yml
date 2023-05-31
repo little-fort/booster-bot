@@ -1,6 +1,12 @@
 name: build-booster-bot
 
 on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version number'
+        required: true
+        default: '1.1.0'
   push:
     branches: [ "main" ]
   pull_request:
@@ -22,9 +28,22 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      
+    - name: Install tools
+      run: dotnet tool install --global DotNetXmlPeek
         
     - name: Restore
       run: dotnet restore ${{ env.Solution_Path }}
+      
+    - name: Get build number
+      id: build_number
+      run: echo "::set-output name=number::$(printf "%03d" $(($GITHUB_RUN_NUMBER % 10000)))"
+      
+    - name: Update version
+      run: |
+        dotnet xmlpoke ${{ env.Project_Path }} /Project/PropertyGroup/Version '${{ github.event.inputs.version }}.${{ steps.build_number.outputs.number }}'
+        dotnet xmlpoke ${{ env.Project_Path }} /Project/PropertyGroup/FileVersion '${{ github.event.inputs.version }}.${{ steps.build_number.outputs.number }}'
+        dotnet xmlpoke ${{ env.Project_Path }} /Project/PropertyGroup/InformationalVersion '${{ github.event.inputs.version }}.${{ steps.build_number.outputs.number }}'
         
     - name: Build
       run: dotnet build ${{ env.Solution_Path }} --configuration Release
@@ -32,8 +51,8 @@ jobs:
     - name: Publish
       run: dotnet publish ${{ env.Project_Path }} -o ./artifacts/booster-bot --configuration Release -r win-x64 --self-contained true
 
-    - name: Upload Artifacts
+    - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: booster-bot
+        name: booster-bot-v${{ github.event.inputs.version }}
         path: ./artifacts
