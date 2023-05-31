@@ -41,8 +41,8 @@ jobs:
       id: set_label
       run: |
         if ('${{ github.event_name }}' -eq 'push') {
-          $label = ${{ github.event.inputs.label }} 
-          if ($label.Length -gt 0) {
+          $label = '${{ github.event.inputs.label }}'
+          if ($label) {
             echo "label=$label" >> $GITHUB_OUTPUT
           }
           else {
