@@ -30,7 +30,7 @@ jobs:
       Solution_Path: src/BoosterBot.sln
       Project_Path: src/BoosterBot/BoosterBot.csproj
       Version_Number: ${{ github.event.inputs.version || '1.1.0' }}
-      Version_Label: ${{ github.event.inputs.label || '-preview' }}
+      Version_Label: ${{ github.event_name == 'push' && (github.event.inputs.label || '-preview') }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
