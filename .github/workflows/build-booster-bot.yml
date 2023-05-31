@@ -70,6 +70,27 @@ jobs:
 
     - name: Publish
       run: dotnet publish ${{ env.Project_Path }} -o './artifacts/booster-bot-v${{ env.Version_Number }}${{ steps.set_label.outputs.label }}' --configuration Release -r win-x64 --self-contained true
+    
+    - name: Purge artifacts
+      uses: actions/github-script@v4
+      id: artifact
+      with:
+        script: |
+          const { owner, repo } = context.issue
+
+          const res = await github.actions.listArtifactsForRepo({
+            owner,
+            repo,
+          })
+
+          res.data.artifacts
+            .forEach(({ id }) => {
+              github.actions.deleteArtifact({
+                owner,
+                repo,
+                artifact_id: id,
+              })
+            })
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
