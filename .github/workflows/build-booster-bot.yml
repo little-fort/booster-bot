@@ -17,7 +17,8 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Path: src/BoosterBot/BoosterBot.sln
+      Solution_Path: src/BoosterBot.sln
+      Project_Path: src/BoosterBot/BoosterBot.csproj
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -29,7 +30,7 @@ jobs:
       run: dotnet build ${{ env.Solution_Path }} --configuration Release
 
     - name: Publish
-      run: dotnet publish ${{ env.Solution_Path }} -o ./artifacts/booster-bot --configuration Release -r win-x64 --self-contained true
+      run: dotnet publish ${{ env.Project_Path }} -o ./artifacts/booster-bot --configuration Release -r win-x64 --self-contained true
 
     - name: Create ZIP
       run: Compress-Archive -Path ./artifacts/* -DestinationPath ./artifacts/booster-bot.zip
