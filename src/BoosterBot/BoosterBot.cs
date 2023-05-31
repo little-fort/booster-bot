@@ -314,8 +314,8 @@ internal class BoosterBot
 
     private Rect GetCollectCrop() => new Rect
     {
-        Left = Center + 235,
-        Right = Center + 400,
+        Left = Center + 225,
+        Right = Center + 390,
         Top = Screencap.Height - 95,
         Bottom = Screencap.Height - 45
     };
@@ -415,7 +415,7 @@ internal class BoosterBot
             Console.WriteLine(text);
     }
 
-    private List<string> ReadArea(Rect crop, string image = Image, int sampleCount = 5, bool export = true)
+    private List<string> ReadArea(Rect crop, string image = Image, int sampleCount = 5, bool export = false)
     {
         var samples = new List<string>();
         for (int x = 0; x < sampleCount; x++)
