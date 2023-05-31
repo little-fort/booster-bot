@@ -74,7 +74,7 @@ jobs:
     - name: Purge artifacts
       uses: kolpav/purge-artifacts-action@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.API_REPOSITORY_PAT }}
         expire-in: 0
       
     - name: Upload artifacts
