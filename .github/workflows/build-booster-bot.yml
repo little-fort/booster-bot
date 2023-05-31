@@ -10,7 +10,7 @@ on:
       label:
         description: 'Label'
         required: false
-        default: '-preview'
+        default: ''
   push:
     branches: [ "main" ]
   pull_request:
