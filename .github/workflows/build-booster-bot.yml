@@ -68,7 +68,7 @@ jobs:
       run: dotnet build ${{ env.Solution_Path }} --configuration Release
 
     - name: Publish
-      run: dotnet publish ${{ env.Project_Path }} -o ./artifacts/booster-bot --configuration Release -r win-x64 --self-contained true
+      run: dotnet publish ${{ env.Project_Path }} -o './artifacts/booster-bot-v${{ env.Version_Number }}${{ steps.set_label.outputs.label }}' --configuration Release -r win-x64 --self-contained true
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
