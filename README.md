@@ -26,7 +26,7 @@ Game should be run in fullscreen mode for best results. Although the bot *can* f
 
 ### Simple
 
-1. Download the latest .zip from the Releases page.
+1. Download the [latest](https://github.com/TurmanTech/booster-bot/releases/latest) .zip from the Releases page.
 2. Unpack the archive into directory of your choice. 
 3. Start the game and wait until main menu is loaded.
 4. Start `BoosterBot.exe`
