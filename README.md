@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://github.com/little-fort/booster-bot/assets/39720285/0bbc5968-6c91-4bc7-95ed-99727e48062e" />
+ <img src="https://github.com/little-fort/booster-bot/assets/39720285/3fd898fc-9f52-4e6c-8045-ffd6ee7ae456" />
 </p>
 
 # BoosterBot for Marvel Snap
