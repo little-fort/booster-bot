@@ -1,9 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace BoosterBot;
 
@@ -12,9 +7,10 @@ internal class Program
     static void Main(string[] args)
     {
         bool masked = false;
-        bool verbose = false;
+        bool verbose = true; // false;
         bool autoplay = true;
         bool saveScreens = false;
+        bool conquest = true; // false;
         double scaling = 1.0;
 
         // Parse flags:
@@ -50,14 +46,19 @@ internal class Program
                     case "-masked":
                         masked = true;
                         break;
+                    case "-conquest":
+                    case "--conquest":
+                    case "-c":
+                        conquest = true;
+                        break;
                 }
 
-        if (masked)
+        if (!masked) //(masked)
         {
             try
             {
                 var bot = new BoosterBot(scaling, verbose, autoplay, saveScreens);
-                bot.Run();
+                bot.Run(conquest);
             }
             catch (Exception ex)
             {

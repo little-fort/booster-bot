@@ -49,6 +49,37 @@ public class Utilities
         Thread.Sleep(250);
     }
 
+    /// <summary>
+    /// Used to simulate a swipe from one point to another on the screen.
+    /// </summary>
+    public static void Swipe(int startX, int startY, int endX, int endY)
+    {
+        // Determine the distance to swipe
+        int distanceX = endX - startX;
+        int distanceY = endY - startY;
+
+        // Determine the number of steps and the size of each step
+        int steps = 100;
+        float stepX = distanceX / (float)steps;
+        float stepY = distanceY / (float)steps;
+
+        // Press down the mouse button
+        Cursor.Position = new Point(startX, startY);
+        mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
+        Thread.Sleep(50);  // Adjust sleep time as needed
+
+        // Gradually move the mouse to the end position
+        for (int i = 0; i < steps; i++)
+        {
+            Cursor.Position = new Point(startX + (int)(stepX * i), startY + (int)(stepY * i));
+            Thread.Sleep(5);  // Adjust sleep time as needed
+        }
+
+        // Release the mouse button
+        Cursor.Position = new Point(endX, endY);
+        mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
+    }
+
     public static void Click(Point pnt) => Click(pnt.X, pnt.Y);
 
     // center + 20, bottom - 180

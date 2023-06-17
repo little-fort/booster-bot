@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Tesseract;
-using static System.Net.Mime.MediaTypeNames;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace BoosterBot;
 
@@ -28,6 +18,7 @@ internal class BoosterBot
     private Dimension Screencap { get; set; }
     private Random Rand { get; set; }
     private Point ResetPoint { get; set; }
+    private Point GameModesPoint { get; set; }
     private List<Point> Cards { get; set; }
     private List<Point> Locations { get; set; }
     private Stopwatch MatchTimer { get; set; }
@@ -41,7 +32,15 @@ internal class BoosterBot
         SaveScreens = saveScreens;
     }
 
-    public void Run()
+    public void Run(bool conquest)
+    {
+        if (conquest)
+            RunConquest();
+        else
+            RunLadder();
+    }
+
+    public void RunLadder()
     {
         MatchTimer = new Stopwatch();
         MatchTimer.Start();
@@ -50,10 +49,13 @@ internal class BoosterBot
         {
             GetPositions();
             var onMenu = IsOnMainMenu();
+
             Attempts++;
 
             if (onMenu || (Attempts > 2 && Attempts < 10))
             {
+                StartLadderMatch();
+
                 if (onMenu)
                     Attempts = 3; // Make sure it doesn't loop through menu processing again
 
@@ -68,6 +70,66 @@ internal class BoosterBot
                 }
             }
             else if (Attempts >= 10)
+            {
+                Log("Attempting blind 'next' click...");
+                ClickNext();
+                Thread.Sleep(10000);
+                Attempts = 0;
+            }
+        }
+    }
+
+    public void RunConquest()
+    {
+        while (true)
+        {
+            GetPositions();
+            Attempts++;
+
+            // Reset menu
+            ResetMenu();
+            Thread.Sleep(1000);
+
+            // Click over to the Game Modes tab
+            Utilities.Click(GameModesPoint);
+            Thread.Sleep(1000);
+            Utilities.Click(GameModesPoint);
+            Thread.Sleep(1000);
+
+            // Select Conquest
+            ClickConquest();
+            Thread.Sleep(1000);
+
+            MatchTimer = new Stopwatch();
+            MatchTimer.Start();
+
+            if ((Attempts > 0 && Attempts < 5))
+            {
+                // Select Proving Grounds
+                ClickProvingGrounds();
+
+                // Wait for matchmaking
+                Thread.Sleep(25000);
+
+                var isMatch = ProcessMatch(true);
+
+                if (isMatch)
+                {
+                    ProcessRewards();
+                    
+                    // Click through post-match screens
+                    ClickPlay();
+                    Thread.Sleep(2000);
+                    ClickPlay();
+                    Thread.Sleep(2000);
+                }
+                else
+                {
+                    ResetClick();
+                    Log("No match was detected.");
+                }
+            }
+            else
             {
                 Log("Attempting blind 'next' click...");
                 ClickNext();
@@ -135,6 +197,12 @@ internal class BoosterBot
             X = Window.Left + 100,
             Y = Window.Bottom - 200
         };
+
+        GameModesPoint = new Point
+        {
+            X = Window.Left + Center + 175,
+            Y = Window.Bottom - 10
+        };
     }
 
     private bool IsOnMainMenu()
@@ -151,23 +219,21 @@ internal class BoosterBot
         var samples = ReadArea(crop);
         LogAttempts();
 
-        if (samples.Any(x => x.ToLower().Contains("play")))
-        {
-            MatchTimer.Restart();
-            Log("Main menu detected, starting matchmaking...");
-            ClickPlay();
-            Log("Waiting 25 seconds to allow for match to load...");
-            Thread.Sleep(25000);
-
-            LogAttempts();
-
-            return true;
-        }
-
-        return false;
+        return samples.Any(x => x.ToLower().Contains("play"));
     }
 
-    private bool ProcessMatch()
+    private void StartLadderMatch()
+    {
+        MatchTimer.Restart();
+        Log("Main menu detected, starting matchmaking...");
+        ClickPlay();
+        Log("Waiting 25 seconds to allow for match to load...");
+        Thread.Sleep(25000);
+
+        LogAttempts();
+    }
+
+    private bool ProcessMatch(bool alwaysSnap = false)
     {
         List<string> samples;
         var isMatch = false;
@@ -183,7 +249,8 @@ internal class BoosterBot
             // Set coordinates for "RETREAT" button:
             samples = ReadArea(GetRetreatCrop());
 
-            if (samples.Any(x => x.ToLower().Contains("retreat")))
+            //if (samples.Any(x => x.ToLower().Contains("retreat")))
+            if (samples.Any(x => !string.IsNullOrWhiteSpace(x.ToLower())))
             {
                 Attempts = 0;
 
@@ -209,7 +276,7 @@ internal class BoosterBot
                         PlayHand();
 
                     // Roll for an occasional SNAP:
-                    if (!snapped && Rand.Next(100) < 5)
+                    if (alwaysSnap || (!snapped && Rand.Next(100) < 5))
                         snapped = ClickSnap();
 
                     samples = ReadArea(GetRetreatCrop());
@@ -338,6 +405,8 @@ internal class BoosterBot
 
     private void ResetClick() => Utilities.Click(ResetPoint);
 
+    private void ResetMenu() => Utilities.Click(Window.Left + Center, Window.Bottom - 1);
+
     /// <summary>
     /// Simulates attempting to play four cards in your hand to random locations.
     /// </summary>
@@ -372,6 +441,44 @@ internal class BoosterBot
     /// Simulates clicking the "Next"/"Collect Rewards" button while in a match.
     /// </summary>
     private void ClickNext() => Utilities.Click(Window.Left + Center + 300 + Rand.Next(-20, 20), Window.Bottom - 60 + Rand.Next(-10, 10));
+
+    /// <summary>
+    /// Simulates clicking the Conquest mode from the Game Modes tab
+    /// </summary>
+    private void ClickConquest() => Utilities.Click(Window.Left + Center + Rand.Next(-20, 20), 330 + Rand.Next(-20, 20));
+
+    /// <summary>
+    /// Swipes over the Conquest carousel to Proving Grounds and then Enters the mode
+    /// </summary>
+    private void ClickProvingGrounds()
+    {
+        // The carousel defaults to the highest diffulty level that you have tickets for. Need to first swipe back over to Proving Grounds
+        for (int x = 0; x < 5; x++)
+        {
+            Utilities.Swipe(
+                startX: Window.Left + Center - 250,
+                startY: Window.Bottom / 2,
+                endX: Window.Left + Center + 250,
+                endY: Window.Bottom / 2
+            );
+            Thread.Sleep(1000);
+        }
+
+        // Click once to hit "Enter"
+        ClickPlay();
+        Thread.Sleep(1000);
+
+        // Click again to hit "Play"
+        ClickPlay();
+        Thread.Sleep(1000);
+
+        // One more time just to be safe:
+        ClickPlay();
+        Thread.Sleep(1000);
+
+        // Confirm deck:
+        Utilities.Click(Window.Left + Center + 100, Window.Bottom - 345);
+    }
 
     /// <summary>
     /// Simulates clicks to from a match.
