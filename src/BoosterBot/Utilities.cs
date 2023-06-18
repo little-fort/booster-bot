@@ -52,14 +52,19 @@ public class Utilities
     /// <summary>
     /// Used to simulate a swipe from one point to another on the screen.
     /// </summary>
-    public static void Swipe(int startX, int startY, int endX, int endY)
+    public static void Drag(Point start, Point end) => Drag(start.X, start.Y, end.X, end.Y);
+
+    /// <summary>
+    /// Used to simulate a swipe from one point to another on the screen.
+    /// </summary>
+    public static void Drag(int startX, int startY, int endX, int endY)
     {
         // Determine the distance to swipe
         int distanceX = endX - startX;
         int distanceY = endY - startY;
 
         // Determine the number of steps and the size of each step
-        int steps = 100;
+        int steps = 50;
         float stepX = distanceX / (float)steps;
         float stepY = distanceY / (float)steps;
 
@@ -72,7 +77,7 @@ public class Utilities
         for (int i = 0; i < steps; i++)
         {
             Cursor.Position = new Point(startX + (int)(stepX * i), startY + (int)(stepY * i));
-            Thread.Sleep(5);  // Adjust sleep time as needed
+            Thread.Sleep(1);
         }
 
         // Release the mouse button
@@ -82,20 +87,15 @@ public class Utilities
 
     public static void Click(Point pnt) => Click(pnt.X, pnt.Y);
 
-    // center + 20, bottom - 180
+    /// <summary>
+    /// Takes in coordinates for a card and attempts to play it at the given coordinates for a location.
+    /// </summary>
     public static void PlayCard(Point card, Point loc, Point reset)
     {
         var rand = new Random();
 
-        // Click on card:
-        Cursor.Position = new System.Drawing.Point(card.X, card.Y);
-        mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
-
-        Thread.Sleep(rand.Next(400, 800));
-
-        // Drag to location and drop:
-        Cursor.Position = new System.Drawing.Point(loc.X, loc.Y);
-        mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
+        // Attempt to play card:
+        Drag(card, loc);
 
         Thread.Sleep(rand.Next(1000, 2000));
 

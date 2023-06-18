@@ -12,6 +12,7 @@ internal class Program
         bool saveScreens = false;
         bool conquest = true; // false;
         double scaling = 1.0;
+        int maxAutoplay = 3; // 4;
 
         // Parse flags:
         if (args.Length > 0)
@@ -51,14 +52,21 @@ internal class Program
                     case "-c":
                         conquest = true;
                         break;
+                    case "-maxautoplay":
+                    case "--maxautoplay":
+                    case "-ma":
+                        maxAutoplay = int.Parse(args[i++]);
+                        break;
+
                 }
 
         if (!masked) //(masked)
         {
             try
             {
-                var bot = new BoosterBot(scaling, verbose, autoplay, saveScreens);
+                var bot = new BoosterBot(scaling, verbose, autoplay, saveScreens, maxAutoplay);
                 bot.Run(conquest);
+                //bot.TestOcr();
             }
             catch (Exception ex)
             {
