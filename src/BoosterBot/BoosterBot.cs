@@ -28,6 +28,7 @@ internal class BoosterBot
     private Dimension Screencap { get; set; }
     private Random Rand { get; set; }
     private Point ResetPoint { get; set; }
+    private Point ClearErrorPoint { get; set; }
     private List<Point> Cards { get; set; }
     private List<Point> Locations { get; set; }
     private Stopwatch MatchTimer { get; set; }
@@ -135,6 +136,12 @@ internal class BoosterBot
             X = Window.Left + 100,
             Y = Window.Bottom - 200
         };
+
+        ClearErrorPoint = new Point
+        {
+            X = Window.Left + Center,
+            Y = Window.Bottom - 110
+        };
     }
 
     private bool IsOnMainMenu()
@@ -230,6 +237,7 @@ internal class BoosterBot
                 var wait = Rand.Next(5000, 10000);
                 Log($"Active match not detected, checking again in {wait / 1000} seconds...");
                 Thread.Sleep(wait);
+                ClearError();
                 ResetClick();
                 Attempts++;
                 LogAttempts();
@@ -337,6 +345,8 @@ internal class BoosterBot
     };
 
     private void ResetClick() => Utilities.Click(ResetPoint);
+
+    private void ClearError() => Utilities.Click(ClearErrorPoint);
 
     /// <summary>
     /// Simulates attempting to play four cards in your hand to random locations.
