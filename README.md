@@ -1,9 +1,9 @@
 <p align="center">
- <img src="https://github.com/TurmanTech/booster-bot/assets/39720285/0bbc5968-6c91-4bc7-95ed-99727e48062e" />
+ <img src="https://github.com/little-fort/booster-bot/assets/39720285/3fd898fc-9f52-4e6c-8045-ffd6ee7ae456" />
 </p>
 
 # BoosterBot for Marvel Snap
-A bot that could ***hypothetically*** be used to farm boosters for any deck in Marvel Snap. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to effectively farm missions and seasonal ranks. The bot uses OCR powered by [Tesseract](https://github.com/charlesw/tesseract/) to detect on-screen controls and then simulates user clicks to perform relevant actions.
+A bot that could ***hypothetically*** be used to farm boosters for any deck in Marvel Snap. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to more effectively farm missions and seasonal ranks. The bot uses OCR powered by [Tesseract](https://github.com/charlesw/tesseract/) to detect on-screen controls and then simulates user clicks to perform relevant actions.
 
 **NOTE:** Because this is simulating user input, the bot will keep giving the Snap window focus and moving the mouse pointer to various locations of the game screen. It cannot run in the background and it will be difficult to do anything else on the PC while the bot is running. For best results, turn it on when you're going to be AFK for a while.
 
@@ -26,7 +26,7 @@ Game should be run in fullscreen mode for best results. Although the bot *can* f
 
 ### Simple
 
-1. Download the latest .zip from the Releases page.
+1. Download the [latest](https://github.com/little-fort/booster-bot/releases/latest) .zip from the Releases page.
 2. Unpack the archive into directory of your choice. 
 3. Start the game and wait until main menu is loaded.
 4. Start `BoosterBot.exe`
