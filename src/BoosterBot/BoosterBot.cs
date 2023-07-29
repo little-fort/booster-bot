@@ -81,8 +81,8 @@ internal class BoosterBot
     private void GetPositions()
     {
         // Find game window and take screencap:
-        Window = Utilities.GetGameWindowLocation();
-        Screencap = Utilities.GetGameScreencap(Window, Scaling);
+        Window = SystemUtilities.GetGameWindowLocation();
+        Screencap = SystemUtilities.GetGameScreencap(Window, Scaling);
 
         // Calculate center position of game window:
         Center = Screencap.Width / 2;
@@ -147,7 +147,7 @@ internal class BoosterBot
     private bool IsOnMainMenu()
     {
         Log("Checking if game is on main menu...");
-        Utilities.Click(Window.Left + Center, Window.Bottom - 1);
+        SystemUtilities.Click(Window.Left + Center, Window.Bottom - 1);
         var crop = new Rect
         {
             Left = Center - 65,
@@ -344,19 +344,19 @@ internal class BoosterBot
         Bottom = 250
     };
 
-    private void ResetClick() => Utilities.Click(ResetPoint);
+    private void ResetClick() => SystemUtilities.Click(ResetPoint);
 
-    private void ClearError() => Utilities.Click(ClearErrorPoint);
+    private void ClearError() => SystemUtilities.Click(ClearErrorPoint);
 
     /// <summary>
     /// Simulates attempting to play four cards in your hand to random locations.
     /// </summary>
     private void PlayHand()
     {
-        Utilities.PlayCard(Cards[3], Locations[Rand.Next(3)], ResetPoint);
-        Utilities.PlayCard(Cards[2], Locations[Rand.Next(3)], ResetPoint);
-        Utilities.PlayCard(Cards[1], Locations[Rand.Next(3)], ResetPoint);
-        Utilities.PlayCard(Cards[0], Locations[Rand.Next(3)], ResetPoint);
+        SystemUtilities.PlayCard(Cards[3], Locations[Rand.Next(3)], ResetPoint);
+        SystemUtilities.PlayCard(Cards[2], Locations[Rand.Next(3)], ResetPoint);
+        SystemUtilities.PlayCard(Cards[1], Locations[Rand.Next(3)], ResetPoint);
+        SystemUtilities.PlayCard(Cards[0], Locations[Rand.Next(3)], ResetPoint);
 
         ResetClick();
     }
@@ -367,7 +367,7 @@ internal class BoosterBot
     /// <returns></returns>
     private bool ClickSnap()
     {
-        Utilities.Click(Window.Left + Center + Rand.Next(-20, 20), 115 + Rand.Next(-20, 20));
+        SystemUtilities.Click(Window.Left + Center + Rand.Next(-20, 20), 115 + Rand.Next(-20, 20));
         Log("OH SNAP!");
 
         return true;
@@ -376,12 +376,12 @@ internal class BoosterBot
     /// <summary>
     /// Simulates clicking the "Play" button while on the main menu.
     /// </summary>
-    private void ClickPlay() => Utilities.Click(Window.Left + Center + Rand.Next(-20, 20), Window.Bottom - 200 + Rand.Next(-20, 20));
+    private void ClickPlay() => SystemUtilities.Click(Window.Left + Center + Rand.Next(-20, 20), Window.Bottom - 200 + Rand.Next(-20, 20));
 
     /// <summary>
     /// Simulates clicking the "Next"/"Collect Rewards" button while in a match.
     /// </summary>
-    private void ClickNext() => Utilities.Click(Window.Left + Center + 300 + Rand.Next(-20, 20), Window.Bottom - 60 + Rand.Next(-10, 10));
+    private void ClickNext() => SystemUtilities.Click(Window.Left + Center + 300 + Rand.Next(-20, 20), Window.Bottom - 60 + Rand.Next(-10, 10));
 
     /// <summary>
     /// Simulates clicks to from a match.
@@ -395,14 +395,14 @@ internal class BoosterBot
             X = Window.Left + Center - 300,
             Y = Window.Bottom - 70
         };
-        Utilities.Click(pnt);
+        SystemUtilities.Click(pnt);
 
         pnt = new Point // Retreat Now
         {
             X = Window.Left + Center - 100,
             Y = Window.Bottom - 280
         };
-        Utilities.Click(pnt);
+        SystemUtilities.Click(pnt);
 
         Thread.Sleep(10000);
     }

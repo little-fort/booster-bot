@@ -4,10 +4,11 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Management;
 using System.Windows.Forms;
+using OpenCvSharp;
 
 namespace BoosterBot;
 
-public class Utilities
+internal class SystemUtilities
 {
     [DllImport("user32.dll", CharSet = CharSet.Auto)]
     private static extern IntPtr FindWindow(string strClassName, string strWindowName);
@@ -49,10 +50,10 @@ public class Utilities
         Thread.Sleep(250);
     }
 
-    public static void Click(Point pnt) => Click(pnt.X, pnt.Y);
+    public static void Click(System.Drawing.Point pnt) => Click(pnt.X, pnt.Y);
 
     // center + 20, bottom - 180
-    public static void PlayCard(Point card, Point loc, Point reset)
+    public static void PlayCard(System.Drawing.Point card, System.Drawing.Point loc, System.Drawing.Point reset)
     {
         var rand = new Random();
 
