@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BoosterBot.Models
+namespace BoosterBot
 {
     internal class BotConfig
     {
-        public const string DefaultImage = "screen.png";
+        public const string DefaultImageLocation = "screen.png";
         private readonly double _scaling;
         private readonly bool _verbose;
         private readonly bool _autoplay;
@@ -25,6 +25,7 @@ namespace BoosterBot.Models
         public Dimension Screencap { get; set; }
         public Point ResetPoint { get; set; }
         public Point ClearErrorPoint { get; set; }
+        public Point GameModesPoint { get; set; }
         public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
@@ -99,6 +100,12 @@ namespace BoosterBot.Models
             {
                 X = Window.Left + Center,
                 Y = Window.Bottom - 110
+            };
+
+            GameModesPoint = new Point
+            {
+                X = Window.Left + Center + 175,
+                Y = Window.Bottom - 10
             };
         }
     }

@@ -2,11 +2,14 @@
 using System.Text;
 using System.Security.Cryptography;
 using OpenCvSharp;
+using Tesseract;
 
 namespace BoosterBot;
 
 internal class ImageUtilities
 {
+    #region Image Comparison
+
     public static bool CheckImageAreaSimilarity(Rect area, string refImage, double targetScore = 0.95, string image = "screens\\screen.png")
     {
         // Get base crop
@@ -58,7 +61,7 @@ internal class ImageUtilities
         using var bitmap = new Bitmap(image);
         graphics.DrawImage(bitmap, destRect, crop, GraphicsUnit.Pixel);
 
-        string file = @"D://temp//screens//";
+        string file = @"screens//";
         file += (string.IsNullOrWhiteSpace(name)) ? $"snapcap-{DateTime.Now.ToString("yyyyMMddHHmmss")}.png" : $"{name}";
         cropImage.Save(file, System.Drawing.Imaging.ImageFormat.Png);
 
@@ -108,10 +111,85 @@ internal class ImageUtilities
         return sb.ToString();
     }
 
+    #endregion
+
+    #region OCR
+
+    public static bool ReadArea(Rect crop, string image = BotConfig.DefaultImageLocation, int sampleCount = 5, bool export = false, string expected = "")
+    {
+        var baseImg = ReadArea(crop.Left, crop.Top, crop.Right - crop.Left, crop.Bottom - crop.Top, export, expected: expected);
+        var preprocImg = ReadArea(crop.Left, crop.Top, crop.Right - crop.Left, crop.Bottom - crop.Top, export, expected: expected, preproc: true);
+
+        return baseImg || preprocImg;
+    }
+
+    /// <summary>
+    /// Takes a crop of the specified image and attempts to parse out any text.
+    /// </summary>
+    public static bool ReadArea(int x, int y, int width, int height, bool export, string image = BotConfig.DefaultImageLocation, string expected = "", bool preproc = false)
+    {
+        // Preprocess image
+        if (preproc)
+        {
+            var preprocImagePath = image.Replace(".png", "-preproc.png");
+            var preprocImage = PreprocessImage(image);
+            preprocImage.ImWrite(preprocImagePath);
+            image = preprocImagePath;
+        }
+
+        // Initialize engine and load image
+        using var engine = new TesseractEngine(@"tessdata", "eng", EngineMode.Default); // @"./tessdata" should be the path to the tessdata directory.
+        using var img = new Bitmap(image);
+
+        // Create crop of relevant area
+        var rect = new Rectangle() { X = x, Y = y, Width = width, Height = height };
+        using var crop = img.Clone(rect, img.PixelFormat);
+
+        // Convert Bitmap to Pix
+        var converter = new BitmapToPixConverter();
+        using var pix = converter.Convert(crop);
+
+        // Process image
+        using var page = engine.Process(pix, PageSegMode.SingleLine);
+
+        if (export)
+            SaveImage(rect, image); // Export crop for debugging
+
+        // Read from image:
+        var result = page.GetText()?.Trim();
+        var similarity = CalculateStringSimilarity(expected, result);
+        var log = $"OCR RESULT: {result}";
+
+        if (!string.IsNullOrWhiteSpace(expected))
+            log += $" [Expected: {expected}][Similarity: {CalculateStringSimilarity(expected, result)}]";
+
+        // Logger.Log(log, true); // Print read result for debugging
+        return string.IsNullOrWhiteSpace(expected) ? result.Trim().Length > 0 : similarity > 60.0;
+    }
+
+    /// <summary>
+    /// Takes a crop with the given dimensions from the specified image and saves it as an image to the disk. Used for debugging.
+    /// </summary>
+    private static void SaveImage(Rectangle crop, string image = BotConfig.DefaultImageLocation)
+    {
+        var destRect = new Rectangle(System.Drawing.Point.Empty, crop.Size);
+        var cropImage = new Bitmap(destRect.Width, destRect.Height);
+        using var graphics = Graphics.FromImage(cropImage);
+        using var bitmap = new Bitmap(image);
+        graphics.DrawImage(bitmap, destRect, crop, GraphicsUnit.Pixel);
+
+        // Create directory if it doesn't exist
+        var dir = "screens";
+        if (!Directory.Exists(dir))
+            Directory.CreateDirectory(dir);
+
+        cropImage.Save(@"screens//snapcap-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png", System.Drawing.Imaging.ImageFormat.Png);
+    }
+
     /// <summary>
     /// Takes in an expected value and compares it to what OCR returned to generate a similarity score based on how close the values are. Calculation is case-insensitive.
     /// </summary>
-    private double CalculateStringSimilarity(string expected, string ocr)
+    private static double CalculateStringSimilarity(string expected, string ocr)
     {
         int maxLen = Math.Max(expected.Length, ocr.Length);
         if (maxLen == 0)
@@ -126,7 +204,7 @@ internal class ImageUtilities
     /// <summary>
     /// Used to calculate the Levenshtein distance—the minimum number of single-character edits (insertions, deletions, or substitutions) required to change one word into the other.
     /// </summary>
-    private int LevenshteinDistance(string source, string target)
+    private static int LevenshteinDistance(string source, string target)
     {
         if (string.IsNullOrEmpty(source))
         {
@@ -160,4 +238,6 @@ internal class ImageUtilities
 
         return matrix[source.Length, target.Length];
     }
+
+    #endregion
 }

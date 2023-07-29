@@ -8,23 +8,23 @@ namespace BoosterBot
 {
     internal class ComponentMappings
     {
-        public const string REF_LADD_BTN_PLAY = "reference\\btn-main-play-preproc.png";
-        public const string REF_ICON_ZERO_ENERGY = "reference\\lbl-energy-zero-preproc.png";
-        public const string REF_CONQ_BTN_PLAY = "reference\\btn-conquest-play-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_PG = "reference\\lbl-conquest-pg-preproc.png";
-        public const string REF_CONQ_BTN_MATCHMAKING = "reference\\lbl-conquest-matchmaking-cancel-preproc.png";
-        public const string REF_CONQ_BTN_RETREAT_1 = "reference\\btn-conquest-retreat-preproc.png";
-        public const string REF_CONQ_BTN_RETREAT_2 = "reference\\btn-conquest-retreat-2-preproc.png";
-        public const string REF_CONQ_BTN_END_TURN = "reference\\btn-conquest-end-turn-preproc.png";
-        public const string REF_CONQ_BTN_WAITING = "reference\\btn-conquest-waiting-preproc.png";
-        public const string REF_CONQ_BTN_PLAYING = "reference\\btn-conquest-playing-preproc.png";
-        public const string REF_CONQ_BTN_CONCEDE_1 = "reference\\btn-conquest-concede-preproc.png";
-        public const string REF_CONQ_BTN_CONCEDE_2 = "reference\\btn-conquest-concede-2-preproc.png";
-        public const string REF_CONQ_BTN_MATCH_END_1 = "reference\\btn-conquest-match-end-next-1-preproc.png";
-        public const string REF_CONQ_BTN_MATCH_END_2 = "reference\\btn-conquest-match-end-next-2-preproc.png";
-        public const string REF_CONQ_BTN_CONTINUE = "reference\\btn-conquest-continue-preproc.png";
-        public const string REF_CONQ_BTN_WIN_NEXT = "reference\\btn-conquest-victory-next-preproc.png";
-        public const string REF_CONQ_BTN_WIN_TICKET = "reference\\btn-conquest-ticket-claim-preproc.png";
+        public const string REF_LADD_BTN_PLAY = "Reference\\btn-main-play-preproc.png";
+        public const string REF_ICON_ZERO_ENERGY = "Reference\\lbl-energy-zero-preproc.png";
+        public const string REF_CONQ_BTN_PLAY = "Reference\\btn-conquest-play-preproc.png";
+        public const string REF_CONQ_LBL_LOBBY_PG = "Reference\\lbl-conquest-pg-preproc.png";
+        public const string REF_CONQ_BTN_MATCHMAKING = "Reference\\btn-conquest-matchmaking-cancel-preproc.png";
+        public const string REF_CONQ_BTN_RETREAT_1 = "Reference\\btn-conquest-retreat-preproc.png";
+        public const string REF_CONQ_BTN_RETREAT_2 = "Reference\\btn-conquest-retreat-2-preproc.png";
+        public const string REF_CONQ_BTN_END_TURN = "Reference\\btn-conquest-end-turn-preproc.png";
+        public const string REF_CONQ_BTN_WAITING = "Reference\\btn-conquest-waiting-preproc.png";
+        public const string REF_CONQ_BTN_PLAYING = "Reference\\btn-conquest-playing-preproc.png";
+        public const string REF_CONQ_BTN_CONCEDE_1 = "Reference\\btn-conquest-concede-preproc.png";
+        public const string REF_CONQ_BTN_CONCEDE_2 = "Reference\\btn-conquest-concede-2-preproc.png";
+        public const string REF_CONQ_BTN_MATCH_END_1 = "Reference\\btn-conquest-match-end-next-1-preproc.png";
+        public const string REF_CONQ_BTN_MATCH_END_2 = "Reference\\btn-conquest-match-end-next-2-preproc.png";
+        public const string REF_CONQ_BTN_CONTINUE = "Reference\\btn-conquest-continue-preproc.png";
+        public const string REF_CONQ_BTN_WIN_NEXT = "Reference\\btn-conquest-victory-next-preproc.png";
+        public const string REF_CONQ_BTN_WIN_TICKET = "Reference\\btn-conquest-ticket-claim-preproc.png";
 
         public static Rect GetBtnPlay(int center, Dimension screencap) => new Rect
         {

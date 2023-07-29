@@ -14,7 +14,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace BoosterBot;
 
-internal class BoosterBot
+internal class BoosterBot : IBoosterBot
 {
     private const string Image = "screen.png";
     private readonly double Scaling;

@@ -11,10 +11,11 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        bool masked = false;
+        bool masked = true; //false;
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
+        bool conquest = true;
         double scaling = 1.0;
 
         // Parse flags:
@@ -47,6 +48,11 @@ internal class Program
                     case "-ss":
                         saveScreens = true;
                         break;
+                    case "-conquest":
+                    case "--conquest":
+                    case "-c":
+                        conquest = true;
+                        break;
                     case "-masked":
                         masked = true;
                         break;
@@ -54,9 +60,14 @@ internal class Program
 
         if (masked)
         {
+            // Create directory if it doesn't exist
+            var dir = "screens";
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
+
             try
             {
-                var bot = new BoosterBot(scaling, verbose, autoplay, saveScreens);
+                IBoosterBot bot = (conquest) ? new ConquestBot(scaling, verbose, autoplay, saveScreens) : new BoosterBot(scaling, verbose, autoplay, saveScreens);
                 bot.Run();
             }
             catch (Exception ex)

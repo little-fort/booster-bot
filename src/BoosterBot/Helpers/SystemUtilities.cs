@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Management;
 using System.Windows.Forms;
-using OpenCvSharp;
 
 namespace BoosterBot;
 
@@ -43,7 +42,7 @@ internal class SystemUtilities
     /// </summary>
     public static void Click(int x, int y)
     {
-        Cursor.Position = new System.Drawing.Point(x, y);
+        Cursor.Position = new Point(x, y);
         mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
         Thread.Sleep(250);
         mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
@@ -52,25 +51,61 @@ internal class SystemUtilities
 
     public static void Click(System.Drawing.Point pnt) => Click(pnt.X, pnt.Y);
 
+    /// <summary>
+    /// Used to simulate a swipe from one point to another on the screen.
+    /// </summary>
+    public static void Drag(Point start, Point end) => Drag(start.X, start.Y, end.X, end.Y);
+
+    /// <summary>
+    /// Used to simulate a swipe from one point to another on the screen.
+    /// </summary>
+    public static void Drag(int startX, int startY, int endX, int endY)
+    {
+        // Determine the distance to swipe
+        int distanceX = endX - startX;
+        int distanceY = endY - startY;
+
+        // Determine the number of steps and the size of each step
+        int steps = 50;
+        float stepX = distanceX / (float)steps;
+        float stepY = distanceY / (float)steps;
+
+        // Press down the mouse button
+        Cursor.Position = new Point(startX, startY);
+        mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
+        Thread.Sleep(50);  // Adjust sleep time as needed
+
+        // Gradually move the mouse to the end position
+        for (int i = 0; i < steps; i++)
+        {
+            Cursor.Position = new Point(startX + (int)(stepX * i), startY + (int)(stepY * i));
+            Thread.Sleep(1);
+        }
+
+        // Release the mouse button
+        Cursor.Position = new Point(endX, endY);
+        mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
+    }
+
     // center + 20, bottom - 180
-    public static void PlayCard(System.Drawing.Point card, System.Drawing.Point loc, System.Drawing.Point reset)
+    public static void PlayCard(Point card, Point loc, Point reset)
     {
         var rand = new Random();
 
         // Click on card:
-        Cursor.Position = new System.Drawing.Point(card.X, card.Y);
+        Cursor.Position = new Point(card.X, card.Y);
         mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
 
         Thread.Sleep(rand.Next(400, 800));
 
         // Drag to location and drop:
-        Cursor.Position = new System.Drawing.Point(loc.X, loc.Y);
+        Cursor.Position = new Point(loc.X, loc.Y);
         mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
 
-        Thread.Sleep(rand.Next(1000, 2000));
+        Thread.Sleep(rand.Next(750, 1250));
 
         // Add a click to reset view because LEFTUP while hovering over another card will register as click event:
-        Cursor.Position = new System.Drawing.Point(reset.X, reset.Y);
+        Cursor.Position = new Point(reset.X, reset.Y);
         mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
         mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
     }
@@ -129,7 +164,7 @@ internal class SystemUtilities
         var top = (int)(window.Top * scaling);
         g.CopyFromScreen(left, top, 0, 0, bitmap.Size, CopyPixelOperation.SourceCopy);
 
-        bitmap.Save("screen.png", ImageFormat.Png);
+        bitmap.Save("screens\\screen.png", ImageFormat.Png);
 
         return new Dimension
         {

@@ -57,6 +57,12 @@
     <None Update="Reference\btn-conquest-end-turn.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Reference\btn-conquest-match-end-next-1-preproc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Reference\btn-conquest-match-end-next-2-preproc.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Reference\btn-conquest-matchmaking-cancel-preproc.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
