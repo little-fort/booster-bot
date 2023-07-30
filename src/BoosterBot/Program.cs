@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Reflection;
 using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -15,7 +16,7 @@ internal class Program
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
-        bool conquest = true;
+        bool conquest = false;
         double scaling = 1.0;
 
         // Parse flags:
@@ -65,9 +66,12 @@ internal class Program
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
 
+            var mode = GetModeSelection();
+            PrintTitle();
+
             try
             {
-                IBoosterBot bot = (conquest) ? new ConquestBot(scaling, verbose, autoplay, saveScreens) : new BoosterBot(scaling, verbose, autoplay, saveScreens);
+                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens) : new BoosterBot(scaling, verbose, autoplay, saveScreens);
                 bot.Run();
             }
             catch (Exception ex)
@@ -94,6 +98,36 @@ internal class Program
 
             process.Start();
         }
+    }
+
+    private static void PrintTitle()
+    {
+        var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+
+        Console.Clear();
+        Console.WriteLine("****************************************************");
+        var title = $"BoosterBot v{version}";
+        title = title.PadLeft(24 + (title.Length / 2), ' ');
+        title = $"{title}{"".PadRight(49 - title.Length, ' ')}";
+        Console.WriteLine(title);
+        Console.WriteLine("****************************************************");
+        Console.WriteLine();
+    }
+
+    private static int GetModeSelection()
+    {
+        PrintTitle();
+        Console.WriteLine("Available farming modes:");
+        Console.WriteLine("[1] Conquest");
+        Console.WriteLine("[2] Ranked Ladder");
+        Console.WriteLine();
+        Console.Write("Enter selection: ");
+
+        var key = Console.ReadKey();
+        if (key.KeyChar == '1' || key.KeyChar == '2')
+            return int.Parse(key.KeyChar.ToString());
+
+        return GetModeSelection();
     }
 
     private static void PurgeExecutables()

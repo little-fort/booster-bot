@@ -258,6 +258,7 @@ namespace BoosterBot
                     {
                         Logger.Log("Could not detect active match, trying again in 4 seconds...");
                         _config.GetWindowPositions();
+                        GameUtilities.ResetClick(_config);
                         check = GameUtilities.CanIdentifyActiveConquestMatch(_config);
                         Thread.Sleep(4000);
                     }
