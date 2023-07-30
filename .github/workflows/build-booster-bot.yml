@@ -44,6 +44,9 @@ jobs:
         if ('${{ github.event_name }}' -eq 'push') {
           $build = '.${{ github.run_number }}'
           if ($label) {
+            if (-not $label.StartsWith("-")) {
+                $label = "-" + $label
+            }
             echo "label=$build$label" >> $env:GITHUB_OUTPUT
           }
           else {
@@ -57,9 +60,16 @@ jobs:
     
     - name: Update version
       run: |
+        $label = '${{ github.event.inputs.label }}'
+        if ($label) {
+            if (-not $label.StartsWith("-")) {
+                $label = "-" + $label
+            }
+        }
+        
         $csprojPath = "${{ env.Project_Path }}"
         $csprojContent = Get-Content $csprojPath -Raw
-        $newVersion = "${{ env.Version_Number }}.${{ github.run_number }}"
+        $newVersion = "${{ env.Version_Number }}.$label"
         Write-Output "Version number: $newVersion"
         $updatedContent = $csprojContent -replace '(<Version>).*(</Version>)', "`${1}$newVersion`$2"
         Set-Content -Path $csprojPath -Value $updatedContent
