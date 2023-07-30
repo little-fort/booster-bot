@@ -133,9 +133,6 @@ namespace BoosterBot
             Logger.Log("Starting match loop...");
             while (true)
             {
-                _matchTimer = new Stopwatch();
-                _matchTimer.Start();
-
                 if (!SelectLobby())
                 {
                     DetermineLoopEntryPoint();
@@ -247,6 +244,9 @@ namespace BoosterBot
             Logger.Log("Playing match...");
             var active = true;
             GameUtilities.ClickSnap(_config);
+
+            _matchTimer = new Stopwatch();
+            _matchTimer.Start();
 
             while (active && _matchTimer.Elapsed.Minutes < 30)
             {
