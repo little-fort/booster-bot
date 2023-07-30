@@ -29,7 +29,7 @@ jobs:
     env:
       Solution_Path: src/BoosterBot.sln
       Project_Path: src/BoosterBot/BoosterBot.csproj
-      Version_Number: ${{ github.event.inputs.version || '1.1.0' }}    
+      Version_Number: ${{ github.event.inputs.version || '1.2.0' }}    
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -69,7 +69,7 @@ jobs:
         
         $csprojPath = "${{ env.Project_Path }}"
         $csprojContent = Get-Content $csprojPath -Raw
-        $newVersion = "${{ env.Version_Number }}.$label"
+        $newVersion = "${{ env.Version_Number }}$label"
         Write-Output "Version number: $newVersion"
         $updatedContent = $csprojContent -replace '(<Version>).*(</Version>)', "`${1}$newVersion`$2"
         Set-Content -Path $csprojPath -Value $updatedContent
