@@ -29,7 +29,8 @@ jobs:
     env:
       Solution_Path: src/BoosterBot.sln
       Project_Path: src/BoosterBot/BoosterBot.csproj
-      Version_Number: ${{ github.event.inputs.version || '1.2.0' }}    
+      Version_Number: ${{ github.event.inputs.version || '1.2.0' }}
+      Version_Label: ${{ github.event.inputs.label || '-build' }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
