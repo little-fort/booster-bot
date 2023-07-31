@@ -44,8 +44,6 @@ namespace BoosterBot
             Logger.Log("Starting Conquest bot...");
             var attempts = 0;
 
-            Debug();
-
             while (true)
             {
                 attempts++;
