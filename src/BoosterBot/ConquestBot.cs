@@ -104,6 +104,9 @@ namespace BoosterBot
                 case GameState.CONQUEST_PREMATCH:
                     Logger.Log("Detected Conquest prematch. Starting match...");
                     return StartMatch();
+                case GameState.CONQUEST_MATCHMAKING:
+                    Logger.Log("Detected matchmaking...");
+                    return WaitForMatchmaking();
                 case GameState.CONQUEST_MATCH:
                     Logger.Log("Detected Conquest match. Playing match...");
                     return PlayMatch();
@@ -234,6 +237,11 @@ namespace BoosterBot
             SystemUtilities.Click(_config.Window.Left + _config.Center + 100, _config.Window.Bottom - 345);
             Thread.Sleep(2000);
 
+            return WaitForMatchmaking();
+        }
+
+        private bool WaitForMatchmaking()
+        {
             _config.GetWindowPositions();
             while (GameUtilities.CanIdentifyConquestMatchmaking(_config))
             {
