@@ -84,7 +84,7 @@ namespace BoosterBot
             SystemUtilities.Click(_config.Window.Left + _config.Center + _rand.Next(-20, 20), 330 + _rand.Next(-20, 20));
         }
 
-        private bool DetermineLoopEntryPoint()
+        private bool DetermineLoopEntryPoint(bool finalAttempt = false)
         {
             Logger.Log("Attempting to determine loop entry point...");
             var state = GameUtilities.DetermineGameState(_config);
@@ -120,6 +120,12 @@ namespace BoosterBot
                     Logger.Log("Detected Conquest postmatch screen. Returning to Conquest menu...");
                     return AcceptResult();
                 default:
+                    if (!finalAttempt)
+                    {
+                        BlindReset();
+                        return DetermineLoopEntryPoint(true);
+                    }
+
                     Logger.Log("Bot is hopelessly lost... :/");
                     Logger.Log("Return to main menu and restart bot.");
                     Environment.Exit(0);
