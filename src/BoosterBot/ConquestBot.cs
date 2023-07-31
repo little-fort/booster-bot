@@ -125,7 +125,7 @@ namespace BoosterBot
                 default:
                     if (!finalAttempt)
                     {
-                        BlindReset();
+                        GameUtilities.BlindReset(_config);
                         return DetermineLoopEntryPoint(true);
                     }
 
@@ -154,21 +154,8 @@ namespace BoosterBot
                     success = DetermineLoopEntryPoint();
 
                 if (!success)
-                    BlindReset();
+                    GameUtilities.BlindReset(_config);
             }
-        }
-
-        private void BlindReset()
-        {
-            _config.GetWindowPositions();
-            Logger.Log("Attempting blind reset clicks...");
-            GameUtilities.ResetClick(_config);
-            Thread.Sleep(1000);
-            GameUtilities.ClickNext(_config);
-            Thread.Sleep(1000);
-            GameUtilities.ResetMenu(_config);
-            Thread.Sleep(1000);
-            GameUtilities.ResetClick(_config);
         }
 
         private bool SelectLobby()
@@ -334,7 +321,7 @@ namespace BoosterBot
                 if (waitTime >= 90000)
                 {
                     Logger.Log("Max wait time of 90 seconds elapsed...");
-                    BlindReset();
+                    GameUtilities.BlindReset(_config);
                     return DetermineLoopEntryPoint();
                 }
 

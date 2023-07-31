@@ -189,6 +189,21 @@ namespace BoosterBot
             Thread.Sleep(10000);
         }
 
+        public static void BlindReset(BotConfig config)
+        {
+            config.GetWindowPositions();
+            Logger.Log("Attempting blind reset clicks...");
+            ResetClick(config);
+            Thread.Sleep(1000);
+            ClearError(config);
+            Thread.Sleep(1000);
+            ClickNext(config);
+            Thread.Sleep(1000);
+            ResetMenu(config);
+            Thread.Sleep(1000);
+            ResetClick(config);
+        }
+
         public static Rect GetConquestBannerCrop(BotConfig config) => new Rect
         {
             Left = config.Center - 110,
