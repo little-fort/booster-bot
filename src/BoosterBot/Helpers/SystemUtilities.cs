@@ -164,7 +164,7 @@ internal class SystemUtilities
         var top = (int)(window.Top * scaling);
         g.CopyFromScreen(left, top, 0, 0, bitmap.Size, CopyPixelOperation.SourceCopy);
 
-        bitmap.Save("screens\\screen.png", ImageFormat.Png);
+        bitmap.Save(BotConfig.DefaultImageLocation, ImageFormat.Png);
 
         return new Dimension
         {

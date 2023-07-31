@@ -61,7 +61,7 @@ internal class ImageUtilities
         using var bitmap = new Bitmap(image);
         graphics.DrawImage(bitmap, destRect, crop, GraphicsUnit.Pixel);
 
-        string file = @"screens//";
+        string file = @"screens\";
         file += (string.IsNullOrWhiteSpace(name)) ? $"snapcap-{DateTime.Now.ToString("yyyyMMddHHmmss")}.png" : $"{name}";
         cropImage.Save(file, System.Drawing.Imaging.ImageFormat.Png);
 

@@ -10,7 +10,7 @@ namespace BoosterBot
 {
     internal class BotConfig
     {
-        public const string DefaultImageLocation = "screen.png";
+        public const string DefaultImageLocation = @"screens\screen.png";
         private readonly double _scaling;
         private readonly bool _verbose;
         private readonly bool _autoplay;
