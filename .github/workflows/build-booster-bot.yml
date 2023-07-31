@@ -11,8 +11,6 @@ on:
         description: 'Label'
         required: false
         default: '-build'
-  push:
-    branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
 
