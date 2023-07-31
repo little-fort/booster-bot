@@ -1,12 +1,5 @@
 ﻿using BoosterBot.Models;
-using OpenCvSharp.Flann;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace BoosterBot
 {
@@ -27,7 +20,9 @@ namespace BoosterBot
             Logger.Log("Starting Conquest bot...");
             var attempts = 0;
 
-            /*while (true)
+            /*
+            // Used for debugging crop zones
+            while (true)
             {
                 GameUtilities.LogGameState(_config);
                 Console.WriteLine("--------------------------------------------------------");
@@ -87,7 +82,7 @@ namespace BoosterBot
         private bool DetermineLoopEntryPoint(bool finalAttempt = false)
         {
             Logger.Log("Attempting to determine loop entry point...");
-            var state = GameUtilities.DetermineGameState(_config);
+            var state = GameUtilities.DetermineConquestGameState(_config);
 
             switch (state)
             {
@@ -284,7 +279,7 @@ namespace BoosterBot
                     Thread.Sleep(1000);
 
                     _config.GetWindowPositions();
-                    while (GameUtilities.CanIdentifyConquestMidTurn(_config))
+                    while (GameUtilities.CanIdentifyMidTurn(_config))
                     {
                         Logger.Log("Waiting for turn to progress...");
                         Thread.Sleep(4000);
@@ -338,23 +333,12 @@ namespace BoosterBot
             Logger.Log("Exiting match...");
             _config.GetWindowPositions();
 
-            if (GameUtilities.CanIdentifyConquestMatchEndNext1(_config))
+            while (GameUtilities.CanIdentifyConquestMatchEndNext1(_config) || GameUtilities.CanIdentifyConquestMatchEndNext2(_config))
+            {
                 GameUtilities.ClickNext(_config);
-
-            Thread.Sleep(5000);
-            _config.GetWindowPositions();
-
-            if (GameUtilities.CanIdentifyConquestMatchEndNext2(_config))
-                GameUtilities.ClickNext(_config);
-
-            Thread.Sleep(5000);
-            _config.GetWindowPositions();
-
-            if (GameUtilities.CanIdentifyConquestMatchEndNext2(_config))
-                GameUtilities.ClickNext(_config);
-
-            Thread.Sleep(5000);
-            _config.GetWindowPositions();
+                Thread.Sleep(4000);
+                _config.GetWindowPositions();
+            }
 
             Logger.Log("Waiting for post-match screens...");
             while (!GameUtilities.CanIdentifyConquestLossContinue(_config) && !GameUtilities.CanIdentifyConquestWinNext(_config))

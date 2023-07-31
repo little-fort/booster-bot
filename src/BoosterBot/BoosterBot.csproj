@@ -114,6 +114,18 @@
 		<None Update="Reference\btn-conquest-waiting.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Reference\btn-ladder-collect-rewards-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Reference\btn-ladder-match-end-next-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Reference\btn-ladder-matchmaking-cancel-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Reference\btn-ladder-retreat-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Reference\btn-main-play-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>

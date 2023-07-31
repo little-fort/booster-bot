@@ -1,18 +1,24 @@
 ﻿using BoosterBot.Models;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace BoosterBot
 {
     internal class GameUtilities
     {
-        public static void LogGameState(BotConfig config)
+        public static void LogLadderGameState(BotConfig config)
+        {
+            config.GetWindowPositions();
+
+            Console.WriteLine($"{(CanIdentifyMainMenu(config) ? "X" : " ")} MAIN_MENU");
+            Console.WriteLine($"{(CanIdentifyZeroEnergy(config) ? "X" : " ")} MID_MATCH");
+            Console.WriteLine($"{(CanIdentifyLadderMatchmaking(config) ? "X" : " ")} LADDER_MATCHMAKING");
+            Console.WriteLine($"{(CanIdentifyLadderRetreatBtn(config) ? "X" : " ")} LADDER_MATCH (Retreat button)");
+            Console.WriteLine($"{(CanIdentifyEndTurnBtn(config) ? "X" : " ")} LADDER_MATCH (End turn button)");
+            Console.WriteLine($"{(CanIdentifyMidTurn(config) ? "X" : " ")} LADDER_MATCH (Mid turn buttons)");
+            Console.WriteLine($"{(CanIdentifyLadderMatchEnd(config) ? "X" : " ")} LADDER_MATCH_END");
+        }
+
+        public static void LogConquestGameState(BotConfig config)
         {
             config.GetWindowPositions();
 
@@ -22,8 +28,8 @@ namespace BoosterBot
             if (CanIdentifyConquestLobbyPG(config)) Console.WriteLine("Found state: CONQUEST_LOBBY_PG");
             if (CanIdentifyConquestMatchmaking(config)) Console.WriteLine("Found state: CONQUEST_MATCHMAKING");
             if (CanIdentifyConquestRetreatBtn(config)) Console.WriteLine("Found state: CONQUEST_MATCH (Retreat button)");
-            if (CanIdentifyConquestEndTurnBtn(config)) Console.WriteLine("Found state: CONQUEST_MATCH (End turn button)");
-            if (CanIdentifyConquestMidTurn(config)) Console.WriteLine("Found state: CONQUEST_MATCH (Mid turn buttons)");
+            if (CanIdentifyEndTurnBtn(config)) Console.WriteLine("Found state: CONQUEST_MATCH (End turn button)");
+            if (CanIdentifyMidTurn(config)) Console.WriteLine("Found state: CONQUEST_MATCH (Mid turn buttons)");
             if (CanIdentifyConquestConcede(config)) Console.WriteLine("Found state: CONQUEST_ROUND_END");
             if (CanIdentifyConquestMatchEnd(config)) Console.WriteLine("Found state: CONQUEST_MATCH_END");
             if (CanIdentifyConquestLossContinue(config)) Console.WriteLine("Found state: CONQUEST_POSTMATCH_LOSS_SCREEN");
@@ -31,32 +37,45 @@ namespace BoosterBot
             if (CanIdentifyConquestTicketClaim(config)) Console.WriteLine("Found state: CONQUEST_POSTMATCH_WIN_TICKET");
         }
 
-        public static GameState DetermineGameState(BotConfig config)
+        public static GameState DetermineLadderGameState(BotConfig config)
         {
             config.GetWindowPositions();
 
             if (CanIdentifyMainMenu(config)) return GameState.MAIN_MENU;
+            if (CanIdentifyLadderMatchmaking(config)) return GameState.LADDER_MATCHMAKING;
+            if (CanIdentifyLadderRetreatBtn(config)) return GameState.LADDER_MATCH;
+            if (CanIdentifyEndTurnBtn(config)) return GameState.LADDER_MATCH;
+            if (CanIdentifyMidTurn(config)) return GameState.LADDER_MATCH;
+            if (CanIdentifyLadderMatchEnd(config)) return GameState.LADDER_MATCH_END;
             if (CanIdentifyZeroEnergy(config)) return GameState.MID_MATCH;
+            if (CanIdentifyConquestLobbyPG(config)) return GameState.CONQUEST_LOBBY_PG;
+
+            return GameState.UNKNOWN;
+        }
+
+        public static GameState DetermineConquestGameState(BotConfig config)
+        {
+            config.GetWindowPositions();
+
+            if (CanIdentifyMainMenu(config)) return GameState.MAIN_MENU;
             if (CanIdentifyConquestPlayBtn(config)) return GameState.CONQUEST_PREMATCH;
             if (CanIdentifyConquestLobbyPG(config)) return GameState.CONQUEST_LOBBY_PG;
             if (CanIdentifyConquestMatchmaking(config)) return GameState.CONQUEST_MATCHMAKING;
             if (CanIdentifyConquestRetreatBtn(config)) return GameState.CONQUEST_MATCH;
-            if (CanIdentifyConquestEndTurnBtn(config)) return GameState.CONQUEST_MATCH;
-            if (CanIdentifyConquestMidTurn(config)) return GameState.CONQUEST_MATCH;
+            if (CanIdentifyEndTurnBtn(config)) return GameState.CONQUEST_MATCH;
+            if (CanIdentifyMidTurn(config)) return GameState.CONQUEST_MATCH;
             if (CanIdentifyConquestConcede(config)) return GameState.CONQUEST_ROUND_END;
             if (CanIdentifyConquestMatchEnd(config)) return GameState.CONQUEST_MATCH_END;
             if (CanIdentifyConquestLossContinue(config)) return GameState.CONQUEST_POSTMATCH_LOSS_SCREEN;
             if (CanIdentifyConquestWinNext(config)) return GameState.CONQUEST_POSTMATCH_WIN_CONTINUE;
             if (CanIdentifyConquestTicketClaim(config)) return GameState.CONQUEST_POSTMATCH_WIN_TICKET;
+            if (CanIdentifyZeroEnergy(config)) return GameState.MID_MATCH;
 
             return GameState.UNKNOWN;
         }
 
         public static bool CanIdentifyMainMenu(BotConfig config)
         {
-            // Reset menu to center
-            //SystemUtilities.Click(config.Window.Left + config.Center, config.Window.Bottom - 1);
-
             // Get coordinates for 'Play' button
             var area = ComponentMappings.GetBtnPlay(config.Center, config.Screencap);
 
@@ -64,13 +83,39 @@ namespace BoosterBot
             return ImageUtilities.CheckImageAreaSimilarity(area, ComponentMappings.REF_LADD_BTN_PLAY);
         }
 
-        public static bool CanIdentifyActiveConquestMatch(BotConfig config)
-            => CanIdentifyConquestRetreatBtn(config) ||
-                CanIdentifyConquestEndTurnBtn(config) ||
-                CanIdentifyConquestMidTurn(config);
-
         public static bool CanIdentifyZeroEnergy(BotConfig config)
             => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetEnergy(config.Center, config.Screencap), ComponentMappings.REF_ICON_ZERO_ENERGY, 0.925);
+
+        #region Ladder
+
+        public static bool CanIdentifyActiveLadderMatch(BotConfig config)
+            => CanIdentifyLadderRetreatBtn(config) ||
+                CanIdentifyEndTurnBtn(config) ||
+                CanIdentifyMidTurn(config);
+
+        public static bool CanIdentifyLadderMatchmaking(BotConfig config)
+            => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetLadderMatchmakingCancel(config.Center, config.Screencap), ComponentMappings.REF_LADD_BTN_MATCHMAKING);
+
+        public static bool CanIdentifyLadderRetreatBtn(BotConfig config)
+            => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetLadderBtnRetreat(config.Center, config.Screencap), ComponentMappings.REF_LADD_BTN_RETREAT);
+
+        public static bool CanIdentifyLadderCollectRewardsBtn(BotConfig config)
+            => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestBtnCollect(config.Center, config.Screencap), ComponentMappings.REF_LADD_BTN_COLLECT_REWARDS);
+
+        public static bool CanIdentifyLadderMatchEndNextBtn(BotConfig config)
+            => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestBtnMatchEndNext2(config.Center, config.Screencap), ComponentMappings.REF_LADD_BTN_MATCH_END_NEXT);
+
+        public static bool CanIdentifyLadderMatchEnd(BotConfig config)
+            => CanIdentifyLadderCollectRewardsBtn(config) || CanIdentifyLadderMatchEndNextBtn(config);
+
+        #endregion
+
+        #region Conquest
+
+        public static bool CanIdentifyActiveConquestMatch(BotConfig config)
+            => CanIdentifyConquestRetreatBtn(config) ||
+                CanIdentifyEndTurnBtn(config) ||
+                CanIdentifyMidTurn(config);
 
         public static bool CanIdentifyConquestPlayBtn(BotConfig config)
             => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetBtnPlay(config.Center, config.Screencap), ComponentMappings.REF_CONQ_BTN_PLAY);
@@ -85,10 +130,10 @@ namespace BoosterBot
             => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestBtnRetreat(config.Center, config.Screencap), ComponentMappings.REF_CONQ_BTN_RETREAT_1) ||
                ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestBtnRetreat(config.Center, config.Screencap), ComponentMappings.REF_CONQ_BTN_RETREAT_2);
 
-        public static bool CanIdentifyConquestEndTurnBtn(BotConfig config)
+        public static bool CanIdentifyEndTurnBtn(BotConfig config)
             => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestBtnEndTurn(config.Center, config.Screencap), ComponentMappings.REF_CONQ_BTN_END_TURN);
 
-        public static bool CanIdentifyConquestMidTurn(BotConfig config)
+        public static bool CanIdentifyMidTurn(BotConfig config)
             => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestBtnWaiting(config.Center, config.Screencap), ComponentMappings.REF_CONQ_BTN_WAITING, 0.85) ||
                ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestBtnWaiting(config.Center, config.Screencap), ComponentMappings.REF_CONQ_BTN_PLAYING, 0.85);
 
@@ -113,6 +158,8 @@ namespace BoosterBot
 
         public static bool CanIdentifyConquestTicketClaim(BotConfig config)
             => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestTicketClaim(config.Center, config.Screencap), ComponentMappings.REF_CONQ_BTN_WIN_TICKET);
+
+        #endregion
 
         public static void ResetClick(BotConfig config) => SystemUtilities.Click(config.ResetPoint);
 
