@@ -145,10 +145,8 @@ namespace BoosterBot
         {
             Logger.Log("Playing match...");
             var active = true;
+            var rolledSnap = false;
             _rand = new Random();
-
-            if (_rand.Next(1, 101) > 45) // Add randomness for snaps
-                GameUtilities.ClickSnap(_config);
 
             _matchTimer = new Stopwatch();
             _matchTimer.Start();
@@ -194,6 +192,12 @@ namespace BoosterBot
                         Thread.Sleep(4000);
                         _config.GetWindowPositions();
                     }
+                }
+
+                if (!rolledSnap && _rand.Next(1, 101) > 45) // Add randomness for snaps
+                {
+                    rolledSnap = true;
+                    GameUtilities.ClickSnap(_config);
                 }
             }
 

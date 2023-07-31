@@ -65,6 +65,10 @@ jobs:
                 $label = "-" + $label
             }
         }
+
+        if ($label -eq "-release") {
+            $label = ""
+        }
         
         $csprojPath = "${{ env.Project_Path }}"
         $csprojContent = Get-Content $csprojPath -Raw
