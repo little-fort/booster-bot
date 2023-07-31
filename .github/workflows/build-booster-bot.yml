@@ -71,8 +71,11 @@ jobs:
         $csprojPath = "${{ env.Project_Path }}"
         $csprojContent = Get-Content $csprojPath -Raw
         $newVersion = "${{ env.Version_Number }}$label"
+        $fileVersion = "${{ env.Version_Number }}.${{ github.run_number }}"
         Write-Output "Version number: $newVersion"
         $updatedContent = $csprojContent -replace '(<Version>).*(</Version>)', "`${1}$newVersion`$2"
+        $updatedContent = $updatedContent -replace '(<FileVersion>).*(</FileVersion>)', "`${1}$fileVersion`$2"
+        $updatedContent = $updatedContent -replace '(<AssemblyVersion>).*(</AssemblyVersion>)', "`${1}$fileVersion`$2"
         Set-Content -Path $csprojPath -Value $updatedContent
       shell: pwsh
         

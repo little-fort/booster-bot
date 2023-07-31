@@ -10,7 +10,7 @@ internal class ImageUtilities
 {
     #region Image Comparison
 
-    public static bool CheckImageAreaSimilarity(Rect area, string refImage, double targetScore = 0.95, string image = "screens\\screen.png")
+    public static bool CheckImageAreaSimilarity(Rect area, string refImage, double targetScore = 0.95, string image = BotConfig.DefaultImageLocation)
     {
         // Get base crop
         var rect = new Rectangle() { X = area.Left, Y = area.Top, Width = area.Right - area.Left, Height = area.Bottom - area.Top };
@@ -61,7 +61,7 @@ internal class ImageUtilities
         using var bitmap = new Bitmap(image);
         graphics.DrawImage(bitmap, destRect, crop, GraphicsUnit.Pixel);
 
-        string file = @"screens//";
+        string file = @"screens\";
         file += (string.IsNullOrWhiteSpace(name)) ? $"snapcap-{DateTime.Now.ToString("yyyyMMddHHmmss")}.png" : $"{name}";
         cropImage.Save(file, System.Drawing.Imaging.ImageFormat.Png);
 
@@ -177,11 +177,6 @@ internal class ImageUtilities
         using var graphics = Graphics.FromImage(cropImage);
         using var bitmap = new Bitmap(image);
         graphics.DrawImage(bitmap, destRect, crop, GraphicsUnit.Pixel);
-
-        // Create directory if it doesn't exist
-        var dir = "screens";
-        if (!Directory.Exists(dir))
-            Directory.CreateDirectory(dir);
 
         cropImage.Save(@"screens//snapcap-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png", System.Drawing.Imaging.ImageFormat.Png);
     }
