@@ -2,7 +2,8 @@
 
 	<PropertyGroup>
 		<Version>1.2.0-preview</Version>
-		<FileVersion>1.2.0.*</FileVersion>
+		<FileVersion>1.2.0</FileVersion>
+		<AssemblyVersion>1.2.0</AssemblyVersion>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
