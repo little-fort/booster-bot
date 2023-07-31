@@ -15,20 +15,36 @@ namespace BoosterBot
             _rand = new Random();
         }
 
+        public void Debug()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("--------------------------------------------------------");
+                    Console.WriteLine("--------------------------------------------------------");
+                    //GameUtilities.LogConquestGameState(_config);
+                    _config.GetWindowPositions();
+                    Console.WriteLine($"{(GameUtilities.CanIdentifyConquestLobbyPG(_config) ? "X" : " ")} PROVING_GROUNDS");
+                    Console.WriteLine($"{(GameUtilities.CanIdentifyConquestLobbySilver(_config) ? "X" : " ")} SILVER");
+                    Console.WriteLine($"{(GameUtilities.CanIdentifyConquestLobbyGold(_config) ? "X" : " ")} GOLD");
+                    Console.WriteLine($"{(GameUtilities.CanIdentifyConquestLobbyInfinite(_config) ? "X" : " ")} INFINITE");
+                    Thread.Sleep(5000);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"ERROR: {ex.Message}");
+                    Thread.Sleep(5000);
+                }
+            }
+        }
+
         public void Run()
         {
             Logger.Log("Starting Conquest bot...");
             var attempts = 0;
 
-            /*
-            // Used for debugging crop zones
-            while (true)
-            {
-                GameUtilities.LogGameState(_config);
-                Console.WriteLine("--------------------------------------------------------");
-                Console.WriteLine("--------------------------------------------------------");
-                Thread.Sleep(5000);
-            }*/
+            Debug();
 
             while (true)
             {
@@ -183,10 +199,9 @@ namespace BoosterBot
                 Logger.Log("Checking for active Conquest lobby...");
 
                 _config.GetWindowPositions();
-                var crop = GameUtilities.GetConquestBannerCrop(_config);
-                var isSilver = ImageUtilities.ReadArea(crop, expected: "SILVER"); // CalculateSimilarity("SILVER", text) > 60.0;
-                var isGold = ImageUtilities.ReadArea(crop, expected: "GOLD"); // CalculateSimilarity("GOLD", text) > 60.0;
-                var isInfinite = ImageUtilities.ReadArea(crop, expected: "INFINITE"); // CalculateSimilarity("INFINITE", text) > 60.0;
+                var isSilver = GameUtilities.CanIdentifyConquestLobbySilver(_config);
+                var isGold = GameUtilities.CanIdentifyConquestLobbyGold(_config);
+                var isInfinite = GameUtilities.CanIdentifyConquestLobbyInfinite(_config);
                 if (isSilver || isGold || isInfinite)
                 {
                     Logger.Log("\n\n############## WARNING ##############");

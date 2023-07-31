@@ -15,13 +15,9 @@ namespace BoosterBot
             _rand = new Random();
         }
 
-        public void Run()
+        public void Debug()
         {
-            Logger.Log("Starting Ladder bot...");
-            var attempts = 0;
-
-            // Used for debugging crop zones
-            /*while (true)
+            while (true)
             {
                 try
                 {
@@ -35,7 +31,13 @@ namespace BoosterBot
                     Console.WriteLine($"ERROR: {ex.Message}");
                     Thread.Sleep(5000);
                 }
-            }*/
+            }
+        }
+
+        public void Run()
+        {
+            Logger.Log("Starting Ladder bot...");
+            var attempts = 0;
 
             while (true)
             {

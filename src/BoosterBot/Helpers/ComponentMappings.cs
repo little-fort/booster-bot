@@ -11,6 +11,9 @@ namespace BoosterBot
         public const string REF_ICON_ZERO_ENERGY = "Reference\\lbl-energy-zero-preproc.png";
         public const string REF_CONQ_BTN_PLAY = "Reference\\btn-conquest-play-preproc.png";
         public const string REF_CONQ_LBL_LOBBY_PG = "Reference\\lbl-conquest-pg-preproc.png";
+        public const string REF_CONQ_LBL_LOBBY_SILVER = "Reference\\lbl-conquest-silver-preproc.png";
+        public const string REF_CONQ_LBL_LOBBY_GOLD = "Reference\\lbl-conquest-gold-preproc.png";
+        public const string REF_CONQ_LBL_LOBBY_INFINITE = "Reference\\lbl-conquest-infinite-preproc.png";
         public const string REF_CONQ_BTN_MATCHMAKING = "Reference\\btn-conquest-matchmaking-cancel-preproc.png";
         public const string REF_CONQ_BTN_RETREAT_1 = "Reference\\btn-conquest-retreat-preproc.png";
         public const string REF_CONQ_BTN_RETREAT_2 = "Reference\\btn-conquest-retreat-2-preproc.png";

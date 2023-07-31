@@ -123,6 +123,15 @@ namespace BoosterBot
         public static bool CanIdentifyConquestLobbyPG(BotConfig config)
             => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestLobbySelection(config.Center), ComponentMappings.REF_CONQ_LBL_LOBBY_PG);
 
+        public static bool CanIdentifyConquestLobbySilver(BotConfig config)
+            => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestLobbySelection(config.Center), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER);
+
+        public static bool CanIdentifyConquestLobbyGold(BotConfig config)
+            => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestLobbySelection(config.Center), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD);
+
+        public static bool CanIdentifyConquestLobbyInfinite(BotConfig config)
+            => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestLobbySelection(config.Center), ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE);
+
         public static bool CanIdentifyConquestMatchmaking(BotConfig config)
             => ImageUtilities.CheckImageAreaSimilarity(ComponentMappings.GetConquestMatchmakingCancel(config.Center, config.Screencap), ComponentMappings.REF_CONQ_BTN_MATCHMAKING);
 
