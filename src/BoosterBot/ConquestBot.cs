@@ -328,9 +328,18 @@ namespace BoosterBot
             GameUtilities.ClickNext(_config);
 
             _config.GetWindowPositions();
+            var waitTime = 0;
             while (!GameUtilities.CanIdentifyActiveConquestMatch(_config) && !GameUtilities.CanIdentifyConquestMatchEnd(_config))
             {
+                if (waitTime >= 90000)
+                {
+                    Logger.Log("Max wait time of 90 seconds elapsed...");
+                    BlindReset();
+                    return DetermineLoopEntryPoint();
+                }
+
                 Thread.Sleep(3000);
+                waitTime += 3000;
                 _config.GetWindowPositions();
             }
 
