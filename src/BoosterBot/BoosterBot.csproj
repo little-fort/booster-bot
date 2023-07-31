@@ -21,8 +21,6 @@
 		<PackageReference Include="OpenCvSharp4.Windows" Version="4.8.0.20230708" />
 		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
 		<PackageReference Include="System.Management" Version="7.0.0" />
-		<PackageReference Include="Tesseract" Version="5.2.0" />
-		<PackageReference Include="Tesseract.Drawing" Version="5.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -114,6 +112,18 @@
 		<None Update="Reference\btn-conquest-waiting.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Reference\btn-ladder-collect-rewards-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Reference\btn-ladder-match-end-next-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Reference\btn-ladder-matchmaking-cancel-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Reference\btn-ladder-retreat-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Reference\btn-main-play-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -132,11 +142,20 @@
 		<None Update="Reference\btn-match-end-next-2.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Reference\lbl-conquest-gold-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Reference\lbl-conquest-infinite-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="Reference\lbl-conquest-pg-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Reference\lbl-conquest-pg.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Reference\lbl-conquest-silver-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Reference\lbl-energy-zero-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -147,9 +166,6 @@
 		<None Update="Resources\icon.png">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
-		</None>
-		<None Update="tessdata\eng.traineddata">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
 

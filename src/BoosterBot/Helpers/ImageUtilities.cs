@@ -2,7 +2,6 @@
 using System.Text;
 using System.Security.Cryptography;
 using OpenCvSharp;
-using Tesseract;
 
 namespace BoosterBot;
 
@@ -114,58 +113,6 @@ internal class ImageUtilities
     #endregion
 
     #region OCR
-
-    public static bool ReadArea(Rect crop, string image = BotConfig.DefaultImageLocation, int sampleCount = 5, bool export = false, string expected = "")
-    {
-        var baseImg = ReadArea(crop.Left, crop.Top, crop.Right - crop.Left, crop.Bottom - crop.Top, export, expected: expected);
-        var preprocImg = ReadArea(crop.Left, crop.Top, crop.Right - crop.Left, crop.Bottom - crop.Top, export, expected: expected, preproc: true);
-
-        return baseImg || preprocImg;
-    }
-
-    /// <summary>
-    /// Takes a crop of the specified image and attempts to parse out any text.
-    /// </summary>
-    public static bool ReadArea(int x, int y, int width, int height, bool export, string image = BotConfig.DefaultImageLocation, string expected = "", bool preproc = false)
-    {
-        // Preprocess image
-        if (preproc)
-        {
-            var preprocImagePath = image.Replace(".png", "-preproc.png");
-            var preprocImage = PreprocessImage(image);
-            preprocImage.ImWrite(preprocImagePath);
-            image = preprocImagePath;
-        }
-
-        // Initialize engine and load image
-        using var engine = new TesseractEngine(@"tessdata", "eng", EngineMode.Default); // @"./tessdata" should be the path to the tessdata directory.
-        using var img = new Bitmap(image);
-
-        // Create crop of relevant area
-        var rect = new Rectangle() { X = x, Y = y, Width = width, Height = height };
-        using var crop = img.Clone(rect, img.PixelFormat);
-
-        // Convert Bitmap to Pix
-        var converter = new BitmapToPixConverter();
-        using var pix = converter.Convert(crop);
-
-        // Process image
-        using var page = engine.Process(pix, PageSegMode.SingleLine);
-
-        if (export)
-            SaveImage(rect, image); // Export crop for debugging
-
-        // Read from image:
-        var result = page.GetText()?.Trim();
-        var similarity = CalculateStringSimilarity(expected, result);
-        var log = $"OCR RESULT: {result}";
-
-        if (!string.IsNullOrWhiteSpace(expected))
-            log += $" [Expected: {expected}][Similarity: {CalculateStringSimilarity(expected, result)}]";
-
-        // Logger.Log(log, true); // Print read result for debugging
-        return string.IsNullOrWhiteSpace(expected) ? result.Trim().Length > 0 : similarity > 60.0;
-    }
 
     /// <summary>
     /// Takes a crop with the given dimensions from the specified image and saves it as an image to the disk. Used for debugging.

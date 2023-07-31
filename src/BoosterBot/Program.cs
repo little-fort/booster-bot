@@ -1,10 +1,5 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Drawing2D;
-using System.Drawing.Imaging;
 using System.Reflection;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace BoosterBot;
 
@@ -16,7 +11,6 @@ internal class Program
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
-        bool conquest = false;
         double scaling = 1.0;
 
         // Parse flags:
@@ -49,11 +43,6 @@ internal class Program
                     case "-ss":
                         saveScreens = true;
                         break;
-                    case "-conquest":
-                    case "--conquest":
-                    case "-c":
-                        conquest = true;
-                        break;
                     case "-masked":
                         masked = true;
                         break;
@@ -71,7 +60,7 @@ internal class Program
 
             try
             {
-                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens) : new BoosterBot(scaling, verbose, autoplay, saveScreens);
+                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens) : new LadderBot(scaling, verbose, autoplay, saveScreens);
                 bot.Run();
             }
             catch (Exception ex)
