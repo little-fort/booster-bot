@@ -15,26 +15,50 @@ namespace BoosterBot
         private readonly bool _verbose;
         private readonly bool _autoplay;
         private readonly bool _saveScreens;
+        private readonly string _logPath;
 
         public double Scaling { get => _scaling; }
         public bool Verbose { get => _verbose; }
         public bool Autoplay { get => _autoplay; }
         public bool SaveScreens { get => _saveScreens; }
+        public string LogPath { get => _logPath; }
         public int Center { get; set; }
         public Rect Window { get; set; }
         public Dimension Screencap { get; set; }
-        public Point ResetPoint { get; set; }
+        public Point BaseResetPointLeft { get; set; }
+        public Point BaseResetPointRight { get; set; }
+        public Point ResetPoint 
+        {
+            get
+            {
+                var rand = new Random();
+                var points = new Point[2];
+                points[0] = new Point
+                {
+                    X = BaseResetPointLeft.X + rand.Next(100),
+                    Y = BaseResetPointLeft.Y - rand.Next(500)
+                };
+                points[1] = new Point
+                {
+                    X = BaseResetPointRight.X - rand.Next(100),
+                    Y = BaseResetPointRight.Y - rand.Next(500)
+                };
+
+                return points[rand.Next(2)];
+            }
+        }
         public Point ClearErrorPoint { get; set; }
         public Point GameModesPoint { get; set; }
         public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
-        public BotConfig(double scaling, bool verbose, bool autoplay, bool saveScreens)
+        public BotConfig(double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath)
         {
             _scaling = scaling;
             _verbose = verbose;
             _autoplay = autoplay;
             _saveScreens = saveScreens;
+            _logPath = logPath;
         }
 
         public void GetWindowPositions()
@@ -90,9 +114,15 @@ namespace BoosterBot
                 }
             };
 
-            ResetPoint = new Point
+            BaseResetPointLeft = new Point
             {
                 X = Window.Left + 100,
+                Y = Window.Bottom - 200
+            };
+
+            BaseResetPointRight = new Point
+            {
+                X = Window.Right - 100,
                 Y = Window.Bottom - 200
             };
 
