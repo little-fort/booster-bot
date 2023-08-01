@@ -3,12 +3,13 @@
 </p>
 
 # BoosterBot for Marvel Snap
-A bot that could ***hypothetically*** be used to farm boosters for any deck in Marvel Snap. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to more effectively farm missions and seasonal ranks. The bot uses OCR powered by [Tesseract](https://github.com/charlesw/tesseract/) to detect on-screen controls and then simulates user clicks to perform relevant actions.
+A bot that could ***hypothetically*** be used to farm boosters for any deck in Marvel Snap. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to more effectively farm missions and seasonal ranks. The bot uses various UI reference points to determine game state and then simulates user clicks to perform relevant actions.
 
 **NOTE:** Because this is simulating user input, the bot will keep giving the Snap window focus and moving the mouse pointer to various locations of the game screen. It cannot run in the background and it will be difficult to do anything else on the PC while the bot is running. For best results, turn it on when you're going to be AFK for a while.
 
 ## Features
 
+- **NEW:** Added support for Conquest farming (Proving Grounds only)
 - Randomly plays cards and progresses turns using any deck
 - Will farm matches on loop until stopped 
 - Simulates user input with randomness to prevent detection. Does not modify game files in any way
@@ -33,7 +34,7 @@ Game should be run in fullscreen mode for best results. Although the bot *can* f
 
 ### Advanced
 
-Source can be cloned directly. Project is built on .NET 6, so you will need [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) or the [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) installed in order to run. Project also makes use of the [Tesseract](https://github.com/charlesw/tesseract/) library, which may require you to download the [Visual Studio 2019 Runtime](https://visualstudio.microsoft.com/downloads/).
+Source can be cloned directly. Project is built on .NET 6, so you will need [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) or the [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) installed in order to run.
 
 The .exe can also be run from the command line with the following options:
 
@@ -66,7 +67,7 @@ The OCR system works by taking a screenshot of the game (and only the game) at r
 ## Notes
 
 - Bot averages 11-14 matches per hour, which translates into about 66-84 boosters per hour. Hard limit of 1000 boosters per day still applies.
-- Bot will always play out matches to the end, and will occasionally snap just for the sake of randomness.
+- Bot will always play out matches to the end and will occasionally snap just for the sake of randomness.
 - The game has bugs that will sometimes cause matches to hang at the end and not progress to the booster collection screen. The bot will try to detect matches that have gone on too long and auto-retreat, but this doesn't always work and sometimes the game will require a restart to unblock.
 - Any deck will work fine, but there is no logic to the plays it attempts to make. It will just try to move and drop cards to random locations, regardless of board state.
 - The process name will be masked with a randomly generated string each time to avoid detection by the game client. As a result, `BoosterBot.exe` will not appear in the list of active processes after starting the bot, but you will see something like `nskeqpsv.exe` running instead.
