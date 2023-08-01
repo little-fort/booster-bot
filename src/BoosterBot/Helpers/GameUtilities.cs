@@ -1,5 +1,6 @@
 ﻿using BoosterBot.Models;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace BoosterBot
 {
@@ -198,7 +199,7 @@ namespace BoosterBot
         {
             var rand = new Random();
             SystemUtilities.Click(config.Window.Left + config.Center + rand.Next(-20, 20), 115 + rand.Next(-20, 20));
-            Logger.Log("OH SNAP!");
+            Logger.Log("OH SNAP!", config.LogPath);
 
             return true;
         }
@@ -245,10 +246,12 @@ namespace BoosterBot
             Thread.Sleep(10000);
         }
 
+        public static void PressEscKey() => SendKeys.SendWait("{ESC}");
+
         public static void BlindReset(BotConfig config)
         {
             config.GetWindowPositions();
-            Logger.Log("Attempting blind reset clicks...");
+            Logger.Log("Attempting blind reset clicks...", config.LogPath);
             ResetClick(config);
             Thread.Sleep(1000);
             ClearError(config);
@@ -258,6 +261,9 @@ namespace BoosterBot
             ResetMenu(config);
             Thread.Sleep(1000);
             ResetClick(config);
+            Thread.Sleep(1000);
+            PressEscKey();
+            Thread.Sleep(1000);
         }
 
         public static Rect GetConquestBannerCrop(BotConfig config) => new Rect

@@ -48,44 +48,59 @@ internal class Program
                         break;
                 }
 
-        if (masked)
+        try
         {
-            // Create directory if it doesn't exist
-            var dir = "screens";
-            if (!Directory.Exists(dir))
-                Directory.CreateDirectory(dir);
+            if (!Directory.Exists("logs"))
+                Directory.CreateDirectory("logs");
+            else
+                PurgeLogs();
 
-            var mode = GetModeSelection();
-            PrintTitle();
-
-            try
+            if (masked)
             {
+                if (!Directory.Exists("screens"))
+                    Directory.CreateDirectory("screens");
+
+                var mode = GetModeSelection();
+                PrintTitle();
+
                 IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens) : new LadderBot(scaling, verbose, autoplay, saveScreens);
-                bot.Run();
+                try
+                {
+                    bot.Run();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Log("***** FATAL ERROR *****", bot.GetLogPath());
+                    Logger.Log(ex.Message, bot.GetLogPath());
+                    Console.WriteLine();
+                    Logger.Log(ex.StackTrace, bot.GetLogPath());
+                }
+
+                Console.WriteLine("\nPress [Enter] to exit...");
+                Console.ReadLine();
             }
-            catch (Exception ex)
+            else
             {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine();
-                Console.WriteLine(ex.StackTrace);
+                var exe = MaskProcess();
+                var startInfo = new ProcessStartInfo();
+                startInfo.FileName = exe;
+                startInfo.UseShellExecute = true;
+                startInfo.CreateNoWindow = false;
+
+                var process = new Process();
+                process.StartInfo = startInfo;
+                process.StartInfo.Arguments = "-masked " + string.Join(' ', args);
+
+                process.Start();
             }
-
-            Console.WriteLine("\nPress [Enter] to continue...");
-            Console.ReadLine();
         }
-        else
+        catch (Exception ex)
         {
-            var exe = MaskProcess();
-            var startInfo = new ProcessStartInfo();
-            startInfo.FileName = exe;
-            startInfo.UseShellExecute = true;
-            startInfo.CreateNoWindow = false;
-
-            var process = new Process();
-            process.StartInfo = startInfo;
-            process.StartInfo.Arguments = "-masked " + string.Join(' ', args);
-
-            process.Start();
+            var log = $"logs\\startup-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
+            Logger.Log("***** FATAL ERROR *****", log);
+            Logger.Log(ex.Message, log);
+            Console.WriteLine();
+            Logger.Log(ex.StackTrace, log);
         }
     }
 
@@ -126,6 +141,19 @@ internal class Program
         foreach (var file in files)
             if (!file.EndsWith("BoosterBot.exe") && !file.EndsWith("createdump.exe") && !file.EndsWith(process))
                 File.Delete(file);
+    }
+
+    private static void PurgeLogs()
+    {
+        // Get all log files
+        var logFiles = Directory.GetFiles("logs\\").Select(f => new FileInfo(f));
+
+        // Order them by creation time (descending)
+        var orderedLogFiles = logFiles.OrderByDescending(f => f.CreationTime).ToList();
+
+        // Skip 10 most recent ones and delete the rest
+        foreach (var oldFile in orderedLogFiles.Skip(5))
+            oldFile.Delete();
     }
 
     // Method to make a copy of a file with a different name:
