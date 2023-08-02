@@ -23,6 +23,8 @@ This is only intended for use with the Steam version of Marvel Snap on Windows 1
 
 Game should be run in fullscreen mode for best results. Although the bot *can* function in windowed mode, performance becomes very inconsistent.
 
+Due to the bot's nature (taking over cursor control and processing screen content on an endless loop), it may be flagged and quarantined by certain third-party antivirus programs. If you find the bot being halted repeatedly, you may need to whitelist the application directory in your antivirus software.
+
 ## Getting Started
 
 ### Simple
