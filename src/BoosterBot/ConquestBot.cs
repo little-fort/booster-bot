@@ -94,7 +94,12 @@ namespace BoosterBot
         private void NavigateToConquestMenu()
         {
             Logger.Log("Navigating to Conquest menu...", _logPath);
-            SystemUtilities.Click(_config.Window.Left + _config.Center + _rand.Next(-20, 20), 330 + _rand.Next(-20, 20));
+
+            for (int x = 0; x < 3; x++)
+            {
+                SystemUtilities.Click(_config.ConquestBannerPoint);
+                Thread.Sleep(1000);
+            }
         }
 
         private bool DetermineLoopEntryPoint(bool finalAttempt = false)
