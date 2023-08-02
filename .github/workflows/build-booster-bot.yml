@@ -47,10 +47,10 @@ jobs:
         $label = '${{ github.event.inputs.label }}'
         
         if ($label -ne 'release') {
-          "Version=$version-$label" >> $env:Version
+          "Version=$version-$label" >> $env:GITHUB_ENV
         }
         else {
-          "Version=$version" >> $env:Version
+          "Version=$version" >> $env:GITHUB_ENV
         }
       shell: pwsh
     
