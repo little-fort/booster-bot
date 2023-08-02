@@ -86,14 +86,14 @@ namespace BoosterBot
         public bool CanIdentifyMainMenu()
         {
             // Get coordinates for 'Play' button
-            var area = _mappings.GetBtnPlay(_config.Center, _config.Screencap);
+            var area = _mappings.GetBtnPlay();
 
             // Check if 'Play' button is visible
             return ImageUtilities.CheckImageAreaSimilarity(area, ComponentMappings.REF_LADD_BTN_PLAY);
         }
 
         public bool CanIdentifyZeroEnergy()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetEnergy(_config.Center, _config.Screencap), ComponentMappings.REF_ICON_ZERO_ENERGY, 0.925);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetEnergy(), ComponentMappings.REF_ICON_ZERO_ENERGY, 0.925);
 
         #region Ladder
 
@@ -103,16 +103,16 @@ namespace BoosterBot
                 CanIdentifyMidTurn();
 
         public bool CanIdentifyLadderMatchmaking()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetLadderMatchmakingCancel(_config.Center, _config.Screencap), ComponentMappings.REF_LADD_BTN_MATCHMAKING);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetLadderMatchmakingCancel(), ComponentMappings.REF_LADD_BTN_MATCHMAKING);
 
         public bool CanIdentifyLadderRetreatBtn()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetLadderBtnRetreat(_config.Center, _config.Screencap), ComponentMappings.REF_LADD_BTN_RETREAT);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetLadderBtnRetreat(), ComponentMappings.REF_LADD_BTN_RETREAT);
 
         public bool CanIdentifyLadderCollectRewardsBtn()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnCollect(_config.Center, _config.Screencap), ComponentMappings.REF_LADD_BTN_COLLECT_REWARDS);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnCollect(), ComponentMappings.REF_LADD_BTN_COLLECT_REWARDS);
 
         public bool CanIdentifyLadderMatchEndNextBtn()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnMatchEndNext2(_config.Center, _config.Screencap), ComponentMappings.REF_LADD_BTN_MATCH_END_NEXT);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnMatchEndNext2(), ComponentMappings.REF_LADD_BTN_MATCH_END_NEXT);
 
         public bool CanIdentifyLadderMatchEnd()
             => CanIdentifyLadderCollectRewardsBtn() || CanIdentifyLadderMatchEndNextBtn();
@@ -127,55 +127,55 @@ namespace BoosterBot
                 CanIdentifyMidTurn();
 
         public bool CanIdentifyConquestPlayBtn()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetBtnPlay(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_PLAY);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetBtnPlay(), ComponentMappings.REF_CONQ_BTN_PLAY);
 
         public bool CanIdentifyConquestLobbyPG()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(_config.Center), ComponentMappings.REF_CONQ_LBL_LOBBY_PG);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_PG);
 
         public bool CanIdentifyConquestLobbySilver()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(_config.Center), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER);
 
         public bool CanIdentifyConquestLobbyGold()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(_config.Center), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD);
 
         public bool CanIdentifyConquestLobbyInfinite()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(_config.Center), ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE);
 
         public bool CanIdentifyConquestMatchmaking()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestMatchmakingCancel(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_MATCHMAKING);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestMatchmakingCancel(), ComponentMappings.REF_CONQ_BTN_MATCHMAKING);
 
         public bool CanIdentifyConquestRetreatBtn()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnRetreat(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_RETREAT_1) ||
-               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnRetreat(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_RETREAT_2);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnRetreat(), ComponentMappings.REF_CONQ_BTN_RETREAT_1) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnRetreat(), ComponentMappings.REF_CONQ_BTN_RETREAT_2);
 
         public bool CanIdentifyEndTurnBtn()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnEndTurn(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_END_TURN);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnEndTurn(), ComponentMappings.REF_CONQ_BTN_END_TURN);
 
         public bool CanIdentifyMidTurn()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnWaiting(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_WAITING, 0.85) ||
-               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnWaiting(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_PLAYING, 0.85);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnWaiting(), ComponentMappings.REF_CONQ_BTN_WAITING, 0.85) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnWaiting(), ComponentMappings.REF_CONQ_BTN_PLAYING, 0.85);
 
         public bool CanIdentifyConquestConcede()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnConcede(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_CONCEDE_1) ||
-               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnConcede(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_CONCEDE_2);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnConcede(), ComponentMappings.REF_CONQ_BTN_CONCEDE_1) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnConcede(), ComponentMappings.REF_CONQ_BTN_CONCEDE_2);
 
         public bool CanIdentifyConquestMatchEnd()
             => CanIdentifyConquestMatchEndNext1() || CanIdentifyConquestMatchEndNext2();
 
         public bool CanIdentifyConquestMatchEndNext1()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnMatchEndNext1(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_MATCH_END_1);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnMatchEndNext1(), ComponentMappings.REF_CONQ_BTN_MATCH_END_1);
 
         public bool CanIdentifyConquestMatchEndNext2()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnMatchEndNext2(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_MATCH_END_2);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnMatchEndNext2(), ComponentMappings.REF_CONQ_BTN_MATCH_END_2);
 
         public bool CanIdentifyConquestLossContinue()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnContinue(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_CONTINUE);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnContinue(), ComponentMappings.REF_CONQ_BTN_CONTINUE);
 
         public bool CanIdentifyConquestWinNext()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestVictoryNext(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_WIN_NEXT);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestVictoryNext(), ComponentMappings.REF_CONQ_BTN_WIN_NEXT);
 
         public bool CanIdentifyConquestTicketClaim()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestTicketClaim(_config.Center, _config.Screencap), ComponentMappings.REF_CONQ_BTN_WIN_TICKET);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestTicketClaim(), ComponentMappings.REF_CONQ_BTN_WIN_TICKET);
 
         #endregion
 

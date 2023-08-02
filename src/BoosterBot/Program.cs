@@ -7,7 +7,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        bool masked = true; // false; // RETURN BEFORE COMMIT
+        bool masked = false;
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
