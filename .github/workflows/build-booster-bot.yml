@@ -6,7 +6,7 @@ on:
       version:
         description: 'Version number'
         required: true
-        default: '1.2.1'
+        default: '1.2.2'
       label:
         description: 'Label'
         required: false
