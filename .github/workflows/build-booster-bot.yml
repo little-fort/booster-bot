@@ -6,11 +6,14 @@ on:
       version:
         description: 'Version number'
         required: true
-        default: '1.2.2'
+        default: '1.2.3'
       label:
+        type: choice
         description: 'Label'
-        required: false
-        default: '-build'
+        options:
+        - build
+        - preview
+        - release
   pull_request:
     branches: [ "main" ]
 
@@ -27,8 +30,8 @@ jobs:
     env:
       Solution_Path: src/BoosterBot.sln
       Project_Path: src/BoosterBot/BoosterBot.csproj
-      Version_Number: ${{ github.event.inputs.version || '1.2.1' }}
-      Version_Label: ${{ github.event.inputs.label || '-build' }}
+      Version_Number: ${{ github.event.inputs.version || '1.2.3' }}
+      Version: ''
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -39,31 +42,25 @@ jobs:
     - name: Set label
       id: set_label
       run: |
+        $version = '${Version_Number}'
+        $build = '${{ github.run_number }}'
         $label = '${{ github.event.inputs.label }}'
-        if ('${{ github.event_name }}' -eq 'push') {
-          $build = '.${{ github.run_number }}'
-          if ($label) {
-            if (-not $label.StartsWith("-")) {
-                $label = "-" + $label
-            }
-            echo "label=$build$label" >> $env:GITHUB_OUTPUT
-          }
-          else {
-            echo "label=$build-preview" >> $env:GITHUB_OUTPUT
-          }
+        
+        if ($label -ne 'release') {
+          Version="$version-$label"
+          echo "Version=${Version}" >> $GITHUB_ENV
         }
         else {
-          echo "label=$label" >> $env:GITHUB_OUTPUT
+          Version="$version"
+          echo "Version=${Version}" >> $GITHUB_ENV
         }
       shell: pwsh
     
     - name: Update version
       run: |
-        $label = '${{ env.Version_Label }}'
-        if ($label) {
-            if (-not $label.StartsWith("-")) {
-                $label = "-" + $label
-            }
+        $label = '${{ github.event.inputs.label }}'
+        if (-not $label.StartsWith("-")) {
+            $label = "-" + $label
         }
 
         if ($label -eq "-release") {
@@ -85,7 +82,7 @@ jobs:
       run: dotnet build ${{ env.Solution_Path }} --configuration Release
 
     - name: Publish
-      run: dotnet publish ${{ env.Project_Path }} -o './artifacts/booster-bot-v${{ env.Version_Number }}${{ steps.set_label.outputs.label }}' --configuration Release -r win-x64 --self-contained true
+      run: dotnet publish ${{ env.Project_Path }} -o './artifacts/booster-bot-v${{ env.Version }}' --configuration Release -r win-x64 --self-contained true
       
     - name: Purge artifacts
       uses: kolpav/purge-artifacts-action@v1
@@ -96,5 +93,5 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: 'booster-bot-v${{ env.Version_Number }}${{ steps.set_label.outputs.label }}'
+        name: 'booster-bot-v${{ env.Version }}'
         path: ./artifacts
