@@ -42,15 +42,15 @@ jobs:
     - name: Set label
       id: set_label
       run: |
-        $version = '${Version_Number}'
+        $version = "${{ env.Version_Number }}"
         $build = '${{ github.run_number }}'
         $label = '${{ github.event.inputs.label }}'
         
         if ($label -ne 'release') {
-          echo "Version=$version-$label" >> $env:Version
+          "Version=$version-$label" >> $env:Version
         }
         else {
-          echo "Version=$version" >> $env:Version
+          "Version=$version" >> $env:Version
         }
       shell: pwsh
     
