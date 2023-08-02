@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace BoosterBot
 {
@@ -25,8 +26,8 @@ namespace BoosterBot
         public int Center { get; set; }
         public Rect Window { get; set; }
         public Dimension Screencap { get; set; }
-        public Point BaseResetPointLeft { get; set; }
-        public Point BaseResetPointRight { get; set; }
+        private Point BaseResetPointLeft { get; set; }
+        private Point BaseResetPointRight { get; set; }
         public Point ResetPoint 
         {
             get
@@ -49,6 +50,19 @@ namespace BoosterBot
         }
         public Point ClearErrorPoint { get; set; }
         public Point GameModesPoint { get; set; }
+        private Point BaseConquestBannerPoint { get; set; }
+        public Point ConquestBannerPoint
+        {
+            get
+            {
+                var rand = new Random();
+                return new Point
+                {
+                    X = BaseConquestBannerPoint.X + rand.Next(-50, 50),
+                    Y = BaseConquestBannerPoint.Y + rand.Next(-50, 50)
+                };
+            }
+        }
         public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
@@ -135,7 +149,13 @@ namespace BoosterBot
             GameModesPoint = new Point
             {
                 X = Window.Left + Center + 175,
-                Y = Window.Bottom - 10
+                Y = Window.Bottom - 50
+            };
+
+            BaseConquestBannerPoint = new Point
+            {
+                X = Window.Left + Center,
+                Y = 330
             };
         }
     }
