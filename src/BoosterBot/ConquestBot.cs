@@ -102,7 +102,7 @@ namespace BoosterBot
             }
         }
 
-        private bool DetermineLoopEntryPoint(bool finalAttempt = false)
+        private bool DetermineLoopEntryPoint(int attempts = 0)
         {
             Logger.Log("Attempting to determine loop entry point...", _logPath);
             var state = GameUtilities.DetermineConquestGameState(_config);
@@ -141,10 +141,10 @@ namespace BoosterBot
                     Logger.Log("Detected Conquest postmatch screen. Returning to Conquest menu...", _logPath);
                     return AcceptResult();
                 default:
-                    if (!finalAttempt)
+                    if (attempts < 3)
                     {
                         GameUtilities.BlindReset(_config);
-                        return DetermineLoopEntryPoint(true);
+                        return DetermineLoopEntryPoint(attempts + 1);
                     }
 
                     Logger.Log("Bot is hopelessly lost... :/", _logPath);
