@@ -28,138 +28,153 @@ namespace BoosterBot
         public const string REF_CONQ_BTN_WIN_NEXT = "Reference\\btn-conquest-victory-next-preproc.png";
         public const string REF_CONQ_BTN_WIN_TICKET = "Reference\\btn-conquest-ticket-claim-preproc.png";
 
-        public static Rect GetBtnPlay(int center, Dimension screencap) => new Rect
+        public readonly BotConfig _config;
+
+        public ComponentMappings(BotConfig config)
         {
-            Left = center - 45,
-            Right = center + 40,
-            Top = screencap.Height - 235,
-            Bottom = screencap.Height - 195
+            _config = config;
+        }
+
+        public Rect GetBtnPlay(int center, Dimension screencap) => new Rect
+        {
+            Left = center - _config.Scale(45),
+            Right = center + _config.Scale(40),
+            Top = screencap.Height - _config.Scale(235),
+            Bottom = screencap.Height - _config.Scale(195)
         };
         
-        public static Rect GetEnergy(int center, Dimension screencap) => new Rect
+        public Rect GetEnergy(int center, Dimension screencap) => new Rect
         {
-            Left = center - 30,
-            Right = center + 20,
-            Top = screencap.Height - 90,
-            Bottom = screencap.Height - 45
+            Left = center - _config.Scale(30),
+            Right = center + _config.Scale(20),
+            Top = screencap.Height - _config.Scale(90),
+            Bottom = screencap.Height - _config.Scale(45)
         };
 
         #region Ladder
 
-        public static Rect GetLadderMatchmakingCancel(int center, Dimension screencap) => new Rect
+        public Rect GetLadderMatchmakingCancel(int center, Dimension screencap) => new Rect
         {
-            Left = center - 50,
-            Right = center + 40,
-            Top = screencap.Height - 85,
-            Bottom = screencap.Height - 55
+            Left = center - _config.Scale(50),
+            Right = center + _config.Scale(40),
+            Top = screencap.Height - _config.Scale(85),
+            Bottom = screencap.Height - _config.Scale(55)
         };
 
-        public static Rect GetLadderBtnRetreat(int center, Dimension screencap) => new Rect
+        public Rect GetLadderBtnRetreat( int center, Dimension screencap) => new Rect
         {
-            Left = center - 385,
-            Right = center - 275,
-            Top = screencap.Height - 80,
-            Bottom = screencap.Height - 60
+            Left = center - _config.Scale(385),
+            Right = center - _config.Scale(275),
+            Top = screencap.Height - _config.Scale(80),
+            Bottom = screencap.Height - _config.Scale(60)
         };
 
-        public static Rect GetConquestBtnCollect(int center, Dimension screencap) => new Rect
+        public Rect GetConquestBtnCollect(int center, Dimension screencap) => new Rect
         {
-            Left = center + 245,
-            Right = center + 375,
-            Top = screencap.Height - 80,
-            Bottom = screencap.Height - 60
+            Left = center + _config.Scale(245),
+            Right = center + _config.Scale(375),
+            Top = screencap.Height - _config.Scale(80),
+            Bottom = screencap.Height - _config.Scale(60)
         };
 
         #endregion
 
         #region Conquest
 
-        public static Rect GetConquestLobbySelection(int center) => new Rect
+        public Rect GetConquestBannerCrop() => new Rect
         {
-            Left = center - 130,
-            Right = center + 120,
-            Top = 135,
-            Bottom = 160
+            Left = _config.Center - _config.Scale(110),
+            Right = _config.Center + _config.Scale(100),
+            Top = _config.Scale(15),
+            Bottom = _config.Scale(60)
         };
 
-        public static Rect GetConquestMatchmakingCancel(int center, Dimension screencap) => new Rect
+        public Rect GetConquestLobbySelection(int center) => new Rect
         {
-            Left = center - 55,
-            Right = center + 40,
-            Top = screencap.Height - 85,
-            Bottom = screencap.Height - 55
+            Left = center - _config.Scale(130),
+            Right = center + _config.Scale(120),
+            Top = _config.Scale(135),
+            Bottom = _config.Scale(160)
         };
 
-        public static Rect GetConquestBtnConcede(int center, Dimension screencap) => new Rect
+        public Rect GetConquestMatchmakingCancel(int center, Dimension screencap) => new Rect
         {
-            Left = center - 380,
-            Right = center - 265,
-            Top = screencap.Height - 80,
-            Bottom = screencap.Height - 55
+            Left = center - _config.Scale(55),
+            Right = center + _config.Scale(40),
+            Top = screencap.Height - _config.Scale(85),
+            Bottom = screencap.Height - _config.Scale(55)
         };
 
-        public static Rect GetConquestBtnRetreat(int center, Dimension screencap) => new Rect
+        public Rect GetConquestBtnConcede(int center, Dimension screencap) => new Rect
         {
-            Left = center - 375,
-            Right = center - 285,
-            Top = screencap.Height - 90,
-            Bottom = screencap.Height - 70
+            Left = center - _config.Scale(380),
+            Right = center - _config.Scale(265),
+            Top = screencap.Height - _config.Scale(80),
+            Bottom = screencap.Height - _config.Scale(55)
         };
 
-        public static Rect GetConquestBtnEndTurn(int center, Dimension screencap) => new Rect
+        public Rect GetConquestBtnRetreat(int center, Dimension screencap) => new Rect
         {
-            Left = center + 325,
-            Right = center + 370,
-            Top = screencap.Height - 90,
-            Bottom = screencap.Height - 70
+            Left = center - _config.Scale(375),
+            Right = center - _config.Scale(285),
+            Top = screencap.Height - _config.Scale(90),
+            Bottom = screencap.Height - _config.Scale(70)
         };
 
-        public static Rect GetConquestBtnWaiting(int center, Dimension screencap) => new Rect
+        public Rect GetConquestBtnEndTurn(int center, Dimension screencap) => new Rect
         {
-            Left = center + 265,
-            Right = center + 355,
-            Top = screencap.Height - 90,
-            Bottom = screencap.Height - 70
+            Left = center + _config.Scale(325),
+            Right = center + _config.Scale(370),
+            Top = screencap.Height - _config.Scale(90),
+            Bottom = screencap.Height - _config.Scale(70)
         };
 
-        public static Rect GetConquestBtnMatchEndNext1(int center, Dimension screencap) => new Rect
+        public Rect GetConquestBtnWaiting(int center, Dimension screencap) => new Rect
         {
-            Left = center + 285,
-            Right = center + 350,
-            Top = screencap.Height - 80,
-            Bottom = screencap.Height - 60
+            Left = center + _config.Scale(265),
+            Right = center + _config.Scale(355),
+            Top = screencap.Height - _config.Scale(90),
+            Bottom = screencap.Height - _config.Scale(70)
         };
 
-        public static Rect GetConquestBtnMatchEndNext2(int center, Dimension screencap) => new Rect
+        public Rect GetConquestBtnMatchEndNext1(int center, Dimension screencap) => new Rect
         {
-            Left = center + 285,
-            Right = center + 355,
-            Top = screencap.Height - 70,
-            Bottom = screencap.Height - 40
+            Left = center + _config.Scale(285),
+            Right = center + _config.Scale(350),
+            Top = screencap.Height - _config.Scale(80),
+            Bottom = screencap.Height - _config.Scale(60)
         };
 
-        public static Rect GetConquestBtnContinue(int center, Dimension screencap) => new Rect
+        public Rect GetConquestBtnMatchEndNext2(int center, Dimension screencap) => new Rect
         {
-            Left = center - 85,
-            Right = center + 85,
-            Top = screencap.Height - 180,
-            Bottom = screencap.Height - 145
+            Left = center + _config.Scale(285),
+            Right = center + _config.Scale(355),
+            Top = screencap.Height - _config.Scale(70),
+            Bottom = screencap.Height - _config.Scale(40)
         };
 
-        public static Rect GetConquestVictoryNext(int center, Dimension screencap) => new Rect
+        public Rect GetConquestBtnContinue(int center, Dimension screencap) => new Rect
         {
-            Left = center - 55,
-            Right = center + 40,
-            Top = screencap.Height - 180,
-            Bottom = screencap.Height - 145
+            Left = center - _config.Scale(85),
+            Right = center + _config.Scale(85),
+            Top = screencap.Height - _config.Scale(180),
+            Bottom = screencap.Height - _config.Scale(145)
         };
 
-        public static Rect GetConquestTicketClaim(int center, Dimension screencap) => new Rect
+        public Rect GetConquestVictoryNext(int center, Dimension screencap) => new Rect
         {
-            Left = center - 65,
-            Right = center + 40,
-            Top = screencap.Height - 185,
-            Bottom = screencap.Height - 155
+            Left = center - _config.Scale(55),
+            Right = center + _config.Scale(40),
+            Top = screencap.Height - _config.Scale(180),
+            Bottom = screencap.Height - _config.Scale(145)
+        };
+
+        public Rect GetConquestTicketClaim(int center, Dimension screencap) => new Rect
+        {
+            Left = center - _config.Scale(65),
+            Right = center + _config.Scale(40),
+            Top = screencap.Height - _config.Scale(185),
+            Bottom = screencap.Height - _config.Scale(155)
         };
 
         #endregion

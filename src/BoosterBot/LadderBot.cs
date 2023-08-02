@@ -7,6 +7,7 @@ namespace BoosterBot
     {
         private readonly string _logPath;
         private readonly BotConfig _config;
+        private readonly GameUtilities _game;
         private Random _rand { get; set; }
         private Stopwatch _matchTimer { get; set; }
 
@@ -15,6 +16,7 @@ namespace BoosterBot
         {
             _logPath = $"logs\\ladder-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
+            _game = new GameUtilities(_config);
             _rand = new Random();
         }
 
@@ -26,7 +28,7 @@ namespace BoosterBot
                 {
                     Console.WriteLine("--------------------------------------------------------");
                     Console.WriteLine("--------------------------------------------------------");
-                    GameUtilities.LogLadderGameState(_config);
+                    _game.LogLadderGameState();
                     Thread.Sleep(5000);
                 }
                 catch (Exception ex)
@@ -49,10 +51,10 @@ namespace BoosterBot
                 attempts++;
 
                 _config.GetWindowPositions();
-                GameUtilities.ResetClick(_config);
-                GameUtilities.ResetMenu(_config);
+                _game.ResetClick();
+                _game.ResetMenu();
 
-                var onMenu = GameUtilities.CanIdentifyMainMenu(_config);
+                var onMenu = _game.CanIdentifyMainMenu();
 
                 if (onMenu)
                     DetermineLoopEntryPoint();
@@ -61,7 +63,7 @@ namespace BoosterBot
                     if (attempts <= 2)
                     {
                         Logger.Log($"Could not detect main menu (attempt #{attempts}). Trying again in 5 seconds...", _logPath);
-                        GameUtilities.ResetClick(_config);
+                        _game.ResetClick();
                         Thread.Sleep(5000);
                     }
                     else
@@ -76,7 +78,7 @@ namespace BoosterBot
         private bool DetermineLoopEntryPoint(bool finalAttempt = false)
         {
             Logger.Log("Attempting to determine loop entry point...", _logPath);
-            var state = GameUtilities.DetermineLadderGameState(_config);
+            var state = _game.DetermineLadderGameState();
 
             switch (state)
             {
@@ -99,14 +101,14 @@ namespace BoosterBot
                     return ExitMatch();
                 case GameState.CONQUEST_LOBBY_PG:
                     Logger.Log("Detected Conquest lobby. Resetting menu...", _logPath);
-                    GameUtilities.ResetMenu(_config);
+                    _game.ResetMenu();
                     return StartMatch();
                 default:
                     Logger.Log("Could not find points of reference.", _logPath);
                     if (!finalAttempt)
                     {
                         Logger.Log("Performing blind reset and retrying...", _logPath);
-                        GameUtilities.BlindReset(_config);
+                        _game.BlindReset();
                         return DetermineLoopEntryPoint(true);
                     }
 
@@ -121,9 +123,9 @@ namespace BoosterBot
         private bool StartMatch()
         {
             Logger.Log("Clicking 'Play'...", _logPath);
-            GameUtilities.ClickPlay(_config);
+            _game.ClickPlay();
             Thread.Sleep(1000);
-            GameUtilities.ClickPlay(_config); // Press a second time just to be sure
+            _game.ClickPlay(); // Press a second time just to be sure
             Thread.Sleep(1000);
 
             return WaitForMatchmaking();
@@ -132,7 +134,7 @@ namespace BoosterBot
         private bool WaitForMatchmaking()
         {
             _config.GetWindowPositions();
-            while (GameUtilities.CanIdentifyLadderMatchmaking(_config))
+            while (_game.CanIdentifyLadderMatchmaking())
             {
                 Logger.Log("Waiting for match start...", _logPath);
                 Thread.Sleep(5000);
@@ -155,15 +157,15 @@ namespace BoosterBot
             while (active && _matchTimer.Elapsed.Minutes < 15)
             {
                 _config.GetWindowPositions();
-                if (!GameUtilities.CanIdentifyActiveLadderMatch(_config))
+                if (!_game.CanIdentifyActiveLadderMatch())
                 {
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
                     {
                         Logger.Log("Could not detect active match, trying again in 4 seconds...", _logPath);
                         _config.GetWindowPositions();
-                        GameUtilities.ResetClick(_config);
-                        check = GameUtilities.CanIdentifyActiveLadderMatch(_config);
+                        _game.ResetClick();
+                        check = _game.CanIdentifyActiveLadderMatch();
                         Thread.Sleep(4000);
                     }
 
@@ -172,22 +174,22 @@ namespace BoosterBot
                 else
                 {
                     Logger.Log("Attempting to play cards...", _logPath);
-                    GameUtilities.PlayHand(_config);
+                    _game.PlayHand();
                     Thread.Sleep(1000);
 
                     _config.GetWindowPositions();
-                    if (!GameUtilities.CanIdentifyZeroEnergy(_config))
+                    if (!_game.CanIdentifyZeroEnergy())
                     {
                         Logger.Log("Detected leftover energy, will attempt to play cards again...", _logPath);
-                        GameUtilities.PlayHand(_config);
+                        _game.PlayHand();
                     }
 
                     Logger.Log("Clicking 'Next Turn'...", _logPath);
-                    GameUtilities.ClickNext(_config);
+                    _game.ClickNext();
                     Thread.Sleep(1000);
 
                     _config.GetWindowPositions();
-                    while (GameUtilities.CanIdentifyMidTurn(_config))
+                    while (_game.CanIdentifyMidTurn())
                     {
                         Logger.Log("Waiting for turn to progress...", _logPath);
                         Thread.Sleep(4000);
@@ -198,19 +200,19 @@ namespace BoosterBot
                 if (!rolledSnap && _rand.Next(1, 101) > 45) // Add randomness for snaps
                 {
                     rolledSnap = true;
-                    GameUtilities.ClickSnap(_config);
+                    _game.ClickSnap();
                 }
             }
 
             _config.GetWindowPositions();
-            if (_matchTimer.Elapsed.Minutes > 15 && GameUtilities.CanIdentifyLadderRetreatBtn(_config))
+            if (_matchTimer.Elapsed.Minutes > 15 && _game.CanIdentifyLadderRetreatBtn())
             {
                 Logger.Log("Match timer has eclipsed 15 minutes. Attempting retreat...", _logPath);
-                GameUtilities.ClickRetreat(_config);
+                _game.ClickRetreat();
                 Thread.Sleep(5000);
             }
 
-            if (GameUtilities.CanIdentifyLadderMatchEnd(_config))
+            if (_game.CanIdentifyLadderMatchEnd())
                 return ExitMatch();
 
             return false;
@@ -221,10 +223,10 @@ namespace BoosterBot
             Logger.Log("Exiting match...", _logPath);
             _config.GetWindowPositions();
 
-            while (GameUtilities.CanIdentifyLadderCollectRewardsBtn(_config) || GameUtilities.CanIdentifyLadderMatchEndNextBtn(_config))
+            while (_game.CanIdentifyLadderCollectRewardsBtn() || _game.CanIdentifyLadderMatchEndNextBtn())
             {
-                GameUtilities.ClickNext(_config);
-                Thread.Sleep(4000);
+                _game.ClickNext();
+                Thread.Sleep(6000);
                 _config.GetWindowPositions();
             }
 
