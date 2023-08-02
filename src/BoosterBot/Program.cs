@@ -21,7 +21,7 @@ internal class Program
                     case "-scaling":
                     case "--scaling":
                     case "-s":
-                        scaling = double.Parse(args[i++]);
+                        scaling = double.Parse(args[i + 1]);
                         break;
                     case "-verbose":
                     case "--verbose":

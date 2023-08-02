@@ -7,6 +7,7 @@ namespace BoosterBot
     {
         private readonly string _logPath;
         private readonly BotConfig _config;
+        private readonly GameUtilities _game;
         private Random _rand { get; set; }
         private Stopwatch _matchTimer { get; set; }
 
@@ -14,6 +15,7 @@ namespace BoosterBot
         {
             _logPath = $"logs\\conquest-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
+            _game = new GameUtilities(_config);
             _rand = new Random();
         }
 
@@ -27,10 +29,10 @@ namespace BoosterBot
                     Console.WriteLine("--------------------------------------------------------");
                     //GameUtilities.LogConquestGameState(_config);
                     _config.GetWindowPositions();
-                    Console.WriteLine($"{(GameUtilities.CanIdentifyConquestLobbyPG(_config) ? "X" : " ")} PROVING_GROUNDS");
-                    Console.WriteLine($"{(GameUtilities.CanIdentifyConquestLobbySilver(_config) ? "X" : " ")} SILVER");
-                    Console.WriteLine($"{(GameUtilities.CanIdentifyConquestLobbyGold(_config) ? "X" : " ")} GOLD");
-                    Console.WriteLine($"{(GameUtilities.CanIdentifyConquestLobbyInfinite(_config) ? "X" : " ")} INFINITE");
+                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbyPG() ? "X" : " ")} PROVING_GROUNDS");
+                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbySilver() ? "X" : " ")} SILVER");
+                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbyGold() ? "X" : " ")} GOLD");
+                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbyInfinite() ? "X" : " ")} INFINITE");
                     Thread.Sleep(5000);
                 }
                 catch (Exception ex)
@@ -53,10 +55,10 @@ namespace BoosterBot
                 attempts++;
 
                 _config.GetWindowPositions();
-                GameUtilities.ResetClick(_config);
-                GameUtilities.ResetMenu(_config);
+                _game.ResetClick();
+                _game.ResetMenu();
 
-                var onMenu = GameUtilities.CanIdentifyMainMenu(_config);
+                var onMenu = _game.CanIdentifyMainMenu();
 
                 if (onMenu)
                 {
@@ -70,7 +72,7 @@ namespace BoosterBot
                     if (attempts <= 2)
                     {
                         Logger.Log($"Could not detect main menu (attempt #{attempts}). Trying again in 5 seconds...", _logPath);
-                        GameUtilities.ResetClick(_config);
+                        _game.ResetClick();
                         Thread.Sleep(5000);
                     }
                     else
@@ -105,7 +107,7 @@ namespace BoosterBot
         private bool DetermineLoopEntryPoint(int attempts = 0)
         {
             Logger.Log("Attempting to determine loop entry point...", _logPath);
-            var state = GameUtilities.DetermineConquestGameState(_config);
+            var state = _game.DetermineConquestGameState();
 
             switch (state)
             {
@@ -143,7 +145,7 @@ namespace BoosterBot
                 default:
                     if (attempts < 3)
                     {
-                        GameUtilities.BlindReset(_config);
+                        _game.BlindReset();
                         return DetermineLoopEntryPoint(attempts + 1);
                     }
 
@@ -172,7 +174,7 @@ namespace BoosterBot
                     success = DetermineLoopEntryPoint();
 
                 if (!success)
-                    GameUtilities.BlindReset(_config);
+                    _game.BlindReset();
             }
         }
 
@@ -198,7 +200,7 @@ namespace BoosterBot
 
                 Thread.Sleep(3000);
                 _config.GetWindowPositions();
-                lobbyConfirmed = GameUtilities.CanIdentifyConquestLobbyPG(_config);
+                lobbyConfirmed = _game.CanIdentifyConquestLobbyPG();
             }
 
             if (!lobbyConfirmed)
@@ -206,9 +208,9 @@ namespace BoosterBot
                 Logger.Log("Checking for active Conquest lobby...", _logPath);
 
                 _config.GetWindowPositions();
-                var isSilver = GameUtilities.CanIdentifyConquestLobbySilver(_config);
-                var isGold = GameUtilities.CanIdentifyConquestLobbyGold(_config);
-                var isInfinite = GameUtilities.CanIdentifyConquestLobbyInfinite(_config);
+                var isSilver = _game.CanIdentifyConquestLobbySilver();
+                var isGold = _game.CanIdentifyConquestLobbyGold();
+                var isInfinite = _game.CanIdentifyConquestLobbyInfinite();
                 if (isSilver || isGold || isInfinite)
                 {
                     Logger.Log("\n\n############## WARNING ##############", _logPath);
@@ -228,13 +230,13 @@ namespace BoosterBot
         private bool StartMatch()
         {
             Logger.Log("Entering Proving Grounds lobby...", _logPath);
-            GameUtilities.ClickPlay(_config);
+            _game.ClickPlay();
             Thread.Sleep(5000);
 
             Logger.Log("Clicking 'Play'...", _logPath);
-            GameUtilities.ClickPlay(_config);
+            _game.ClickPlay();
             Thread.Sleep(1000);
-            GameUtilities.ClickPlay(_config); // Press a second time just to be sure
+            _game.ClickPlay(); // Press a second time just to be sure
             Thread.Sleep(1000);
 
             Logger.Log("Confirming deck...", _logPath);
@@ -247,7 +249,7 @@ namespace BoosterBot
         private bool WaitForMatchmaking()
         {
             _config.GetWindowPositions();
-            while (GameUtilities.CanIdentifyConquestMatchmaking(_config))
+            while (_game.CanIdentifyConquestMatchmaking())
             {
                 Logger.Log("Waiting for match start...", _logPath);
                 Thread.Sleep(5000);
@@ -262,7 +264,7 @@ namespace BoosterBot
             Logger.Log("Playing match...", _logPath);
             Thread.Sleep(1000);
             var active = true;
-            GameUtilities.ClickSnap(_config);
+            _game.ClickSnap();
 
             _matchTimer = new Stopwatch();
             _matchTimer.Start();
@@ -270,15 +272,15 @@ namespace BoosterBot
             while (active && _matchTimer.Elapsed.Minutes < 30)
             {
                 _config.GetWindowPositions();
-                if (!GameUtilities.CanIdentifyActiveConquestMatch(_config))
+                if (!_game.CanIdentifyActiveConquestMatch())
                 {
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
                     {
                         Logger.Log("Could not detect active match, trying again in 4 seconds...", _logPath);
                         _config.GetWindowPositions();
-                        GameUtilities.ResetClick(_config);
-                        check = GameUtilities.CanIdentifyActiveConquestMatch(_config);
+                        _game.ResetClick();
+                        check = _game.CanIdentifyActiveConquestMatch();
                         Thread.Sleep(4000);
                     }
 
@@ -287,22 +289,22 @@ namespace BoosterBot
                 else
                 {
                     Logger.Log("Attempting to play cards...", _logPath);
-                    GameUtilities.PlayHand(_config);
+                    _game.PlayHand();
                     Thread.Sleep(1000);
 
                     _config.GetWindowPositions();
-                    if (!GameUtilities.CanIdentifyZeroEnergy(_config))
+                    if (!_game.CanIdentifyZeroEnergy())
                     {
                         Logger.Log("Detected leftover energy, will attempt to play cards again...", _logPath);
-                        GameUtilities.PlayHand(_config);
+                        _game.PlayHand();
                     }
 
                     Logger.Log("Clicking 'Next Turn'...", _logPath);
-                    GameUtilities.ClickNext(_config);
+                    _game.ClickNext();
                     Thread.Sleep(1000);
 
                     _config.GetWindowPositions();
-                    while (GameUtilities.CanIdentifyMidTurn(_config))
+                    while (_game.CanIdentifyMidTurn())
                     {
                         Logger.Log("Waiting for turn to progress...", _logPath);
                         Thread.Sleep(4000);
@@ -312,16 +314,16 @@ namespace BoosterBot
             }
 
             _config.GetWindowPositions();
-            if (_matchTimer.Elapsed.Minutes > 15 && GameUtilities.CanIdentifyConquestRetreatBtn(_config))
+            if (_matchTimer.Elapsed.Minutes > 15 && _game.CanIdentifyConquestRetreatBtn())
             {
                 Logger.Log("Match timer has eclipsed 30 minutes. Attempting retreat...", _logPath);
-                GameUtilities.ClickRetreat(_config);
+                _game.ClickRetreat();
                 Thread.Sleep(5000);
             }
 
-            if (GameUtilities.CanIdentifyConquestConcede(_config))
+            if (_game.CanIdentifyConquestConcede())
                 return ProgressRound();
-            else if (GameUtilities.CanIdentifyConquestMatchEnd(_config))
+            else if (_game.CanIdentifyConquestMatchEnd())
                 return ExitMatch();
 
             return false;
@@ -330,16 +332,16 @@ namespace BoosterBot
         private bool ProgressRound()
         {
             Logger.Log("Identified round end. Proceeding to next round...", _logPath);
-            GameUtilities.ClickNext(_config);
+            _game.ClickNext();
 
             _config.GetWindowPositions();
             var waitTime = 0;
-            while (!GameUtilities.CanIdentifyActiveConquestMatch(_config) && !GameUtilities.CanIdentifyConquestMatchEnd(_config))
+            while (!_game.CanIdentifyActiveConquestMatch() && !_game.CanIdentifyConquestMatchEnd())
             {
                 if (waitTime >= 90000)
                 {
                     Logger.Log("Max wait time of 90 seconds elapsed...", _logPath);
-                    GameUtilities.BlindReset(_config);
+                    _game.BlindReset();
                     return DetermineLoopEntryPoint();
                 }
 
@@ -356,15 +358,15 @@ namespace BoosterBot
             Logger.Log("Exiting match...", _logPath);
             _config.GetWindowPositions();
 
-            while (GameUtilities.CanIdentifyConquestMatchEndNext1(_config) || GameUtilities.CanIdentifyConquestMatchEndNext2(_config))
+            while (_game.CanIdentifyConquestMatchEndNext1() || _game.CanIdentifyConquestMatchEndNext2())
             {
-                GameUtilities.ClickNext(_config);
+                _game.ClickNext();
                 Thread.Sleep(4000);
                 _config.GetWindowPositions();
             }
 
             Logger.Log("Waiting for post-match screens...", _logPath);
-            while (!GameUtilities.CanIdentifyConquestLossContinue(_config) && !GameUtilities.CanIdentifyConquestWinNext(_config))
+            while (!_game.CanIdentifyConquestLossContinue() && !_game.CanIdentifyConquestWinNext())
             {
                 Thread.Sleep(2000);
                 _config.GetWindowPositions();
@@ -378,9 +380,9 @@ namespace BoosterBot
             Logger.Log("Processing post-match screens...", _logPath);
 
             _config.GetWindowPositions();
-            if (GameUtilities.CanIdentifyConquestLossContinue(_config) || GameUtilities.CanIdentifyConquestWinNext(_config) || GameUtilities.CanIdentifyConquestTicketClaim(_config))
+            if (_game.CanIdentifyConquestLossContinue() || _game.CanIdentifyConquestWinNext() || _game.CanIdentifyConquestTicketClaim())
             {
-                GameUtilities.ClickPlay(_config);
+                _game.ClickPlay();
                 Thread.Sleep(5000);
                 _config.GetWindowPositions();
                 return AcceptResult();

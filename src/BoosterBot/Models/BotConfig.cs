@@ -34,15 +34,17 @@ namespace BoosterBot
             {
                 var rand = new Random();
                 var points = new Point[2];
+                var xBound = (int)(100 * Scaling);
+                var yBound = (int)(500 * Scaling);
                 points[0] = new Point
                 {
-                    X = BaseResetPointLeft.X + rand.Next(100),
-                    Y = BaseResetPointLeft.Y - rand.Next(500)
+                    X = BaseResetPointLeft.X + rand.Next(xBound),
+                    Y = BaseResetPointLeft.Y - rand.Next(yBound)
                 };
                 points[1] = new Point
                 {
-                    X = BaseResetPointRight.X - rand.Next(100),
-                    Y = BaseResetPointRight.Y - rand.Next(500)
+                    X = BaseResetPointRight.X - rand.Next(xBound),
+                    Y = BaseResetPointRight.Y - rand.Next(yBound)
                 };
 
                 return points[rand.Next(2)];
@@ -56,13 +58,59 @@ namespace BoosterBot
             get
             {
                 var rand = new Random();
+                var bound = (int)(50 * Scaling);
                 return new Point
                 {
-                    X = BaseConquestBannerPoint.X + rand.Next(-50, 50),
-                    Y = BaseConquestBannerPoint.Y + rand.Next(-50, 50)
+                    X = BaseConquestBannerPoint.X + rand.Next(-bound, bound),
+                    Y = BaseConquestBannerPoint.Y + rand.Next(-bound, bound)
                 };
             }
         }
+        private Point BaseSnapPoint { get; set; }
+        public Point SnapPoint
+        {
+            get
+            {
+                var rand = new Random();
+                var bound = (int)(20 * Scaling);
+                return new Point
+                {
+                    X = BaseSnapPoint.X + rand.Next(-bound, bound),
+                    Y = BaseSnapPoint.Y + rand.Next(-bound, bound)
+                };
+            }
+        }
+        private Point BasePlayPoint { get; set; }
+        public Point PlayPoint
+        {
+            get
+            {
+                var rand = new Random();
+                var bound = (int)(20 * Scaling);
+                return new Point
+                {
+                    X = BasePlayPoint.X + rand.Next(-bound, bound),
+                    Y = BasePlayPoint.Y + rand.Next(-bound, bound)
+                };
+            }
+        }
+        private Point BaseNextPoint { get; set; }
+        public Point NextPoint
+        {
+            get
+            {
+                var rand = new Random();
+                var xBound = (int)(20 * Scaling);
+                var yBound = (int)(10 * Scaling);
+                return new Point
+                {
+                    X = BaseNextPoint.X + rand.Next(-xBound, xBound),
+                    Y = BaseNextPoint.Y + rand.Next(-yBound, yBound)
+                };
+            }
+        }
+        public Point RetreatPoint { get; set; }
+        public Point RetreatConfirmPoint { get; set; }
         public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
@@ -74,6 +122,8 @@ namespace BoosterBot
             _saveScreens = saveScreens;
             _logPath = logPath;
         }
+
+        public int Scale(int x) => (int)(Scaling * x);
 
         public void GetWindowPositions()
         {
@@ -89,23 +139,23 @@ namespace BoosterBot
             {
                 new Point
                 {
-                    X = Window.Left + Center + 20,
-                    Y = Window.Bottom - 180
+                    X = Window.Left + Center + Scale(20),
+                    Y = Window.Bottom - Scale(180)
                 },
                 new Point
                 {
-                    X = Window.Left + Center - 88,
-                    Y = Window.Bottom - 200
+                    X = Window.Left + Center - Scale(88),
+                    Y = Window.Bottom - Scale(200)
                 },
                 new Point
                 {
-                    X = Window.Left + Center + 118,
-                    Y = Window.Bottom - 195
+                    X = Window.Left + Center + Scale(118),
+                    Y = Window.Bottom - Scale(195)
                 },
                 new Point
                 {
-                    X = Window.Left + Center - 183,
-                    Y = Window.Bottom - 180
+                    X = Window.Left + Center - Scale(183),
+                    Y = Window.Bottom - Scale(180)
                 }
             };
 
@@ -113,49 +163,79 @@ namespace BoosterBot
             {
                 new Point
                 {
-                    X = Window.Left + Center - 170,
-                    Y = Window.Bottom - 340
+                    X = Window.Left + Center - Scale(170),
+                    Y = Window.Bottom - Scale(340)
                 },
                 new Point
                 {
-                    X = Window.Left + Center + 20,
-                    Y = Window.Bottom - 340
+                    X = Window.Left + Center + Scale(20),
+                    Y = Window.Bottom - Scale(340)
                 },
                 new Point
                 {
-                    X = Window.Left + Center + 200,
-                    Y = Window.Bottom - 340
+                    X = Window.Left + Center + Scale(200),
+                    Y = Window.Bottom - Scale(340)
                 }
             };
 
             BaseResetPointLeft = new Point
             {
-                X = Window.Left + 100,
-                Y = Window.Bottom - 200
+                X = Window.Left + Scale(100),
+                Y = Window.Bottom - Scale(200)
             };
 
             BaseResetPointRight = new Point
             {
-                X = Window.Right - 100,
-                Y = Window.Bottom - 200
+                X = Window.Right - Scale(100),
+                Y = Window.Bottom - Scale(200)
             };
 
             ClearErrorPoint = new Point
             {
                 X = Window.Left + Center,
-                Y = Window.Bottom - 110
+                Y = Window.Bottom - Scale(110)
             };
 
             GameModesPoint = new Point
             {
-                X = Window.Left + Center + 175,
-                Y = Window.Bottom - 50
+                X = Window.Left + Center + Scale(175),
+                Y = Window.Bottom - Scale(50)
             };
 
             BaseConquestBannerPoint = new Point
             {
                 X = Window.Left + Center,
-                Y = 330
+                Y = Window.Top + Scale(330)
+            };
+
+            BaseSnapPoint = new Point
+            {
+                X = Window.Left + Center,
+                Y = Window.Top + Scale(115)
+            };
+
+            BasePlayPoint = new Point
+            {
+                X = Window.Left + Center,
+                Y = Window.Bottom - Scale(200)
+            };
+
+            BaseNextPoint = new Point
+            {
+                X = Window.Left + Center + Scale(300),
+                Y = Window.Bottom - Scale(60)
+            };
+
+            RetreatPoint = new Point
+            {
+                X = Window.Left + Center - Scale(300),
+                Y = Window.Bottom - Scale(70)
+            };
+
+            RetreatConfirmPoint = new Point
+            {
+                X = Window.Left + Center - Scale(100),
+                Y = Window.Bottom - Scale(280)
             };
         }
     }
