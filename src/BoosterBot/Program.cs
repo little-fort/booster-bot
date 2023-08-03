@@ -7,7 +7,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        bool masked = false;
+        bool masked = true; // false; FIX BEFORE MERGE
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;

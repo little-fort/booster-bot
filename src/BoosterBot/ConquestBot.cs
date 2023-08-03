@@ -17,6 +17,8 @@ namespace BoosterBot
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
             _game = new GameUtilities(_config);
             _rand = new Random();
+
+            Debug();
         }
 
         public void Debug()
@@ -25,14 +27,10 @@ namespace BoosterBot
             {
                 try
                 {
-                    Console.WriteLine("--------------------------------------------------------");
-                    Console.WriteLine("--------------------------------------------------------");
-                    //GameUtilities.LogConquestGameState(_config);
+                    Console.Clear();
+                    Console.WriteLine(DateTime.Now);
                     _config.GetWindowPositions();
-                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbyPG() ? "X" : " ")} PROVING_GROUNDS");
-                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbySilver() ? "X" : " ")} SILVER");
-                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbyGold() ? "X" : " ")} GOLD");
-                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbyInfinite() ? "X" : " ")} INFINITE");
+                    _game.LogConquestGameState();
                     Thread.Sleep(5000);
                 }
                 catch (Exception ex)

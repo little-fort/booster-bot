@@ -31,19 +31,23 @@ namespace BoosterBot
         {
             _config.GetWindowPositions();
 
-            if (CanIdentifyMainMenu()) Console.WriteLine("Found state: MAIN_MENU");
-            if (CanIdentifyZeroEnergy()) Console.WriteLine("Found state: MID_MATCH");
-            if (CanIdentifyConquestPlayBtn()) Console.WriteLine("Found state: CONQUEST_PREMATCH");
-            if (CanIdentifyConquestLobbyPG()) Console.WriteLine("Found state: CONQUEST_LOBBY_PG");
-            if (CanIdentifyConquestMatchmaking()) Console.WriteLine("Found state: CONQUEST_MATCHMAKING");
-            if (CanIdentifyConquestRetreatBtn()) Console.WriteLine("Found state: CONQUEST_MATCH (Retreat button)");
-            if (CanIdentifyEndTurnBtn()) Console.WriteLine("Found state: CONQUEST_MATCH (End turn button)");
-            if (CanIdentifyMidTurn()) Console.WriteLine("Found state: CONQUEST_MATCH (Mid turn buttons)");
-            if (CanIdentifyConquestConcede()) Console.WriteLine("Found state: CONQUEST_ROUND_END");
-            if (CanIdentifyConquestMatchEnd()) Console.WriteLine("Found state: CONQUEST_MATCH_END");
-            if (CanIdentifyConquestLossContinue()) Console.WriteLine("Found state: CONQUEST_POSTMATCH_LOSS_SCREEN");
-            if (CanIdentifyConquestWinNext()) Console.WriteLine("Found state: CONQUEST_POSTMATCH_WIN_CONTINUE");
-            if (CanIdentifyConquestTicketClaim()) Console.WriteLine("Found state: CONQUEST_POSTMATCH_WIN_TICKET");
+            Console.WriteLine($"{(CanIdentifyMainMenu() ? "X" : " ")} MAIN_MENU");
+            Console.WriteLine($"{(CanIdentifyZeroEnergy() ? "X" : " ")} MID_MATCH");
+            Console.WriteLine($"{(CanIdentifyConquestNoTickets() ? "X" : " ")} CONQUEST_NO_TICKETS");
+            Console.WriteLine($"{(CanIdentifyConquestPlayBtn() ? "X" : " ")} CONQUEST_PREMATCH");
+            Console.WriteLine($"{(CanIdentifyConquestLobbyPG() ? "X" : " ")} CONQUEST_LOBBY_PG");
+            Console.WriteLine($"{(CanIdentifyConquestLobbySilver() ? "X" : " ")} CONQUEST_LOBBY_SILVER");
+            Console.WriteLine($"{(CanIdentifyConquestLobbyGold() ? "X" : " ")} CONQUEST_LOBBY_GOLD");
+            Console.WriteLine($"{(CanIdentifyConquestLobbyInfinite() ? "X" : " ")} CONQUEST_LOBBY_INFINITE");
+            Console.WriteLine($"{(CanIdentifyConquestMatchmaking() ? "X" : " ")} CONQUEST_MATCHMAKING");
+            Console.WriteLine($"{(CanIdentifyConquestRetreatBtn() ? "X" : " ")} CONQUEST_MATCH (Retreat button)");
+            Console.WriteLine($"{(CanIdentifyEndTurnBtn() ? "X" : " ")} CONQUEST_MATCH (End turn button)");
+            Console.WriteLine($"{(CanIdentifyMidTurn() ? "X" : " ")} CONQUEST_MATCH (Mid turn buttons)");
+            Console.WriteLine($"{(CanIdentifyConquestConcede() ? "X" : " ")} CONQUEST_ROUND_END");
+            Console.WriteLine($"{(CanIdentifyConquestMatchEnd() ? "X" : " ")} CONQUEST_MATCH_END");
+            Console.WriteLine($"{(CanIdentifyConquestLossContinue() ? "X" : " ")} CONQUEST_POSTMATCH_LOSS_SCREEN");
+            Console.WriteLine($"{(CanIdentifyConquestWinNext() ? "X" : " ")} CONQUEST_POSTMATCH_WIN_CONTINUE");
+            Console.WriteLine($"{(CanIdentifyConquestTicketClaim() ? "X" : " ")} CONQUEST_POSTMATCH_WIN_TICKET");
         }
 
         public GameState DetermineLadderGameState()
@@ -79,6 +83,18 @@ namespace BoosterBot
             if (CanIdentifyConquestWinNext()) return GameState.CONQUEST_POSTMATCH_WIN_CONTINUE;
             if (CanIdentifyConquestTicketClaim()) return GameState.CONQUEST_POSTMATCH_WIN_TICKET;
             if (CanIdentifyZeroEnergy()) return GameState.MID_MATCH;
+
+            return GameState.UNKNOWN;
+        }
+
+        public GameState DetermineConquestLobbyTier()
+        {
+            _config.GetWindowPositions();
+
+            if (CanIdentifyConquestLobbyPG()) return GameState.CONQUEST_LOBBY_PG;
+            if (CanIdentifyConquestLobbySilver()) return GameState.CONQUEST_LOBBY_SILVER;
+            if (CanIdentifyConquestLobbyGold()) return GameState.CONQUEST_LOBBY_GOLD;
+            if (CanIdentifyConquestLobbyInfinite()) return GameState.CONQUEST_LOBBY_INFINITE;
 
             return GameState.UNKNOWN;
         }
@@ -131,6 +147,9 @@ namespace BoosterBot
 
         public bool CanIdentifyConquestLobbyPG()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_PG);
+
+        public bool CanIdentifyConquestNoTickets()
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestOwnedTicketsIcon(), ComponentMappings.REF_CONQ_LBL_NO_TICKETS);
 
         public bool CanIdentifyConquestLobbySilver()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER);
