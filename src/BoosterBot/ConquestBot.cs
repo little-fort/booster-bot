@@ -190,10 +190,10 @@ namespace BoosterBot
                 for (int i = 0; i < 5; i++)
                 {
                     SystemUtilities.Drag(
-                        startX: _config.Window.Left + _config.Center - 250,
-                        startY: _config.Window.Bottom / 2,
-                        endX: _config.Window.Left + _config.Center + 250,
-                        endY: _config.Window.Bottom / 2
+                        startX: _config.Window.Left + _config.Center - _config.Scale(250),
+                        startY: (_config.Window.Bottom - _config.Window.Top) / 2,
+                        endX: _config.Window.Left + _config.Center + _config.Scale(250),
+                        endY: (_config.Window.Bottom - _config.Window.Top) / 2
                     );
                     Thread.Sleep(1000);
                 }
@@ -240,7 +240,7 @@ namespace BoosterBot
             Thread.Sleep(1000);
 
             Logger.Log("Confirming deck...", _logPath);
-            SystemUtilities.Click(_config.Window.Left + _config.Center + 100, _config.Window.Bottom - 345);
+            SystemUtilities.Click(_config.Window.Left + _config.Center + _config.Scale(100), _config.Window.Bottom - _config.Scale(345));
             Thread.Sleep(2000);
 
             return WaitForMatchmaking();
