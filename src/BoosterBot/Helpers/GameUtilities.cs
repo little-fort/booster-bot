@@ -152,10 +152,12 @@ namespace BoosterBot
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestOwnedTicketsIcon(), ComponentMappings.REF_CONQ_LBL_NO_TICKETS);
 
         public bool CanIdentifyConquestLobbySilver()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_1) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_2);
 
         public bool CanIdentifyConquestLobbyGold()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_1) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_2);
 
         public bool CanIdentifyConquestLobbyInfinite()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE);

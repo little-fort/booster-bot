@@ -142,6 +142,12 @@
 		<None Update="Reference\btn-match-end-next-2.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\lbl-conquest-gold-1-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\lbl-conquest-gold-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\lbl-conquest-gold-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -157,7 +163,10 @@
 		<None Update="Reference\lbl-conquest-pg.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-silver-preproc.png">
+		<None Update="reference\lbl-conquest-silver-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\lbl-conquest-silver-1-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\lbl-energy-zero-preproc.png">
@@ -170,10 +179,6 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="reference\" />
 	</ItemGroup>
 
 </Project>

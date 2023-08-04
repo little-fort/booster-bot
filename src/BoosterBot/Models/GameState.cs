@@ -8,7 +8,6 @@ namespace BoosterBot.Models
 {
     internal enum GameState
     {
-        UNKNOWN,
         MAIN_MENU,
         MID_MATCH,
         LADDER_MATCHMAKING,
@@ -28,6 +27,7 @@ namespace BoosterBot.Models
         CONQUEST_MATCH_END_REWARDS,
         CONQUEST_POSTMATCH_LOSS_SCREEN,
         CONQUEST_POSTMATCH_WIN_CONTINUE,
-        CONQUEST_POSTMATCH_WIN_TICKET
+        CONQUEST_POSTMATCH_WIN_TICKET,
+        UNKNOWN
     }
 }
