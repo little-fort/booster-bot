@@ -8,15 +8,19 @@ namespace BoosterBot
         private readonly string _logPath;
         private readonly BotConfig _config;
         private readonly GameUtilities _game;
+        private readonly GameState _maxTier;
         private Random _rand { get; set; }
         private Stopwatch _matchTimer { get; set; }
 
-        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens)
+        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier)
         {
             _logPath = $"logs\\conquest-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
             _game = new GameUtilities(_config);
+            _maxTier = maxTier;
             _rand = new Random();
+
+            // Debug();
         }
 
         public void Debug()
@@ -25,14 +29,10 @@ namespace BoosterBot
             {
                 try
                 {
-                    Console.WriteLine("--------------------------------------------------------");
-                    Console.WriteLine("--------------------------------------------------------");
-                    //GameUtilities.LogConquestGameState(_config);
+                    Console.Clear();
+                    Console.WriteLine(DateTime.Now);
                     _config.GetWindowPositions();
-                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbyPG() ? "X" : " ")} PROVING_GROUNDS");
-                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbySilver() ? "X" : " ")} SILVER");
-                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbyGold() ? "X" : " ")} GOLD");
-                    Console.WriteLine($"{(_game.CanIdentifyConquestLobbyInfinite() ? "X" : " ")} INFINITE");
+                    _game.LogConquestGameState();
                     Thread.Sleep(5000);
                 }
                 catch (Exception ex)
@@ -119,7 +119,7 @@ namespace BoosterBot
                     Logger.Log("Detected mid-match. Resuming match play...", _logPath);
                     return PlayMatch();
                 case GameState.CONQUEST_LOBBY_PG:
-                    Logger.Log("Detected Conquest lobby selection. Entering Proving Grounds...", _logPath);
+                    Logger.Log($"Detected Conquest lobby selection. Entering lobby ({_maxTier.ToString().Replace("CONQUEST_LOBBY_", "")} or lower)...", _logPath);
                     return SelectLobby();
                 case GameState.CONQUEST_PREMATCH:
                     Logger.Log("Detected Conquest prematch. Starting match...", _logPath);
@@ -180,48 +180,28 @@ namespace BoosterBot
 
         private bool SelectLobby()
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(5000);
             var lobbyConfirmed = false;
 
-            Logger.Log("Making sure lobby type is set to Proving Grounds...", _logPath);
-            for (int x = 0; x < 3 && !lobbyConfirmed; x++)
+            Logger.Log("Making sure lobby type is set to maximum tier available...", _logPath);
+            for (int x = 0; x < 6 && !lobbyConfirmed; x++)
             {
-                // The carousel defaults to the highest diffulty level that you have tickets for. Need to first swipe back over to Proving Grounds
-                for (int i = 0; i < 5; i++)
+                var selectedTier = _game.DetermineConquestLobbyTier();
+                Logger.Log($"Selected tier: {selectedTier}", _config.LogPath);
+                if ((selectedTier <= _maxTier && !_game.CanIdentifyConquestNoTickets()) || selectedTier == GameState.CONQUEST_LOBBY_PG)
+                    lobbyConfirmed = true;
+                else
                 {
+                    _config.GetWindowPositions();
+                    var vertCenter = (_config.Window.Bottom - _config.Window.Top) / 2;
                     SystemUtilities.Drag(
                         startX: _config.Window.Left + _config.Center - _config.Scale(250),
-                        startY: (_config.Window.Bottom - _config.Window.Top) / 2,
+                        startY: _config.Window.Top + vertCenter,
                         endX: _config.Window.Left + _config.Center + _config.Scale(250),
-                        endY: (_config.Window.Bottom - _config.Window.Top) / 2
+                        endY: _config.Window.Top + vertCenter
                     );
-                    Thread.Sleep(1000);
+                    Thread.Sleep(3500);
                 }
-
-                Thread.Sleep(3000);
-                _config.GetWindowPositions();
-                lobbyConfirmed = _game.CanIdentifyConquestLobbyPG();
-            }
-
-            if (!lobbyConfirmed)
-            {
-                Logger.Log("Checking for active Conquest lobby...", _logPath);
-
-                _config.GetWindowPositions();
-                var isSilver = _game.CanIdentifyConquestLobbySilver();
-                var isGold = _game.CanIdentifyConquestLobbyGold();
-                var isInfinite = _game.CanIdentifyConquestLobbyInfinite();
-                if (isSilver || isGold || isInfinite)
-                {
-                    Logger.Log("\n\n############## WARNING ##############", _logPath);
-                    Logger.Log($"Detected active Conquest lobby in a tier higher than Proving Grounds. BoosterBot will stop running to avoid consuming Conquest tickets.", _logPath);
-                    Logger.Log("Finish your current Conquest matches and restart when Proving Grounds is accessible again.", _logPath);
-                    Logger.Log("\nPress [Enter] to exit...", _logPath);
-                    Console.ReadLine();
-                    Environment.Exit(0);
-                }
-                else
-                    Logger.Log("Could not confirm Conquest lobby status. Restarting navigation...", _logPath);
             }
 
             return lobbyConfirmed;
@@ -229,7 +209,7 @@ namespace BoosterBot
 
         private bool StartMatch()
         {
-            Logger.Log("Entering Proving Grounds lobby...", _logPath);
+            Logger.Log("Entering lobby...", _logPath);
             _game.ClickPlay();
             Thread.Sleep(5000);
 
@@ -366,7 +346,7 @@ namespace BoosterBot
             }
 
             Logger.Log("Waiting for post-match screens...", _logPath);
-            while (!_game.CanIdentifyConquestLossContinue() && !_game.CanIdentifyConquestWinNext())
+            while (!_game.CanIdentifyConquestLossContinue() && !_game.CanIdentifyConquestWinNext() && !_game.CanIdentifyConquestPlayBtn())
             {
                 Thread.Sleep(2000);
                 _config.GetWindowPositions();
