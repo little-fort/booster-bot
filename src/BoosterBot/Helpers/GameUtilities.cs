@@ -153,14 +153,19 @@ namespace BoosterBot
 
         public bool CanIdentifyConquestLobbySilver()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_1) ||
-               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_2);
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_2) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBannerCrop(), ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_3);
+               
 
         public bool CanIdentifyConquestLobbyGold()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_1) ||
-               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_2);
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_2) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBannerCrop(), ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_3);
 
         public bool CanIdentifyConquestLobbyInfinite()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_1) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_2) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBannerCrop(), ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_3);
 
         public bool CanIdentifyConquestMatchmaking()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestMatchmakingCancel(), ComponentMappings.REF_CONQ_BTN_MATCHMAKING);

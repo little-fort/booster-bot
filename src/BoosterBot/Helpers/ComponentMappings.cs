@@ -14,9 +14,13 @@ namespace BoosterBot
         public const string REF_CONQ_LBL_LOBBY_PG = "reference\\lbl-conquest-pg-preproc.png";
         public const string REF_CONQ_LBL_LOBBY_SILVER_1 = "reference\\lbl-conquest-silver-1-preproc.png";
         public const string REF_CONQ_LBL_LOBBY_SILVER_2 = "reference\\lbl-conquest-silver-2-preproc.png";
+        public const string REF_CONQ_LBL_LOBBY_SILVER_3 = "reference\\lbl-conquest-silver-3-preproc.png";
         public const string REF_CONQ_LBL_LOBBY_GOLD_1 = "reference\\lbl-conquest-gold-1-preproc.png";
         public const string REF_CONQ_LBL_LOBBY_GOLD_2 = "reference\\lbl-conquest-gold-2-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_INFINITE = "reference\\lbl-conquest-infinite-preproc.png";
+        public const string REF_CONQ_LBL_LOBBY_GOLD_3 = "reference\\lbl-conquest-gold-3-preproc.png";
+        public const string REF_CONQ_LBL_LOBBY_INFINITE_1 = "reference\\lbl-conquest-infinite-1-preproc.png";
+        public const string REF_CONQ_LBL_LOBBY_INFINITE_2 = "reference\\lbl-conquest-infinite-2-preproc.png";
+        public const string REF_CONQ_LBL_LOBBY_INFINITE_3 = "reference\\lbl-conquest-infinite-3-preproc.png";
         public const string REF_CONQ_BTN_MATCHMAKING = "reference\\btn-conquest-matchmaking-cancel-preproc.png";
         public const string REF_CONQ_BTN_RETREAT_1 = "reference\\btn-conquest-retreat-preproc.png";
         public const string REF_CONQ_BTN_RETREAT_2 = "reference\\btn-conquest-retreat-2-preproc.png";
@@ -86,10 +90,10 @@ namespace BoosterBot
 
         public Rect GetConquestBannerCrop() => new()
         {
-            Left = _config.Center - 110,
-            Right = _config.Center + 100,
-            Top = 15,
-            Bottom = 60
+            Left = _config.Center - 60,
+            Right = _config.Center + 50,
+            Top = 20,
+            Bottom = 55
         };
 
         public Rect GetConquestLobbySelection() => new()
