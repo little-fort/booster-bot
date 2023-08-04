@@ -9,7 +9,6 @@ namespace BoosterBot
         private readonly BotConfig _config;
         private readonly GameUtilities _game;
         private readonly GameState _maxTier;
-        private Random _rand { get; set; }
         private Stopwatch _matchTimer { get; set; }
 
         public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier)
@@ -18,13 +17,13 @@ namespace BoosterBot
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
             _game = new GameUtilities(_config);
             _maxTier = maxTier;
-            _rand = new Random();
 
             // Debug();
         }
 
         public void Debug()
         {
+            Console.WriteLine("************** DEBUG MODE **************\n");
             while (true)
             {
                 try
