@@ -8,7 +8,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        bool masked = false;
+        bool masked = true; // false;
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
@@ -62,7 +62,11 @@ internal class Program
                     Directory.CreateDirectory("screens");
 
                 var mode = GetModeSelection();
-                var maxTier = GetMaxTierSelection();
+                GameState maxTier = GameState.UNKNOWN;
+
+                if (mode == 1)
+                    maxTier = GetMaxTierSelection();
+
                 PrintTitle();
 
                 IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier) : new LadderBot(scaling, verbose, autoplay, saveScreens);

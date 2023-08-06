@@ -32,6 +32,7 @@ namespace BoosterBot
             _config.GetWindowPositions();
 
             Console.WriteLine($"{(CanIdentifyMainMenu() ? "X" : " ")} MAIN_MENU");
+            Console.WriteLine($"{(CanIdentifyReconnectToGameBtn() ? "X" : " ")} RECONNECT_TO_GAME");
             Console.WriteLine($"{(CanIdentifyZeroEnergy() ? "X" : " ")} MID_MATCH");
             Console.WriteLine($"{(CanIdentifyConquestNoTickets() ? "X" : " ")} CONQUEST_NO_TICKETS");
             Console.WriteLine($"{(CanIdentifyConquestPlayBtn() ? "X" : " ")} CONQUEST_PREMATCH");
@@ -55,6 +56,7 @@ namespace BoosterBot
             _config.GetWindowPositions();
 
             if (CanIdentifyMainMenu()) return GameState.MAIN_MENU;
+            if (CanIdentifyReconnectToGameBtn()) return GameState.RECONNECT_TO_GAME;
             if (CanIdentifyLadderMatchmaking()) return GameState.LADDER_MATCHMAKING;
             if (CanIdentifyLadderRetreatBtn()) return GameState.LADDER_MATCH;
             if (CanIdentifyEndTurnBtn()) return GameState.LADDER_MATCH;
@@ -71,6 +73,7 @@ namespace BoosterBot
             _config.GetWindowPositions();
 
             if (CanIdentifyMainMenu()) return GameState.MAIN_MENU;
+            if (CanIdentifyReconnectToGameBtn()) return GameState.RECONNECT_TO_GAME;
             if (CanIdentifyConquestPlayBtn()) return GameState.CONQUEST_PREMATCH;
             if (CanIdentifyConquestLobbyPG()) return GameState.CONQUEST_LOBBY_PG;
             if (CanIdentifyConquestMatchmaking()) return GameState.CONQUEST_MATCHMAKING;
@@ -107,6 +110,9 @@ namespace BoosterBot
             // Check if 'Play' button is visible
             return ImageUtilities.CheckImageAreaSimilarity(area, ComponentMappings.REF_LADD_BTN_PLAY);
         }
+
+        public bool CanIdentifyReconnectToGameBtn()
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetBtnPlay(), ComponentMappings.REF_BTN_RECONNECT_TO_GAME);
 
         public bool CanIdentifyZeroEnergy()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetEnergy(), ComponentMappings.REF_ICON_ZERO_ENERGY, 0.925);

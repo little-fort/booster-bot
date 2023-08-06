@@ -114,6 +114,11 @@ namespace BoosterBot
                     Logger.Log("Detected main menu. Returning to start...", _logPath);
                     Run();
                     return true;
+                case GameState.RECONNECT_TO_GAME:
+                    Logger.Log("Detected 'Reconnect to Game' button. Resuming match play...", _logPath);
+                    _game.ClickPlay();
+                    Thread.Sleep(4000);
+                    return PlayMatch();
                 case GameState.MID_MATCH:
                     Logger.Log("Detected mid-match. Resuming match play...", _logPath);
                     return PlayMatch();
