@@ -9,7 +9,7 @@ A bot that could ***hypothetically*** be used to farm boosters for any deck in M
 
 ## Features
 
-- **NEW:** Added support for Conquest farming (Proving Grounds only)
+- **NEW:** Added support for Conquest farming
 - Randomly plays cards and progresses turns using any deck
 - Will farm matches on loop until stopped 
 - Simulates user input with randomness to prevent detection. Does not modify game files in any way
