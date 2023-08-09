@@ -152,7 +152,8 @@ namespace BoosterBot
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetBtnPlay(), ComponentMappings.REF_CONQ_BTN_PLAY);
 
         public bool CanIdentifyConquestLobbyPG()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_PG);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_PG_1) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBannerCrop(), ComponentMappings.REF_CONQ_LBL_LOBBY_PG_2);
 
         public bool CanIdentifyConquestNoTickets()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestOwnedTicketsIcon(), ComponentMappings.REF_CONQ_LBL_NO_TICKETS);
@@ -174,7 +175,8 @@ namespace BoosterBot
                ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBannerCrop(), ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_3);
 
         public bool CanIdentifyConquestMatchmaking()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestMatchmakingCancel(), ComponentMappings.REF_CONQ_BTN_MATCHMAKING);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestMatchmakingCancel(), ComponentMappings.REF_CONQ_BTN_MATCHMAKING_1) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestMatchmakingCancel(), ComponentMappings.REF_CONQ_BTN_MATCHMAKING_2);
 
         public bool CanIdentifyConquestRetreatBtn()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnRetreat(), ComponentMappings.REF_CONQ_BTN_RETREAT_1) ||

@@ -32,7 +32,22 @@ namespace BoosterBot
                     Console.WriteLine(DateTime.Now);
                     _config.GetWindowPositions();
                     _game.LogConquestGameState();
-                    Thread.Sleep(5000);
+
+                    Console.WriteLine();
+
+                    for (int i = 4; i >= 0; i--)
+                        for (int x = 9; x >= 0; x--)
+                        {
+                            var text = $"Re-scanning window contents in {i}.{x} seconds...";
+
+                            // Move cursor to the beginning of the last line
+                            Console.SetCursorPosition(0, Console.CursorTop);
+
+                            // Write the new content (and clear the rest of the line if the new content is shorter)
+                            Console.Write(text + new string(' ', Console.WindowWidth - text.Length - 1));
+
+                            Thread.Sleep(100);
+                        }
                 }
                 catch (Exception ex)
                 {
@@ -57,6 +72,9 @@ namespace BoosterBot
                 _game.ResetClick();
                 _game.ResetMenu();
 
+                Thread.Sleep(500);
+
+                _config.GetWindowPositions();
                 var onMenu = _game.CanIdentifyMainMenu();
 
                 if (onMenu)
@@ -187,7 +205,7 @@ namespace BoosterBot
             Thread.Sleep(5000);
             var lobbyConfirmed = false;
 
-            Logger.Log("Making sure lobby type is set to maximum tier available...", _logPath);
+            Logger.Log($"Making sure lobby type is set to {_maxTier} or lower...", _logPath);
             for (int x = 0; x < 6 && !lobbyConfirmed; x++)
             {
                 var selectedTier = _game.DetermineConquestLobbyTier();
