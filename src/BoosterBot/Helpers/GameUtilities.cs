@@ -125,7 +125,8 @@ namespace BoosterBot
                 CanIdentifyMidTurn();
 
         public bool CanIdentifyLadderMatchmaking()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetLadderMatchmakingCancel(), ComponentMappings.REF_LADD_BTN_MATCHMAKING);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetLadderMatchmakingCancel(), ComponentMappings.REF_LADD_BTN_MATCHMAKING_1) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetLadderMatchmakingCancel(), ComponentMappings.REF_LADD_BTN_MATCHMAKING_2);
 
         public bool CanIdentifyLadderRetreatBtn()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetLadderBtnRetreat(), ComponentMappings.REF_LADD_BTN_RETREAT);
