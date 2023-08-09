@@ -5,7 +5,8 @@ namespace BoosterBot
     {
         public const string REF_BTN_RECONNECT_TO_GAME = "reference\\btn-main-reconnect-preproc.png";
         public const string REF_LADD_BTN_PLAY = "reference\\btn-main-play-preproc.png";
-        public const string REF_LADD_BTN_MATCHMAKING = "reference\\btn-ladder-matchmaking-cancel-preproc.png";
+        public const string REF_LADD_BTN_MATCHMAKING_1 = "reference\\btn-ladder-matchmaking-cancel-1-preproc.png";
+        public const string REF_LADD_BTN_MATCHMAKING_2 = "reference\\btn-ladder-matchmaking-cancel-2-preproc.png";
         public const string REF_LADD_BTN_RETREAT = "reference\\btn-ladder-retreat-preproc.png";
         public const string REF_LADD_BTN_COLLECT_REWARDS = "reference\\btn-ladder-collect-rewards-preproc.png";
         public const string REF_LADD_BTN_MATCH_END_NEXT = "reference\\btn-ladder-match-end-next-preproc.png";
