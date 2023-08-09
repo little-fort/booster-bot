@@ -64,6 +64,12 @@
 		<None Update="reference\btn-conquest-match-end-next-2-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\btn-conquest-matchmaking-cancel-1-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\btn-conquest-matchmaking-cancel-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\btn-conquest-matchmaking-cancel-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -172,8 +178,11 @@
 		<None Update="reference\lbl-conquest-no-tickets-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-pg-preproc.png">
+		<None Update="reference\lbl-conquest-pg-1-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\lbl-conquest-pg-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\lbl-conquest-pg.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
