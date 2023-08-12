@@ -71,6 +71,7 @@ namespace BoosterBot
                 _config.GetWindowPositions();
                 _game.ResetClick();
                 _game.ResetMenu();
+                _game.ResetClick();
 
                 Thread.Sleep(500);
 
