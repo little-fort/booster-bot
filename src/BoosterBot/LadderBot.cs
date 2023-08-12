@@ -53,7 +53,11 @@ namespace BoosterBot
                 _config.GetWindowPositions();
                 _game.ResetClick();
                 _game.ResetMenu();
+                _game.ResetClick();
 
+                Thread.Sleep(500);
+
+                _config.GetWindowPositions();
                 var onMenu = _game.CanIdentifyMainMenu();
 
                 if (onMenu)
@@ -75,7 +79,7 @@ namespace BoosterBot
             }
         }
 
-        private bool DetermineLoopEntryPoint(bool finalAttempt = false)
+        private bool DetermineLoopEntryPoint(int attempts = 0)
         {
             Logger.Log("Attempting to determine loop entry point...", _logPath);
             var state = _game.DetermineLadderGameState();
@@ -109,12 +113,10 @@ namespace BoosterBot
                     _game.ResetMenu();
                     return StartMatch();
                 default:
-                    Logger.Log("Could not find points of reference.", _logPath);
-                    if (!finalAttempt)
+                    if (attempts < 3)
                     {
-                        Logger.Log("Performing blind reset and retrying...", _logPath);
                         _game.BlindReset();
-                        return DetermineLoopEntryPoint(true);
+                        return DetermineLoopEntryPoint(attempts + 1);
                     }
 
                     Logger.Log("Bot is hopelessly lost... :/", _logPath);
