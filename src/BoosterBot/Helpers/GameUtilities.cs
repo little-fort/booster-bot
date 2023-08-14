@@ -288,6 +288,8 @@ namespace BoosterBot
             Thread.Sleep(1000);
             PressEscKey();
             Thread.Sleep(1000);
+            ResetClick();
+            Thread.Sleep(1000);
         }
     }
 }

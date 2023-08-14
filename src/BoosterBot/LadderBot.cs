@@ -133,7 +133,7 @@ namespace BoosterBot
             _game.ClickPlay();
             Thread.Sleep(1000);
             _game.ClickPlay(); // Press a second time just to be sure
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             return WaitForMatchmaking();
         }
