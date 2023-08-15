@@ -113,7 +113,7 @@ namespace BoosterBot
                     _game.ResetMenu();
                     return StartMatch();
                 default:
-                    if (attempts < 3)
+                    if (attempts < 5)
                     {
                         _game.BlindReset();
                         return DetermineLoopEntryPoint(attempts + 1);

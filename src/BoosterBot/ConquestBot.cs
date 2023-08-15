@@ -166,7 +166,7 @@ namespace BoosterBot
                     Logger.Log("Detected Conquest postmatch screen. Returning to Conquest menu...", _logPath);
                     return AcceptResult();
                 default:
-                    if (attempts < 3)
+                    if (attempts < 5)
                     {
                         _game.BlindReset();
                         return DetermineLoopEntryPoint(attempts + 1);

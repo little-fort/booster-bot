@@ -216,7 +216,7 @@ namespace BoosterBot
 
         public void ResetClick() => SystemUtilities.Click(_config.ResetPoint);
 
-        public void ResetMenu() => SystemUtilities.Click(_config.Window.Left + _config.Center, _config.Window.Bottom - _config.Scale(50));
+        public void ResetMenu() => SystemUtilities.Click(_config.Window.Left + _config.Center, _config.Window.Bottom - _config.Scale(5));
 
         public void ClearError() => SystemUtilities.Click(_config.ClearErrorPoint);
 
