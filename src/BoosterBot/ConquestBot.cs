@@ -174,6 +174,9 @@ namespace BoosterBot
 
                     Logger.Log("Bot is hopelessly lost... :/", _logPath);
                     Logger.Log("Return to main menu and restart bot.", _logPath);
+                    Console.WriteLine();
+                    Logger.Log("Press any key to exit...", _logPath);
+                    Console.ReadKey();
                     Environment.Exit(0);
                     return false;
 
