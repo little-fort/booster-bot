@@ -113,7 +113,7 @@ namespace BoosterBot
                     _game.ResetMenu();
                     return StartMatch();
                 default:
-                    if (attempts < 3)
+                    if (attempts < 5)
                     {
                         _game.BlindReset();
                         return DetermineLoopEntryPoint(attempts + 1);
@@ -121,6 +121,9 @@ namespace BoosterBot
 
                     Logger.Log("Bot is hopelessly lost... :/", _logPath);
                     Logger.Log("Return to main menu and restart bot.", _logPath);
+                    Console.WriteLine();
+                    Logger.Log("Press any key to exit...", _logPath);
+                    Console.ReadKey();
                     Environment.Exit(0);
                     return false;
 
