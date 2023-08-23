@@ -9,9 +9,9 @@ A bot that could ***hypothetically*** be used to farm boosters for any deck in M
 
 ## Features
 
-- **NEW:** Added support for Conquest farming
 - Randomly plays cards and progresses turns using any deck
-- Will farm matches on loop until stopped 
+- Will farm matches on loop until stopped
+- Supports both Ranked and Conquest modes
 - Simulates user input with randomness to prevent detection. Does not modify game files in any way
 - No additional third-party software required 
 - Portable executable that does not require installation. Simply download latest release, start Snap, and run `BoosterBot.exe`
@@ -21,7 +21,9 @@ A bot that could ***hypothetically*** be used to farm boosters for any deck in M
 
 This is only intended for use with the Steam version of Marvel Snap on Windows 10/11. No additional third-party software is required.
 
-Game should be run in fullscreen mode for best results. Although the bot *can* function in windowed mode, performance becomes very inconsistent.
+Game should be run in fullscreen mode for best results. Although the bot *can* function in windowed mode, performance becomes very inconsistent. 
+
+**NOTE:** With the official launch of the PC client, the bot will be non-functional when the game is in "landscape mode". As a workaround, you can disable "landscape" in the game settings to return to the old UI and the bot should function as intended.
 
 ## Getting Started
 
