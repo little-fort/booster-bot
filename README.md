@@ -21,9 +21,9 @@ A bot that could ***hypothetically*** be used to farm boosters for any deck in M
 
 This is only intended for use with the Steam version of Marvel Snap on Windows 10/11. No additional third-party software is required.
 
-Game should be run in fullscreen mode for best results. Although the bot *can* function in windowed mode, performance becomes very inconsistent. 
+Game should be run in fullscreen mode at 1080p for best results. Although the bot *can* function in windowed mode, performance becomes very inconsistent. 
 
-**NOTE:** With the official launch of the PC client, the bot will be non-functional when the game is in "landscape mode". As a workaround, you can disable "landscape" in the game settings to return to the old UI and the bot should function as intended.
+**With the official launch of the PC client, the bot will be non-functional when the game is in "landscape mode". As a workaround, you can disable "landscape" in the game settings to return to the old UI and the bot should function as intended.**
 
 ## Getting Started
 
