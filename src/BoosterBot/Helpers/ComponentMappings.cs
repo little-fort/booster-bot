@@ -38,6 +38,7 @@ namespace BoosterBot
         public const string REF_CONQ_BTN_CONTINUE = "reference\\btn-conquest-continue-preproc.png";
         public const string REF_CONQ_BTN_WIN_NEXT = "reference\\btn-conquest-victory-next-preproc.png";
         public const string REF_CONQ_BTN_WIN_TICKET = "reference\\btn-conquest-ticket-claim-preproc.png";
+        public const string REF_CONQ_BTN_WIN_TICKET_2 = "reference\\btn-conquest-ticket-claim-2-preproc.png";
 
         public readonly BotConfig _config;
 
