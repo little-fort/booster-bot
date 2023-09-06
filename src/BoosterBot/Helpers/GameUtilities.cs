@@ -152,6 +152,11 @@ namespace BoosterBot
         public bool CanIdentifyConquestPlayBtn()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetBtnPlay(), ComponentMappings.REF_CONQ_BTN_PLAY);
 
+        public bool CanIdentifyAnyConquestLobby() => CanIdentifyConquestLobbyPG() ||
+                                                     CanIdentifyConquestLobbySilver() ||
+                                                     CanIdentifyConquestLobbyGold() ||
+                                                     CanIdentifyConquestLobbyInfinite();
+
         public bool CanIdentifyConquestLobbyPG()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestLobbySelection(), ComponentMappings.REF_CONQ_LBL_LOBBY_PG_1) ||
                ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBannerCrop(), ComponentMappings.REF_CONQ_LBL_LOBBY_PG_2);

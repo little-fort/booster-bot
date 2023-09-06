@@ -142,6 +142,9 @@ namespace BoosterBot
                     Logger.Log("Detected mid-match. Resuming match play...", _logPath);
                     return PlayMatch();
                 case GameState.CONQUEST_LOBBY_PG:
+                case GameState.CONQUEST_LOBBY_SILVER:
+                case GameState.CONQUEST_LOBBY_GOLD:
+                case GameState.CONQUEST_LOBBY_INFINITE:
                     Logger.Log($"Detected Conquest lobby selection. Entering lobby ({_maxTier.ToString().Replace("CONQUEST_LOBBY_", "")} or lower)...", _logPath);
                     return SelectLobby();
                 case GameState.CONQUEST_PREMATCH:
@@ -372,10 +375,20 @@ namespace BoosterBot
             }
 
             Logger.Log("Waiting for post-match screens...", _logPath);
+            Thread.Sleep(10000);
+
+            var totalSleep = 0;
             while (!_game.CanIdentifyConquestLossContinue() && !_game.CanIdentifyConquestWinNext() && !_game.CanIdentifyConquestPlayBtn())
             {
                 Thread.Sleep(2000);
+                totalSleep += 2000;
                 _config.GetWindowPositions();
+
+                if (totalSleep > 4000 && _game.CanIdentifyAnyConquestLobby())
+                {
+                    Logger.Log("Identified Conquest lobby...", _logPath);
+                    return true;
+                }
             }
 
             return AcceptResult();
