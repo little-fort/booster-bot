@@ -8,7 +8,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        bool masked = true; //  false;
+        bool masked = false;
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
