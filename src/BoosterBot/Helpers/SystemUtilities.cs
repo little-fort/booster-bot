@@ -102,7 +102,7 @@ internal class SystemUtilities
         Cursor.Position = new Point(loc.X, loc.Y);
         mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
 
-        Thread.Sleep(rand.Next(500, 1000));
+        Thread.Sleep(rand.Next(250, 500));
 
         // Add a click to reset view because LEFTUP while hovering over another card will register as click event:
         Cursor.Position = new Point(reset.X, reset.Y);
