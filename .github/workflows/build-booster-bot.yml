@@ -6,7 +6,7 @@ on:
       version:
         description: 'Version number'
         required: true
-        default: '1.2.3'
+        default: '1.3.x'
       label:
         type: choice
         description: 'Label'
@@ -30,7 +30,7 @@ jobs:
     env:
       Solution_Path: src/BoosterBot.sln
       Project_Path: src/BoosterBot/BoosterBot.csproj
-      Version_Number: ${{ github.event.inputs.version || '1.2.3' }}
+      Version_Number: ${{ github.event.inputs.version || '1.3.99999' }}
       Version: ''
     steps:
     - name: Checkout

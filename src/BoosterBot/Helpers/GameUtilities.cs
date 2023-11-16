@@ -232,12 +232,18 @@ namespace BoosterBot
         public void PlayHand()
         {
             var rand = new Random();
+
+            // Attempt to play cards from hand to random locations. Will exit early if zero energy is detected.
             SystemUtilities.PlayCard(_config.Cards[3], _config.Locations[rand.Next(3)], _config.ResetPoint);
+            _config.GetWindowPositions(); if (CanIdentifyZeroEnergy()) goto Exit;
             SystemUtilities.PlayCard(_config.Cards[2], _config.Locations[rand.Next(3)], _config.ResetPoint);
+            _config.GetWindowPositions(); if (CanIdentifyZeroEnergy()) goto Exit;
             SystemUtilities.PlayCard(_config.Cards[1], _config.Locations[rand.Next(3)], _config.ResetPoint);
+            _config.GetWindowPositions(); if (CanIdentifyZeroEnergy()) goto Exit;
             SystemUtilities.PlayCard(_config.Cards[0], _config.Locations[rand.Next(3)], _config.ResetPoint);
 
-            ResetClick();
+            Exit:
+                ResetClick();
         }
 
         /// <summary>
