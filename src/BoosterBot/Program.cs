@@ -118,7 +118,7 @@ internal class Program
         Console.WriteLine("****************************************************");
         var title = $"BoosterBot v{version}";
         title = title.PadLeft(24 + (title.Length / 2), ' ');
-        title = $"{title}{"".PadRight(49 - title.Length, ' ')}";
+        title = $"{title}{"".PadRight(Math.Max(49 - title.Length, 0), ' ')}";
         Console.WriteLine(title);
         Console.WriteLine("****************************************************");
         Console.WriteLine();
