@@ -94,6 +94,20 @@ namespace BoosterBot
                 };
             }
         }
+        private Point BaseCancelPoint { get; set; }
+        public Point CancelPoint
+        {
+            get
+            {
+                var rand = new Random();
+                var bound = (int)(10 * Scaling);
+                return new Point
+                {
+                    X = BaseCancelPoint.X + rand.Next(-bound, bound),
+                    Y = BaseCancelPoint.Y + rand.Next(-bound, bound)
+                };
+            }
+        }
         private Point BaseNextPoint { get; set; }
         public Point NextPoint
         {
@@ -218,6 +232,12 @@ namespace BoosterBot
             {
                 X = Window.Left + Center,
                 Y = Window.Bottom - Scale(200)
+            };
+
+            BaseCancelPoint = new Point
+            {
+                X = Window.Left + Center,
+                Y = Window.Bottom - Scale(60)
             };
 
             BaseNextPoint = new Point

@@ -264,6 +264,11 @@ namespace BoosterBot
         public void ClickPlay() => SystemUtilities.Click(_config.PlayPoint);
 
         /// <summary>
+        /// Simulates clicking the "Cancel" button during matchmaking.
+        /// </summary>
+        public void ClickCancel() => SystemUtilities.Click(_config.CancelPoint);
+
+        /// <summary>
         /// Simulates clicking the "Next"/"Collect Rewards" button while in a match.
         /// </summary>
         public void ClickNext() => SystemUtilities.Click(_config.NextPoint);
