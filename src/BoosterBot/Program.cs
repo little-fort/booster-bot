@@ -113,12 +113,13 @@ internal class Program
     private static void PrintTitle()
     {
         var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+        version = version.Split('+')[0];
 
         Console.Clear();
         Console.WriteLine("****************************************************");
         var title = $"BoosterBot v{version}";
         title = title.PadLeft(24 + (title.Length / 2), ' ');
-        title = $"{title}{"".PadRight(Math.Max(49 - title.Length, 0), ' ')}";
+        title = $"{title}{"".PadRight(49 - title.Length, ' ')}";
         Console.WriteLine(title);
         Console.WriteLine("****************************************************");
         Console.WriteLine();
