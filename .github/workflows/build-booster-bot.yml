@@ -57,7 +57,7 @@ jobs:
     - name: Update version
       run: |
         $label = '${{ github.event.inputs.label }}'
-        if (-not $label.StartsWith("-")) {
+        if (($label -ne '') -and (-not $label.StartsWith("-"))) {
             $label = "-" + $label
         }
 
