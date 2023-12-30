@@ -44,7 +44,7 @@ jobs:
       run: |
         $version = "${{ env.Version_Number }}"
         $build = '${{ github.run_number }}'
-        $label = '${{ github.event.inputs.label }}'
+        $label = '${{ github.event.inputs.label || 'build' }}'
         
         if ($label -ne 'release') {
           "Version=$version-$label" >> $env:GITHUB_ENV
