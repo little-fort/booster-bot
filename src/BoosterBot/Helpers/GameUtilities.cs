@@ -287,7 +287,21 @@ namespace BoosterBot
             Thread.Sleep(5000);
         }
 
-        public void PressEscKey() => SendKeys.SendWait("{ESC}");
+		/// <summary>
+		/// Simulates clicks to from a match.
+		/// </summary>
+		public void ClickConcede()
+		{
+			_config.GetWindowPositions();
+			SystemUtilities.Click(_config.ConcedePoint);
+
+			Thread.Sleep(1000);
+			SystemUtilities.Click(_config.ConcedeConfirmPoint);
+
+			Thread.Sleep(5000);
+		}
+
+		public void PressEscKey() => SendKeys.SendWait("{ESC}");
 
         public void BlindReset()
         {

@@ -67,9 +67,12 @@ internal class Program
                 if (mode == 1)
                     maxTier = GetMaxTierSelection();
 
+                var retreatAfterTurn = GetRetreatAfterTurn();
+
                 PrintTitle();
 
-                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier) : new LadderBot(scaling, verbose, autoplay, saveScreens);
+                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn) : new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn);
+ 
                 try
                 {
                     bot.Run();
@@ -211,7 +214,38 @@ internal class Program
         return ConfirmMaxTierSelection(selection);
     }
 
-    private static void PurgeExecutables()
+	private static int GetRetreatAfterTurn()
+	{
+		PrintTitle();
+		Console.WriteLine("Retreat after turn:\n");
+		Console.WriteLine("[0] Do not auto retreat");
+		Console.WriteLine("[1]");
+		Console.WriteLine("[2]");
+		Console.WriteLine("[3]");
+		Console.WriteLine("[4]");
+		Console.WriteLine("[5]");
+		Console.WriteLine("[6]");
+		Console.WriteLine("[7]");
+		Console.WriteLine();
+		Console.Write("Waiting for selection...");
+
+		var key = Console.ReadKey();
+        if ("0,1,2,3,4,5,6,7".Contains(key.KeyChar.ToString()))
+        {
+            var turn = int.Parse(key.KeyChar.ToString());
+
+            if (turn < 1 || turn > 7)
+            {
+                turn = 99;
+            }
+
+            return turn;
+        }
+
+		return GetRetreatAfterTurn();
+	}
+
+	private static void PurgeExecutables()
     {
         var process = Process.GetCurrentProcess().ProcessName + ".exe";
         var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.exe");

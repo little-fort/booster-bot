@@ -125,7 +125,9 @@ namespace BoosterBot
         }
         public Point RetreatPoint { get; set; }
         public Point RetreatConfirmPoint { get; set; }
-        public List<Point> Cards { get; set; }
+		public Point ConcedePoint { get; set; }
+		public Point ConcedeConfirmPoint { get; set; }
+		public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
         public BotConfig(double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath)
@@ -257,6 +259,18 @@ namespace BoosterBot
                 X = Window.Left + Center - Scale(100),
                 Y = Window.Bottom - Scale(280)
             };
-        }
-    }
+
+			ConcedePoint = new Point
+			{
+				X = Window.Left + Center - Scale(300),
+				Y = Window.Bottom - Scale(70)
+			};
+
+			ConcedeConfirmPoint = new Point
+			{
+				X = Window.Left + Center + Scale(100),
+				Y = Window.Bottom - Scale(280)
+			};
+		}
+	}
 }
