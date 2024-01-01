@@ -199,7 +199,7 @@ namespace BoosterBot
                 {
                     if (currentTurn++ >= _retreatAfterTurn)
                     {
-                        Logger.Log("Retreat after turn reached. Attempting retreat...", _logPath);
+                        Logger.Log("Configured turn limit reached. Attempting retreat...", _logPath);
                         _game.ClickRetreat();
                         Thread.Sleep(5000);
 					}
