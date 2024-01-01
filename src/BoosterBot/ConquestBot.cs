@@ -406,6 +406,9 @@ namespace BoosterBot
                     Logger.Log("Identified Conquest lobby...", _logPath);
                     return true;
                 }
+
+                if (totalSleep > 60000)
+                    return true;
             }
 
             return AcceptResult();
