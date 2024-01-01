@@ -202,10 +202,6 @@ namespace BoosterBot
                         Logger.Log("Retreat after turn reached. Attempting retreat...", _logPath);
                         _game.ClickRetreat();
                         Thread.Sleep(5000);
-
-						Logger.Log("Attempting concede...", _logPath);
-						_game.ClickConcede();
-						Thread.Sleep(5000);
 					}
 					else
                     {
