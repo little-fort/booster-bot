@@ -16,6 +16,7 @@ A bot that could ***hypothetically*** be used to farm boosters for any deck in M
 - No additional third-party software required 
 - Portable executable that does not require installation. Simply download latest release, start Snap, and run `BoosterBot.exe`
 - Runs under randomized process name to help prevent detection
+- Option to specify which round to retreat after to maximize xp gain
 
 ## Prerequisites
 

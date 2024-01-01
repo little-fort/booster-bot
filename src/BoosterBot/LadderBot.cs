@@ -1,5 +1,6 @@
 ﻿using BoosterBot.Models;
 using System.Diagnostics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace BoosterBot
 {
@@ -8,14 +9,16 @@ namespace BoosterBot
         private readonly string _logPath;
         private readonly BotConfig _config;
         private readonly GameUtilities _game;
+        private readonly int _retreatAfterTurn;
         private Random _rand { get; set; }
         private Stopwatch _matchTimer { get; set; }
 
 
-        public LadderBot(double scaling, bool verbose, bool autoplay, bool saveScreens)
+        public LadderBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn)
         {
             _logPath = $"logs\\ladder-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
+            _retreatAfterTurn = retreatAfterTurn;
             _game = new GameUtilities(_config);
             _rand = new Random();
         }
@@ -168,11 +171,14 @@ namespace BoosterBot
         {
             Logger.Log("Playing match...", _logPath);
             var active = true;
-            var rolledSnap = false;
+            var shouldSnap = _rand.NextDouble() >= 0.5;
+            var alreadySnapped = false;
             _rand = new Random();
 
             _matchTimer = new Stopwatch();
             _matchTimer.Start();
+
+            var currentTurn = 0;
 
             while (active && _matchTimer.Elapsed.Minutes < 15)
             {
@@ -182,45 +188,55 @@ namespace BoosterBot
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
                     {
-                        Logger.Log("Could not detect active match, trying again in 4 seconds...", _logPath);
+                        Logger.Log("Could not detect active match, trying again in 2 seconds...", _logPath);
                         _config.GetWindowPositions();
                         _game.ResetClick();
                         check = _game.CanIdentifyActiveLadderMatch();
-                        Thread.Sleep(4000);
+                        Thread.Sleep(2500);
                     }
 
                     active = check;
                 }
                 else
                 {
-                    Logger.Log("Attempting to play cards...", _logPath);
-                    _game.PlayHand();
-                    Thread.Sleep(1000);
-
-                    _config.GetWindowPositions();
-                    if (!_game.CanIdentifyZeroEnergy())
+                    if (currentTurn++ >= _retreatAfterTurn)
                     {
-                        Logger.Log("Detected leftover energy, will attempt to play cards again...", _logPath);
+                        Logger.Log("Configured turn limit reached. Attempting retreat...", _logPath);
+                        _game.ClickRetreat();
+                        Thread.Sleep(5000);
+					}
+					else
+                    {
+                        Logger.Log("Attempting to play cards...", _logPath);
                         _game.PlayHand();
-                    }
+                        Thread.Sleep(1000);
 
-                    Logger.Log("Clicking 'Next Turn'...", _logPath);
-                    _game.ClickNext();
-                    Thread.Sleep(1000);
-
-                    _config.GetWindowPositions();
-                    while (_game.CanIdentifyMidTurn())
-                    {
-                        Logger.Log("Waiting for turn to progress...", _logPath);
-                        Thread.Sleep(4000);
                         _config.GetWindowPositions();
+                        if (!_game.CanIdentifyZeroEnergy())
+                        {
+                            Logger.Log("Detected leftover energy, will attempt to play cards again...", _logPath);
+                            _game.PlayHand();
+                        }
+
+                        Logger.Log("Clicking 'Next Turn'...", _logPath);
+                        _game.ClickNext();
+                        Thread.Sleep(1000);
+
+                        _config.GetWindowPositions();
+                        while (_game.CanIdentifyMidTurn())
+                        {
+                            Logger.Log("Waiting for turn to progress...", _logPath);
+                            Thread.Sleep(4000);
+                            _config.GetWindowPositions();
+                        }
                     }
                 }
 
-                if (!rolledSnap && _rand.Next(1, 101) > 45) // Add randomness for snaps
-                {
-                    rolledSnap = true;
+                if (shouldSnap && !alreadySnapped)
+                {                     
+                    Logger.Log("Attempting to snap...", _logPath);
                     _game.ClickSnap();
+                    alreadySnapped = true;
                 }
             }
 

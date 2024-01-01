@@ -9,14 +9,16 @@ namespace BoosterBot
         private readonly BotConfig _config;
         private readonly GameUtilities _game;
         private readonly GameState _maxTier;
+        private readonly int _retreatAfterTurn;
         private Stopwatch _matchTimer { get; set; }
 
-        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier)
+        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier, int retreatAfterTurn)
         {
             _logPath = $"logs\\conquest-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
             _game = new GameUtilities(_config);
             _maxTier = maxTier;
+            _retreatAfterTurn = retreatAfterTurn;
 
             // Debug();
         }
@@ -278,6 +280,8 @@ namespace BoosterBot
             _matchTimer = new Stopwatch();
             _matchTimer.Start();
 
+            var currentTurn = 0;
+
             while (active && _matchTimer.Elapsed.Minutes < 30)
             {
                 _config.GetWindowPositions();
@@ -297,27 +301,40 @@ namespace BoosterBot
                 }
                 else
                 {
-                    Logger.Log("Attempting to play cards...", _logPath);
-                    _game.PlayHand();
-                    Thread.Sleep(1000);
-
-                    _config.GetWindowPositions();
-                    if (!_game.CanIdentifyZeroEnergy())
+                    if (currentTurn++ >= _retreatAfterTurn)
                     {
-                        Logger.Log("Detected leftover energy, will attempt to play cards again...", _logPath);
+                        Logger.Log("Retreat after turn reached. Attempting retreat...", _logPath);
+                        _game.ClickRetreat();
+                        Thread.Sleep(5000);
+
+						Logger.Log("Attempting concede...", _logPath);
+						_game.ClickConcede();
+						Thread.Sleep(5000);
+					}
+					else
+                    {
+                        Logger.Log("Attempting to play cards...", _logPath);
                         _game.PlayHand();
-                    }
+                        Thread.Sleep(1000);
 
-                    Logger.Log("Clicking 'Next Turn'...", _logPath);
-                    _game.ClickNext();
-                    Thread.Sleep(1000);
-
-                    _config.GetWindowPositions();
-                    while (_game.CanIdentifyMidTurn())
-                    {
-                        Logger.Log("Waiting for turn to progress...", _logPath);
-                        Thread.Sleep(4000);
                         _config.GetWindowPositions();
+                        if (!_game.CanIdentifyZeroEnergy())
+                        {
+                            Logger.Log("Detected leftover energy, will attempt to play cards again...", _logPath);
+                            _game.PlayHand();
+                        }
+
+                        Logger.Log("Clicking 'Next Turn'...", _logPath);
+                        _game.ClickNext();
+                        Thread.Sleep(1000);
+
+                        _config.GetWindowPositions();
+                        while (_game.CanIdentifyMidTurn())
+                        {
+                            Logger.Log("Waiting for turn to progress...", _logPath);
+                            Thread.Sleep(4000);
+                            _config.GetWindowPositions();
+                        }
                     }
                 }
             }
@@ -389,6 +406,9 @@ namespace BoosterBot
                     Logger.Log("Identified Conquest lobby...", _logPath);
                     return true;
                 }
+
+                if (totalSleep > 60000)
+                    return true;
             }
 
             return AcceptResult();
