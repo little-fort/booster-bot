@@ -1,5 +1,6 @@
 ﻿using BoosterBot.Models;
 using System.Diagnostics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace BoosterBot
 {
@@ -170,7 +171,8 @@ namespace BoosterBot
         {
             Logger.Log("Playing match...", _logPath);
             var active = true;
-            var rolledSnap = false;
+            var shouldSnap = _rand.NextDouble() >= 0.5;
+            var alreadySnapped = false;
             _rand = new Random();
 
             _matchTimer = new Stopwatch();
@@ -230,10 +232,11 @@ namespace BoosterBot
                     }
                 }
 
-                if (!rolledSnap && _rand.Next(1, 101) > 45) // Add randomness for snaps
-                {
-                    rolledSnap = true;
+                if (shouldSnap && !alreadySnapped)
+                {                     
+                    Logger.Log("Attempting to snap...", _logPath);
                     _game.ClickSnap();
+                    alreadySnapped = true;
                 }
             }
 
