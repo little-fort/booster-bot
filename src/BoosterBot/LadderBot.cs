@@ -188,11 +188,11 @@ namespace BoosterBot
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
                     {
-                        Logger.Log("Could not detect active match, trying again in 4 seconds...", _logPath);
+                        Logger.Log("Could not detect active match, trying again in 2 seconds...", _logPath);
                         _config.GetWindowPositions();
                         _game.ResetClick();
                         check = _game.CanIdentifyActiveLadderMatch();
-                        Thread.Sleep(4000);
+                        Thread.Sleep(2500);
                     }
 
                     active = check;
