@@ -10,15 +10,17 @@ namespace BoosterBot
         private readonly GameUtilities _game;
         private readonly GameState _maxTier;
         private readonly int _retreatAfterTurn;
+        private readonly bool _concedeAfterRetreat;
         private Stopwatch _matchTimer { get; set; }
 
-        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier, int retreatAfterTurn)
+        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier, int retreatAfterTurn, bool concedeAfterRetreat)
         {
             _logPath = $"logs\\conquest-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
             _game = new GameUtilities(_config);
             _maxTier = maxTier;
             _retreatAfterTurn = retreatAfterTurn;
+            _concedeAfterRetreat = concedeAfterRetreat;
 
             // Debug();
         }
@@ -307,9 +309,12 @@ namespace BoosterBot
                         _game.ClickRetreat();
                         Thread.Sleep(5000);
 
-						Logger.Log("Attempting concede...", _logPath);
-						_game.ClickConcede();
-						Thread.Sleep(5000);
+                        if (_concedeAfterRetreat)
+                        {
+                            Logger.Log("Attempting concede...", _logPath);
+                            _game.ClickConcede();
+                            Thread.Sleep(5000);
+                        }
 					}
 					else
                     {
@@ -406,9 +411,6 @@ namespace BoosterBot
                     Logger.Log("Identified Conquest lobby...", _logPath);
                     return true;
                 }
-
-                if (totalSleep > 60000)
-                    return true;
             }
 
             return AcceptResult();

@@ -69,9 +69,16 @@ internal class Program
 
                 var retreatAfterTurn = GetRetreatAfterTurn();
 
+                var concedeAfterRetreat = true;
+
+                if (retreatAfterTurn >= 1 && retreatAfterTurn <= 7)
+                {
+                    concedeAfterRetreat = GetConcedeAfterRetreat();
+                }
+
                 PrintTitle();
 
-                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn) : new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn);
+                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn, concedeAfterRetreat) : new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, concedeAfterRetreat);
  
                 try
                 {
@@ -245,7 +252,33 @@ internal class Program
 		return GetRetreatAfterTurn();
 	}
 
-	private static void PurgeExecutables()
+    private static bool GetConcedeAfterRetreat()
+    {
+        PrintTitle();
+
+        Console.WriteLine("Do you want to concede after retreat?\n");
+        Console.WriteLine("[1] Yes");
+        Console.WriteLine("[2] No");
+        Console.WriteLine();
+        Console.Write("Waiting for selection...");
+
+        var key = Console.ReadKey();
+
+        if (key.KeyChar == '1')
+        {
+            return true;
+        }
+        else if (key.KeyChar == '2')
+        {
+            return false;
+        }
+        else
+        {
+            return GetConcedeAfterRetreat();
+        }
+    }
+    
+    private static void PurgeExecutables()
     {
         var process = Process.GetCurrentProcess().ProcessName + ".exe";
         var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.exe");
