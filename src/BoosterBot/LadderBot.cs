@@ -1,6 +1,5 @@
 ﻿using BoosterBot.Models;
 using System.Diagnostics;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace BoosterBot
 {
@@ -10,15 +9,17 @@ namespace BoosterBot
         private readonly BotConfig _config;
         private readonly GameUtilities _game;
         private readonly int _retreatAfterTurn;
+        private readonly bool _concedeAfterRetreat;
         private Random _rand { get; set; }
         private Stopwatch _matchTimer { get; set; }
 
-
-        public LadderBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn)
+        public LadderBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn, bool concedeAfterRetreat)
         {
             _logPath = $"logs\\ladder-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
             _retreatAfterTurn = retreatAfterTurn;
+            _concedeAfterRetreat = concedeAfterRetreat;
+
             _game = new GameUtilities(_config);
             _rand = new Random();
         }
@@ -171,8 +172,7 @@ namespace BoosterBot
         {
             Logger.Log("Playing match...", _logPath);
             var active = true;
-            var shouldSnap = _rand.NextDouble() >= 0.5;
-            var alreadySnapped = false;
+            var rolledSnap = false;
             _rand = new Random();
 
             _matchTimer = new Stopwatch();
@@ -188,11 +188,11 @@ namespace BoosterBot
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
                     {
-                        Logger.Log("Could not detect active match, trying again in 2 seconds...", _logPath);
+                        Logger.Log("Could not detect active match, trying again in 4 seconds...", _logPath);
                         _config.GetWindowPositions();
                         _game.ResetClick();
                         check = _game.CanIdentifyActiveLadderMatch();
-                        Thread.Sleep(2500);
+                        Thread.Sleep(4000);
                     }
 
                     active = check;
@@ -201,9 +201,16 @@ namespace BoosterBot
                 {
                     if (currentTurn++ >= _retreatAfterTurn)
                     {
-                        Logger.Log("Configured turn limit reached. Attempting retreat...", _logPath);
+                        Logger.Log("Retreat after turn reached. Attempting retreat...", _logPath);
                         _game.ClickRetreat();
                         Thread.Sleep(5000);
+
+                        if (_concedeAfterRetreat)
+                        {
+                            Logger.Log("Attempting concede...", _logPath);
+                            _game.ClickConcede();
+                            Thread.Sleep(5000);
+                        }
 					}
 					else
                     {
@@ -232,11 +239,10 @@ namespace BoosterBot
                     }
                 }
 
-                if (shouldSnap && !alreadySnapped)
-                {                     
-                    Logger.Log("Attempting to snap...", _logPath);
+                if (!rolledSnap && _rand.Next(1, 101) > 45) // Add randomness for snaps
+                {
+                    rolledSnap = true;
                     _game.ClickSnap();
-                    alreadySnapped = true;
                 }
             }
 
