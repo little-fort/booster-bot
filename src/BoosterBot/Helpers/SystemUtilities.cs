@@ -131,9 +131,10 @@ internal class SystemUtilities
     /// <returns>A <see cref="IntPtr">IntPtr</see> pointer for the game process.</returns>
     public static IntPtr FocusGameWindow()
     {
-        var processes = Process.GetProcessesByName("SNAP");
+        var processes = Process.GetProcessesByName("SNAP").ToList();
+        processes.AddRange(Process.GetProcessesByName("streaming_client"));
 
-        if (processes?.Length == 0)
+        if (processes?.Count == 0)
             throw new Exception("SNAP.exe is not running!");
 
         var snap = processes[0];
