@@ -193,6 +193,7 @@ namespace BoosterBot
 
         public bool CanIdentifyMidTurn()
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnWaiting(), ComponentMappings.REF_CONQ_BTN_WAITING, 0.85) ||
+               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnWaiting(), ComponentMappings.REF_CONQ_BTN_WAITING_2, 0.85) ||
                ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestBtnWaiting(), ComponentMappings.REF_CONQ_BTN_PLAYING, 0.85);
 
         public bool CanIdentifyConquestConcede()
