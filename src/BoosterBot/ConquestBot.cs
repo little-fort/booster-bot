@@ -260,8 +260,19 @@ namespace BoosterBot
         private bool WaitForMatchmaking()
         {
             _config.GetWindowPositions();
+
+            var mmTimer = new Stopwatch();
+            mmTimer.Start();
+
             while (_game.CanIdentifyConquestMatchmaking())
             {
+                if (mmTimer.Elapsed.Seconds > 600)
+                {
+                    Logger.Log("Matchmaking seems to be hanging. Returning to menu to re-try...", _logPath);
+                    _game.ClickCancel();
+                    return true;
+                }
+
                 Logger.Log("Waiting for match start...", _logPath);
                 Thread.Sleep(5000);
                 _config.GetWindowPositions();

@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>1.3.0-dev</Version>
-		<FileVersion>1.3.0</FileVersion>
-		<AssemblyVersion>1.3.0</AssemblyVersion>
+		<Version>1.4.0-dev</Version>
+		<FileVersion>1.4.0</FileVersion>
+		<AssemblyVersion>1.4.0</AssemblyVersion>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -114,6 +114,9 @@
 		</None>
 		<None Update="reference\btn-conquest-victory-next.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\btn-conquest-waiting-preproc-2.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-waiting-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
