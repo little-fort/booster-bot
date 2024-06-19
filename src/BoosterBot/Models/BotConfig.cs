@@ -209,7 +209,7 @@ namespace BoosterBot
             ClearErrorPoint = new Point
             {
                 X = Window.Left + Center,
-                Y = Window.Bottom - Scale(110)
+                Y = Window.Bottom - Scale(50)
             };
 
             GameModesPoint = new Point
