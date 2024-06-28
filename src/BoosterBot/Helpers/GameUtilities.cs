@@ -1,4 +1,5 @@
 ﻿using BoosterBot.Models;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -234,14 +235,22 @@ namespace BoosterBot
         {
             var rand = new Random();
 
+            // Randomize the order in which cards are attempted to be played:
+            int[] handPos = { 0, 1, 2, 3 };
+            for (int i = handPos.Length - 1; i > 0; i--)
+            {
+                int j = rand.Next(0, i + 1);
+                (handPos[j], handPos[i]) = (handPos[i], handPos[j]);
+            }
+
             // Attempt to play cards from hand to random locations. Will exit early if zero energy is detected.
-            SystemUtilities.PlayCard(_config.Cards[3], _config.Locations[rand.Next(3)], _config.ResetPoint);
+            MouseUtilities.MoveCard(_config.Cards[handPos[0]], _config.Locations[rand.Next(3)], _config.ResetPoint);
             _config.GetWindowPositions(); if (CanIdentifyZeroEnergy()) goto Exit;
-            SystemUtilities.PlayCard(_config.Cards[2], _config.Locations[rand.Next(3)], _config.ResetPoint);
+            MouseUtilities.MoveCard(_config.Cards[handPos[1]], _config.Locations[rand.Next(3)], _config.ResetPoint);
             _config.GetWindowPositions(); if (CanIdentifyZeroEnergy()) goto Exit;
-            SystemUtilities.PlayCard(_config.Cards[1], _config.Locations[rand.Next(3)], _config.ResetPoint);
+            MouseUtilities.MoveCard(_config.Cards[handPos[2]], _config.Locations[rand.Next(3)], _config.ResetPoint);
             _config.GetWindowPositions(); if (CanIdentifyZeroEnergy()) goto Exit;
-            SystemUtilities.PlayCard(_config.Cards[0], _config.Locations[rand.Next(3)], _config.ResetPoint);
+            MouseUtilities.MoveCard(_config.Cards[handPos[3]], _config.Locations[rand.Next(3)], _config.ResetPoint);
 
             Exit:
                 ResetClick();
