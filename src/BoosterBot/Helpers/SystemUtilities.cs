@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Management;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace BoosterBot;
 
@@ -84,29 +85,6 @@ internal class SystemUtilities
 
         // Release the mouse button
         Cursor.Position = new Point(endX, endY);
-        mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
-    }
-
-    // center + 20, bottom - 180
-    public static void PlayCard(Point card, Point loc, Point reset)
-    {
-        var rand = new Random();
-
-        // Click on card:
-        Cursor.Position = new Point(card.X, card.Y);
-        mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
-
-        Thread.Sleep(rand.Next(400, 800));
-
-        // Drag to location and drop:
-        Cursor.Position = new Point(loc.X, loc.Y);
-        mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
-
-        Thread.Sleep(rand.Next(250, 500));
-
-        // Add a click to reset view because LEFTUP while hovering over another card will register as click event:
-        Cursor.Position = new Point(reset.X, reset.Y);
-        mouse_event((int)(MouseEventFlags.LEFTDOWN), 0, 0, 0, 0);
         mouse_event((int)(MouseEventFlags.LEFTUP), 0, 0, 0, 0);
     }
 
