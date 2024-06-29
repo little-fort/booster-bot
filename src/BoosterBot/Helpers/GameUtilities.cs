@@ -217,8 +217,7 @@ namespace BoosterBot
             => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestVictoryNext(), ComponentMappings.REF_CONQ_BTN_WIN_NEXT);
 
         public bool CanIdentifyConquestTicketClaim()
-            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestTicketClaim(), ComponentMappings.REF_CONQ_BTN_WIN_TICKET) ||
-               ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestTicketClaim(), ComponentMappings.REF_CONQ_BTN_WIN_TICKET_2);
+            => ImageUtilities.CheckImageAreaSimilarity(_mappings.GetConquestTicketClaim(), ComponentMappings.REF_CONQ_BTN_WIN_TICKET);
 
         #endregion
 

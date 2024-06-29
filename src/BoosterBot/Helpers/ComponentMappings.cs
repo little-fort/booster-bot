@@ -194,8 +194,8 @@ namespace BoosterBot
         {
             Left = _config.Center - 65,
             Right = _config.Center + 40,
-            Top = _config.Screencap.Height - 185,
-            Bottom = _config.Screencap.Height - 155
+            Top = _config.Screencap.Height - 160,
+            Bottom = _config.Screencap.Height - 130
         };
 
         #endregion
