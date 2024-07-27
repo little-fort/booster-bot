@@ -221,7 +221,7 @@ namespace BoosterBot
             BaseConquestBannerPoint = new Point
             {
                 X = Window.Left + Center,
-                Y = Window.Top + Scale(330)
+                Y = Window.Top + Scale(540) // Scale(330) // Temporary adjustment during Deadpool's Diner event
             };
 
             BaseSnapPoint = new Point
