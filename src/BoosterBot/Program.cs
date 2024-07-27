@@ -13,6 +13,9 @@ internal class Program
         bool autoplay = true;
         bool saveScreens = false;
         double scaling = 1.0;
+        string gameMode = "";
+        string maxConquestTier = "";
+        int maxTurns = 0;
 
         // Parse flags:
         if (args.Length > 0)
@@ -47,6 +50,21 @@ internal class Program
                     case "-masked":
                         masked = true;
                         break;
+                    case "-mode":
+                    case "--mode":
+                    case "-m":
+                        gameMode = args[i + 1];
+                        break;
+                    case "-turns":
+                    case "--turns":
+                    case "-t":
+                        maxTurns = int.Parse(args[i + 1]);
+                        break;
+                    case "-tier":
+                    case "--tier":
+                    case "-ct":
+                        maxConquestTier = args[i + 1];
+                        break;
                 }
 
         try
@@ -61,13 +79,29 @@ internal class Program
                 if (!Directory.Exists("screens"))
                     Directory.CreateDirectory("screens");
 
-                var mode = GetModeSelection();
+                var mode = string.IsNullOrWhiteSpace(gameMode) ? GetModeSelection() : gameMode.ToLower() switch { "c" => 1, "conquest" => 1, "l" => 2, "ladder" => 2, "r" => 2, "ranked" => 2, _ => GetModeSelection() };
                 GameState maxTier = GameState.UNKNOWN;
 
                 if (mode == 1)
-                    maxTier = GetMaxTierSelection();
+                {
+                    if (string.IsNullOrWhiteSpace(maxConquestTier))
+                        maxTier = GetMaxTierSelection();
+                    else
+                        maxTier = maxConquestTier.ToLower() switch
+                        {
+                            "pg" => GameState.CONQUEST_LOBBY_PG,
+                            "proving grounds" => GameState.CONQUEST_LOBBY_PG,
+                            "s" => GameState.CONQUEST_LOBBY_SILVER,
+                            "silver" => GameState.CONQUEST_LOBBY_SILVER,
+                            "g" => GameState.CONQUEST_LOBBY_GOLD,
+                            "gold" => GameState.CONQUEST_LOBBY_GOLD,
+                            "i" => GameState.CONQUEST_LOBBY_INFINITE,
+                            "infinite" => GameState.CONQUEST_LOBBY_INFINITE,
+                            _ => GetMaxTierSelection()
+                        };
+                }
 
-                var retreatAfterTurn = GetRetreatAfterTurn();
+                var retreatAfterTurn = maxTurns > 0 ? maxTurns : GetRetreatAfterTurn();
 
                 PrintTitle();
 

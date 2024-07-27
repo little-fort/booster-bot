@@ -152,14 +152,14 @@ namespace BoosterBot
             mmTimer.Start();
             while (_game.CanIdentifyLadderMatchmaking())
             {
-                if (mmTimer.Elapsed.Seconds > _rand.Next(300, 360))
+                if (mmTimer.Elapsed.TotalSeconds > _rand.Next(300, 360))
                 {
                     Logger.Log("Matchmaking seems to be hanging. Returning to main menu to re-try...", _logPath);
                     _game.ClickCancel();
                     return true;
                 }
 
-                Logger.Log("Waiting for match start...", _logPath);
+                Logger.Log($"Waiting for match start... [Elapsed: {mmTimer.Elapsed}]", _logPath);
                 Thread.Sleep(5000);
                 _config.GetWindowPositions();
             }
@@ -201,13 +201,13 @@ namespace BoosterBot
                 {
                     if (currentTurn++ >= _retreatAfterTurn)
                     {
-                        Logger.Log("Configured turn limit reached. Attempting retreat...", _logPath);
+                        Logger.Log($"Configured turn limit ({_retreatAfterTurn}) reached. Attempting retreat...", _logPath);
                         _game.ClickRetreat();
                         Thread.Sleep(5000);
 					}
 					else
                     {
-                        Logger.Log("Attempting to play cards...", _logPath);
+                        Logger.Log($"Attempting to play cards... [Turn count: {currentTurn}]", _logPath);
                         _game.PlayHand();
                         Thread.Sleep(1000);
 

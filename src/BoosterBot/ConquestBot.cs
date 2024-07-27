@@ -266,7 +266,7 @@ namespace BoosterBot
 
             while (_game.CanIdentifyConquestMatchmaking())
             {
-                if (mmTimer.Elapsed.Seconds > 600)
+                if (mmTimer.Elapsed.TotalSeconds > 600)
                 {
                     Logger.Log("Matchmaking seems to be hanging. Returning to menu to re-try...", _logPath);
                     _game.ClickCancel();
