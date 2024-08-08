@@ -8,14 +8,14 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        bool masked = false;
+        bool masked = true;             // CHANGE FOR RELEASE
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
         double scaling = 1.0;
         string gameMode = "";
         string maxConquestTier = "";
-        int maxTurns = 0;
+        int maxTurns = -1;
 
         // Parse flags:
         if (args.Length > 0)
@@ -100,12 +100,20 @@ internal class Program
                             _ => GetMaxTierSelection()
                         };
                 }
+                else if (mode == 3)
+                    maxTurns = 10;
 
-                var retreatAfterTurn = maxTurns > 0 ? maxTurns : GetRetreatAfterTurn();
+                var retreatAfterTurn = maxTurns > -1 ? maxTurns : GetRetreatAfterTurn();
 
                 PrintTitle();
 
-                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn) : new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn);
+                IBoosterBot bot = mode switch
+                {
+                    1 => new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn),
+                    2 => new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn),
+                    3 => new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, true),
+                    _ => throw new Exception("Invalid mode selection.")
+                };
  
                 try
                 {
@@ -167,12 +175,13 @@ internal class Program
         PrintTitle();
         Console.WriteLine("Available farming modes:\n");
         Console.WriteLine("[1] Conquest");
-        Console.WriteLine("[2] Ranked Ladder");
+        Console.WriteLine("[2] Ranked Ladder Farm");
+        Console.WriteLine("[3] Ranked Autoclimb (Beta)");
         Console.WriteLine();
         Console.Write("Waiting for selection...");
 
         var key = Console.ReadKey();
-        if (key.KeyChar == '1' || key.KeyChar == '2')
+        if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3')
             return int.Parse(key.KeyChar.ToString());
 
         return GetModeSelection();

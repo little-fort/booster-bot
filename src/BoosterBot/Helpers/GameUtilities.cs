@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace BoosterBot
 {
@@ -330,6 +331,63 @@ namespace BoosterBot
             Thread.Sleep(1000);
             ResetClick();
             Thread.Sleep(1000);
+        }
+
+        public LeadStatus GetLeadStatus()
+        {
+            bool[] lanes = new bool[3];
+
+            // Check color points of three lanes. If orange, lane is leading.
+            lanes[0] = IsWinning(_config.LaneColorPoint1);
+            lanes[1] = IsWinning(_config.LaneColorPoint2);
+            lanes[2] = IsWinning(_config.LaneColorPoint3);
+
+            int winning = 0;
+            foreach (var lane in lanes)
+                if (lane) 
+                    winning++;
+
+            // Return array of lane results
+            var status = winning switch
+            {
+                3 => LeadStatus.WINNING_THREE,
+                2 => LeadStatus.WINNING_TWO,
+                1 => LeadStatus.LOSING_TWO,
+                0 => LeadStatus.LOSING_THREE,
+                _ => LeadStatus.LOSING_THREE
+            };
+
+            return status;
+        }
+
+        public static bool IsWinning(Point point, string imagePath = BotConfig.DefaultImageLocation)
+        {
+            using (Bitmap image = new Bitmap(imagePath))
+            {
+                // Ensure the point is within the bounds of the image
+                if (point.X < 0 || point.Y < 0 || point.X >= image.Width || point.Y >= image.Height)
+                    throw new ArgumentOutOfRangeException("Point is outside the bounds of the image.");
+
+                // Get the color of the pixel at the specified point
+                Color pixelColor = image.GetPixel(point.X, point.Y);
+                // Console.WriteLine($"[{point.X}, {point.Y}] #{pixelColor.Name}");
+
+                // Convert the color to HSV
+                float hue = pixelColor.GetHue();
+                float saturation = pixelColor.GetSaturation();
+                float brightness = pixelColor.GetBrightness();
+
+                // Define the range for the color orange
+                const float orangeHueMin = 1f; // Minimum hue for orange
+                const float orangeHueMax = 120f; // Maximum hue for orange
+
+                // Check if the hue falls within the range of orange and has sufficient saturation and brightness
+                bool isOrange = (hue >= orangeHueMin && hue <= orangeHueMax) &&
+                                (saturation >= 0.5f) && // Adjust saturation threshold as needed
+                                (brightness >= 0.3f);  // Adjust brightness threshold as needed
+
+                return isOrange;
+            }
         }
     }
 }

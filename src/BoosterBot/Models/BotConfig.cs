@@ -15,15 +15,18 @@ namespace BoosterBot
         private readonly double _scaling;
         private readonly bool _verbose;
         private readonly bool _autoplay;
+        private readonly bool _autoclimb;
         private readonly bool _saveScreens;
         private readonly string _logPath;
 
         public double Scaling { get => _scaling; }
         public bool Verbose { get => _verbose; }
         public bool Autoplay { get => _autoplay; }
+        public bool Autoclimb { get => _autoclimb; }
         public bool SaveScreens { get => _saveScreens; }
         public string LogPath { get => _logPath; }
         public int Center { get; set; }
+        public int vCenter { get; set; }
         public Rect Window { get; set; }
         public Dimension Screencap { get; set; }
         private Point BaseResetPointLeft { get; set; }
@@ -127,14 +130,18 @@ namespace BoosterBot
         public Point RetreatConfirmPoint { get; set; }
 		public Point ConcedePoint { get; set; }
 		public Point ConcedeConfirmPoint { get; set; }
-		public List<Point> Cards { get; set; }
+        public Point LaneColorPoint1 { get; set; }
+        public Point LaneColorPoint2 { get; set; }
+        public Point LaneColorPoint3 { get; set; }
+        public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
-        public BotConfig(double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath)
+        public BotConfig(double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath, bool autoclimb = false)
         {
             _scaling = scaling;
             _verbose = verbose;
             _autoplay = autoplay;
+            _autoclimb = autoclimb;
             _saveScreens = saveScreens;
             _logPath = logPath;
         }
@@ -149,6 +156,7 @@ namespace BoosterBot
 
             // Calculate center position of game window:
             Center = Screencap.Width / 2;
+            vCenter = Screencap.Height / 2;
 
             // Update card and location coordinates:
             Cards = new List<Point>
@@ -271,6 +279,24 @@ namespace BoosterBot
 				X = Window.Left + Center + Scale(100),
 				Y = Window.Bottom - Scale(280)
 			};
+
+            LaneColorPoint1 = new Point
+            {
+                X = Center - 186,
+                Y = vCenter + 27
+            };
+
+            LaneColorPoint2 = new Point
+            {
+                X = Center,
+                Y = vCenter + 15
+            };
+
+            LaneColorPoint3 = new Point
+            {
+                X = Center + 188,
+                Y = vCenter + 27
+            };
 		}
 	}
 }
