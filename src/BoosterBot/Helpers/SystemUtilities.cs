@@ -110,6 +110,7 @@ internal class SystemUtilities
     public static IntPtr FocusGameWindow()
     {
         var processes = Process.GetProcessesByName("SNAP").ToList();
+        processes.AddRange(Process.GetProcessesByName("SnapCN"));
         processes.AddRange(Process.GetProcessesByName("streaming_client"));
 
         if (processes?.Count == 0)
