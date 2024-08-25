@@ -61,9 +61,11 @@ namespace BoosterBot
 
         public string GetLogPath() => _logPath;
 
+        public void Log(string message) => Logger.Log(message, _logPath);
+
         public void Run()
         {
-            Logger.Log("Starting Conquest bot...", _logPath);
+            Log("Starting Conquest bot...");
             var attempts = 0;
 
             while (true)
@@ -82,7 +84,7 @@ namespace BoosterBot
 
                 if (onMenu)
                 {
-                    Logger.Log("Detected main menu. Navigating to Conquest...", _logPath);
+                    Log("Detected main menu. Navigating to Conquest...");
                     NavigateToGameModes();
                     NavigateToConquestMenu();
                     RunMatchLoop();
@@ -91,7 +93,7 @@ namespace BoosterBot
                 {
                     if (attempts <= 2)
                     {
-                        Logger.Log($"Could not detect main menu (attempt #{attempts}). Trying again in 5 seconds...", _logPath);
+                        Log($"Could not detect main menu (attempt #{attempts}). Trying again in 5 seconds...");
                         _game.ResetClick();
                         Thread.Sleep(5000);
                     }
@@ -106,7 +108,7 @@ namespace BoosterBot
 
         private void NavigateToGameModes()
         {
-            Logger.Log("Navigating to Game Modes tab...", _logPath);
+            Log("Navigating to Game Modes tab...");
             SystemUtilities.Click(_config.GameModesPoint);
             Thread.Sleep(1000);
             SystemUtilities.Click(_config.GameModesPoint);
@@ -115,7 +117,7 @@ namespace BoosterBot
 
         private void NavigateToConquestMenu()
         {
-            Logger.Log("Navigating to Conquest menu...", _logPath);
+            Log("Navigating to Conquest menu...");
 
             for (int x = 0; x < 3; x++)
             {
@@ -126,49 +128,49 @@ namespace BoosterBot
 
         private bool DetermineLoopEntryPoint(int attempts = 0)
         {
-            Logger.Log("Attempting to determine loop entry point...", _logPath);
+            Log("Attempting to determine loop entry point...");
             var state = _game.DetermineConquestGameState();
 
             switch (state)
             {
                 case GameState.MAIN_MENU:
-                    Logger.Log("Detected main menu. Returning to start...", _logPath);
+                    Log("Detected main menu. Returning to start...");
                     Run();
                     return true;
                 case GameState.RECONNECT_TO_GAME:
-                    Logger.Log("Detected 'Reconnect to Game' button. Resuming match play...", _logPath);
+                    Log("Detected 'Reconnect to Game' button. Resuming match play...");
                     _game.ClickPlay();
                     Thread.Sleep(4000);
                     return PlayMatch();
                 case GameState.MID_MATCH:
-                    Logger.Log("Detected mid-match. Resuming match play...", _logPath);
+                    Log("Detected mid-match. Resuming match play...");
                     return PlayMatch();
                 case GameState.CONQUEST_LOBBY_PG:
                 case GameState.CONQUEST_LOBBY_SILVER:
                 case GameState.CONQUEST_LOBBY_GOLD:
                 case GameState.CONQUEST_LOBBY_INFINITE:
-                    Logger.Log($"Detected Conquest lobby selection. Entering lobby ({_maxTier.ToString().Replace("CONQUEST_LOBBY_", "")} or lower)...", _logPath);
+                    Log($"Detected Conquest lobby selection. Entering lobby ({_maxTier.ToString().Replace("CONQUEST_LOBBY_", "")} or lower)...");
                     return SelectLobby();
                 case GameState.CONQUEST_PREMATCH:
-                    Logger.Log("Detected Conquest prematch. Starting match...", _logPath);
+                    Log("Detected Conquest prematch. Starting match...");
                     return StartMatch();
                 case GameState.CONQUEST_MATCHMAKING:
-                    Logger.Log("Detected matchmaking...", _logPath);
+                    Log("Detected matchmaking...");
                     return WaitForMatchmaking();
                 case GameState.CONQUEST_MATCH:
-                    Logger.Log("Detected Conquest match. Playing match...", _logPath);
+                    Log("Detected Conquest match. Playing match...");
                     return PlayMatch();
                 case GameState.CONQUEST_ROUND_END:
-                    Logger.Log("Detected Conquest round end. Moving to next round...", _logPath);
+                    Log("Detected Conquest round end. Moving to next round...");
                     return ProgressRound();
                 case GameState.CONQUEST_MATCH_END:
                 case GameState.CONQUEST_MATCH_END_REWARDS:
-                    Logger.Log("Detected Conquest match end. Returning to Conquest menu...", _logPath);
+                    Log("Detected Conquest match end. Returning to Conquest menu...");
                     return ExitMatch();
                 case GameState.CONQUEST_POSTMATCH_LOSS_SCREEN:
                 case GameState.CONQUEST_POSTMATCH_WIN_CONTINUE:
                 case GameState.CONQUEST_POSTMATCH_WIN_TICKET:
-                    Logger.Log("Detected Conquest postmatch screen. Returning to Conquest menu...", _logPath);
+                    Log("Detected Conquest postmatch screen. Returning to Conquest menu...");
                     return AcceptResult();
                 default:
                     if (attempts < 5)
@@ -177,10 +179,10 @@ namespace BoosterBot
                         return DetermineLoopEntryPoint(attempts + 1);
                     }
 
-                    Logger.Log("Bot is hopelessly lost... :/", _logPath);
-                    Logger.Log("Return to main menu and restart bot.", _logPath);
+                    Log("Bot is hopelessly lost... :/");
+                    Log("Return to main menu and restart bot.");
                     Console.WriteLine();
-                    Logger.Log("Press any key to exit...", _logPath);
+                    Log("Press any key to exit...");
                     Console.ReadKey();
                     Environment.Exit(0);
                     return false;
@@ -190,7 +192,7 @@ namespace BoosterBot
 
         private void RunMatchLoop()
         {
-            Logger.Log("Starting match loop...", _logPath);
+            Log("Starting match loop...");
             while (true)
             {
                 if (!SelectLobby())
@@ -214,7 +216,7 @@ namespace BoosterBot
             Thread.Sleep(5000);
             var lobbyConfirmed = false;
 
-            Logger.Log($"Making sure lobby type is set to {_maxTier} or lower...", _logPath);
+            Log($"Making sure lobby type is set to {_maxTier} or lower...");
             for (int x = 0; x < 6 && !lobbyConfirmed; x++)
             {
                 var selectedTier = _game.DetermineConquestLobbyTier();
@@ -240,17 +242,17 @@ namespace BoosterBot
 
         private bool StartMatch()
         {
-            Logger.Log("Entering lobby...", _logPath);
+            Log("Entering lobby...");
             _game.ClickPlay();
             Thread.Sleep(5000);
 
-            Logger.Log("Clicking 'Play'...", _logPath);
+            Log("Clicking 'Play'...");
             _game.ClickPlay();
             Thread.Sleep(1000);
             _game.ClickPlay(); // Press a second time just to be sure
             Thread.Sleep(1000);
 
-            Logger.Log("Confirming deck...", _logPath);
+            Log("Confirming deck...");
             SystemUtilities.Click(_config.Window.Left + _config.Center + _config.Scale(100), _config.Window.Bottom - _config.Scale(345));
             Thread.Sleep(2000);
 
@@ -268,12 +270,12 @@ namespace BoosterBot
             {
                 if (mmTimer.Elapsed.TotalSeconds > 600)
                 {
-                    Logger.Log("Matchmaking seems to be hanging. Returning to menu to re-try...", _logPath);
+                    Log("Matchmaking seems to be hanging. Returning to menu to re-try...");
                     _game.ClickCancel();
                     return true;
                 }
 
-                Logger.Log("Waiting for match start...", _logPath);
+                Log("Waiting for match start...");
                 Thread.Sleep(5000);
                 _config.GetWindowPositions();
             }
@@ -283,7 +285,7 @@ namespace BoosterBot
 
         private bool PlayMatch()
         {
-            Logger.Log("Playing match...", _logPath);
+            Log("Playing match...");
             Thread.Sleep(1000);
             var active = true;
             _game.ClickSnap();
@@ -301,7 +303,7 @@ namespace BoosterBot
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
                     {
-                        Logger.Log("Could not detect active match, trying again in 4 seconds...", _logPath);
+                        Log("Could not detect active match, trying again in 4 seconds...");
                         _config.GetWindowPositions();
                         _game.ResetClick();
                         check = _game.CanIdentifyActiveConquestMatch();
@@ -314,35 +316,35 @@ namespace BoosterBot
                 {
                     if (currentTurn++ >= _retreatAfterTurn)
                     {
-                        Logger.Log("Retreat after turn reached. Attempting retreat...", _logPath);
+                        Log("Retreat after turn reached. Attempting retreat...");
                         _game.ClickRetreat();
                         Thread.Sleep(5000);
 
-						Logger.Log("Attempting concede...", _logPath);
+						Log("Attempting concede...");
 						_game.ClickConcede();
 						Thread.Sleep(5000);
 					}
 					else
                     {
-                        Logger.Log("Attempting to play cards...", _logPath);
+                        Log("Attempting to play cards...");
                         _game.PlayHand();
                         Thread.Sleep(1000);
 
                         _config.GetWindowPositions();
                         if (!_game.CanIdentifyZeroEnergy())
                         {
-                            Logger.Log("Detected leftover energy, will attempt to play cards again...", _logPath);
+                            Log("Detected leftover energy, will attempt to play cards again...");
                             _game.PlayHand();
                         }
 
-                        Logger.Log("Clicking 'Next Turn'...", _logPath);
+                        Log("Clicking 'Next Turn'...");
                         _game.ClickNext();
                         Thread.Sleep(1000);
 
                         _config.GetWindowPositions();
                         while (_game.CanIdentifyMidTurn())
                         {
-                            Logger.Log("Waiting for turn to progress...", _logPath);
+                            Log("Waiting for turn to progress...");
                             Thread.Sleep(4000);
                             _config.GetWindowPositions();
                         }
@@ -353,7 +355,7 @@ namespace BoosterBot
             _config.GetWindowPositions();
             if (_matchTimer.Elapsed.Minutes > 15 && _game.CanIdentifyConquestRetreatBtn())
             {
-                Logger.Log("Match timer has eclipsed 30 minutes. Attempting retreat...", _logPath);
+                Log("Match timer has eclipsed 30 minutes. Attempting retreat...");
                 _game.ClickRetreat();
                 Thread.Sleep(5000);
             }
@@ -368,7 +370,7 @@ namespace BoosterBot
 
         private bool ProgressRound()
         {
-            Logger.Log("Identified round end. Proceeding to next round...", _logPath);
+            Log("Identified round end. Proceeding to next round...");
             _game.ClickNext();
 
             _config.GetWindowPositions();
@@ -377,7 +379,7 @@ namespace BoosterBot
             {
                 if (waitTime >= 90000)
                 {
-                    Logger.Log("Max wait time of 90 seconds elapsed...", _logPath);
+                    Log("Max wait time of 90 seconds elapsed...");
                     _game.BlindReset();
                     return DetermineLoopEntryPoint();
                 }
@@ -392,7 +394,7 @@ namespace BoosterBot
 
         private bool ExitMatch()
         {
-            Logger.Log("Exiting match...", _logPath);
+            Log("Exiting match...");
             _config.GetWindowPositions();
 
             while (_game.CanIdentifyConquestMatchEndNext1() || _game.CanIdentifyConquestMatchEndNext2())
@@ -402,7 +404,7 @@ namespace BoosterBot
                 _config.GetWindowPositions();
             }
 
-            Logger.Log("Waiting for post-match screens...", _logPath);
+            Log("Waiting for post-match screens...");
             Thread.Sleep(10000);
 
             var totalSleep = 0;
@@ -414,7 +416,7 @@ namespace BoosterBot
 
                 if (totalSleep > 4000 && _game.CanIdentifyAnyConquestLobby())
                 {
-                    Logger.Log("Identified Conquest lobby...", _logPath);
+                    Log("Identified Conquest lobby...");
                     return true;
                 }
 
@@ -427,7 +429,7 @@ namespace BoosterBot
 
         private bool AcceptResult()
         {
-            Logger.Log("Processing post-match screens...", _logPath);
+            Log("Processing post-match screens...");
 
             _config.GetWindowPositions();
             if (_game.CanIdentifyConquestLossContinue() || _game.CanIdentifyConquestWinNext() || _game.CanIdentifyConquestTicketClaim())
