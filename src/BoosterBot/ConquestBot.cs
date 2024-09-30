@@ -61,7 +61,11 @@ namespace BoosterBot
 
         public string GetLogPath() => _logPath;
 
-        public void Log(string message) => Logger.Log(message, _logPath);
+        public void Log(string message, bool verboseOnly = false)
+        {
+            if (!verboseOnly || _config.Verbose)
+                Logger.Log(message, _logPath);
+        }
 
         public void Run()
         {

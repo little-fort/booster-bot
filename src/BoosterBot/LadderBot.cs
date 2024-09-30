@@ -44,7 +44,11 @@ namespace BoosterBot
 
         public string GetLogPath() => _logPath;
 
-        public void Log(string message) => Logger.Log(message, _logPath);
+        public void Log(string message, bool verboseOnly = false)
+        {
+            if (!verboseOnly || _config.Verbose)
+                Logger.Log(message, _logPath);
+        }
 
         public void Run()
         {
@@ -180,8 +184,8 @@ namespace BoosterBot
             var snapLimit = 0.5;
             var snapRoll = _rand.NextDouble();
             var shouldSnap = snapRoll <= snapLimit;
-            Log("Limit:  " + snapLimit.ToString());
-            Log("Rolled: " + snapRoll.ToString());
+            Log("Limit:  " + snapLimit.ToString(), true);
+            Log("Rolled: " + snapRoll.ToString(), true);
             Log("Snap:   " + (shouldSnap ? "YES" : "NO"));
 
             _matchTimer = new Stopwatch();
