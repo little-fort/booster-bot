@@ -2,6 +2,7 @@
 using System.Text;
 using System.Security.Cryptography;
 using OpenCvSharp;
+using BoosterBot.Models;
 
 namespace BoosterBot;
 
@@ -9,8 +10,19 @@ internal class ImageUtilities
 {
     #region Image Comparison
 
-    public static bool CheckImageAreaSimilarity(Rect area, string refImage, double targetScore = 0.95, string image = BotConfig.DefaultImageLocation)
+    /// <summary>
+    /// A method to compare two images and return a similarity score based on how close they are to each other.
+    /// </summary>
+    /// <param name="area">The area that should be cropped from the target image.</param>
+    /// <param name="refImage">The reference image that should be used for comparison.</param>
+    /// <param name="targetScore">The threshold of similarity that must be met to return true.</param>
+    /// <param name="image">The target image that is being evaluated.</param>
+    /// <returns>A tuple containing a boolean indicating if the images are similar enough and a list of logs for debugging.</returns>
+    public static IdentificationResult CheckImageAreaSimilarity(Rect area, string refImage, double targetScore = 0.95, string image = BotConfig.DefaultImageLocation)
     {
+        var logs = new List<string>();
+        var prefix = "     [CheckSimilarity]";
+
         // Get base crop
         var rect = new Rectangle() { X = area.Left, Y = area.Top, Width = area.Right - area.Left, Height = area.Bottom - area.Top };
         var crop = SaveImage(rect, image, refImage.Split('\\')[^1].Replace("-preproc", ""));
@@ -21,13 +33,21 @@ internal class ImageUtilities
         preprocImage.ImWrite(preprocImagePath);
 
         // Compare pre-processed version against base
+        logs.Add($"{prefix} CROP: {Path.GetFileName(crop)}");
+        logs.Add($"{prefix} PROC: {Path.GetFileName(preprocImagePath)}");
+
         var similarity = CalculateImageSimilarity(refImage, preprocImagePath);
+
+        logs.Add($"{prefix} SIMILAR: {similarity * 100}%");
+        logs.Add($"{prefix} TARGET:  {targetScore * 100}%");
+        logs.Add($"{prefix} RESULT:  {similarity >= targetScore}");
 
         // Small throttle to prevent blocks from too many calls in quick succession
         Thread.Sleep(250);
 
-        return similarity >= targetScore;
+        return new IdentificationResult(similarity >= targetScore, logs);
     }
+
 
     /// <summary>
     /// A method to preprocess the cropped image so that the Tesseract OCR will return more consistent results.
