@@ -195,8 +195,8 @@ namespace BoosterBot
             _rand = new Random();
 
             Log("Rolling for snap decision...");
-            var snapLimit = 0.5;
-            var snapRoll = _rand.NextDouble();
+            var snapLimit = 0.465;
+            var snapRoll = Math.Round(_rand.NextDouble(), 3);
             var shouldSnap = snapRoll <= snapLimit;
             Log("Limit:  " + snapLimit.ToString(), true);
             Log("Rolled: " + snapRoll.ToString(), true);
@@ -275,7 +275,6 @@ namespace BoosterBot
 
             _config.GetWindowPositions();
 
-            Log("Checking for retreat button...", true);
             if (_matchTimer.Elapsed.Minutes > 15 && Check(_game.CanIdentifyLadderRetreatBtn))
             {
                 Log("Match timer has eclipsed 15 minutes. Attempting retreat...");
@@ -283,8 +282,8 @@ namespace BoosterBot
                 Thread.Sleep(5000);
             }
 
-            Log("Checking for retreat button...", true);
-            if (Check(_game.CanIdentifyLadderRetreatBtn))
+            Log("Checking for end of match...", true);
+            if (Check(_game.CanIdentifyLadderMatchEnd))
                 return ExitMatch();
 
             return false;
@@ -301,8 +300,6 @@ namespace BoosterBot
                 _game.ClickNext();
                 Thread.Sleep(6000);
                 _config.GetWindowPositions();
-
-                Log("Checking for post-match screens...", true);
             }
 
             return true;

@@ -21,7 +21,6 @@ internal class ImageUtilities
     public static IdentificationResult CheckImageAreaSimilarity(Rect area, string refImage, double targetScore = 0.95, string image = BotConfig.DefaultImageLocation)
     {
         var logs = new List<string>();
-        var prefix = "     [CheckSimilarity]";
 
         // Get base crop
         var rect = new Rectangle() { X = area.Left, Y = area.Top, Width = area.Right - area.Left, Height = area.Bottom - area.Top };
@@ -33,14 +32,14 @@ internal class ImageUtilities
         preprocImage.ImWrite(preprocImagePath);
 
         // Compare pre-processed version against base
-        logs.Add($"{prefix} CROP: {Path.GetFileName(crop)}");
-        logs.Add($"{prefix} PROC: {Path.GetFileName(preprocImagePath)}");
+        logs.Add($"   CROP:    {Path.GetFileName(crop)}");
+        logs.Add($"   PROC:    {Path.GetFileName(preprocImagePath)}");
 
         var similarity = CalculateImageSimilarity(refImage, preprocImagePath);
 
-        logs.Add($"{prefix} SIMILAR: {similarity * 100}%");
-        logs.Add($"{prefix} TARGET:  {targetScore * 100}%");
-        logs.Add($"{prefix} RESULT:  {similarity >= targetScore}");
+        logs.Add($"   SIMILAR: {Math.Round(similarity * 100, 1)}%");
+        logs.Add($"   TARGET:  {targetScore * 100}%");
+        logs.Add($"   RESULT:  {similarity >= targetScore}");
 
         // Small throttle to prevent blocks from too many calls in quick succession
         Thread.Sleep(250);
