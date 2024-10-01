@@ -8,7 +8,7 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        bool masked = true;        // TODO: Revert before PR
+        bool masked = false;
         bool verbose = true;       // TODO: Revert before PR
         bool autoplay = true;
         bool saveScreens = false;
