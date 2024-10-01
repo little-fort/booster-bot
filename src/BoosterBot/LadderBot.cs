@@ -44,7 +44,24 @@ namespace BoosterBot
 
         public string GetLogPath() => _logPath;
 
-        public void Log(string message) => Logger.Log(message, _logPath);
+        public void Log(List<string> messages, bool verboseOnly = false)
+        {
+            foreach (var message in messages)
+                Log(message, verboseOnly);
+        }
+
+        public void Log(string message, bool verboseOnly = false)
+        {
+            if (!verboseOnly || _config.Verbose)
+                Logger.Log(message, _logPath);
+        }
+
+        private bool Check(Func<IdentificationResult> funcCheck)
+        {
+            var result = funcCheck();
+            Log(result.Logs, true);
+            return result.IsMatch;
+        }
 
         public void Run()
         {
@@ -63,8 +80,7 @@ namespace BoosterBot
                 Thread.Sleep(500);
 
                 _config.GetWindowPositions();
-                var onMenu = _game.CanIdentifyMainMenu();
-
+                var onMenu = Check(_game.CanIdentifyMainMenu);
                 if (onMenu)
                     DetermineLoopEntryPoint();
                 else
@@ -152,7 +168,9 @@ namespace BoosterBot
 
             var mmTimer = new Stopwatch();
             mmTimer.Start();
-            while (_game.CanIdentifyLadderMatchmaking())
+
+            Log("Checking for ongoing matchmaking...", true);
+            while (Check(_game.CanIdentifyLadderMatchmaking))
             {
                 if (mmTimer.Elapsed.TotalSeconds > _rand.Next(300, 360))
                 {
@@ -177,11 +195,11 @@ namespace BoosterBot
             _rand = new Random();
 
             Log("Rolling for snap decision...");
-            var snapLimit = 0.5;
-            var snapRoll = _rand.NextDouble();
+            var snapLimit = 0.465;
+            var snapRoll = Math.Round(_rand.NextDouble(), 3);
             var shouldSnap = snapRoll <= snapLimit;
-            Log("Limit:  " + snapLimit.ToString());
-            Log("Rolled: " + snapRoll.ToString());
+            Log("Limit:  " + snapLimit.ToString(), true);
+            Log("Rolled: " + snapRoll.ToString(), true);
             Log("Snap:   " + (shouldSnap ? "YES" : "NO"));
 
             _matchTimer = new Stopwatch();
@@ -192,7 +210,9 @@ namespace BoosterBot
             while (active && _matchTimer.Elapsed.Minutes < 15)
             {
                 _config.GetWindowPositions();
-                if (!_game.CanIdentifyActiveLadderMatch())
+
+                Log("Checking for active ladder match...", true);
+                if (!Check(_game.CanIdentifyActiveLadderMatch))
                 {
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
@@ -200,7 +220,7 @@ namespace BoosterBot
                         Log("Could not detect active match, trying again in 2 seconds...");
                         _config.GetWindowPositions();
                         _game.ResetClick();
-                        check = _game.CanIdentifyActiveLadderMatch();
+                        check = Check(_game.CanIdentifyActiveLadderMatch);
                         Thread.Sleep(2500);
                     }
 
@@ -210,18 +230,20 @@ namespace BoosterBot
                 {
                     if (currentTurn++ >= _retreatAfterTurn)
                     {
-                        Logger.Log($"Configured turn limit ({_retreatAfterTurn}) reached. Attempting retreat...", _logPath);
+                        Log($"Configured turn limit ({_retreatAfterTurn}) reached. Attempting retreat...");
                         _game.ClickRetreat();
                         Thread.Sleep(5000);
 					}
 					else
                     {
-                        Logger.Log($"Attempting to play cards... [Turn count: {currentTurn}]", _logPath);
+                        Log($"Attempting to play cards... [Turn count: {currentTurn}]");
                         _game.PlayHand();
                         Thread.Sleep(1000);
 
                         _config.GetWindowPositions();
-                        if (!_game.CanIdentifyZeroEnergy())
+
+                        Log("Checking for energy state...", true);
+                        if (!Check(_game.CanIdentifyZeroEnergy))
                         {
                             Log("Detected leftover energy, will attempt to play cards again...");
                             _game.PlayHand();
@@ -232,7 +254,9 @@ namespace BoosterBot
                         Thread.Sleep(1000);
 
                         _config.GetWindowPositions();
-                        while (_game.CanIdentifyMidTurn())
+
+                        Log("Checking for turn state...", true);
+                        while (Check(_game.CanIdentifyMidTurn))
                         {
                             Log("Waiting for turn to progress...");
                             Thread.Sleep(4000);
@@ -250,14 +274,16 @@ namespace BoosterBot
             }
 
             _config.GetWindowPositions();
-            if (_matchTimer.Elapsed.Minutes > 15 && _game.CanIdentifyLadderRetreatBtn())
+
+            if (_matchTimer.Elapsed.Minutes > 15 && Check(_game.CanIdentifyLadderRetreatBtn))
             {
                 Log("Match timer has eclipsed 15 minutes. Attempting retreat...");
                 _game.ClickRetreat();
                 Thread.Sleep(5000);
             }
 
-            if (_game.CanIdentifyLadderMatchEnd())
+            Log("Checking for end of match...", true);
+            if (Check(_game.CanIdentifyLadderMatchEnd))
                 return ExitMatch();
 
             return false;
@@ -268,7 +294,8 @@ namespace BoosterBot
             Log("Exiting match...");
             _config.GetWindowPositions();
 
-            while (_game.CanIdentifyLadderCollectRewardsBtn() || _game.CanIdentifyLadderMatchEndNextBtn())
+            Log("Checking for post-match screens...", true);
+            while (Check(_game.CanIdentifyLadderCollectRewardsBtn) || Check(_game.CanIdentifyLadderMatchEndNextBtn))
             {
                 _game.ClickNext();
                 Thread.Sleep(6000);
