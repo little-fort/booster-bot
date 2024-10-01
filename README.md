@@ -16,7 +16,7 @@ A bot that could ***hypothetically*** be used to farm boosters for any deck in M
 - No additional third-party software required 
 - Portable executable that does not require installation. Simply download latest release, start Snap, and run `BoosterBot.exe`
 - Runs under randomized process name to help prevent detection
-- Option to specify which round to retreat after to maximize xp gain
+- Option to specify automatic retreat to optimize XP gain
 
 ## Prerequisites
 
@@ -39,17 +39,25 @@ Game should be run in fullscreen mode at 1080p for best results. Although the bo
 
 ### Advanced
 
-Source can be cloned directly. Project is built on .NET 6, so you will need [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) or the [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) installed in order to run.
+Source can be cloned directly. Project is built on .NET 8, so you will need [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) or the [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed in order to run.
 
 The .exe can also be run from the command line with the following options:
 
+**Downscaled mode**
+
+`-d, --downscaled`
+
+Should be used only if you are running a display in a downscaled resolution (i.e. a native 2K display set to 1080p) and the bot is having trouble recognizing the game state. Will adjust thresholds slightly to account for less precision when detecting UI elements.
+
+Usage: `BoosterBot.exe -d`
+
 **Scaling** 
 
-`--scaling, -scaling, -s`
+`-s, --scaling`
 
-Used to adjust display scale, if necessary. You can check your current display scale in the display properties under System > Display > Custom scaling. If the display where Marvel Snap will be running is currently set to 100% scale (Windows 10) or the custom scaling entry field is empty (Windows 11), this value does not need to be used. If you have a custom scale value set, divide it by 100 and then pass in the value as an argument. Should be the first thing to check if you are running the game on something other than a standard 1080p monitor and the bot is not working.
+Used to adjust display scale, if necessary. You can check your current display scale in the display properties under System > Display > Custom scaling. If the display where Marvel Snap will be running is currently set to 100% scale (Windows 10) or the custom scaling entry field is empty (Windows 11), this value does not need to be used. If you have a custom scale value set, divide it by 100 and then pass in the value as an argument. Can be used if you are running the game at a resolution other than 1080p and the bot is not working. However, effectiveness is still low and it would be preferable to set the display to 1080p.
 
-Usage: `BoosterBot.exe --scaling 2.75`
+Usage: `BoosterBot.exe -s 2.75`
 
 ## Notes
 
