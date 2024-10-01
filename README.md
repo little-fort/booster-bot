@@ -76,7 +76,7 @@ Configures the turn at which the bot should auto-retreat, if desired. Valid argu
 Specifies the maximum tier that the bot should play if the bot was set to play Conquest. Valid arguments: `pg` (Proving Grounds), `s` (Silver), `g` (Gold), `i` (Infinite)
 
 Usage:
-- `BoosterBot.exe --mode ranked --turns 3` - Bot will automatically farm ladder on startup, and will auto-retreat after 3 turns.
+- `BoosterBot.exe --mode ranked --turns 3` - Bot will farm ladder on startup, and will auto-retreat after 3 turns.
 - `BoosterBot.exe -m c -ct s` - Bot will farm Conquest on startup, but only at Silver tier or lower.
 
 ## Notes
