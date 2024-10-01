@@ -59,6 +59,26 @@ Used to adjust display scale, if necessary. You can check your current display s
 
 Usage: `BoosterBot.exe -s 2.75`
 
+**Startup automation**
+
+You can pass in arguments to skip the initial startup menu and launch the bot with your preferred configuration. Useful if you want to automate the bot's schedule or bind it to a hotkey.
+
+`-m, --mode`
+
+Specifies the game mode that the bot should play. Valid arguments: `c`, `conquest`, `l`, `ladder`, `r`, `ranked`
+
+`-t, --turns`
+
+Configures the turn at which the bot should auto-retreat, if desired. Valid arguments: any integer. Value can be ignored or set to `0` if the bot should play matches to the end. Only applicable in ranked mode and will be ignored in Conquest.
+
+`-ct, --tier`
+
+Specifies the maximum tier that the bot should play if the bot was set to play Conquest. Valid arguments: `pg` (Proving Grounds), `s` (Silver), `g` (Gold), `i` (Infinite)
+
+Usage:
+- `BoosterBot.exe --mode ranked --turns 3` - Bot will automatically farm ladder on startup, and will auto-retreat after 3 turns.
+- `BoosterBot.exe -m c -ct s` - Bot will farm Conquest on startup, but only at Silver tier or lower.
+
 ## Notes
 
 - Bot averages 11-14 matches per hour, which translates into about 66-84 boosters per hour. Hard limit of 1000 boosters per day still applies.
