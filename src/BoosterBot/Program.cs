@@ -9,7 +9,7 @@ internal class Program
     static void Main(string[] args)
     {
         bool masked = false;
-        bool verbose = true;       // TODO: Revert before PR
+        bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
         bool downscaled = false;
