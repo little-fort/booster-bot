@@ -12,6 +12,7 @@ internal class Program
         bool verbose = true;       // TODO: Revert before PR
         bool autoplay = true;
         bool saveScreens = false;
+        bool downscaled = false;
         double scaling = 1.0;
         string gameMode = "";
         string maxConquestTier = "";
@@ -65,6 +66,10 @@ internal class Program
                     case "-ct":
                         maxConquestTier = args[i + 1];
                         break;
+                    case "-d":
+                    case "--downscaled":
+                        downscaled = true;
+                        break;
                 }
 
         try
@@ -105,7 +110,7 @@ internal class Program
 
                 PrintTitle();
 
-                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn) : new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn);
+                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn, downscaled) : new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled);
  
                 try
                 {

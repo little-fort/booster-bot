@@ -12,13 +12,16 @@ namespace BoosterBot
         private readonly int _retreatAfterTurn;
         private Stopwatch _matchTimer { get; set; }
 
-        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier, int retreatAfterTurn)
+        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier, int retreatAfterTurn, bool downscaled)
         {
             _logPath = $"logs\\conquest-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
             _game = new GameUtilities(_config);
             _maxTier = maxTier;
             _retreatAfterTurn = retreatAfterTurn;
+
+            if (downscaled)
+                _game.SetDefaultConfidence(0.9);
 
             // Debug();
         }

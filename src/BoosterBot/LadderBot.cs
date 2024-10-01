@@ -14,13 +14,17 @@ namespace BoosterBot
         private Stopwatch _matchTimer { get; set; }
 
 
-        public LadderBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn)
+        public LadderBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn, bool downscaled)
         {
             _logPath = $"logs\\ladder-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
             _retreatAfterTurn = retreatAfterTurn;
             _game = new GameUtilities(_config);
             _rand = new Random();
+
+            // If the bot is running on a lower resolution, we need to adjust the confidence level to account for slight variations in image quality
+            if (downscaled)
+                _game.SetDefaultConfidence(0.9);
         }
 
         public void Debug()
