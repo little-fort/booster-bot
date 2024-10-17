@@ -45,7 +45,7 @@ The .exe can also be run from the command line with the following options:
 
 **Downscaled mode**
 
-`-d, --downscaled`
+`-d`, `--downscaled`
 
 Should be used only if you are running a display in a downscaled resolution (i.e. a native 2K display set to 1080p) and the bot is having trouble recognizing the game state. Will adjust thresholds slightly to account for less precision when detecting UI elements.
 
@@ -53,7 +53,7 @@ Usage: `BoosterBot.exe -d`
 
 **Scaling** 
 
-`-s, --scaling`
+`-s`, `--scaling`
 
 Used to adjust display scale, if necessary. You can check your current display scale in the display properties under System > Display > Custom scaling. If the display where Marvel Snap will be running is currently set to 100% scale (Windows 10) or the custom scaling entry field is empty (Windows 11), this value does not need to be used. If you have a custom scale value set, divide it by 100 and then pass in the value as an argument. Can be used if you are running the game at a resolution other than 1080p and the bot is not working. However, effectiveness is still low and it would be preferable to set the display to 1080p.
 
@@ -63,17 +63,21 @@ Usage: `BoosterBot.exe -s 2.75`
 
 You can pass in arguments to skip the initial startup menu and launch the bot with your preferred configuration. Useful if you want to automate the bot's schedule or bind it to a hotkey.
 
-`-m, --mode`
+`-m`, `--mode`
 
 Specifies the game mode that the bot should play. Valid arguments: `c`, `conquest`, `l`, `ladder`, `r`, `ranked`
 
-`-t, --turns`
+`-t`, `--turns`
 
 Configures the turn at which the bot should auto-retreat, if desired. Valid arguments: any integer. Value can be ignored or set to `0` if the bot should play matches to the end. Only applicable in ranked mode and will be ignored in Conquest.
 
-`-ct, --tier`
+`-ct`, `--tier`
 
 Specifies the maximum tier that the bot should play if the bot was set to play Conquest. Valid arguments: `pg` (Proving Grounds), `s` (Silver), `g` (Gold), `i` (Infinite)
+
+`-e`, `--event`
+
+Can be used to adjust the default click point for the Conquest button in case there's an active event mode (e.g. Deadpool's Diner, High Voltage).
 
 Usage:
 - `BoosterBot.exe --mode ranked --turns 3` - Bot will farm ladder on startup, and will auto-retreat after 3 turns.
