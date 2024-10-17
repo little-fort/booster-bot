@@ -145,7 +145,7 @@ namespace BoosterBot
 
         public int Scale(int x) => (int)(Scaling * x);
 
-        public void GetWindowPositions()
+        public void GetWindowPositions(bool useEvent = true)
         {
             // Find game window and take screencap:
             Window = SystemUtilities.GetGameWindowLocation();
@@ -244,7 +244,7 @@ namespace BoosterBot
             BaseConquestBannerPoint = new Point
             {
                 X = Window.Left + Center,
-                Y = Window.Top + Scale(330)
+                Y = Window.Top + (useEvent ? Scale(540) : Scale(330)) // Adjust click point for LTM
             };
 
             BaseSnapPoint = new Point
