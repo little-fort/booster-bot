@@ -13,6 +13,7 @@ internal class Program
         bool autoplay = true;
         bool saveScreens = false;
         bool downscaled = false;
+        bool ltm = true;        // TODO: Revert when LTM ends
         double scaling = 1.0;
         string gameMode = "";
         string maxConquestTier = "";
@@ -70,6 +71,10 @@ internal class Program
                     case "--downscaled":
                         downscaled = true;
                         break;
+                    case "-e":
+                    case "--event":
+                        ltm = true;
+                        break;
                 }
 
         try
@@ -110,7 +115,13 @@ internal class Program
 
                 PrintTitle();
 
-                IBoosterBot bot = (mode == 1) ? new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn, downscaled) : new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled);
+                IBoosterBot bot = mode switch
+                {
+                    1 => new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn, downscaled, ltm),
+                    2 => new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, ltm),
+                    3 => new EventBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, ltm),
+                    _ => throw new Exception("Invalid mode selection.")
+                };
  
                 try
                 {
@@ -173,11 +184,12 @@ internal class Program
         Console.WriteLine("Available farming modes:\n");
         Console.WriteLine("[1] Conquest");
         Console.WriteLine("[2] Ranked Ladder");
+        Console.WriteLine("[3] Event LTM");
         Console.WriteLine();
         Console.Write("Waiting for selection...");
 
         var key = Console.ReadKey();
-        if (key.KeyChar == '1' || key.KeyChar == '2')
+        if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3')
             return int.Parse(key.KeyChar.ToString());
 
         return GetModeSelection();

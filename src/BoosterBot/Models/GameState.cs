@@ -9,6 +9,7 @@ namespace BoosterBot.Models
     internal enum GameState
     {
         MAIN_MENU,
+        EVENT_MENU,
         RECONNECT_TO_GAME,
         MID_MATCH,
         LADDER_MATCHMAKING,
