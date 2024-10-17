@@ -132,7 +132,7 @@ namespace BoosterBot
 
             for (int x = 0; x < 3; x++)
             {
-                SystemUtilities.Click(_config.ConquestBannerPoint);
+                SystemUtilities.Click(_config.EventBannerPoint);
                 Thread.Sleep(1000);
             }
         }

@@ -54,6 +54,20 @@ namespace BoosterBot
         }
         public Point ClearErrorPoint { get; set; }
         public Point GameModesPoint { get; set; }
+        private Point BaseEventBannerPoint { get; set; }
+        public Point EventBannerPoint
+        {
+            get
+            {
+                var rand = new Random();
+                var bound = (int)(50 * Scaling);
+                return new Point
+                {
+                    X = BaseEventBannerPoint.X + rand.Next(-bound, bound),
+                    Y = BaseEventBannerPoint.Y + rand.Next(-bound, bound)
+                };
+            }
+        }
         private Point BaseConquestBannerPoint { get; set; }
         public Point ConquestBannerPoint
         {
@@ -241,6 +255,12 @@ namespace BoosterBot
             {
                 X = Window.Left + Center + Scale(175),
                 Y = Window.Bottom - Scale(50)
+            };
+
+            BaseEventBannerPoint = new Point
+            {
+                X = Window.Left + Center,
+                Y = Window.Top + Scale(330)
             };
 
             BaseConquestBannerPoint = new Point
