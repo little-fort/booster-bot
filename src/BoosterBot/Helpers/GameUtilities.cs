@@ -20,51 +20,84 @@ namespace BoosterBot
 
         public void SetDefaultConfidence(double confidence) => _defaultConfidence = confidence;
 
-        public void LogLadderGameState()
+        private (List<string> Logs, List<string> Results) ProcessChecks(List<(string Description, Func<IdentificationResult> IdentifyMethod)> checks)
         {
-            _config.GetWindowPositions();
+            var logs = new List<string>();
+            var results = new List<string>();
 
-            Console.WriteLine($"{(CanIdentifyMainMenu().IsMatch ? "X" : " ")} MAIN_MENU");
-            Console.WriteLine($"{(CanIdentifyZeroEnergy().IsMatch ? "X" : " ")} MID_MATCH");
-            Console.WriteLine($"{(CanIdentifyLadderMatchmaking().IsMatch ? "X" : " ")} LADDER_MATCHMAKING");
-            Console.WriteLine($"{(CanIdentifyLadderRetreatBtn().IsMatch ? "X" : " ")} LADDER_MATCH (Retreat button)");
-            Console.WriteLine($"{(CanIdentifyEndTurnBtn().IsMatch ? "X" : " ")} LADDER_MATCH (End turn button)");
-            Console.WriteLine($"{(CanIdentifyMidTurn().IsMatch ? "X" : " ")} LADDER_MATCH (Mid turn buttons)");
-            Console.WriteLine($"{(CanIdentifyLadderMatchEnd().IsMatch ? "X" : " ")} LADDER_MATCH_END");
+            foreach (var (description, identifyMethod) in checks)
+            {
+                var id = identifyMethod();
+                logs.AddRange(id.Logs);
+                logs.Add("------------");
+                results.Add($"{(id.IsMatch ? "X" : " ")} {description}");
+            }
+
+            return (logs, results);
         }
 
-        public void LogConquestGameState()
+        public (List<string> Logs, List<string> Results) LogLadderGameState()
         {
+            var logs = new List<string>();
+            var results = new List<string>();
             _config.GetWindowPositions();
 
-            Console.WriteLine($"{(CanIdentifyMainMenu().IsMatch ? "X" : " ")} MAIN_MENU");
-            Console.WriteLine($"{(CanIdentifyReconnectToGameBtn().IsMatch ? "X" : " ")} RECONNECT_TO_GAME");
-            Console.WriteLine($"{(CanIdentifyZeroEnergy().IsMatch ? "X" : " ")} MID_MATCH");
-            Console.WriteLine($"{(CanIdentifyConquestNoTickets().IsMatch ? "X" : " ")} CONQUEST_NO_TICKETS");
-            Console.WriteLine($"{(CanIdentifyConquestPlayBtn().IsMatch ? "X" : " ")} CONQUEST_PREMATCH");
-            Console.WriteLine($"{(CanIdentifyConquestLobbyPG().IsMatch ? "X" : " ")} CONQUEST_LOBBY_PG");
-            Console.WriteLine($"{(CanIdentifyConquestLobbySilver().IsMatch ? "X" : " ")} CONQUEST_LOBBY_SILVER");
-            Console.WriteLine($"{(CanIdentifyConquestLobbyGold().IsMatch ? "X" : " ")} CONQUEST_LOBBY_GOLD");
-            Console.WriteLine($"{(CanIdentifyConquestLobbyInfinite().IsMatch ? "X" : " ")} CONQUEST_LOBBY_INFINITE");
-            Console.WriteLine($"{(CanIdentifyConquestMatchmaking().IsMatch ? "X" : " ")} CONQUEST_MATCHMAKING");
-            Console.WriteLine($"{(CanIdentifyConquestRetreatBtn().IsMatch ? "X" : " ")} CONQUEST_MATCH (Retreat button)");
-            Console.WriteLine($"{(CanIdentifyEndTurnBtn().IsMatch ? "X" : " ")} CONQUEST_MATCH (End turn button)");
-            Console.WriteLine($"{(CanIdentifyMidTurn().IsMatch ? "X" : " ")} CONQUEST_MATCH (Mid turn buttons)");
-            Console.WriteLine($"{(CanIdentifyConquestConcede().IsMatch ? "X" : " ")} CONQUEST_ROUND_END");
-            Console.WriteLine($"{(CanIdentifyConquestMatchEnd().IsMatch ? "X" : " ")} CONQUEST_MATCH_END");
-            Console.WriteLine($"{(CanIdentifyConquestLossContinue().IsMatch ? "X" : " ")} CONQUEST_POSTMATCH_LOSS_SCREEN");
-            Console.WriteLine($"{(CanIdentifyConquestWinNext().IsMatch ? "X" : " ")} CONQUEST_POSTMATCH_WIN_CONTINUE");
-            Console.WriteLine($"{(CanIdentifyConquestTicketClaim().IsMatch ? "X" : " ")} CONQUEST_POSTMATCH_WIN_TICKET");
+            var checks = new List<(string Description, Func<IdentificationResult> IdentifyMethod)>
+            {
+                ("MAIN_MENU", CanIdentifyMainMenu),
+                ("MID_MATCH", CanIdentifyZeroEnergy),
+                ("LADDER_MATCHMAKING", CanIdentifyLadderMatchmaking),
+                ("LADDER_MATCH (Retreat button)", CanIdentifyLadderRetreatBtn),
+                ("LADDER_MATCH (End turn button)", CanIdentifyEndTurnBtn),
+                ("LADDER_MATCH (Mid turn buttons)", CanIdentifyMidTurn),
+                ("LADDER_MATCH_END", CanIdentifyLadderMatchEnd),
+                ("EVENT_MENU", CanIdentifyEventMenu)
+            };
+
+            return ProcessChecks(checks);
         }
 
-        public GameState DetermineLadderGameState()
+        public (List<string> Logs, List<string> Results) LogConquestGameState()
+        {
+            var logs = new List<string>();
+            var results = new List<string>();
+            _config.GetWindowPositions();
+
+            var checks = new List<(string Description, Func<IdentificationResult> IdentifyMethod)>
+            {
+                ("MAIN_MENU", CanIdentifyMainMenu),
+                ("RECONNECT_TO_GAME", CanIdentifyReconnectToGameBtn),
+                ("MID_MATCH", CanIdentifyZeroEnergy),
+                ("CONQUEST_NO_TICKETS", CanIdentifyConquestNoTickets),
+                ("CONQUEST_PREMATCH", CanIdentifyConquestPlayBtn),
+                ("CONQUEST_LOBBY_PG", CanIdentifyConquestLobbyPG),
+                ("CONQUEST_LOBBY_SILVER", CanIdentifyConquestLobbySilver),
+                ("CONQUEST_LOBBY_GOLD", CanIdentifyConquestLobbyGold),
+                ("CONQUEST_LOBBY_INFINITE", CanIdentifyConquestLobbyInfinite),
+                ("CONQUEST_MATCHMAKING", CanIdentifyConquestMatchmaking),
+                ("CONQUEST_MATCH (Retreat button)", CanIdentifyConquestRetreatBtn),
+                ("CONQUEST_MATCH (End turn button)", CanIdentifyEndTurnBtn),
+                ("CONQUEST_MATCH (Mid turn buttons)", CanIdentifyMidTurn),
+                ("CONQUEST_ROUND_END", CanIdentifyConquestConcede),
+                ("CONQUEST_MATCH_END", CanIdentifyConquestMatchEnd),
+                ("CONQUEST_POSTMATCH_LOSS_SCREEN", CanIdentifyConquestLossContinue),
+                ("CONQUEST_POSTMATCH_WIN_CONTINUE", CanIdentifyConquestWinNext),
+                ("CONQUEST_POSTMATCH_WIN_TICKET", CanIdentifyConquestTicketClaim)
+            };
+
+            return ProcessChecks(checks);
+        }
+
+        public GameState DetermineLadderGameState(bool checkEvent = false)
         {
             _config.GetWindowPositions();
 
             if (CanIdentifyMainMenu().IsMatch) return GameState.MAIN_MENU;
+            if (checkEvent && CanIdentifyEventMenu().IsMatch) return GameState.EVENT_MENU;
             if (CanIdentifyReconnectToGameBtn().IsMatch) return GameState.RECONNECT_TO_GAME;
             if (CanIdentifyLadderMatchmaking().IsMatch) return GameState.LADDER_MATCHMAKING;
             if (CanIdentifyLadderRetreatBtn().IsMatch) return GameState.LADDER_MATCH;
+            if (checkEvent && CanIdentifyEventForfeitBtn().IsMatch) return GameState.LADDER_MATCH;
             if (CanIdentifyEndTurnBtn().IsMatch) return GameState.LADDER_MATCH;
             if (CanIdentifyMidTurn().IsMatch) return GameState.LADDER_MATCH;
             if (CanIdentifyLadderMatchEnd().IsMatch) return GameState.LADDER_MATCH_END;
@@ -160,6 +193,19 @@ namespace BoosterBot
 
         public IdentificationResult CanIdentifyZeroEnergy()
             => CheckSimilarity(_mappings.GetEnergy, ComponentMappings.REF_ICON_ZERO_ENERGY, 0.925);
+
+        #endregion
+
+        #region Event
+
+        public IdentificationResult CanIdentifyEventMenu()
+            => CheckSimilarity(_mappings.GetBtnPlay, ComponentMappings.REF_EVENT_BTN_PLAY, 0.85);
+
+        public IdentificationResult CanIdentifyEventForfeitBtn()
+            => CheckSimilarity(_mappings.GetLadderBtnRetreat, ComponentMappings.REF_EVENT_BTN_FORFEIT);
+
+        public IdentificationResult CanIdentifyActiveEventMatch()
+            => CheckSequentially(CanIdentifyEventForfeitBtn, CanIdentifyEndTurnBtn, CanIdentifyMidTurn);
 
         #endregion
 

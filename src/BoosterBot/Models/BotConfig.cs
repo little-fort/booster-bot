@@ -16,6 +16,7 @@ namespace BoosterBot
         private readonly bool _verbose;
         private readonly bool _autoplay;
         private readonly bool _saveScreens;
+        private readonly bool _useEvent;
         private readonly string _logPath;
 
         public double Scaling { get => _scaling; }
@@ -134,13 +135,14 @@ namespace BoosterBot
         public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
-        public BotConfig(double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath)
+        public BotConfig(double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath, bool useEvent)
         {
             _scaling = scaling;
             _verbose = verbose;
             _autoplay = autoplay;
             _saveScreens = saveScreens;
             _logPath = logPath;
+            _useEvent = useEvent;
         }
 
         public int Scale(int x) => (int)(Scaling * x);
@@ -244,7 +246,7 @@ namespace BoosterBot
             BaseConquestBannerPoint = new Point
             {
                 X = Window.Left + Center,
-                Y = Window.Top + Scale(330)
+                Y = Window.Top + (_useEvent ? Scale(540) : Scale(330)) // Adjust click point for LTM
             };
 
             BaseSnapPoint = new Point

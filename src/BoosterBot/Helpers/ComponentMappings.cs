@@ -4,6 +4,8 @@ namespace BoosterBot
     internal class ComponentMappings
     {
         public const string REF_BTN_RECONNECT_TO_GAME = "reference\\btn-main-reconnect-preproc.png";
+        public const string REF_EVENT_BTN_PLAY = "reference\\btn-event-play-preproc.png";
+        public const string REF_EVENT_BTN_FORFEIT = "reference\\btn-event-forfeit-preproc.png";
         public const string REF_LADD_BTN_PLAY = "reference\\btn-main-play-preproc.png";
         public const string REF_LADD_BTN_MATCHMAKING_1 = "reference\\btn-ladder-matchmaking-cancel-1-preproc.png";
         public const string REF_LADD_BTN_MATCHMAKING_2 = "reference\\btn-ladder-matchmaking-cancel-2-preproc.png";

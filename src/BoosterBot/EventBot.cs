@@ -4,7 +4,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace BoosterBot
 {
-    internal class LadderBot : IBoosterBot
+    internal class EventBot : IBoosterBot
     {
         private readonly string _logPath;
         private readonly BotConfig _config;
@@ -14,7 +14,7 @@ namespace BoosterBot
         private Stopwatch _matchTimer { get; set; }
 
 
-        public LadderBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn, bool downscaled, bool useEvent = false)
+        public EventBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn, bool downscaled, bool useEvent = false)
         {
             _logPath = $"logs\\ladder-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
             _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath, useEvent);
@@ -75,7 +75,7 @@ namespace BoosterBot
 
         public void Run()
         {
-            Log("Starting Ladder bot...");
+            Log("Starting Event bot...");
             var attempts = 0;
 
             while (true)
@@ -92,7 +92,14 @@ namespace BoosterBot
                 _config.GetWindowPositions();
                 var onMenu = Check(_game.CanIdentifyMainMenu);
                 if (onMenu)
-                    DetermineLoopEntryPoint();
+                {
+                    Log("Detected main menu. Navigating to event LTM...");
+                    NavigateToGameModes();
+                    NavigateToLtmMenu();
+                    StartMatch();
+                }
+                else if (Check(_game.CanIdentifyEventMenu))
+                    StartMatch();
                 else
                 {
                     if (attempts <= 2)
@@ -110,6 +117,26 @@ namespace BoosterBot
             }
         }
 
+        private void NavigateToGameModes()
+        {
+            Log("Navigating to Game Modes tab...");
+            SystemUtilities.Click(_config.GameModesPoint);
+            Thread.Sleep(1000);
+            SystemUtilities.Click(_config.GameModesPoint);
+            Thread.Sleep(2500);
+        }
+
+        private void NavigateToLtmMenu()
+        {
+            Log("Navigating to LTM menu...");
+
+            for (int x = 0; x < 3; x++)
+            {
+                SystemUtilities.Click(_config.ConquestBannerPoint);
+                Thread.Sleep(1000);
+            }
+        }
+
         private bool DetermineLoopEntryPoint(int attempts = 0)
         {
             Log("Attempting to determine loop entry point...");
@@ -118,7 +145,14 @@ namespace BoosterBot
             switch (state)
             {
                 case GameState.MAIN_MENU:
-                    Log("Detected main menu. Starting new match...");
+                    Log("Detected main menu. Navigating to event menu...");
+                    NavigateToGameModes();
+                    NavigateToLtmMenu();
+                    Log("Starting new match...");
+                    StartMatch();
+                    return true;
+                case GameState.EVENT_MENU:
+                    Log("Detected event menu. Starting new match...");
                     StartMatch();
                     return true;
                 case GameState.RECONNECT_TO_GAME:
@@ -142,6 +176,8 @@ namespace BoosterBot
                 case GameState.CONQUEST_LOBBY_PG:
                     Log("Detected Conquest lobby. Resetting menu...");
                     _game.ResetMenu();
+                    NavigateToGameModes();
+                    NavigateToLtmMenu();
                     return StartMatch();
                 default:
                     if (attempts < 5)
@@ -201,9 +237,10 @@ namespace BoosterBot
         {
             Log("Playing match...");
             var active = true;
-            var alreadySnapped = false;
+            // var alreadySnapped = false;
             _rand = new Random();
 
+            /*
             Log("Rolling for snap decision...");
             var snapLimit = 0.465;
             var snapRoll = Math.Round(_rand.NextDouble(), 3);
@@ -211,6 +248,7 @@ namespace BoosterBot
             Log("Limit:  " + snapLimit.ToString(), true);
             Log("Rolled: " + snapRoll.ToString(), true);
             Log("Snap:   " + (shouldSnap ? "YES" : "NO"));
+            */
 
             _matchTimer = new Stopwatch();
             _matchTimer.Start();
@@ -222,7 +260,7 @@ namespace BoosterBot
                 _config.GetWindowPositions();
 
                 Log("Checking for active ladder match...", true);
-                if (!Check(_game.CanIdentifyActiveLadderMatch))
+                if (!Check(_game.CanIdentifyActiveEventMatch))
                 {
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
@@ -230,7 +268,7 @@ namespace BoosterBot
                         Log("Could not detect active match, trying again in 2 seconds...");
                         _config.GetWindowPositions();
                         _game.ResetClick();
-                        check = Check(_game.CanIdentifyActiveLadderMatch);
+                        check = Check(_game.CanIdentifyActiveEventMatch);
                         Thread.Sleep(2500);
                     }
 
@@ -275,12 +313,12 @@ namespace BoosterBot
                     }
                 }
 
-                if (shouldSnap && !alreadySnapped)
+                /*if (shouldSnap && !alreadySnapped)
                 {                     
                     Log("Attempting to snap...");
                     _game.ClickSnap();
                     alreadySnapped = true;
-                }
+                }*/
             }
 
             _config.GetWindowPositions();

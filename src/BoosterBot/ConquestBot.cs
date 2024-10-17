@@ -12,10 +12,10 @@ namespace BoosterBot
         private readonly int _retreatAfterTurn;
         private Stopwatch _matchTimer { get; set; }
 
-        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier, int retreatAfterTurn, bool downscaled)
+        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier, int retreatAfterTurn, bool downscaled, bool useEvent = false)
         {
             _logPath = $"logs\\conquest-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-            _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath);
+            _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath, useEvent);
             _game = new GameUtilities(_config);
             _maxTier = maxTier;
             _retreatAfterTurn = retreatAfterTurn;
@@ -33,10 +33,14 @@ namespace BoosterBot
             {
                 try
                 {
+                    _config.GetWindowPositions();
+
+                    var print = _game.LogConquestGameState();
                     Console.Clear();
                     Console.WriteLine(DateTime.Now);
-                    _config.GetWindowPositions();
-                    _game.LogConquestGameState();
+
+                    foreach (var line in print.Logs) Console.WriteLine(line);
+                    foreach (var line in print.Results) Console.WriteLine(line);
 
                     Console.WriteLine();
 
@@ -53,6 +57,10 @@ namespace BoosterBot
 
                             Thread.Sleep(100);
                         }
+
+                    var txt = $"Re-scanning window contents...";
+                    Console.SetCursorPosition(0, Console.CursorTop);
+                    Console.Write(txt + new string(' ', Console.WindowWidth - txt.Length - 1));
                 }
                 catch (Exception ex)
                 {
