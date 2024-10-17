@@ -237,9 +237,10 @@ namespace BoosterBot
         {
             Log("Playing match...");
             var active = true;
-            var alreadySnapped = false;
+            // var alreadySnapped = false;
             _rand = new Random();
 
+            /*
             Log("Rolling for snap decision...");
             var snapLimit = 0.465;
             var snapRoll = Math.Round(_rand.NextDouble(), 3);
@@ -247,6 +248,7 @@ namespace BoosterBot
             Log("Limit:  " + snapLimit.ToString(), true);
             Log("Rolled: " + snapRoll.ToString(), true);
             Log("Snap:   " + (shouldSnap ? "YES" : "NO"));
+            */
 
             _matchTimer = new Stopwatch();
             _matchTimer.Start();
@@ -311,12 +313,12 @@ namespace BoosterBot
                     }
                 }
 
-                if (shouldSnap && !alreadySnapped)
+                /*if (shouldSnap && !alreadySnapped)
                 {                     
                     Log("Attempting to snap...");
                     _game.ClickSnap();
                     alreadySnapped = true;
-                }
+                }*/
             }
 
             _config.GetWindowPositions();
