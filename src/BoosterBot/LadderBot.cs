@@ -1,31 +1,15 @@
 ﻿using BoosterBot.Models;
 using System.Diagnostics;
+using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
 namespace BoosterBot
 {
-    internal class LadderBot : IBoosterBot
+    internal class LadderBot : BaseBot
     {
-        private readonly string _logPath;
-        private readonly BotConfig _config;
-        private readonly GameUtilities _game;
-        private readonly int _retreatAfterTurn;
-        private Random _rand { get; set; }
-        private Stopwatch _matchTimer { get; set; }
-
-
-        public LadderBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn, bool downscaled, bool useEvent = false)
+        public LadderBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn, bool downscaled, bool useEvent = false) : 
+            base(GameMode.LADDER, scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, useEvent)
         {
-            _logPath = $"logs\\ladder-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-            _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath, useEvent);
-            _retreatAfterTurn = retreatAfterTurn;
-            _game = new GameUtilities(_config);
-            _rand = new Random();
-
-            // If the bot is running on a lower resolution, we need to adjust the confidence level to account for slight variations in image quality
-            if (downscaled)
-                _game.SetDefaultConfidence(0.9);
-
             // Debug();
         }
 
@@ -35,7 +19,6 @@ namespace BoosterBot
             {
                 try
                 {
-                    
                     var print = _game.LogLadderGameState();
                     foreach (var line in print.Logs) Console.WriteLine(line);
                     foreach (var line in print.Results) Console.WriteLine(line);
@@ -52,28 +35,7 @@ namespace BoosterBot
             }
         }
 
-        public string GetLogPath() => _logPath;
-
-        public void Log(List<string> messages, bool verboseOnly = false)
-        {
-            foreach (var message in messages)
-                Log(message, verboseOnly);
-        }
-
-        public void Log(string message, bool verboseOnly = false)
-        {
-            if (!verboseOnly || _config.Verbose)
-                Logger.Log(message, _logPath);
-        }
-
-        private bool Check(Func<IdentificationResult> funcCheck)
-        {
-            var result = funcCheck();
-            Log(result.Logs, true);
-            return result.IsMatch;
-        }
-
-        public void Run()
+        public override void Run()
         {
             Log("Starting Ladder bot...");
             var attempts = 0;

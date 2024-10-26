@@ -77,6 +77,9 @@ internal class Program
                         break;
                 }
 
+        // Initialize hotkey manager to allow pausing or exiting via keyboard shortcuts
+        HotkeyManager.Initialize();
+
         try
         {
             if (!Directory.Exists("logs"))
