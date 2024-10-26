@@ -10,7 +10,7 @@ internal class Program
 
     static async Task Main(string[] args)
     {
-        bool masked = true;
+        bool masked = false;
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
