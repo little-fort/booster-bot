@@ -3,25 +3,14 @@ using System.Diagnostics;
 
 namespace BoosterBot
 {
-    internal class ConquestBot : IBoosterBot
+    internal class ConquestBot : BaseBot
     {
-        private readonly string _logPath;
-        private readonly BotConfig _config;
-        private readonly GameUtilities _game;
         private readonly GameState _maxTier;
-        private readonly int _retreatAfterTurn;
-        private Stopwatch _matchTimer { get; set; }
 
-        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier, int retreatAfterTurn, bool downscaled, bool useEvent = false)
+        public ConquestBot(double scaling, bool verbose, bool autoplay, bool saveScreens, GameState maxTier, int retreatAfterTurn, bool downscaled, bool useEvent = false) :
+            base(GameMode.CONQUEST, scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, useEvent)
         {
-            _logPath = $"logs\\conquest-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-            _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath, useEvent);
-            _game = new GameUtilities(_config);
             _maxTier = maxTier;
-            _retreatAfterTurn = retreatAfterTurn;
-
-            if (downscaled)
-                _game.SetDefaultConfidence(0.9);
 
             // Debug();
         }
@@ -70,28 +59,7 @@ namespace BoosterBot
             }
         }
 
-        public string GetLogPath() => _logPath;
-
-        public void Log(List<string> messages, bool verboseOnly = false)
-        {
-            foreach (var message in messages)
-                Log(message, verboseOnly);
-        }
-
-        public void Log(string message, bool verboseOnly = false)
-        {
-            if (!verboseOnly || _config.Verbose)
-                Logger.Log(message, _logPath);
-        }
-
-        private bool Check(Func<IdentificationResult> funcCheck)
-        {
-            var result = funcCheck();
-            Log(result.Logs, true);
-            return result.IsMatch;
-        }
-
-        public void Run()
+        public override void Run()
         {
             Log("Starting Conquest bot...");
             var attempts = 0;

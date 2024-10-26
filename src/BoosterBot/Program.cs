@@ -6,14 +6,16 @@ namespace BoosterBot;
 
 internal class Program
 {
-    static void Main(string[] args)
+    private static bool _updateAvailable = false;
+
+    static async Task Main(string[] args)
     {
         bool masked = false;
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
         bool downscaled = false;
-        bool ltm = true;        // TODO: Revert when LTM ends
+        bool ltm = false;
         double scaling = 1.0;
         string gameMode = "";
         string maxConquestTier = "";
@@ -77,6 +79,9 @@ internal class Program
                         break;
                 }
 
+        // Initialize hotkey manager to allow pausing or exiting via keyboard shortcuts
+        HotkeyManager.Initialize();
+
         try
         {
             if (!Directory.Exists("logs"))
@@ -86,6 +91,9 @@ internal class Program
 
             if (masked)
             {
+                // Check for updates
+                _updateAvailable = await UpdateChecker.CheckForUpdates();
+
                 if (!Directory.Exists("screens"))
                     Directory.CreateDirectory("screens");
 
@@ -181,6 +189,11 @@ internal class Program
     private static int GetModeSelection()
     {
         PrintTitle();
+
+        // Show update notification if available
+        if (_updateAvailable)
+            Console.WriteLine(UpdateChecker.GetUpdateMessage());
+
         Console.WriteLine("Available farming modes:\n");
         Console.WriteLine("[1] Conquest");
         Console.WriteLine("[2] Ranked Ladder");
@@ -189,7 +202,9 @@ internal class Program
         Console.Write("Waiting for selection...");
 
         var key = Console.ReadKey();
-        if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3')
+        if (_updateAvailable && key.KeyChar == '0')
+            UpdateChecker.OpenReleasePage();
+        else if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3')
             return int.Parse(key.KeyChar.ToString());
 
         return GetModeSelection();
