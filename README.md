@@ -24,7 +24,7 @@ This is only intended for use with the Steam version of Marvel Snap on Windows 1
 
 Game should be run in fullscreen mode at 1080p for best results. Although the bot *can* function in windowed mode, performance becomes very inconsistent. 
 
-**With the official launch of the PC client, the bot will be non-functional when the game is in "landscape mode". As a workaround, you can disable "landscape" in the game settings to return to the old UI and the bot should function as intended.**
+**With the official launch of the PC client, the bot will be non-functional when the game is in "landscape mode". You can disable "Landscape" in the game settings to return to the old UI and the bot will function as intended.**
 
 ## Getting Started
 
@@ -33,7 +33,9 @@ Game should be run in fullscreen mode at 1080p for best results. Although the bo
 1. Download the [latest](https://github.com/little-fort/booster-bot/releases/latest) .zip from the Releases page.
 2. Unpack the archive into directory of your choice. 
 3. Start the game and wait until main menu is loaded.
-4. Start `BoosterBot.exe`
+4. Disable 'Landscape' toggle in game settings
+5. Start `BoosterBot.exe` and select desired run options.
+6. Exit by closing the console window or pressing Ctrl+Alt+Q.
 
 **NOTE:** Due to the bot's nature (taking over cursor control and processing screen content on an endless loop), it may be flagged and quarantined by certain third-party antivirus programs. If you find the bot being halted repeatedly, you may need to whitelist the application directory in your antivirus software.
 
