@@ -80,7 +80,7 @@ namespace BoosterBot
         {
             var paused = HotkeyManager.IsPaused;
             if (paused)
-                Logger.Log("Bot is paused. Press Ctrl+Alt+P to resume...", _logPath);
+                Logger.Log("Bot is paused. Press [Ctrl+Alt+P] to resume...", _logPath);
 
             while (HotkeyManager.IsPaused)
                 Thread.Sleep(100);
