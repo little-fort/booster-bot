@@ -13,7 +13,7 @@ internal class Program
         bool autoplay = true;
         bool saveScreens = false;
         bool downscaled = false;
-        bool ltm = true;        // TODO: Revert when LTM ends
+        bool ltm = false;
         double scaling = 1.0;
         string gameMode = "";
         string maxConquestTier = "";
