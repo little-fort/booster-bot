@@ -79,9 +79,6 @@ internal class Program
                         break;
                 }
 
-        // Initialize hotkey manager to allow pausing or exiting via keyboard shortcuts
-        HotkeyManager.Initialize();
-
         try
         {
             if (!Directory.Exists("logs"))
@@ -91,6 +88,9 @@ internal class Program
 
             if (masked)
             {
+                // Initialize hotkey manager to allow pausing or exiting via keyboard shortcuts
+                HotkeyManager.Initialize();
+
                 // Check for updates
                 _updateAvailable = await UpdateChecker.CheckForUpdates();
 
