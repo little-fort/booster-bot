@@ -319,7 +319,11 @@ namespace BoosterBot
             => CheckSimilarity(_mappings.GetConquestVictoryNext, ComponentMappings.REF_CONQ_BTN_WIN_NEXT);
 
         public IdentificationResult CanIdentifyConquestTicketClaim()
-            => CheckSimilarity(_mappings.GetConquestTicketClaim, ComponentMappings.REF_CONQ_BTN_WIN_TICKET);
+            => CheckMultipleSimilarities(
+                    (_mappings.GetConquestTicketClaim, ComponentMappings.REF_CONQ_BTN_WIN_TICKET, 0.8),
+                    (_mappings.GetConquestTicketClaim, ComponentMappings.REF_CONQ_BTN_WIN_TICKET_2, 0.8),
+                    (_mappings.GetConquestTicketClaim, ComponentMappings.REF_CONQ_BTN_WIN_TICKET_3, 0.8)
+                );
 
         #endregion
 

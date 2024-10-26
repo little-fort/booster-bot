@@ -103,6 +103,9 @@
 		<None Update="reference\btn-conquest-ticket-claim-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\btn-conquest-ticket-claim-3-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\btn-conquest-ticket-claim-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
