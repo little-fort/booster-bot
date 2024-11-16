@@ -37,7 +37,7 @@ namespace BoosterBot
                 var rand = new Random();
                 var points = new Point[2];
                 var xBound = (int)(100 * Scaling);
-                var yBound = (int)(500 * Scaling);
+                var yBound = (int)(100 * Scaling);
                 points[0] = new Point
                 {
                     X = BaseResetPointLeft.X + rand.Next(xBound),
@@ -139,6 +139,20 @@ namespace BoosterBot
                 };
             }
         }
+        private Point BaseClaimPoint { get; set; }
+        public Point ClaimPoint
+        {
+            get
+            {
+                var rand = new Random();
+                var bound = (int)(10 * Scaling);
+                return new Point
+                {
+                    X = BaseClaimPoint.X + rand.Next(-bound, bound),
+                    Y = BaseClaimPoint.Y + rand.Next(-bound, bound)
+                };
+            }
+        }
         public Point RetreatPoint { get; set; }
         public Point RetreatConfirmPoint { get; set; }
 		public Point ConcedePoint { get; set; }
@@ -236,13 +250,13 @@ namespace BoosterBot
             BaseResetPointLeft = new Point
             {
                 X = Window.Left + Scale(100),
-                Y = Window.Bottom - Scale(200)
+                Y = Window.Bottom - Scale(100)
             };
 
             BaseResetPointRight = new Point
             {
                 X = Window.Right - Scale(100),
-                Y = Window.Bottom - Scale(200)
+                Y = Window.Bottom - Scale(100)
             };
 
             ClearErrorPoint = new Point
@@ -291,6 +305,12 @@ namespace BoosterBot
             {
                 X = Window.Left + Center + Scale(300),
                 Y = Window.Bottom - Scale(60)
+            };
+
+            BaseClaimPoint = new Point
+            {
+                X = Window.Left + Center,
+                Y = Window.Bottom - Scale(135)
             };
 
             RetreatPoint = new Point
