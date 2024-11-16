@@ -389,6 +389,11 @@ namespace BoosterBot
         public void ClickNext() => SystemUtilities.Click(_config.NextPoint);
 
         /// <summary>
+        /// Simulates clicking the "Claim" button after winning a Conquest match.
+        /// </summary>
+        public void ClickClaim() => SystemUtilities.Click(_config.ClaimPoint);
+
+        /// <summary>
         /// Simulates clicks to from a match.
         /// </summary>
         public void ClickRetreat()
