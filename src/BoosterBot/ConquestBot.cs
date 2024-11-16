@@ -413,7 +413,7 @@ namespace BoosterBot
             }
 
             Log("Waiting for post-match screens...");
-            Thread.Sleep(10000);
+            Thread.Sleep(15000);
 
             var totalSleep = 0;
             Log("Checking for post-round screens...", true);
@@ -443,12 +443,18 @@ namespace BoosterBot
 
             _config.GetWindowPositions();
             Log("Checking for win, loss, or ticket claim screens...");
-            if (Check(_game.CanIdentifyConquestLossContinue) || Check(_game.CanIdentifyConquestWinNext) || Check(_game.CanIdentifyConquestTicketClaim))
+            if (Check(_game.CanIdentifyConquestLossContinue) || Check(_game.CanIdentifyConquestWinNext))
             {
+                Log("Clicking next...");
                 _game.ClickPlay();
                 Thread.Sleep(5000);
                 _config.GetWindowPositions();
                 return AcceptResult();
+            }
+            else if (Check(_game.CanIdentifyConquestTicketClaim))
+            {
+                Log("Claiming ticket...");
+                _game.ClickClaim();
             }
 
             return true;
