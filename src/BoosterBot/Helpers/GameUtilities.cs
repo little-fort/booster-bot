@@ -426,21 +426,28 @@ namespace BoosterBot
         public void BlindReset()
         {
             _config.GetWindowPositions();
+            var rand = new Random();
             Logger.Log("Attempting blind reset clicks...", _config.LogPath);
             ResetClick();
-            Thread.Sleep(1000);
+            Thread.Sleep(rand.Next(500, 750));
             ClearError();
-            Thread.Sleep(1000);
+            Thread.Sleep(rand.Next(500, 750));
             ClickNext();
-            Thread.Sleep(1000);
-            ResetMenu();
-            Thread.Sleep(1000);
+            Thread.Sleep(rand.Next(500, 750));
+            ClearError();
+            Thread.Sleep(rand.Next(500, 750));
             ResetClick();
-            Thread.Sleep(1000);
+            Thread.Sleep(rand.Next(500, 750));
             PressEscKey();
-            Thread.Sleep(1000);
+            Thread.Sleep(rand.Next(500, 750));
+            PressEscKey();
+            Thread.Sleep(rand.Next(500, 750));
             ResetClick();
-            Thread.Sleep(1000);
+            Thread.Sleep(rand.Next(500, 750));
+            ClearError();
+            Thread.Sleep(rand.Next(500, 750));
+            ClearError();
+            Thread.Sleep(rand.Next(500, 750));
         }
 
         public LeadStatus GetLeadStatus()

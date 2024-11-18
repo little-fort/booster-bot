@@ -431,7 +431,10 @@ namespace BoosterBot
                 }
 
                 if (totalSleep > 60000)
+                {
+                    Log("Max wait time of 60 seconds elapsed...");
                     return true;
+                }
             }
 
             return AcceptResult();
