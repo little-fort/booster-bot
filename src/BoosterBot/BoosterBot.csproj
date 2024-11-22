@@ -58,6 +58,9 @@
 		<None Update="reference\btn-conquest-end-turn.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\btn-conquest-entrance-fee.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\btn-conquest-match-end-next-1-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>

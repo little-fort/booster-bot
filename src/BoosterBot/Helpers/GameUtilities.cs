@@ -69,6 +69,7 @@ namespace BoosterBot
                 ("RECONNECT_TO_GAME", CanIdentifyReconnectToGameBtn),
                 ("MID_MATCH", CanIdentifyZeroEnergy),
                 ("CONQUEST_NO_TICKETS", CanIdentifyConquestNoTickets),
+                ("CONQUEST_ENTRANCE_FEE", CanIdentifyConquestEntranceFee),
                 ("CONQUEST_PREMATCH", CanIdentifyConquestPlayBtn),
                 ("CONQUEST_LOBBY_PG", CanIdentifyConquestLobbyPG),
                 ("CONQUEST_LOBBY_SILVER", CanIdentifyConquestLobbySilver),
@@ -244,6 +245,9 @@ namespace BoosterBot
 
         public IdentificationResult CanIdentifyAnyConquestLobby()
             => CheckSequentially(CanIdentifyConquestLobbyPG, CanIdentifyConquestLobbySilver, CanIdentifyConquestLobbyGold, CanIdentifyConquestLobbyInfinite);
+
+        public IdentificationResult CanIdentifyConquestEntranceFee()
+            => CheckSimilarity(_mappings.GetConquestVictoryNext, ComponentMappings.REF_CONQ_LBL_ENTRANCE_FEE);
 
         public IdentificationResult CanIdentifyConquestNoTickets()
             => CheckSimilarity(_mappings.GetConquestOwnedTicketsIcon, ComponentMappings.REF_CONQ_LBL_NO_TICKETS);

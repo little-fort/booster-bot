@@ -188,7 +188,8 @@ namespace BoosterBot
         private void RunMatchLoop()
         {
             Log("Starting match loop...");
-            while (true)
+            var run = true;
+            while (run)
             {
                 if (!SelectLobby())
                 {
@@ -196,13 +197,23 @@ namespace BoosterBot
                     return;
                 }
 
-                var success = StartMatch();
+                // There is a bug where the Enter button can disappear. Verify it exists before proceeding. If not, reset the menu and try again.
+                Log("Verifying lobby entry button exists...");
+                if (Check(_game.CanIdentifyConquestEntranceFee))
+                {
+                    var success = StartMatch();
 
-                if (!success)
-                    success = DetermineLoopEntryPoint();
+                    if (!success)
+                        success = DetermineLoopEntryPoint();
 
-                if (!success)
+                    if (!success)
+                        _game.BlindReset();
+                }
+                else
+                {
                     _game.BlindReset();
+                    run = false;
+                }
             }
         }
 

@@ -14,6 +14,7 @@ namespace BoosterBot
         public const string REF_LADD_BTN_MATCH_END_NEXT = "reference\\btn-ladder-match-end-next-preproc.png";
         public const string REF_ICON_ZERO_ENERGY = "reference\\lbl-energy-zero-preproc.png";
         public const string REF_CONQ_BTN_PLAY = "reference\\btn-conquest-play-preproc.png";
+        public const string REF_CONQ_LBL_ENTRANCE_FEE = "reference\\btn-conquest-entrance-fee.png";
         public const string REF_CONQ_LBL_NO_TICKETS = "reference\\lbl-conquest-no-tickets-preproc.png";
         public const string REF_CONQ_LBL_LOBBY_PG_1 = "reference\\lbl-conquest-pg-1-preproc.png";
         public const string REF_CONQ_LBL_LOBBY_PG_2 = "reference\\lbl-conquest-pg-2-preproc.png";
