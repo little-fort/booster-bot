@@ -103,7 +103,6 @@ namespace BoosterBot
             if (CanIdentifyMidTurn().IsMatch) return GameState.LADDER_MATCH;
             if (CanIdentifyLadderMatchEnd().IsMatch) return GameState.LADDER_MATCH_END;
             if (CanIdentifyZeroEnergy().IsMatch) return GameState.MID_MATCH;
-            if (CanIdentifyConquestLobbyPG().IsMatch) return GameState.CONQUEST_LOBBY_PG;
 
             return GameState.UNKNOWN;
         }
@@ -144,12 +143,12 @@ namespace BoosterBot
 
         #region Check Helpers
 
-        private IdentificationResult CheckSimilarity(Func<Rect> getAreaFunc, string referenceImagePath, double threshold = 0.95)
+        private IdentificationResult CheckSimilarity(Func<Rect> getAreaFunc, string referenceImagePath, double threshold = 0.95, bool cropOnly = false)
         {
             var area = getAreaFunc();
             if (threshold != _defaultConfidence)
                 threshold = _defaultConfidence;
-            return ImageUtilities.CheckImageAreaSimilarity(area, referenceImagePath, threshold);
+            return ImageUtilities.CheckImageAreaSimilarity(area, referenceImagePath, threshold, cropOnly: cropOnly);
         }
 
         private IdentificationResult CheckMultipleSimilarities(params (Func<Rect> GetAreaFunc, string ReferenceImagePath, double Threshold)[] checks)
@@ -296,7 +295,7 @@ namespace BoosterBot
 
         public IdentificationResult CanIdentifyMidTurn()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestBtnWaiting, ComponentMappings.REF_CONQ_BTN_WAITING, _defaultConfidence),
+                    (_mappings.GetConquestBtnWaiting, ComponentMappings.REF_CONQ_BTN_WAITING_1, _defaultConfidence),
                     (_mappings.GetConquestBtnWaiting, ComponentMappings.REF_CONQ_BTN_WAITING_2, _defaultConfidence),
                     (_mappings.GetConquestBtnWaiting, ComponentMappings.REF_CONQ_BTN_PLAYING, _defaultConfidence)
                 );

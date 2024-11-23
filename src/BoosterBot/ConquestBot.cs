@@ -145,7 +145,8 @@ namespace BoosterBot
                 case GameState.CONQUEST_LOBBY_GOLD:
                 case GameState.CONQUEST_LOBBY_INFINITE:
                     Log($"Detected Conquest lobby selection. Entering lobby ({_maxTier.ToString().Replace("CONQUEST_LOBBY_", "")} or lower)...");
-                    return SelectLobby();
+                    SelectLobby();
+                    return StartMatch();
                 case GameState.CONQUEST_PREMATCH:
                     Log("Detected Conquest prematch. Starting match...");
                     return StartMatch();
@@ -367,7 +368,7 @@ namespace BoosterBot
             _config.GetWindowPositions();
 
             Log("Checking for retreat buton...", true);
-            if (_matchTimer.Elapsed.Minutes > 15 && Check(_game.CanIdentifyLadderRetreatBtn))
+            if (_matchTimer.Elapsed.Minutes > 15 && Check(_game.CanIdentifyConquestRetreatBtn))
             {
                 Log("Match timer has eclipsed 30 minutes. Attempting retreat...");
                 _game.ClickRetreat();

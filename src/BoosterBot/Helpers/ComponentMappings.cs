@@ -32,8 +32,8 @@ namespace BoosterBot
         public const string REF_CONQ_BTN_RETREAT_1 = "reference\\btn-conquest-retreat-preproc.png";
         public const string REF_CONQ_BTN_RETREAT_2 = "reference\\btn-conquest-retreat-2-preproc.png";
         public const string REF_CONQ_BTN_END_TURN = "reference\\btn-conquest-end-turn-preproc.png";
-        public const string REF_CONQ_BTN_WAITING = "reference\\btn-conquest-waiting-preproc.png";
-        public const string REF_CONQ_BTN_WAITING_2 = "reference\\btn-conquest-waiting-preproc-2.png";
+        public const string REF_CONQ_BTN_WAITING_1 = "reference\\btn-conquest-waiting-preproc.png";
+        public const string REF_CONQ_BTN_WAITING_2 = "reference\\btn-conquest-waiting-2-preproc.png";
         public const string REF_CONQ_BTN_PLAYING = "reference\\btn-conquest-playing-preproc.png";
         public const string REF_CONQ_BTN_CONCEDE_1 = "reference\\btn-conquest-concede-preproc.png";
         public const string REF_CONQ_BTN_CONCEDE_2 = "reference\\btn-conquest-concede-2-preproc.png";

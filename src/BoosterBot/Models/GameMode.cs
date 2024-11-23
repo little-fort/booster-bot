@@ -10,6 +10,7 @@ namespace BoosterBot.Models
     {
         LADDER,
         CONQUEST,
-        EVENT
+        EVENT,
+        REPAIR
     }
 }

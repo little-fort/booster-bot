@@ -16,6 +16,7 @@ internal class Program
         bool saveScreens = false;
         bool downscaled = false;
         bool ltm = false;
+        bool repair = false;
         double scaling = 1.0;
         string gameMode = "";
         string maxConquestTier = "";
@@ -51,7 +52,7 @@ internal class Program
                     case "-ss":
                         saveScreens = true;
                         break;
-                    case "-masked":
+                    case "--masked":
                         masked = true;
                         break;
                     case "-mode":
@@ -77,6 +78,10 @@ internal class Program
                     case "--event":
                         ltm = true;
                         break;
+                    case "-r":
+                    case "--repair":
+                        repair = true;
+                        break;
                 }
 
         try
@@ -97,9 +102,15 @@ internal class Program
                 if (!Directory.Exists("screens"))
                     Directory.CreateDirectory("screens");
 
-                var mode = string.IsNullOrWhiteSpace(gameMode) ? GetModeSelection() : gameMode.ToLower() switch { "c" => 1, "conquest" => 1, "l" => 2, "ladder" => 2, "r" => 2, "ranked" => 2, _ => GetModeSelection() };
-                GameState maxTier = GameState.UNKNOWN;
+                var mode = 0;
+                if (repair)
+                    mode = 9;
+                else if (!string.IsNullOrWhiteSpace(gameMode))
+                    mode = gameMode.ToLower() switch { "c" => 1, "conquest" => 1, "l" => 2, "ladder" => 2, "r" => 2, "ranked" => 2, _ => GetModeSelection() };
+                else
+                    mode = GetModeSelection();
 
+                GameState maxTier = GameState.UNKNOWN;
                 if (mode == 1)
                 {
                     if (string.IsNullOrWhiteSpace(maxConquestTier))
@@ -119,7 +130,7 @@ internal class Program
                         };
                 }
 
-                var retreatAfterTurn = maxTurns > 0 ? maxTurns : GetRetreatAfterTurn();
+                var retreatAfterTurn = maxTurns > 0 || repair ? maxTurns : GetRetreatAfterTurn();
 
                 PrintTitle();
 
@@ -128,6 +139,7 @@ internal class Program
                     1 => new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn, downscaled, ltm),
                     2 => new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, ltm),
                     3 => new EventBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, ltm),
+                    9 => new RepairBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, ltm),
                     _ => throw new Exception("Invalid mode selection.")
                 };
  
@@ -171,7 +183,7 @@ internal class Program
         }
     }
 
-    private static void PrintTitle()
+    internal static void PrintTitle()
     {
         var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         version = version.Split('+')[0];
