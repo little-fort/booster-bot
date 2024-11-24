@@ -371,7 +371,7 @@ namespace BoosterBot
         public bool ClickSnap()
         {
             SystemUtilities.Click(_config.SnapPoint);
-            Logger.Log("OH SNAP!", _config.LogPath);
+            Logger.Log(_config.Localizer, "Log_OhSnap", _config.LogPath);
 
             return true;
         }
@@ -430,7 +430,7 @@ namespace BoosterBot
         {
             _config.GetWindowPositions();
             var rand = new Random();
-            Logger.Log("Attempting blind reset clicks...", _config.LogPath);
+            Logger.Log(_config.Localizer, "Log_BlindReset", _config.LogPath);
             ResetClick();
             Thread.Sleep(rand.Next(500, 750));
             ClearError();

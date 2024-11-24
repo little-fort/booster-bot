@@ -1,4 +1,6 @@
-﻿using BoosterBot.Models;
+﻿using BoosterBot.Helpers;
+using BoosterBot.Models;
+using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -7,10 +9,11 @@ namespace BoosterBot;
 internal class Program
 {
     private static bool _updateAvailable = false;
+    private static LocalizationManager _localizer;
 
     static async Task Main(string[] args)
     {
-        bool masked = false;
+        bool masked = true;
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
@@ -91,13 +94,25 @@ internal class Program
             else
                 PurgeLogs();
 
+            
             if (masked)
             {
+                // Setup configuration
+                IConfiguration configuration = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                    .Build();
+
+                // Initialize localization
+                _localizer = new LocalizationManager(configuration);
+
                 // Initialize hotkey manager to allow pausing or exiting via keyboard shortcuts
-                HotkeyManager.Initialize();
+                HotkeyManager.Initialize(_localizer);
 
                 // Check for updates
                 _updateAvailable = await UpdateChecker.CheckForUpdates();
+
+                // Set encoding
+                Console.OutputEncoding = System.Text.Encoding.UTF8;
 
                 if (!Directory.Exists("screens"))
                     Directory.CreateDirectory("screens");
@@ -130,17 +145,20 @@ internal class Program
                         };
                 }
 
-                var retreatAfterTurn = maxTurns > 0 || repair ? maxTurns : GetRetreatAfterTurn();
+                var retreat = maxTurns > 0 || repair ? maxTurns : GetRetreatAfterTurn();
 
                 PrintTitle();
 
+                var type = (GameMode)mode;
+                var logPath = $"logs\\{type.ToString().ToLower()}-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
+                var config = new BotConfig(_localizer, scaling, verbose, autoplay, saveScreens, logPath, ltm, downscaled);
                 IBoosterBot bot = mode switch
                 {
-                    1 => new ConquestBot(scaling, verbose, autoplay, saveScreens, maxTier, retreatAfterTurn, downscaled, ltm),
-                    2 => new LadderBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, ltm),
-                    3 => new EventBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, ltm),
-                    9 => new RepairBot(scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, ltm),
-                    _ => throw new Exception("Invalid mode selection.")
+                    1 => new ConquestBot(config, retreat, maxTier),
+                    2 => new LadderBot(config, retreat),
+                    3 => new EventBot(config, retreat),
+                    9 => new RepairBot(config),
+                    _ => throw new Exception(_localizer.GetString("Log_InvalidModeSelection"))
                 };
  
                 try
@@ -149,13 +167,13 @@ internal class Program
                 }
                 catch (Exception ex)
                 {
-                    Logger.Log("***** FATAL ERROR *****", bot.GetLogPath());
-                    Logger.Log(ex.Message, bot.GetLogPath());
+                    Logger.Log(_localizer, "Log_FatalError", bot.GetLogPath());
+                    Logger.Log(_localizer, ex.Message, bot.GetLogPath(), true);
                     Console.WriteLine();
-                    Logger.Log(ex.StackTrace, bot.GetLogPath());
+                    Logger.Log(_localizer, ex.StackTrace, bot.GetLogPath(), true);
                 }
 
-                Console.WriteLine("\nPress [Enter] to exit...");
+                Console.WriteLine(Environment.NewLine + _localizer.GetString("Menu_PressKeyToExit"));
                 Console.ReadLine();
             }
             else
@@ -176,10 +194,10 @@ internal class Program
         catch (Exception ex)
         {
             var log = $"logs\\startup-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-            Logger.Log("***** FATAL ERROR *****", log);
-            Logger.Log(ex.Message, log);
+            Logger.Log(_localizer, "Log_FatalError", log);
+            Logger.Log(_localizer, ex.Message, log, true);
             Console.WriteLine();
-            Logger.Log(ex.StackTrace, log);
+            Logger.Log(_localizer, ex.StackTrace, log, true);
         }
     }
 
@@ -206,12 +224,12 @@ internal class Program
         if (_updateAvailable)
             Console.WriteLine(UpdateChecker.GetUpdateMessage());
 
-        Console.WriteLine("Available farming modes:\n");
-        Console.WriteLine("[1] Conquest");
-        Console.WriteLine("[2] Ranked Ladder");
-        Console.WriteLine("[3] Event LTM");
+        Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Description") + Environment.NewLine);
+        Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Option1"));
+        Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Option2"));
+        Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Option3"));
         Console.WriteLine();
-        Console.Write("Waiting for selection...");
+        Console.Write(_localizer.GetString("Menu_WaitingForSelection"));
 
         var key = Console.ReadKey();
         if (_updateAvailable && key.KeyChar == '0')
@@ -225,15 +243,15 @@ internal class Program
     private static GameState GetMaxTierSelection()
     {
         PrintTitle();
-        Console.WriteLine("Select the highest tier of Conquest the bot should farm:\n");
-        Console.WriteLine("[1] Proving Grounds (Default)");
-        Console.WriteLine("[2] Silver");
-        Console.WriteLine("[3] Gold");
-        Console.WriteLine("[4] Infinite");
+        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Description") + Environment.NewLine);
+        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Option1"));
+        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Option2"));
+        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Option3"));
+        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Option4"));
         Console.WriteLine();
-        Console.WriteLine("The bot will only farm tiers higher than Proving Grounds if tickets are available.\n*** No Gold will be consumed. ***");
+        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_NoticeTickets") + Environment.NewLine + _localizer.GetString("Menu_ConquestLobby_NoticeGold"));
         Console.WriteLine();
-        Console.Write("Waiting for selection...");
+        Console.Write(_localizer.GetString("Menu_WaitingForSelection"));
 
         var key = Console.ReadKey();
         if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3' || key.KeyChar == '4')
@@ -271,17 +289,16 @@ internal class Program
         PrintTitle();
 
         var tier = selection.ToString().Replace("CONQUEST_LOBBY_", "");
-        Console.WriteLine("Maximum farming tier: " + tier);
+        Console.WriteLine($"{_localizer.GetString("Menu_ConquestConfirm_HighestTier")} {tier}");
         Console.WriteLine();
-
-        Console.WriteLine($"ALL available tickets for {tier}{(selection > GameState.CONQUEST_LOBBY_SILVER ? " and below" : "")} will be consumed. " +
-            $"\nIf no tickets exist, bot will only play Proving Grounds.");
+        Console.WriteLine(_localizer.GetString("Menu_ConquestConfirm_TicketWarning"));
+        Console.WriteLine(_localizer.GetString("Menu_ConquestConfirm_TicketDefault"));
         Console.WriteLine();
-        Console.WriteLine("Are you sure you want to continue?\n");
-        Console.WriteLine("[1] Yes");
-        Console.WriteLine("[2] No");
+        Console.WriteLine(_localizer.GetString("Menu_ConfirmContinue") + Environment.NewLine);
+        Console.WriteLine(_localizer.GetString("Menu_Option1_Yes"));
+        Console.WriteLine(_localizer.GetString("Menu_Option2_No"));
         Console.WriteLine();
-        Console.Write("Waiting for selection...");
+        Console.Write(_localizer.GetString("Menu_WaitingForSelection"));
 
         var key = Console.ReadKey();
         if (key.KeyChar == '1')
@@ -295,27 +312,23 @@ internal class Program
 	private static int GetRetreatAfterTurn()
 	{
 		PrintTitle();
-		Console.WriteLine("Retreat after turn:\n");
-		Console.WriteLine("[0] Do not auto retreat");
+		Console.WriteLine(_localizer.GetString("Menu_RetreatSelect_Description") + Environment.NewLine);
+		Console.WriteLine(_localizer.GetString("Menu_RetreatSelect_NoRetreat"));
 		Console.WriteLine("[1]");
 		Console.WriteLine("[2]");
 		Console.WriteLine("[3]");
 		Console.WriteLine("[4]");
 		Console.WriteLine("[5]");
-		Console.WriteLine("[6]");
-		Console.WriteLine("[7]");
 		Console.WriteLine();
-		Console.Write("Waiting for selection...");
+        Console.Write(_localizer.GetString("Menu_WaitingForSelection"));
 
-		var key = Console.ReadKey();
-        if ("0,1,2,3,4,5,6,7".Contains(key.KeyChar.ToString()))
+        var key = Console.ReadKey();
+        if ("0,1,2,3,4,5".Contains(key.KeyChar.ToString()))
         {
             var turn = int.Parse(key.KeyChar.ToString());
 
             if (turn < 1 || turn > 7)
-            {
                 turn = 99;
-            }
 
             return turn;
         }

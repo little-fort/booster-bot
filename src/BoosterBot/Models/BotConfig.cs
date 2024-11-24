@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BoosterBot.Helpers;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -17,12 +19,16 @@ namespace BoosterBot
         private readonly bool _autoplay;
         private readonly bool _saveScreens;
         private readonly bool _useEvent;
+        private readonly bool _downscaled;
         private readonly string _logPath;
+        private readonly LocalizationManager _localizer;
 
+        public LocalizationManager Localizer { get => _localizer; }
         public double Scaling { get => _scaling; }
         public bool Verbose { get => _verbose; }
         public bool Autoplay { get => _autoplay; }
         public bool SaveScreens { get => _saveScreens; }
+        public bool Downscaled { get => _downscaled; }
         public string LogPath { get => _logPath; }
         public int Center { get; set; }
         public int vCenter { get; set; }
@@ -163,12 +169,14 @@ namespace BoosterBot
         public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
-        public BotConfig(double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath, bool useEvent)
+        public BotConfig(LocalizationManager localizer, double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath, bool useEvent, bool downscaled)
         {
+            _localizer = localizer;
             _scaling = scaling;
             _verbose = verbose;
             _autoplay = autoplay;
             _saveScreens = saveScreens;
+            _downscaled = downscaled;
             _logPath = logPath;
             _useEvent = useEvent;
         }

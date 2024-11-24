@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using BoosterBot.Helpers;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace BoosterBot;
@@ -32,10 +33,13 @@ public static class HotkeyManager
     private static Thread _messageLoop;
     private static volatile bool _shouldRun = true;
 
+    private static LocalizationManager _localizer;
     public static bool IsPaused => _isPaused;
 
-    public static void Initialize()
+    public static void Initialize(LocalizationManager localizer)
     {
+        _localizer = localizer;
+
         // Create a message-only window to receive hotkey messages
         _messageLoop = new Thread(MessageLoop)
         {
@@ -67,12 +71,12 @@ public static class HotkeyManager
                     switch (id)
                     {
                         case HOTKEY_ID_EXIT:
-                            Logger.Log("Exit hotkey [Ctrl+Alt+Q] detected. Terminating process...", "logs\\hotkey.txt");
+                            Logger.Log(_localizer, "Log_ExitShortcut", "logs\\hotkey.txt");
                             Process.GetCurrentProcess().Kill();
                             break;
                         case HOTKEY_ID_PAUSE:
                             _isPaused = !_isPaused;
-                            Logger.Log($"Pause hotkey [Ctrl+Alt+P] detected. {(_isPaused ? "Pausing" : "Resuming")} bot...", "logs\\hotkey.txt");
+                            Logger.Log(_localizer, _isPaused ? "Log_PauseShortcut" : "Log_ResumeShortcut", "logs\\hotkey.txt");
                             break;
                     }
                 }

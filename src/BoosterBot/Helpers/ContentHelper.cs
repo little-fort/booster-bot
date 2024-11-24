@@ -74,7 +74,7 @@ internal static class ContentHelper
         catch (Exception ex)
         {
             Console.WriteLine($"\nError showing image: {ex.Message}");
-            Logger.Log($"Image display error: {ex.Message}", "logs\\repair.txt");
+            Console.WriteLine($"Image display error: {ex.Message}", "logs\\repair.txt");
         }
     }
 

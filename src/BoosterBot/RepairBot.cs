@@ -14,8 +14,7 @@ namespace BoosterBot
     {
         private static Process? _currentViewer;
 
-        public RepairBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn, bool downscaled, bool useEvent = false) :
-            base(GameMode.REPAIR, scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, useEvent) { }
+        public RepairBot(BotConfig config) : base(config, 0) { }
 
         public override void Run()
         {
@@ -131,7 +130,7 @@ namespace BoosterBot
             catch (Exception ex)
             {
                 Console.WriteLine($"\nError showing image: {ex.Message}");
-                Logger.Log($"Image display error: {ex.Message}", "logs\\repair.txt");
+                // Log($"Image display error: {ex.Message}", "logs\\repair.txt");
             }
         }
 

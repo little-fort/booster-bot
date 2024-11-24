@@ -8,9 +8,9 @@ namespace BoosterBot.Models
 {
     internal enum GameMode
     {
-        LADDER,
-        CONQUEST,
-        EVENT,
-        REPAIR
+        CONQUEST = 1,
+        LADDER = 2,
+        EVENT = 3,
+        REPAIR = 9
     }
 }

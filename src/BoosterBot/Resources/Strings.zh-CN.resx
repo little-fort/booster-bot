@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Menu_ModeSelect_Description" xml:space="preserve">
+    <value>可用的游戏模式：</value>
+  </data>
+  <data name="Menu_ModeSelect_Option1" xml:space="preserve">
+    <value>[1] 征服</value>
+  </data>
+  <data name="Menu_ModeSelect_Option2" xml:space="preserve">
+    <value>[2] 积分天梯</value>
+  </data>
+  <data name="Menu_ModeSelect_Option3" xml:space="preserve">
+    <value>[3] 限时活动模式</value>
+  </data>
+  <data name="Menu_WaitingForSelection" xml:space="preserve">
+    <value>等待选择......</value>
+  </data>
+  <data name="Menu_ConquestLobby_Description" xml:space="preserve">
+    <value>选择程序应进入的最高征服等级：</value>
+  </data>
+  <data name="Menu_ConquestLobby_Option1" xml:space="preserve">
+    <value>[1] 试验场（默认）</value>
+  </data>
+  <data name="Menu_ConquestLobby_Option2" xml:space="preserve">
+    <value>[2] 银奖</value>
+  </data>
+  <data name="Menu_ConquestLobby_Option3" xml:space="preserve">
+    <value>[3] 黄金</value>
+  </data>
+  <data name="Menu_ConquestLobby_Option4" xml:space="preserve">
+    <value>[4] 无限</value>
+  </data>
+  <data name="Menu_ConquestLobby_NoticeTickets" xml:space="preserve">
+    <value>如果有入场券，该计划才会在比试验场更高的级别上进行。</value>
+  </data>
+  <data name="Menu_ConquestLobby_NoticeGold" xml:space="preserve">
+    <value>*** 不会消耗任何金币。***</value>
+  </data>
+  <data name="Menu_ConquestConfirm_HighestTier" xml:space="preserve">
+    <value>选定的最高层级：</value>
+  </data>
+  <data name="Menu_ConquestConfirm_TicketWarning" xml:space="preserve">
+    <value>所选等级或以下大厅的所有可用门票将被消耗。</value>
+  </data>
+  <data name="Menu_ConquestConfirm_TicketDefault" xml:space="preserve">
+    <value>如果没有门票，该计划将只播放试验场层。</value>
+  </data>
+  <data name="Menu_ConfirmContinue" xml:space="preserve">
+    <value>您确定要继续吗？</value>
+  </data>
+  <data name="Menu_Option1_Yes" xml:space="preserve">
+    <value>[1] 是</value>
+  </data>
+  <data name="Menu_Option2_No" xml:space="preserve">
+    <value>[2] 没有</value>
+  </data>
+  <data name="Menu_RetreatSelect_Description" xml:space="preserve">
+    <value>选择撤退前要完成多少回合：</value>
+  </data>
+  <data name="Menu_RetreatSelect_NoRetreat" xml:space="preserve">
+    <value>[0] 不撤退</value>
+  </data>
+  <data name="Menu_PressKeyToExit" xml:space="preserve">
+    <value>按任意键退出......</value>
+  </data>
+  <data name="Log_FatalError" xml:space="preserve">
+    <value>***** 严重错误 *****</value>
+  </data>
+  <data name="Log_InvalidModeSelection" xml:space="preserve">
+    <value>模式选择无效。</value>
+  </data>
+  <data name="Ladder_Log_Start" xml:space="preserve">
+    <value>开始排名阶梯例程......</value>
+  </data>
+  <data name="Log_FailedMenuDetection" xml:space="preserve">
+    <value>无法检测主菜单。5 秒后重试......</value>
+  </data>
+  <data name="Log_BotPaused" xml:space="preserve">
+    <value>程序已暂停。按 [Ctrl+Alt+P] 可恢复......</value>
+  </data>
+  <data name="Log_BotResuming" xml:space="preserve">
+    <value>程序正在恢复......</value>
+  </data>
+  <data name="Log_Info_Shortcuts" xml:space="preserve">
+    <value>键盘快捷键：</value>
+  </data>
+  <data name="Log_Info_Shortcuts_Pause" xml:space="preserve">
+    <value>[Ctrl+Alt+P] 暂停/恢复程序</value>
+  </data>
+  <data name="Log_Info_Shortcuts_Quit" xml:space="preserve">
+    <value>[Ctrl+Alt+Q] 退出程序</value>
+  </data>
+  <data name="Log_LoopEntryPoint" xml:space="preserve">
+    <value>尝试确定循环入口点......</value>
+  </data>
+  <data name="Log_DetectedMainMenu" xml:space="preserve">
+    <value>检测到主菜单。开始新比赛……</value>
+  </data>
+  <data name="Log_DetectedReconnect" xml:space="preserve">
+    <value>检测到“重新连接游戏”按钮。正在恢复比赛……</value>
+  </data>
+  <data name="Log_DetectedActiveMatch" xml:space="preserve">
+    <value>检测到正在进行的比赛。正在恢复比赛……</value>
+  </data>
+  <data name="Log_DetectedMatchmaking" xml:space="preserve">
+    <value>检测到匹配......</value>
+  </data>
+  <data name="Log_DetectedMatchEnd" xml:space="preserve">
+    <value>检测到匹配结束。返回主菜单......</value>
+  </data>
+  <data name="Log_Ladder_DetectedConquest" xml:space="preserve">
+    <value>检测到征服大厅。正在重置菜单……</value>
+  </data>
+  <data name="Log_LostBot" xml:space="preserve">
+    <value>程序已彻底丢失......</value>
+  </data>
+  <data name="Log_LostBot_Restart" xml:space="preserve">
+    <value>返回主菜单并重新启动机器人。</value>
+  </data>
+  <data name="Log_Match_StartNew" xml:space="preserve">
+    <value>开始新的比赛......</value>
+  </data>
+  <data name="Log_Check_Matchmaking" xml:space="preserve">
+    <value>正在检查正在进行的匹配......</value>
+  </data>
+  <data name="Log_Check_Matchmaking_Hanged" xml:space="preserve">
+    <value>匹配似乎卡住了。返回主菜单重试......</value>
+  </data>
+  <data name="Log_Matchmaking_Waiting" xml:space="preserve">
+    <value>等待比赛开始...... [已用时：%ELAPSED%]</value>
+  </data>
+  <data name="Log_Match_Playing" xml:space="preserve">
+    <value>正在进行比赛......</value>
+  </data>
+  <data name="Log_Match_SnapRoll" xml:space="preserve">
+    <value>正在做出快速决定......</value>
+  </data>
+  <data name="Log_Match_SnapRoll_Limit" xml:space="preserve">
+    <value>限制：%VALUE%</value>
+  </data>
+  <data name="Log_Match_SnapRoll_Result" xml:space="preserve">
+    <value>结果：%VALUE%</value>
+  </data>
+  <data name="Log_Match_SnapRoll_Snap" xml:space="preserve">
+    <value>折断：%VALUE%</value>
+  </data>
+  <data name="Log_Yes" xml:space="preserve">
+    <value>是的</value>
+  </data>
+  <data name="Log_No" xml:space="preserve">
+    <value>拒绝</value>
+  </data>
+  <data name="Log_Check_ActiveMatch" xml:space="preserve">
+    <value>正在检查有效匹配......</value>
+  </data>
+  <data name="Log_Check_ActiveMatch_Failed" xml:space="preserve">
+    <value>无法检测到活动匹配，2 秒后重试......</value>
+  </data>
+  <data name="Log_Match_ReachedTurnLimit" xml:space="preserve">
+    <value>已达到配置的回合限制（%VALUE%）。正在尝试撤退……</value>
+  </data>
+  <data name="Log_Match_PlayingCards" xml:space="preserve">
+    <value>尝试打牌...[回合数：%VALUE%]</value>
+  </data>
+  <data name="Log_Check_EnergyState" xml:space="preserve">
+    <value>正在检查当前能量计数......</value>
+  </data>
+  <data name="Log_Match_LeftoverEnergy" xml:space="preserve">
+    <value>检测到剩余能量，正在尝试再次打牌……</value>
+  </data>
+  <data name="Log_Match_EndTurn" xml:space="preserve">
+    <value>点击‘结束回合’按钮......</value>
+  </data>
+  <data name="Log_Check_TurnState" xml:space="preserve">
+    <value>检查当前转弯状态......</value>
+  </data>
+  <data name="Log_Match_WaitingForTurn" xml:space="preserve">
+    <value>等待轮流进行......</value>
+  </data>
+  <data name="Log_Match_Snapping" xml:space="preserve">
+    <value>尝试单击“捕捉”按钮......</value>
+  </data>
+  <data name="Log_Match_MaxTimeReached" xml:space="preserve">
+    <value>比赛计时器已超过 15 分钟。正在尝试撤退……</value>
+  </data>
+  <data name="Log_Check_MatchEnd" xml:space="preserve">
+    <value>检查比赛是否结束......</value>
+  </data>
+  <data name="Log_Match_Exiting" xml:space="preserve">
+    <value>退出比赛......</value>
+  </data>
+  <data name="Log_Check_PostMatchScreen" xml:space="preserve">
+    <value>检查赛后屏幕......</value>
+  </data>
+  <data name="Log_Error" xml:space="preserve">
+    <value>错误：</value>
+  </data>
+  <data name="Conquest_Log_Start" xml:space="preserve">
+    <value>开始征服例程......</value>
+  </data>
+  <data name="Conquest_Log_Menu_Main" xml:space="preserve">
+    <value>检测到主菜单。导航至征服模式……</value>
+  </data>
+  <data name="Conquest_Log_Menu_GameModes" xml:space="preserve">
+    <value>导航到游戏模式选项卡......</value>
+  </data>
+  <data name="Conquest_Log_Menu" xml:space="preserve">
+    <value>导航至征服模式菜单......</value>
+  </data>
+  <data name="Conquest_Log_DetectedMain" xml:space="preserve">
+    <value>检测到主菜单。返回开始......</value>
+  </data>
+  <data name="Conquest_Log_DetectedLobby" xml:space="preserve">
+    <value>检测到征服大厅选择。进入所选等级或更低等级的大厅......</value>
+  </data>
+  <data name="Conquest_Log_DetectedPrematch" xml:space="preserve">
+    <value>检测到征服模式赛前情况。比赛开始……</value>
+  </data>
+  <data name="Conquest_Log_DetectedActiveMatch" xml:space="preserve">
+    <value>检测到正在进行的征服比赛。正在进行比赛......</value>
+  </data>
+  <data name="Conquest_Log_DetectedRoundEnd" xml:space="preserve">
+    <value>检测到征服赛回合结束。进入下一回合......</value>
+  </data>
+  <data name="Conquest_Log_DetectedMatchEnd" xml:space="preserve">
+    <value>检测到征服比赛结束。返回征服菜单......</value>
+  </data>
+  <data name="Conquest_Log_PostMatch" xml:space="preserve">
+    <value>检测到征服赛后画面。返回征服菜单......</value>
+  </data>
+  <data name="Log_Match_StartingLoop" xml:space="preserve">
+    <value>开始比赛循环......</value>
+  </data>
+  <data name="Conquest_Log_VerifyEntryButton" xml:space="preserve">
+    <value>验证大厅进入按钮是否存在......</value>
+  </data>
+  <data name="Conquest_Log_Menu_LobbyChoice" xml:space="preserve">
+    <value>确保大厅类型设置为指定层级或更低层级：%VALUE%</value>
+  </data>
+  <data name="Conquest_Log_Menu_SelectedTier" xml:space="preserve">
+    <value>所选等级：%VALUE%</value>
+  </data>
+  <data name="Conquest_Log_Check_Tickets" xml:space="preserve">
+    <value>正在检查可用的票......</value>
+  </data>
+  <data name="Conquest_Log_EnteringLobby" xml:space="preserve">
+    <value>进入新征服比赛大厅……</value>
+  </data>
+  <data name="Conquest_Log_ConfirmDeck" xml:space="preserve">
+    <value>确认卡组选择......</value>
+  </data>
+  <data name="Conquest_Log_Match_Concede" xml:space="preserve">
+    <value>试图认输……</value>
+  </data>
+  <data name="Log_Check_RetreatButton" xml:space="preserve">
+    <value>检查‘撤退’按钮......</value>
+  </data>
+  <data name="Conquest_Log_Match_MaxTimerReached" xml:space="preserve">
+    <value>比赛计时器已超过 30 分钟。正在尝试退出比赛...</value>
+  </data>
+  <data name="Log_Check_Concede" xml:space="preserve">
+    <value>检查‘让步’按钮......</value>
+  </data>
+  <data name="Log_Check_MatchState" xml:space="preserve">
+    <value>检查当前比赛状态......</value>
+  </data>
+  <data name="Conquest_Log_MaxWaitTimeReached" xml:space="preserve">
+    <value>已超过最长等待时间 %VALUE% 秒......</value>
+  </data>
+  <data name="Conquest_Log_Menu_WaitingPostMatch" xml:space="preserve">
+    <value>等待赛后画面......</value>
+  </data>
+  <data name="Conquest_Log_Check_AnyLobby" xml:space="preserve">
+    <value>检查任何征服模式大厅......</value>
+  </data>
+  <data name="Conquest_Log_Menu_DetectedLobby" xml:space="preserve">
+    <value>检测到征服模式大厅……</value>
+  </data>
+  <data name="Conquest_Log_Match_ProcessingPostMatch" xml:space="preserve">
+    <value>正在处理赛后屏幕...</value>
+  </data>
+  <data name="Conquest_Log_Check_Screens" xml:space="preserve">
+    <value>检查获胜、失败或票证索取屏幕......</value>
+  </data>
+  <data name="Log_ClickNext" xml:space="preserve">
+    <value>点击进入下一个屏幕...</value>
+  </data>
+  <data name="Conquest_Log_Menu_ClaimTicket" xml:space="preserve">
+    <value>正在领取票......</value>
+  </data>
+  <data name="Event_Log_Start" xml:space="preserve">
+    <value>限时活动模式的启动程序……</value>
+  </data>
+  <data name="Event_Log_Menu" xml:space="preserve">
+    <value>检测到主菜单。导航至限时活动模式......</value>
+  </data>
+  <data name="Event_Log_Menu_ModeTab" xml:space="preserve">
+    <value>导航至限时活动模式菜单......</value>
+  </data>
+  <data name="Event_Log_DetectedEventMenu" xml:space="preserve">
+    <value>检测到事件游戏模式的菜单。开始新比赛...</value>
+  </data>
+  <data name="Log_OhSnap" xml:space="preserve">
+    <value>OH SNAP!</value>
+  </data>
+  <data name="Log_BlindReset" xml:space="preserve">
+    <value>尝试盲目重置点击......</value>
+  </data>
+  <data name="Log_ExitShortcut" xml:space="preserve">
+    <value>检测到退出快捷键 [Ctrl+Alt+Q]。正在终止进程...</value>
+  </data>
+  <data name="Log_PauseShortcut" xml:space="preserve">
+    <value>检测到暂停快捷键 [Ctrl+Alt+P]。正在暂停机器人……</value>
+  </data>
+  <data name="Log_ResumeShortcut" xml:space="preserve">
+    <value>检测到恢复快捷键 [Ctrl+Alt+P]。正在恢复机器人……</value>
+  </data>
+</root>
