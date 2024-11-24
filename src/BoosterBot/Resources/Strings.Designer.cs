@@ -1004,5 +1004,374 @@ namespace BoosterBot.Resources {
                 return ResourceManager.GetString("Menu_WaitingForSelection", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This function will attempt to repair BoosterBot&apos;s detection of critical parts of the game&apos;s interface..
+        /// </summary>
+        internal static string Repair_Confirm_Description1 {
+            get {
+                return ResourceManager.GetString("Repair_Confirm_Description1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You should only proceed if BoosterBot cannot operate properly..
+        /// </summary>
+        internal static string Repair_Confirm_Description2 {
+            get {
+                return ResourceManager.GetString("Repair_Confirm_Description2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WARNING:.
+        /// </summary>
+        internal static string Repair_Confirm_Warning {
+            get {
+                return ResourceManager.GetString("Repair_Confirm_Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After completing a round, identify the &apos;Concede&apos; button..
+        /// </summary>
+        internal static string Repair_Conquest_BTN_CONCEDE {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_BTN_CONCEDE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After completing the final round, identify the &apos;Next&apos; button..
+        /// </summary>
+        internal static string Repair_Conquest_BTN_MATCH_END {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_BTN_MATCH_END", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to While collecting rewards, identify the &apos;Next&apos; button..
+        /// </summary>
+        internal static string Repair_Conquest_BTN_MATCH_END_NEXT {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_BTN_MATCH_END_NEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the &apos;Proving Grounds&apos; lobby and identify the &apos;Play&apos; button..
+        /// </summary>
+        internal static string Repair_Conquest_BTN_PLAY {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_BTN_PLAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After winning a match and returning to the Conquest menu, identify the &apos;Next&apos; button..
+        /// </summary>
+        internal static string Repair_Conquest_BTN_WIN_NEXT {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_BTN_WIN_NEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After winning a match and returning to the Conquest menu, identify the &apos;Claim Ticket&apos; button..
+        /// </summary>
+        internal static string Repair_Conquest_BTN_WIN_TICKET {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_BTN_WIN_TICKET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In the Conquest menu, identify the &apos;Gold&apos; lobby..
+        /// </summary>
+        internal static string Repair_Conquest_LOBBY_GOLD {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_LOBBY_GOLD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Navigate to the Conquest menu and identify the &apos;Infinity&apos; lobby..
+        /// </summary>
+        internal static string Repair_Conquest_LOBBY_INFINITE {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_LOBBY_INFINITE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In the Conquest menu, identify the &apos;Proving Grounds&apos; lobby..
+        /// </summary>
+        internal static string Repair_Conquest_LOBBY_PG {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_LOBBY_PG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to In the Conquest menu, identify the &apos;Silver&apos; lobby..
+        /// </summary>
+        internal static string Repair_Conquest_LOBBY_SILVER {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_LOBBY_SILVER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identify any lobby with no available tickets..
+        /// </summary>
+        internal static string Repair_Conquest_NO_TICKETS {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_NO_TICKETS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error showing image:.
+        /// </summary>
+        internal static string Repair_Error_CantShowImage {
+            get {
+                return ResourceManager.GetString("Repair_Error_CantShowImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ERROR: Example image not found:.
+        /// </summary>
+        internal static string Repair_Error_ExampleImageNotFound {
+            get {
+                return ResourceManager.GetString("Repair_Error_ExampleImageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play a match to the end, then identify the &apos;Collect Rewards&apos; button shown after the final turn..
+        /// </summary>
+        internal static string Repair_Ladder_BTN_COLLECT_REWARDS {
+            get {
+                return ResourceManager.GetString("Repair_Ladder_BTN_COLLECT_REWARDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press the button to start matchmaking and identify the &apos;Cancel&apos; button on the wait screen..
+        /// </summary>
+        internal static string Repair_Ladder_BTN_MATCHMAKING {
+            get {
+                return ResourceManager.GetString("Repair_Ladder_BTN_MATCHMAKING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Navigate to the game&apos;s main menu and identify the &apos;Play&apos; button used to start a match..
+        /// </summary>
+        internal static string Repair_Ladder_BTN_PLAY {
+            get {
+                return ResourceManager.GetString("Repair_Ladder_BTN_PLAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to While in a match, identify the &apos;Retreat&apos; button..
+        /// </summary>
+        internal static string Repair_Ladder_BTN_RETREAT {
+            get {
+                return ResourceManager.GetString("Repair_Ladder_BTN_RETREAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to While cards are being played, identify when the button&apos;s text shows &apos;Playing...&apos;..
+        /// </summary>
+        internal static string Repair_Match_BTN_PLAYING {
+            get {
+                return ResourceManager.GetString("Repair_Match_BTN_PLAYING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (Optional) After ending a turn, identify the &apos;Waiting...&apos; button..
+        /// </summary>
+        internal static string Repair_Match_BTN_WAITING_1 {
+            get {
+                return ResourceManager.GetString("Repair_Match_BTN_WAITING_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This text is only displayed during the following conditions:.
+        /// </summary>
+        internal static string Repair_Match_BTN_WAITING_2 {
+            get {
+                return ResourceManager.GetString("Repair_Match_BTN_WAITING_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - The player has ended their turn after Agatha Harkness played a card.
+        /// </summary>
+        internal static string Repair_Match_BTN_WAITING_3 {
+            get {
+                return ResourceManager.GetString("Repair_Match_BTN_WAITING_3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to - The opponent has played Daredevil and the player is waiting for the opponent to play a card on turn 5.
+        /// </summary>
+        internal static string Repair_Match_BTN_WAITING_4 {
+            get {
+                return ResourceManager.GetString("Repair_Match_BTN_WAITING_4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press &apos;Collect Rewards&apos;, then identify the &apos;Next&apos; button..
+        /// </summary>
+        internal static string Repair_Match_END_NEXT {
+            get {
+                return ResourceManager.GetString("Repair_Match_END_NEXT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identify the &apos;End Turn&apos; button..
+        /// </summary>
+        internal static string Repair_Match_END_TURN {
+            get {
+                return ResourceManager.GetString("Repair_Match_END_TURN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to While in a match, close the game client. Restart the game client and wait for the main menu to load..
+        /// </summary>
+        internal static string Repair_Match_RECONNECT_1 {
+            get {
+                return ResourceManager.GetString("Repair_Match_RECONNECT_1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identify the &apos;Reconnect to Game&apos; button..
+        /// </summary>
+        internal static string Repair_Match_RECONNECT_2 {
+            get {
+                return ResourceManager.GetString("Repair_Match_RECONNECT_2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to After ending a turn, identify the &apos;Undo End Turn&apos; button..
+        /// </summary>
+        internal static string Repair_Match_UNDO {
+            get {
+                return ResourceManager.GetString("Repair_Match_UNDO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Play cards to spend energy, then identify the indicator showing zero remaining energy..
+        /// </summary>
+        internal static string Repair_Match_ZERO_ENERGY {
+            get {
+                return ResourceManager.GetString("Repair_Match_ZERO_ENERGY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To complete the process of repairing detection, you will manually interact with the game until specific buttons, icons, or text labels are visible..
+        /// </summary>
+        internal static string Repair_ModeSelect_Description1 {
+            get {
+                return ResourceManager.GetString("Repair_ModeSelect_Description1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When you confirm that the specified game component is on the screen, this program will capture the current image and use it for future reference..
+        /// </summary>
+        internal static string Repair_ModeSelect_Description2 {
+            get {
+                return ResourceManager.GetString("Repair_ModeSelect_Description2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Each game type must be repaired separately. Please select the mode you would like to repair:.
+        /// </summary>
+        internal static string Repair_ModeSelect_Description3 {
+            get {
+                return ResourceManager.GetString("Repair_ModeSelect_Description3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repair process complete. You may select an additional mode to repair, or close this window and restart BoosterBot normally..
+        /// </summary>
+        internal static string Repair_ModeSelect_ProcessComplete {
+            get {
+                return ResourceManager.GetString("Repair_ModeSelect_ProcessComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [0] Previous.
+        /// </summary>
+        internal static string Repair_Prompt_Option0_Previous {
+            get {
+                return ResourceManager.GetString("Repair_Prompt_Option0_Previous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [1] Show example.
+        /// </summary>
+        internal static string Repair_Prompt_Option1_Example {
+            get {
+                return ResourceManager.GetString("Repair_Prompt_Option1_Example", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [2] Confirm.
+        /// </summary>
+        internal static string Repair_Prompt_Option2_Confirm {
+            get {
+                return ResourceManager.GetString("Repair_Prompt_Option2_Confirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [3] Skip.
+        /// </summary>
+        internal static string Repair_Prompt_Option3_Skip {
+            get {
+                return ResourceManager.GetString("Repair_Prompt_Option3_Skip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to When the specified game component is visible on the screen, press [2] to confirm..
+        /// </summary>
+        internal static string Repair_Prompt_PressToConfirm {
+            get {
+                return ResourceManager.GetString("Repair_Prompt_PressToConfirm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to REPAIR MODE.
+        /// </summary>
+        internal static string Repair_Title {
+            get {
+                return ResourceManager.GetString("Repair_Title", resourceCulture);
+            }
+        }
     }
 }

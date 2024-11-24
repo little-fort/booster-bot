@@ -432,4 +432,127 @@
   <data name="Log_ResumeShortcut" xml:space="preserve">
     <value>Resume shortcut [Ctrl+Alt+P] detected. Resuming bot...</value>
   </data>
+  <data name="Repair_Confirm_Warning" xml:space="preserve">
+    <value>WARNING:</value>
+  </data>
+  <data name="Repair_Confirm_Description1" xml:space="preserve">
+    <value>This function will attempt to repair BoosterBot's detection of critical parts of the game's interface.</value>
+  </data>
+  <data name="Repair_Confirm_Description2" xml:space="preserve">
+    <value>You should only proceed if BoosterBot cannot operate properly.</value>
+  </data>
+  <data name="Repair_ModeSelect_Description1" xml:space="preserve">
+    <value>To complete the process of repairing detection, you will manually interact with the game until specific buttons, icons, or text labels are visible.</value>
+  </data>
+  <data name="Repair_ModeSelect_Description2" xml:space="preserve">
+    <value>When you confirm that the specified game component is on the screen, this program will capture the current image and use it for future reference.</value>
+  </data>
+  <data name="Repair_ModeSelect_Description3" xml:space="preserve">
+    <value>Each game type must be repaired separately. Please select the mode you would like to repair:</value>
+  </data>
+  <data name="Repair_ModeSelect_ProcessComplete" xml:space="preserve">
+    <value>Repair process complete. You may select an additional mode to repair, or close this window and restart BoosterBot normally.</value>
+  </data>
+  <data name="Repair_Prompt_PressToConfirm" xml:space="preserve">
+    <value>When the specified game component is visible on the screen, press [2] to confirm.</value>
+  </data>
+  <data name="Repair_Prompt_Option0_Previous" xml:space="preserve">
+    <value>[0] Previous</value>
+  </data>
+  <data name="Repair_Prompt_Option1_Example" xml:space="preserve">
+    <value>[1] Show example</value>
+  </data>
+  <data name="Repair_Prompt_Option2_Confirm" xml:space="preserve">
+    <value>[2] Confirm</value>
+  </data>
+  <data name="Repair_Prompt_Option3_Skip" xml:space="preserve">
+    <value>[3] Skip</value>
+  </data>
+  <data name="Repair_Error_ExampleImageNotFound" xml:space="preserve">
+    <value>ERROR: Example image not found:</value>
+  </data>
+  <data name="Repair_Error_CantShowImage" xml:space="preserve">
+    <value>Error showing image:</value>
+  </data>
+  <data name="Repair_Title" xml:space="preserve">
+    <value>REPAIR MODE</value>
+  </data>
+  <data name="Repair_Ladder_BTN_PLAY" xml:space="preserve">
+    <value>Navigate to the game's main menu and identify the 'Play' button used to start a match.</value>
+  </data>
+  <data name="Repair_Ladder_BTN_MATCHMAKING" xml:space="preserve">
+    <value>Press the button to start matchmaking and identify the 'Cancel' button on the wait screen.</value>
+  </data>
+  <data name="Repair_Ladder_BTN_RETREAT" xml:space="preserve">
+    <value>While in a match, identify the 'Retreat' button.</value>
+  </data>
+  <data name="Repair_Match_ZERO_ENERGY" xml:space="preserve">
+    <value>Play cards to spend energy, then identify the indicator showing zero remaining energy.</value>
+  </data>
+  <data name="Repair_Match_END_TURN" xml:space="preserve">
+    <value>Identify the 'End Turn' button.</value>
+  </data>
+  <data name="Repair_Match_UNDO" xml:space="preserve">
+    <value>After ending a turn, identify the 'Undo End Turn' button.</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_1" xml:space="preserve">
+    <value>(Optional) After ending a turn, identify the 'Waiting...' button.</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_2" xml:space="preserve">
+    <value>This text is only displayed during the following conditions:</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_3" xml:space="preserve">
+    <value>- The player has ended their turn after Agatha Harkness played a card</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_4" xml:space="preserve">
+    <value>- The opponent has played Daredevil and the player is waiting for the opponent to play a card on turn 5</value>
+  </data>
+  <data name="Repair_Match_BTN_PLAYING" xml:space="preserve">
+    <value>While cards are being played, identify when the button's text shows 'Playing...'.</value>
+  </data>
+  <data name="Repair_Match_RECONNECT_1" xml:space="preserve">
+    <value>While in a match, close the game client. Restart the game client and wait for the main menu to load.</value>
+  </data>
+  <data name="Repair_Match_RECONNECT_2" xml:space="preserve">
+    <value>Identify the 'Reconnect to Game' button.</value>
+  </data>
+  <data name="Repair_Ladder_BTN_COLLECT_REWARDS" xml:space="preserve">
+    <value>Play a match to the end, then identify the 'Collect Rewards' button shown after the final turn.</value>
+  </data>
+  <data name="Repair_Match_END_NEXT" xml:space="preserve">
+    <value>Press 'Collect Rewards', then identify the 'Next' button.</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_INFINITE" xml:space="preserve">
+    <value>Navigate to the Conquest menu and identify the 'Infinity' lobby.</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_GOLD" xml:space="preserve">
+    <value>In the Conquest menu, identify the 'Gold' lobby.</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_SILVER" xml:space="preserve">
+    <value>In the Conquest menu, identify the 'Silver' lobby.</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_PG" xml:space="preserve">
+    <value>In the Conquest menu, identify the 'Proving Grounds' lobby.</value>
+  </data>
+  <data name="Repair_Conquest_NO_TICKETS" xml:space="preserve">
+    <value>Identify any lobby with no available tickets.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_PLAY" xml:space="preserve">
+    <value>Enter the 'Proving Grounds' lobby and identify the 'Play' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_CONCEDE" xml:space="preserve">
+    <value>After completing a round, identify the 'Concede' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_MATCH_END" xml:space="preserve">
+    <value>After completing the final round, identify the 'Next' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_MATCH_END_NEXT" xml:space="preserve">
+    <value>While collecting rewards, identify the 'Next' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_WIN_NEXT" xml:space="preserve">
+    <value>After winning a match and returning to the Conquest menu, identify the 'Next' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_WIN_TICKET" xml:space="preserve">
+    <value>After winning a match and returning to the Conquest menu, identify the 'Claim Ticket' button.</value>
+  </data>
 </root>

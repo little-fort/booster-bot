@@ -1,4 +1,6 @@
-﻿using BoosterBot.Models;
+﻿using BoosterBot.Helpers;
+using BoosterBot.Models;
+using BoosterBot.Resources;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,9 +14,13 @@ namespace BoosterBot
 {
     internal class RepairBot : BaseBot
     {
+        private LocalizationManager _localizer;
         private static Process? _currentViewer;
 
-        public RepairBot(BotConfig config) : base(config, 0) { }
+        public RepairBot(BotConfig config) : base(config, 0) 
+        {
+            _localizer = config.Localizer;
+        }
 
         public override void Run()
         {
@@ -28,47 +34,48 @@ namespace BoosterBot
         {
             var mode = SelectMode(firstRun);
             var prompts = new List<RepairPrompt>();
-            if (mode == 1) // Ladder
+            if (mode == 2) // Ladder
                 prompts =
                 [
-                    new("Navigate to the game's main menu and identify the 'Play' button.", [ComponentMappings.REF_LADD_BTN_PLAY], _game.CanIdentifyMainMenu),
-                    new("Press 'Play' to start matchmaking and identify the 'Cancel' button.", [ComponentMappings.REF_LADD_BTN_MATCHMAKING_1], _game.CanIdentifyLadderMatchmaking),
-                    new("While in a match, identify the 'Retreat' button.", [ComponentMappings.REF_LADD_BTN_RETREAT], _game.CanIdentifyLadderRetreatBtn),
-                    new("Play cards to spend energy, then identify the indicator for zero remaining energy.", [ComponentMappings.REF_ICON_ZERO_ENERGY], _game.CanIdentifyZeroEnergy),
-                    new("Identify the 'End Turn' button.", [ComponentMappings.REF_CONQ_BTN_END_TURN], _game.CanIdentifyEndTurnBtn),
-                    new("After ending a turn, identify the 'Undo End Turn' button.", [ComponentMappings.REF_CONQ_BTN_WAITING_1], _game.CanIdentifyMidTurn),
-                    new("(Optional) After ending a turn, identify the 'Waiting...' button. This text is\n" +
-                        "only displayed when the player has ended their turn after Agatha Harkness played\n" +
-                        "a card, or when waiting for Daredevil's ability.", [ComponentMappings.REF_CONQ_BTN_WAITING_2], _game.CanIdentifyMidTurn),
-                    new("When cards are being played, identify when the button's text shows 'Playing...'.", [ComponentMappings.REF_CONQ_BTN_PLAYING], _game.CanIdentifyMidTurn),
-                    new("While in a match, close the game client. Restart the game client and wait for the\n" +
-                        "main menu to load. Identify the 'Reconnect to Game' button.", [ComponentMappings.REF_BTN_RECONNECT_TO_GAME], _game.CanIdentifyReconnectToGameBtn),
-                    new("Play a match to the end, then identify the 'Collect Rewards' button shown after the final turn.", [ComponentMappings.REF_LADD_BTN_COLLECT_REWARDS], _game.CanIdentifyLadderCollectRewardsBtn),
-                    new("Press 'Collect Rewards', then identify the 'Next' button.", [ComponentMappings.REF_LADD_BTN_MATCH_END_NEXT], _game.CanIdentifyLadderMatchEndNextBtn)
+                    new(Strings.Repair_Ladder_BTN_PLAY, [ComponentMappings.REF_LADD_BTN_PLAY], _game.CanIdentifyMainMenu),
+                    new(Strings.Repair_Ladder_BTN_MATCHMAKING, [ComponentMappings.REF_LADD_BTN_MATCHMAKING_1], _game.CanIdentifyLadderMatchmaking),
+                    new(Strings.Repair_Ladder_BTN_RETREAT, [ComponentMappings.REF_LADD_BTN_RETREAT], _game.CanIdentifyLadderRetreatBtn),
+                    new(Strings.Repair_Match_ZERO_ENERGY, [ComponentMappings.REF_ICON_ZERO_ENERGY], _game.CanIdentifyZeroEnergy),
+                    new(Strings.Repair_Match_END_TURN, [ComponentMappings.REF_CONQ_BTN_END_TURN], _game.CanIdentifyEndTurnBtn),
+                    new(Strings.Repair_Match_UNDO, [ComponentMappings.REF_CONQ_BTN_WAITING_1], _game.CanIdentifyMidTurn),
+                    new(Strings.Repair_Match_BTN_WAITING_1 + Environment.NewLine +
+                        Strings.Repair_Match_BTN_WAITING_2 + Environment.NewLine + 
+                        "    " + Strings.Repair_Match_BTN_WAITING_3 + Environment.NewLine +
+                        "    " + Strings.Repair_Match_BTN_WAITING_4, [ComponentMappings.REF_CONQ_BTN_WAITING_2], _game.CanIdentifyMidTurn),
+                    new(Strings.Repair_Match_BTN_PLAYING, [ComponentMappings.REF_CONQ_BTN_PLAYING], _game.CanIdentifyMidTurn),
+                    new(Strings.Repair_Match_RECONNECT_1 + Environment.NewLine +
+                        Strings.Repair_Match_RECONNECT_2, [ComponentMappings.REF_BTN_RECONNECT_TO_GAME], _game.CanIdentifyReconnectToGameBtn),
+                    new(Strings.Repair_Ladder_BTN_COLLECT_REWARDS, [ComponentMappings.REF_LADD_BTN_COLLECT_REWARDS], _game.CanIdentifyLadderCollectRewardsBtn),
+                    new(Strings.Repair_Match_END_NEXT, [ComponentMappings.REF_LADD_BTN_MATCH_END_NEXT], _game.CanIdentifyLadderMatchEndNextBtn)
                 ];
-            else if (mode == 2) // Conquest
+            else if (mode == 1) // Conquest
                 prompts =
                 [
-                    new("Navigate to the game's main menu and identify the 'Play' button.", [ComponentMappings.REF_CONQ_BTN_PLAY], _game.CanIdentifyMainMenu),
-                    new("Navigate to the Conquest menu and identify the 'Infinity Conquest' lobby.", [ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_1, ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_3], _game.CanIdentifyConquestLobbyInfinite),
-                    new("Identify the 'Gold Conquest' lobby.", [ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_1, ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_3], _game.CanIdentifyConquestLobbyGold),
-                    new("Identify the 'Silver Conquest' lobby.", [ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_1, ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_3], _game.CanIdentifyConquestLobbySilver),
-                    new("Identify the 'Proving Grounds' lobby.", [ComponentMappings.REF_CONQ_LBL_LOBBY_PG_1, ComponentMappings.REF_CONQ_LBL_LOBBY_PG_2, ComponentMappings.REF_CONQ_LBL_ENTRANCE_FEE], _game.CanIdentifyConquestLobbyPG),
-                    new("Identify any lobby with no available tickets.", [ComponentMappings.REF_CONQ_LBL_NO_TICKETS], _game.CanIdentifyConquestNoTickets),
-                    new("Enter the 'Proving Grounds' lobby and identify the 'Play' button.", [ComponentMappings.REF_CONQ_BTN_PLAY], _game.CanIdentifyConquestPlayBtn),
-                    new("Press 'Play' to start matchmaking and identify the 'Cancel' button.", [ComponentMappings.REF_CONQ_BTN_MATCHMAKING_1], _game.CanIdentifyConquestMatchmaking),
-                    new("While in a match, identify the 'Retreat' button.", [ComponentMappings.REF_CONQ_BTN_RETREAT_1], _game.CanIdentifyConquestRetreatBtn),
-                    new("Play cards to spend energy, then identify the indicator for zero remaining energy.", [ComponentMappings.REF_ICON_ZERO_ENERGY], _game.CanIdentifyZeroEnergy),
-                    new("Identify the 'End Turn' button.", [ComponentMappings.REF_CONQ_BTN_END_TURN], _game.CanIdentifyEndTurnBtn),
-                    new("After ending a turn, identify the 'Undo End Turn' button.", [ComponentMappings.REF_CONQ_BTN_WAITING_1], _game.CanIdentifyMidTurn),
-                    new("When cards are being played, identify when the button's text shows 'Playing...'.", [ComponentMappings.REF_CONQ_BTN_PLAYING], _game.CanIdentifyMidTurn),
-                    new("While in a match, close the game client. Restart the game client and wait for the\n" +
-                        "main menu to load. Identify the 'Reconnect to Game' button.", [ComponentMappings.REF_BTN_RECONNECT_TO_GAME], _game.CanIdentifyReconnectToGameBtn),
-                    new("After completing a round, identify the 'Concede' button.", [ComponentMappings.REF_CONQ_BTN_CONCEDE_1], _game.CanIdentifyConquestConcede),
-                    new("After completing the final round, identify the 'Next' button.", [ComponentMappings.REF_CONQ_BTN_MATCH_END_1], _game.CanIdentifyConquestMatchEndNext1),
-                    new("While collecting rewards, identify the 'Next' button.,", [ComponentMappings.REF_CONQ_BTN_MATCH_END_2], _game.CanIdentifyConquestMatchEndNext2),
-                    new("After winning a match and returning to the Conquest menu, identify the 'Next' button.", [ComponentMappings.REF_CONQ_BTN_WIN_NEXT], _game.CanIdentifyConquestWinNext),
-                    new("After winning a match and returning to the Conquest menu, identify the 'Claim Ticket' button.", [ComponentMappings.REF_CONQ_BTN_WIN_TICKET], _game.CanIdentifyConquestTicketClaim),
+                    new(Strings.Repair_Ladder_BTN_PLAY, [ComponentMappings.REF_CONQ_BTN_PLAY], _game.CanIdentifyMainMenu),
+                    new(Strings.Repair_Conquest_LOBBY_INFINITE, [ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_1, ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_3], _game.CanIdentifyConquestLobbyInfinite),
+                    new(Strings.Repair_Conquest_LOBBY_GOLD, [ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_1, ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_3], _game.CanIdentifyConquestLobbyGold),
+                    new(Strings.Repair_Conquest_LOBBY_SILVER, [ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_1, ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_3], _game.CanIdentifyConquestLobbySilver),
+                    new(Strings.Repair_Conquest_LOBBY_PG, [ComponentMappings.REF_CONQ_LBL_LOBBY_PG_1, ComponentMappings.REF_CONQ_LBL_LOBBY_PG_2, ComponentMappings.REF_CONQ_LBL_ENTRANCE_FEE], _game.CanIdentifyConquestLobbyPG),
+                    new(Strings.Repair_Conquest_NO_TICKETS, [ComponentMappings.REF_CONQ_LBL_NO_TICKETS], _game.CanIdentifyConquestNoTickets),
+                    new(Strings.Repair_Conquest_BTN_PLAY, [ComponentMappings.REF_CONQ_BTN_PLAY], _game.CanIdentifyConquestPlayBtn),
+                    new(Strings.Repair_Ladder_BTN_MATCHMAKING, [ComponentMappings.REF_CONQ_BTN_MATCHMAKING_1], _game.CanIdentifyConquestMatchmaking),
+                    new(Strings.Repair_Ladder_BTN_RETREAT, [ComponentMappings.REF_CONQ_BTN_RETREAT_1], _game.CanIdentifyConquestRetreatBtn),
+                    new(Strings.Repair_Match_ZERO_ENERGY, [ComponentMappings.REF_ICON_ZERO_ENERGY], _game.CanIdentifyZeroEnergy),
+                    new(Strings.Repair_Match_END_TURN, [ComponentMappings.REF_CONQ_BTN_END_TURN], _game.CanIdentifyEndTurnBtn),
+                    new(Strings.Repair_Match_UNDO, [ComponentMappings.REF_CONQ_BTN_WAITING_1], _game.CanIdentifyMidTurn),
+                    new(Strings.Repair_Match_BTN_PLAYING, [ComponentMappings.REF_CONQ_BTN_PLAYING], _game.CanIdentifyMidTurn),
+                    new(Strings.Repair_Match_RECONNECT_1 + Environment.NewLine +
+                        Strings.Repair_Match_RECONNECT_2, [ComponentMappings.REF_BTN_RECONNECT_TO_GAME], _game.CanIdentifyReconnectToGameBtn),
+                    new(Strings.Repair_Conquest_BTN_CONCEDE, [ComponentMappings.REF_CONQ_BTN_CONCEDE_1], _game.CanIdentifyConquestConcede),
+                    new(Strings.Repair_Conquest_BTN_MATCH_END, [ComponentMappings.REF_CONQ_BTN_MATCH_END_1], _game.CanIdentifyConquestMatchEndNext1),
+                    new(Strings.Repair_Conquest_BTN_MATCH_END_NEXT, [ComponentMappings.REF_CONQ_BTN_MATCH_END_2], _game.CanIdentifyConquestMatchEndNext2),
+                    new(Strings.Repair_Conquest_BTN_WIN_NEXT, [ComponentMappings.REF_CONQ_BTN_WIN_NEXT], _game.CanIdentifyConquestWinNext),
+                    new(Strings.Repair_Conquest_BTN_WIN_TICKET, [ComponentMappings.REF_CONQ_BTN_WIN_TICKET], _game.CanIdentifyConquestTicketClaim),
                     // new("After losing a match and returning to the Conquest menu, identify the 'Continue' button.", [ComponentMappings.REF_CONQ_BTN_CONTINUE], _game.CanIdentifyConquestLossContinue)
                 ];
 
@@ -93,7 +100,7 @@ namespace BoosterBot
         private void PrintTitle()
         {
             Program.PrintTitle();
-            var title = $"REPAIR MODE";
+            var title = Strings.Repair_Title;
             title = title.PadLeft(24 + (title.Length / 2), ' ');
             title = $"{title}{"".PadRight(49 - title.Length, ' ')}";
             Console.WriteLine(title);
@@ -110,7 +117,7 @@ namespace BoosterBot
 
             if (!File.Exists(imagePath))
             {
-                Console.WriteLine($"\nERROR: Example image not found: {image}");
+                Console.WriteLine($"{Environment.NewLine} {Strings.Repair_Error_ExampleImageNotFound} {image}");
                 return;
             }
 
@@ -129,7 +136,7 @@ namespace BoosterBot
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"\nError showing image: {ex.Message}");
+                Console.WriteLine($"{Environment.NewLine} {Strings.Repair_Error_CantShowImage} {ex.Message}");
                 // Log($"Image display error: {ex.Message}", "logs\\repair.txt");
             }
         }
@@ -154,16 +161,15 @@ namespace BoosterBot
         private bool ConfirmRepair()
         {
             PrintTitle();
-            Console.WriteLine("WARNING:");
-            Console.WriteLine("This mode is intended to repair BoosterBot's detection of critical parts of the");
-            Console.WriteLine("game's interface. You should only proceed if BoosterBot cannot function properly.");
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("Are you sure you want to continue?\n");
-            Console.WriteLine("[1] Yes");
-            Console.WriteLine("[2] No");
+            Console.WriteLine(Strings.Repair_Confirm_Warning);
+            Console.WriteLine(Strings.Repair_Confirm_Description1);
+            Console.WriteLine(Strings.Repair_Confirm_Description2);
             Console.WriteLine();
-            Console.Write("Waiting for selection...");
+            Console.WriteLine(Strings.Menu_ConfirmContinue + Environment.NewLine);
+            Console.WriteLine(Strings.Menu_Option1_Yes);
+            Console.WriteLine(Strings.Menu_Option2_No);
+            Console.WriteLine();
+            Console.Write(Strings.Menu_WaitingForSelection);
 
             var key = Console.ReadKey();
             if (key.KeyChar == '1')
@@ -179,21 +185,23 @@ namespace BoosterBot
             PrintTitle();
             if (firstRun)
             {
-                Console.WriteLine("To complete the process of repairing detection, you will manually interact with");
-                Console.WriteLine("the game until specific UI components are visible (e.g. buttons, icons, or text labels).");
+                Console.WriteLine(Strings.Repair_ModeSelect_Description1);
                 Console.WriteLine();
-                Console.WriteLine("When you confirm that the specified UI component is on the screen, this program will");
-                Console.WriteLine("capture the current image and use it for future reference.");
+                Console.WriteLine(Strings.Repair_ModeSelect_Description2);
                 Console.WriteLine();
-                Console.WriteLine("Both game types must be repaired separately. Please select the mode you would like to repair:\n");
+                Console.WriteLine(Strings.Repair_ModeSelect_Description1 + Environment.NewLine);
+                Console.WriteLine();
+
+                // TODO: Uncomment for future releases
+                // Console.WriteLine("NOTE: If you have run the repair process on a previous version of BoosterBot, copying the 'reference' directory from that version to the current version may solve any detection problems.");
             }
             else
-                Console.WriteLine("Repair process complete. You may select an additional mode to repair, or close this window and restart BoosterBot normally.\n");
+                Console.WriteLine(Strings.Repair_ModeSelect_ProcessComplete + Environment.NewLine);
 
-            Console.WriteLine("[1] Ladder");
-            Console.WriteLine("[2] Conquest");
+            Console.WriteLine(Strings.Menu_ModeSelect_Option1);
+            Console.WriteLine(Strings.Menu_ModeSelect_Option2);
             Console.WriteLine();
-            Console.Write("Waiting for selection...");
+            Console.Write(Strings.Menu_WaitingForSelection);
 
             var key = Console.ReadKey();
             if (key.KeyChar == '1' || key.KeyChar == '2')
@@ -207,14 +215,15 @@ namespace BoosterBot
             PrintTitle();
             Console.WriteLine(prompt.Description);
             Console.WriteLine();
-            Console.WriteLine("When the specified UI component is visible on the screen, press [2] to confirm.");
+            Console.WriteLine(Strings.Repair_Prompt_PressToConfirm);
             Console.WriteLine();
-            Console.WriteLine("[0] Previous");
-            Console.WriteLine("[1] Show example");
-            Console.WriteLine("[2] Confirm");
-            Console.WriteLine("[3] Skip");
+            Console.WriteLine(Strings.Repair_Prompt_Option0_Previous);
+            Console.WriteLine(Strings.Repair_Prompt_Option1_Example);
+            Console.WriteLine(Strings.Repair_Prompt_Option2_Confirm);
+            Console.WriteLine(Strings.Repair_Prompt_Option3_Skip);
             Console.WriteLine();
-            Console.Write("Waiting for selection...\n\n");
+            Console.Write(Strings.Menu_WaitingForSelection);
+            Console.WriteLine(Environment.NewLine);
 
             var key = Console.ReadKey();
             if (key.KeyChar == '0')

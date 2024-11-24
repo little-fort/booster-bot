@@ -432,4 +432,127 @@
   <data name="Log_ResumeShortcut" xml:space="preserve">
     <value>检测到恢复快捷键 [Ctrl+Alt+P]。正在恢复机器人……</value>
   </data>
+  <data name="Repair_Confirm_Warning" xml:space="preserve">
+    <value>警告：</value>
+  </data>
+  <data name="Repair_Confirm_Description1" xml:space="preserve">
+    <value>此功能将尝试修复 BoosterBot 对游戏界面关键部分的检测。</value>
+  </data>
+  <data name="Repair_Confirm_Description2" xml:space="preserve">
+    <value>仅当 BoosterBot 无法正常运行时您才应该继续。</value>
+  </data>
+  <data name="Repair_ModeSelect_Description1" xml:space="preserve">
+    <value>为了完成修复检测的过程，您将手动与游戏交互，直到特定的按钮、图标或文本标签可见。</value>
+  </data>
+  <data name="Repair_ModeSelect_Description2" xml:space="preserve">
+    <value>当您确认指定的游戏组件在屏幕上时，该程序将捕获当前图像并将其用于将来的参考。</value>
+  </data>
+  <data name="Repair_ModeSelect_Description3" xml:space="preserve">
+    <value>每种游戏类型都必须单独修复。请选择您要修复的模式：</value>
+  </data>
+  <data name="Repair_ModeSelect_ProcessComplete" xml:space="preserve">
+    <value>修复过程已完成。您可以选择其他模式进行修复，或关闭此窗口并正常重启 BoosterBot。</value>
+  </data>
+  <data name="Repair_Prompt_PressToConfirm" xml:space="preserve">
+    <value>当指定的游戏组件出现在屏幕上时，按 [2] 确认。</value>
+  </data>
+  <data name="Repair_Prompt_Option0_Previous" xml:space="preserve">
+    <value>[0] 上一页</value>
+  </data>
+  <data name="Repair_Prompt_Option1_Example" xml:space="preserve">
+    <value>[1] 显示示例</value>
+  </data>
+  <data name="Repair_Prompt_Option2_Confirm" xml:space="preserve">
+    <value>[2] 确认</value>
+  </data>
+  <data name="Repair_Prompt_Option3_Skip" xml:space="preserve">
+    <value>[3] 跳过</value>
+  </data>
+  <data name="Repair_Error_ExampleImageNotFound" xml:space="preserve">
+    <value>错误：未找到示例图像：</value>
+  </data>
+  <data name="Repair_Error_CantShowImage" xml:space="preserve">
+    <value>显示图像错误：</value>
+  </data>
+  <data name="Repair_Title" xml:space="preserve">
+    <value>修复模式</value>
+  </data>
+  <data name="Repair_Ladder_BTN_PLAY" xml:space="preserve">
+    <value>导航到游戏主菜单并找到用于开始比赛的“播放”按钮。</value>
+  </data>
+  <data name="Repair_Ladder_BTN_MATCHMAKING" xml:space="preserve">
+    <value>按下按钮开始匹配，并在等待屏幕上找到“取消”按钮。</value>
+  </data>
+  <data name="Repair_Ladder_BTN_RETREAT" xml:space="preserve">
+    <value>在比赛中，找到“撤退”按钮。</value>
+  </data>
+  <data name="Repair_Match_ZERO_ENERGY" xml:space="preserve">
+    <value>打牌消耗能量，然后识别显示剩余能量为零的指示器。</value>
+  </data>
+  <data name="Repair_Match_END_TURN" xml:space="preserve">
+    <value>找到‘结束回合’按钮。</value>
+  </data>
+  <data name="Repair_Match_UNDO" xml:space="preserve">
+    <value>结束一回合后，找到“撤消结束回合”按钮。</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_1" xml:space="preserve">
+    <value>（可选）结束回合后，找到“等待......”按钮。</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_2" xml:space="preserve">
+    <value>此文本仅在以下情况下显示：</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_3" xml:space="preserve">
+    <value>- 阿加莎·哈克尼斯打出一张牌后，玩家结束了自己的回合</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_4" xml:space="preserve">
+    <value>- 对手已打出夜魔侠，玩家正在等待对手在第 5 回合打出一张牌</value>
+  </data>
+  <data name="Repair_Match_BTN_PLAYING" xml:space="preserve">
+    <value>在出牌时，识别按钮上的文字何时显示“正在玩......”。</value>
+  </data>
+  <data name="Repair_Match_RECONNECT_1" xml:space="preserve">
+    <value>在比赛中，关闭游戏客户端。重新启动游戏客户端并等待主菜单加载。</value>
+  </data>
+  <data name="Repair_Match_RECONNECT_2" xml:space="preserve">
+    <value>找到“重新连接游戏”按钮。</value>
+  </data>
+  <data name="Repair_Ladder_BTN_COLLECT_REWARDS" xml:space="preserve">
+    <value>玩完一场比赛，然后找到最后一轮后显示的“收集奖励”按钮。</value>
+  </data>
+  <data name="Repair_Match_END_NEXT" xml:space="preserve">
+    <value>按下“收集奖励”，然后找到“下一步”按钮。</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_INFINITE" xml:space="preserve">
+    <value>导航到征服菜单并找到“无限”大厅。</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_GOLD" xml:space="preserve">
+    <value>在征服菜单中，找到“黄金”大厅。</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_SILVER" xml:space="preserve">
+    <value>在征服菜单中，找到“银”大厅。</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_PG" xml:space="preserve">
+    <value>在征服菜单中，找到“试验场”大厅。</value>
+  </data>
+  <data name="Repair_Conquest_NO_TICKETS" xml:space="preserve">
+    <value>找出任何没有可用票证的大厅。</value>
+  </data>
+  <data name="Repair_Conquest_BTN_PLAY" xml:space="preserve">
+    <value>进入“试验场”大厅并找到“播放”按钮。</value>
+  </data>
+  <data name="Repair_Conquest_BTN_CONCEDE" xml:space="preserve">
+    <value>完成一轮后，找到“认输”按钮。</value>
+  </data>
+  <data name="Repair_Conquest_BTN_MATCH_END" xml:space="preserve">
+    <value>完成最后一轮后，找到“下一步”按钮。</value>
+  </data>
+  <data name="Repair_Conquest_BTN_MATCH_END_NEXT" xml:space="preserve">
+    <value>在收集奖励时，找到“下一步”按钮。</value>
+  </data>
+  <data name="Repair_Conquest_BTN_WIN_NEXT" xml:space="preserve">
+    <value>赢得比赛并返回征服菜单后，找到“下一步”按钮。</value>
+  </data>
+  <data name="Repair_Conquest_BTN_WIN_TICKET" xml:space="preserve">
+    <value>赢得比赛并返回征服菜单后，找到“领取门票”按钮。</value>
+  </data>
 </root>

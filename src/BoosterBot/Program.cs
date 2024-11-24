@@ -1,5 +1,6 @@
 ﻿using BoosterBot.Helpers;
 using BoosterBot.Models;
+using BoosterBot.Resources;
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics;
 using System.Reflection;
@@ -13,7 +14,7 @@ internal class Program
 
     static async Task Main(string[] args)
     {
-        bool masked = true;
+        bool masked = true; // REVERT BEFORE PR
         bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
@@ -224,7 +225,7 @@ internal class Program
         if (_updateAvailable)
             Console.WriteLine(UpdateChecker.GetUpdateMessage());
 
-        Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Description") + Environment.NewLine);
+        Console.WriteLine(Strings.Menu_ModeSelect_Description + Environment.NewLine);
         Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Option1"));
         Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Option2"));
         Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Option3"));
