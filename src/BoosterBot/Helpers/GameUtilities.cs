@@ -186,23 +186,23 @@ namespace BoosterBot
         #region Core UI
 
         public IdentificationResult CanIdentifyMainMenu()
-            => CheckSimilarity(_mappings.GetBtnPlay, ComponentMappings.REF_LADD_BTN_PLAY);
+            => CheckSimilarity(_mappings.GetBtnPlay, _mappings.REF_LADD_BTN_PLAY);
 
         public IdentificationResult CanIdentifyReconnectToGameBtn()
-            => CheckSimilarity(_mappings.GetBtnPlay, ComponentMappings.REF_BTN_RECONNECT_TO_GAME);
+            => CheckSimilarity(_mappings.GetBtnPlay, _mappings.REF_BTN_RECONNECT_TO_GAME);
 
         public IdentificationResult CanIdentifyZeroEnergy()
-            => CheckSimilarity(_mappings.GetEnergy, ComponentMappings.REF_ICON_ZERO_ENERGY, 0.925);
+            => CheckSimilarity(_mappings.GetEnergy, _mappings.REF_ICON_ZERO_ENERGY, 0.925);
 
         #endregion
 
         #region Event
 
         public IdentificationResult CanIdentifyEventMenu()
-            => CheckSimilarity(_mappings.GetBtnPlay, ComponentMappings.REF_EVENT_BTN_PLAY, 0.85);
+            => CheckSimilarity(_mappings.GetBtnPlay, _mappings.REF_EVENT_BTN_PLAY, 0.85);
 
         public IdentificationResult CanIdentifyEventForfeitBtn()
-            => CheckSimilarity(_mappings.GetLadderBtnRetreat, ComponentMappings.REF_EVENT_BTN_FORFEIT);
+            => CheckSimilarity(_mappings.GetLadderBtnRetreat, _mappings.REF_EVENT_BTN_FORFEIT);
 
         public IdentificationResult CanIdentifyActiveEventMatch()
             => CheckSequentially(CanIdentifyEventForfeitBtn, CanIdentifyEndTurnBtn, CanIdentifyMidTurn);
@@ -216,18 +216,18 @@ namespace BoosterBot
 
         public IdentificationResult CanIdentifyLadderMatchmaking()
             => CheckMultipleSimilarities(
-                    (_mappings.GetLadderMatchmakingCancel, ComponentMappings.REF_LADD_BTN_MATCHMAKING_1, _defaultConfidence),
-                    (_mappings.GetLadderMatchmakingCancel, ComponentMappings.REF_LADD_BTN_MATCHMAKING_2, _defaultConfidence)
+                    (_mappings.GetLadderMatchmakingCancel, _mappings.REF_LADD_BTN_MATCHMAKING_1, _defaultConfidence),
+                    (_mappings.GetLadderMatchmakingCancel, _mappings.REF_LADD_BTN_MATCHMAKING_2, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyLadderRetreatBtn()
-            => CheckSimilarity(_mappings.GetLadderBtnRetreat, ComponentMappings.REF_LADD_BTN_RETREAT);
+            => CheckSimilarity(_mappings.GetLadderBtnRetreat, _mappings.REF_LADD_BTN_RETREAT);
 
         public IdentificationResult CanIdentifyLadderCollectRewardsBtn()
-            => CheckSimilarity(_mappings.GetConquestBtnCollect, ComponentMappings.REF_LADD_BTN_COLLECT_REWARDS);
+            => CheckSimilarity(_mappings.GetConquestBtnCollect, _mappings.REF_LADD_BTN_COLLECT_REWARDS);
 
         public IdentificationResult CanIdentifyLadderMatchEndNextBtn()
-            => CheckSimilarity(_mappings.GetConquestBtnMatchEndNext2, ComponentMappings.REF_LADD_BTN_MATCH_END_NEXT);
+            => CheckSimilarity(_mappings.GetConquestBtnMatchEndNext2, _mappings.REF_LADD_BTN_MATCH_END_NEXT);
 
         public IdentificationResult CanIdentifyLadderMatchEnd()
             => CheckSequentially(CanIdentifyLadderCollectRewardsBtn, CanIdentifyLadderMatchEndNextBtn);
@@ -240,92 +240,92 @@ namespace BoosterBot
             => CheckSequentially(CanIdentifyConquestRetreatBtn, CanIdentifyEndTurnBtn, CanIdentifyMidTurn);
 
         public IdentificationResult CanIdentifyConquestPlayBtn()
-            => CheckSimilarity(_mappings.GetBtnPlay, ComponentMappings.REF_CONQ_BTN_PLAY);
+            => CheckSimilarity(_mappings.GetBtnPlay, _mappings.REF_CONQ_BTN_PLAY);
 
         public IdentificationResult CanIdentifyAnyConquestLobby()
             => CheckSequentially(CanIdentifyConquestLobbyPG, CanIdentifyConquestLobbySilver, CanIdentifyConquestLobbyGold, CanIdentifyConquestLobbyInfinite);
 
         public IdentificationResult CanIdentifyConquestEntranceFee()
-            => CheckSimilarity(_mappings.GetConquestVictoryNext, ComponentMappings.REF_CONQ_LBL_ENTRANCE_FEE);
+            => CheckSimilarity(_mappings.GetConquestVictoryNext, _mappings.REF_CONQ_LBL_ENTRANCE_FEE);
 
         public IdentificationResult CanIdentifyConquestNoTickets()
-            => CheckSimilarity(_mappings.GetConquestOwnedTicketsIcon, ComponentMappings.REF_CONQ_LBL_NO_TICKETS);
+            => CheckSimilarity(_mappings.GetConquestOwnedTicketsIcon, _mappings.REF_CONQ_LBL_NO_TICKETS);
 
         public IdentificationResult CanIdentifyConquestLobbyPG()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestLobbySelection, ComponentMappings.REF_CONQ_LBL_LOBBY_PG_1, _defaultConfidence),
-                    (_mappings.GetConquestBannerCrop, ComponentMappings.REF_CONQ_LBL_LOBBY_PG_2, _defaultConfidence)
+                    (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_PG_1, _defaultConfidence),
+                    (_mappings.GetConquestBannerCrop, _mappings.REF_CONQ_LBL_LOBBY_PG_2, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyConquestLobbySilver()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestLobbySelection, ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_1, _defaultConfidence),
-                    (_mappings.GetConquestLobbySelection, ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_2, _defaultConfidence),
-                    (_mappings.GetConquestBannerCrop, ComponentMappings.REF_CONQ_LBL_LOBBY_SILVER_3, _defaultConfidence)
+                    (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_SILVER_1, _defaultConfidence),
+                    (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_SILVER_2, _defaultConfidence),
+                    (_mappings.GetConquestBannerCrop, _mappings.REF_CONQ_LBL_LOBBY_SILVER_3, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyConquestLobbyGold()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestLobbySelection, ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_1, _defaultConfidence),
-                    (_mappings.GetConquestLobbySelection, ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_2, _defaultConfidence),
-                    (_mappings.GetConquestBannerCrop, ComponentMappings.REF_CONQ_LBL_LOBBY_GOLD_3, _defaultConfidence)
+                    (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_GOLD_1, _defaultConfidence),
+                    (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_GOLD_2, _defaultConfidence),
+                    (_mappings.GetConquestBannerCrop, _mappings.REF_CONQ_LBL_LOBBY_GOLD_3, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyConquestLobbyInfinite()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestLobbySelection, ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_1, _defaultConfidence),
-                    (_mappings.GetConquestLobbySelection, ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_2, _defaultConfidence),
-                    (_mappings.GetConquestBannerCrop, ComponentMappings.REF_CONQ_LBL_LOBBY_INFINITE_3, _defaultConfidence)
+                    (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_INFINITE_1, _defaultConfidence),
+                    (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_INFINITE_2, _defaultConfidence),
+                    (_mappings.GetConquestBannerCrop, _mappings.REF_CONQ_LBL_LOBBY_INFINITE_3, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyConquestMatchmaking()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestMatchmakingCancel, ComponentMappings.REF_CONQ_BTN_MATCHMAKING_1, _defaultConfidence),
-                    (_mappings.GetConquestMatchmakingCancel, ComponentMappings.REF_CONQ_BTN_MATCHMAKING_2, _defaultConfidence)
+                    (_mappings.GetConquestMatchmakingCancel, _mappings.REF_CONQ_BTN_MATCHMAKING_1, _defaultConfidence),
+                    (_mappings.GetConquestMatchmakingCancel, _mappings.REF_CONQ_BTN_MATCHMAKING_2, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyConquestRetreatBtn()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestBtnRetreat, ComponentMappings.REF_CONQ_BTN_RETREAT_1, _defaultConfidence),
-                    (_mappings.GetConquestBtnRetreat, ComponentMappings.REF_CONQ_BTN_RETREAT_2, _defaultConfidence)
+                    (_mappings.GetConquestBtnRetreat, _mappings.REF_CONQ_BTN_RETREAT_1, _defaultConfidence),
+                    (_mappings.GetConquestBtnRetreat, _mappings.REF_CONQ_BTN_RETREAT_2, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyEndTurnBtn()
-            => CheckSimilarity(_mappings.GetConquestBtnEndTurn, ComponentMappings.REF_CONQ_BTN_END_TURN);
+            => CheckSimilarity(_mappings.GetConquestBtnEndTurn, _mappings.REF_CONQ_BTN_END_TURN);
 
         public IdentificationResult CanIdentifyMidTurn()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestBtnWaiting, ComponentMappings.REF_CONQ_BTN_WAITING_1, _defaultConfidence),
-                    (_mappings.GetConquestBtnWaiting, ComponentMappings.REF_CONQ_BTN_WAITING_2, _defaultConfidence),
-                    (_mappings.GetConquestBtnWaiting, ComponentMappings.REF_CONQ_BTN_PLAYING, _defaultConfidence)
+                    (_mappings.GetConquestBtnWaiting, _mappings.REF_CONQ_BTN_WAITING_1, _defaultConfidence),
+                    (_mappings.GetConquestBtnWaiting, _mappings.REF_CONQ_BTN_WAITING_2, _defaultConfidence),
+                    (_mappings.GetConquestBtnWaiting, _mappings.REF_CONQ_BTN_PLAYING, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyConquestConcede()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestBtnConcede, ComponentMappings.REF_CONQ_BTN_CONCEDE_1, _defaultConfidence),
-                    (_mappings.GetConquestBtnConcede, ComponentMappings.REF_CONQ_BTN_CONCEDE_2, _defaultConfidence)
+                    (_mappings.GetConquestBtnConcede, _mappings.REF_CONQ_BTN_CONCEDE_1, _defaultConfidence),
+                    (_mappings.GetConquestBtnConcede, _mappings.REF_CONQ_BTN_CONCEDE_2, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyConquestMatchEnd()
             => CheckSequentially(CanIdentifyConquestMatchEndNext1, CanIdentifyConquestMatchEndNext2);
 
         public IdentificationResult CanIdentifyConquestMatchEndNext1()
-            => CheckSimilarity(_mappings.GetConquestBtnMatchEndNext1, ComponentMappings.REF_CONQ_BTN_MATCH_END_1);
+            => CheckSimilarity(_mappings.GetConquestBtnMatchEndNext1, _mappings.REF_CONQ_BTN_MATCH_END_1);
 
         public IdentificationResult CanIdentifyConquestMatchEndNext2()
-            => CheckSimilarity(_mappings.GetConquestBtnMatchEndNext2, ComponentMappings.REF_CONQ_BTN_MATCH_END_2);
+            => CheckSimilarity(_mappings.GetConquestBtnMatchEndNext2, _mappings.REF_CONQ_BTN_MATCH_END_2);
 
         public IdentificationResult CanIdentifyConquestLossContinue()
-            => CheckSimilarity(_mappings.GetConquestBtnContinue, ComponentMappings.REF_CONQ_BTN_CONTINUE);
+            => CheckSimilarity(_mappings.GetConquestBtnContinue, _mappings.REF_CONQ_BTN_CONTINUE);
 
         public IdentificationResult CanIdentifyConquestWinNext()
-            => CheckSimilarity(_mappings.GetConquestVictoryNext, ComponentMappings.REF_CONQ_BTN_WIN_NEXT);
+            => CheckSimilarity(_mappings.GetConquestVictoryNext, _mappings.REF_CONQ_BTN_WIN_NEXT);
 
         public IdentificationResult CanIdentifyConquestTicketClaim()
             => CheckMultipleSimilarities(
-                    (_mappings.GetConquestTicketClaim, ComponentMappings.REF_CONQ_BTN_WIN_TICKET, 0.8),
-                    (_mappings.GetConquestTicketClaim, ComponentMappings.REF_CONQ_BTN_WIN_TICKET_2, 0.8),
-                    (_mappings.GetConquestTicketClaim, ComponentMappings.REF_CONQ_BTN_WIN_TICKET_3, 0.8)
+                    (_mappings.GetConquestTicketClaim, _mappings.REF_CONQ_BTN_WIN_TICKET, 0.8),
+                    (_mappings.GetConquestTicketClaim, _mappings.REF_CONQ_BTN_WIN_TICKET_2, 0.8),
+                    (_mappings.GetConquestTicketClaim, _mappings.REF_CONQ_BTN_WIN_TICKET_3, 0.8)
                 );
 
         #endregion

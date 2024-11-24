@@ -555,4 +555,22 @@
   <data name="Repair_Conquest_BTN_WIN_TICKET" xml:space="preserve">
     <value>After winning a match and returning to the Conquest menu, identify the 'Claim Ticket' button.</value>
   </data>
+  <data name="Error_SnapNotRunning" xml:space="preserve">
+    <value>SNAP.exe is not running!</value>
+  </data>
+  <data name="Update_NewVersion" xml:space="preserve">
+    <value>*** Version %VALUE% is available! Enter [0] to open GitHub download page ***</value>
+  </data>
+  <data name="InitialSetup_Language_Option1" xml:space="preserve">
+    <value>[1] en-US | English</value>
+  </data>
+  <data name="InitialSetup_Language_Option2" xml:space="preserve">
+    <value>[2] 中文 | zh-CN</value>
+  </data>
+  <data name="InitialSetup_Language_BoosterBot" xml:space="preserve">
+    <value>Select your preferred language for BoosterBot:</value>
+  </data>
+  <data name="InitialSetup_Languaeg_Game" xml:space="preserve">
+    <value>Select the language used in the game client:</value>
+  </data>
 </root>

@@ -20,6 +20,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="OpenCvSharp4" Version="4.8.0.20230708" />
 		<PackageReference Include="OpenCvSharp4.Windows" Version="4.8.0.20230708" />
 		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
@@ -34,49 +35,49 @@
 		<None Update="appsettings.json">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-concede-2-preproc.png">
+		<None Update="reference\en\btn-conquest-concede-2-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-concede-2.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-concede-preproc.png">
+		<None Update="reference\en\btn-conquest-concede-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-concede.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-continue-preproc.png">
+		<None Update="reference\en\btn-conquest-continue-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-continue.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-end-turn-2-preproc.png">
+		<None Update="reference\en\btn-conquest-end-turn-2-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-end-turn-2.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-end-turn-preproc.png">
+		<None Update="reference\en\btn-conquest-end-turn-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-end-turn.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-entrance-fee.png">
+		<None Update="reference\en\btn-conquest-entrance-fee.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-match-end-next-1-preproc.png">
+		<None Update="reference\en\btn-conquest-match-end-next-1-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-match-end-next-2-preproc.png">
+		<None Update="reference\en\btn-conquest-match-end-next-2-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-matchmaking-cancel-1-preproc.png">
+		<None Update="reference\en\btn-conquest-matchmaking-cancel-1-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-matchmaking-cancel-2-preproc.png">
+		<None Update="reference\en\btn-conquest-matchmaking-cancel-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-matchmaking-cancel-preproc.png">
@@ -85,88 +86,88 @@
 		<None Update="reference\btn-conquest-matchmaking-cancel.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-play-preproc.png">
+		<None Update="reference\en\btn-conquest-play-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-play.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-playing-preproc.png">
+		<None Update="reference\en\btn-conquest-playing-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-playing.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-retreat-2-preproc.png">
+		<None Update="reference\en\btn-conquest-retreat-2-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-retreat-2.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-retreat-preproc.png">
+		<None Update="reference\en\btn-conquest-retreat-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-retreat.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-ticket-claim-2-preproc.png">
+		<None Update="reference\en\btn-conquest-ticket-claim-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-ticket-claim-3-preproc.png">
+		<None Update="reference\en\btn-conquest-ticket-claim-3-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-ticket-claim-preproc.png">
+		<None Update="reference\en\btn-conquest-ticket-claim-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-ticket-claim.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-victory-next-preproc.png">
+		<None Update="reference\en\btn-conquest-victory-next-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-victory-next.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-waiting-2-preproc.png">
+		<None Update="reference\en\btn-conquest-waiting-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-conquest-waiting-preproc.png">
+		<None Update="reference\en\btn-conquest-waiting-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-conquest-waiting.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-event-forfeit-preproc.png">
+		<None Update="reference\en\btn-event-forfeit-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-event-play-preproc.png">
+		<None Update="reference\en\btn-event-play-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-ladder-collect-rewards-preproc.png">
+		<None Update="reference\en\btn-ladder-collect-rewards-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-ladder-match-end-next-preproc.png">
+		<None Update="reference\en\btn-ladder-match-end-next-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-ladder-matchmaking-cancel-1-preproc.png">
+		<None Update="reference\en\btn-ladder-matchmaking-cancel-1-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-ladder-matchmaking-cancel-2-preproc.png">
+		<None Update="reference\en\btn-ladder-matchmaking-cancel-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-ladder-matchmaking-cancel-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-ladder-retreat-preproc.png">
+		<None Update="reference\en\btn-ladder-retreat-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-main-play-preproc.png">
+		<None Update="reference\en\btn-main-play-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-main-play.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\btn-main-reconnect-preproc.png">
+		<None Update="reference\en\btn-main-reconnect-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\btn-match-end-next-1-preproc.png">
@@ -181,56 +182,179 @@
 		<None Update="reference\btn-match-end-next-2.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-gold-1-preproc.png">
+		<None Update="reference\en\lbl-conquest-gold-1-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-gold-2-preproc.png">
+		<None Update="reference\en\lbl-conquest-gold-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-gold-3-preproc.png">
+		<None Update="reference\en\lbl-conquest-gold-3-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\lbl-conquest-gold-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-infinite-1-preproc.png">
+		<None Update="reference\en\lbl-conquest-infinite-1-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-infinite-2-preproc.png">
+		<None Update="reference\en\lbl-conquest-infinite-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-infinite-3-preproc.png">
+		<None Update="reference\en\lbl-conquest-infinite-3-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\lbl-conquest-infinite-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-no-tickets-preproc.png">
+		<None Update="reference\en\lbl-conquest-no-tickets-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-pg-1-preproc.png">
+		<None Update="reference\en\lbl-conquest-pg-1-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-pg-2-preproc.png">
+		<None Update="reference\en\lbl-conquest-pg-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\lbl-conquest-pg.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-silver-2-preproc.png">
+		<None Update="reference\en\lbl-conquest-silver-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-silver-1-preproc.png">
+		<None Update="reference\en\lbl-conquest-silver-1-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-conquest-silver-3-preproc.png">
+		<None Update="reference\en\lbl-conquest-silver-3-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\lbl-energy-zero-preproc.png">
+		<None Update="reference\en\lbl-energy-zero-preproc.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\lbl-energy-zero.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-concede-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-concede-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-continue-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-end-turn-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-end-turn-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-match-end-next-1-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-match-end-next-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-matchmaking-cancel-1-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-matchmaking-cancel-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-play-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-playing-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-retreat-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-retreat-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-ticket-claim-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-ticket-claim-3-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-ticket-claim-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-victory-next-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-waiting-preproc-2.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-waiting-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-event-forfeit-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-event-play-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-ladder-collect-rewards-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-ladder-match-end-next-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-ladder-matchmaking-cancel-1-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-ladder-matchmaking-cancel-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-ladder-retreat-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-main-play-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-main-reconnect-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-gold-1-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-gold-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-gold-3-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-infinite-1-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-infinite-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-infinite-3-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-no-tickets-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-pg-1-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-pg-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-silver-1-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-silver-2-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-silver-3-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-energy-zero-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Resources\icon.png">
 			<Pack>True</Pack>
@@ -311,6 +435,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="reference\zh\" />
 	  <Folder Include="Resources\repair\" />
 	</ItemGroup>
 

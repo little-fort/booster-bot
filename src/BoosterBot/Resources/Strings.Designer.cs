@@ -295,6 +295,15 @@ namespace BoosterBot.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SNAP.exe is not running!.
+        /// </summary>
+        internal static string Error_SnapNotRunning {
+            get {
+                return ResourceManager.GetString("Error_SnapNotRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detected menu for event game mode. Starting new match....
         /// </summary>
         internal static string Event_Log_DetectedEventMenu {
@@ -327,6 +336,42 @@ namespace BoosterBot.Resources {
         internal static string Event_Log_Start {
             get {
                 return ResourceManager.GetString("Event_Log_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select the language used in the game client:.
+        /// </summary>
+        internal static string InitialSetup_Languaeg_Game {
+            get {
+                return ResourceManager.GetString("InitialSetup_Languaeg_Game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select your preferred language for BoosterBot:.
+        /// </summary>
+        internal static string InitialSetup_Language_BoosterBot {
+            get {
+                return ResourceManager.GetString("InitialSetup_Language_BoosterBot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [1] en-US | English.
+        /// </summary>
+        internal static string InitialSetup_Language_Option1 {
+            get {
+                return ResourceManager.GetString("InitialSetup_Language_Option1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [2] 中文 | zh-CN.
+        /// </summary>
+        internal static string InitialSetup_Language_Option2 {
+            get {
+                return ResourceManager.GetString("InitialSetup_Language_Option2", resourceCulture);
             }
         }
         
@@ -1371,6 +1416,15 @@ namespace BoosterBot.Resources {
         internal static string Repair_Title {
             get {
                 return ResourceManager.GetString("Repair_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to *** Version %VALUE% is available! Enter [0] to open GitHub download page ***.
+        /// </summary>
+        internal static string Update_NewVersion {
+            get {
+                return ResourceManager.GetString("Update_NewVersion", resourceCulture);
             }
         }
     }

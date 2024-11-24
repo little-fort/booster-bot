@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Policy;
+using BoosterBot.Resources;
 
 namespace BoosterBot;
 
@@ -84,7 +85,7 @@ public static class UpdateChecker
 
         var body = _latestRelease.body;
         var lines = body.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        var message = $"*** Version {_latestRelease.tag_name} is available! Enter [0] to open GitHub download page ***\n";
+        var message = Strings.Update_NewVersion.Replace("%VALUE%", _latestRelease.tag_name);
 
         foreach (var line in lines)
             message += $"   {line}\n";

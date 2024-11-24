@@ -555,4 +555,10 @@
   <data name="Repair_Conquest_BTN_WIN_TICKET" xml:space="preserve">
     <value>赢得比赛并返回征服菜单后，找到“领取门票”按钮。</value>
   </data>
+  <data name="Error_SnapNotRunning" xml:space="preserve">
+    <value>SnapCN.exe 没有运行！</value>
+  </data>
+  <data name="Update_NewVersion" xml:space="preserve">
+    <value>*** %VALUE% 版本已上线！输入 [0] 打开 GitHub 下载页面 ***</value>
+  </data>
 </root>

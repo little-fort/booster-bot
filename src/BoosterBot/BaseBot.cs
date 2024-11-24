@@ -1,4 +1,5 @@
 ﻿using BoosterBot.Models;
+using BoosterBot.Resources;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -37,9 +38,9 @@ namespace BoosterBot
 
         protected void PrintShortcutInfo()
         {
-            Console.WriteLine(_config.Localizer.GetString("Log_Info_Shortcuts"));
-            Console.WriteLine("   " + _config.Localizer.GetString("Log_Info_Shortcuts_Pause"));
-            Console.WriteLine("   " + _config.Localizer.GetString("Log_Info_Shortcuts_Quit"));
+            Console.WriteLine(Strings.Log_Info_Shortcuts);
+            Console.WriteLine("   " + Strings.Log_Info_Shortcuts_Pause);
+            Console.WriteLine("   " + Strings.Log_Info_Shortcuts_Quit);
             Console.WriteLine();
         }
 
@@ -51,10 +52,10 @@ namespace BoosterBot
             CheckForPause();
         }
 
-        protected void Log(string key, int check, bool verboseOnly = false)
+        protected void Log(string key, int check, bool verboseOnly = false, List<FindReplaceValue> replace = null)
         {
             if (!verboseOnly || _config.Verbose)
-                Logger.Log(_config.Localizer, key, _logPath);
+                Logger.Log(_config.Localizer, key, _logPath, replace: replace);
 
             CheckForPause();
         }

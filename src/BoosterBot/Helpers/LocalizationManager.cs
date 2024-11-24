@@ -27,6 +27,8 @@ namespace BoosterBot.Helpers
             SetCulture(cultureName);
         }
 
+        public string GetCulture() => _currentCulture.TwoLetterISOLanguageName;
+
         public void SetCulture(string cultureName)
         {
             try

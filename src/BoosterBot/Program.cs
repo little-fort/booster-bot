@@ -14,17 +14,34 @@ internal class Program
 
     static async Task Main(string[] args)
     {
+        // Setup configuration
+        IConfiguration configuration = new ConfigurationBuilder()
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            .Build();
+
+        // Initialize localization
+        _localizer = new LocalizationManager(configuration);
+
+        // Prompt user for language selection on first start
+        if (string.IsNullOrWhiteSpace(configuration["appLanguage"]) || string.IsNullOrWhiteSpace(configuration["gameLanguage"]) || bool.Parse(configuration["initialStart"] ?? "false"))
+        {
+            if (!GetAppLanguageSelection())
+                return;
+            else
+                SettingsHelper.Save("initialStart", false);
+        }
+
         bool masked = true; // REVERT BEFORE PR
-        bool verbose = false;
         bool autoplay = true;
         bool saveScreens = false;
-        bool downscaled = false;
-        bool ltm = false;
         bool repair = false;
-        double scaling = 1.0;
-        string gameMode = "";
-        string maxConquestTier = "";
-        int maxTurns = 0;
+        bool? verbose = null;
+        bool? downscaled = null;
+        bool? ltm = null;
+        double? scaling = null;
+        string? gameMode = null;
+        string? maxConquestTier = null;
+        int? maxTurns = null;
 
         // Parse flags:
         if (args.Length > 0)
@@ -82,7 +99,6 @@ internal class Program
                     case "--event":
                         ltm = true;
                         break;
-                    case "-r":
                     case "--repair":
                         repair = true;
                         break;
@@ -98,14 +114,6 @@ internal class Program
             
             if (masked)
             {
-                // Setup configuration
-                IConfiguration configuration = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                    .Build();
-
-                // Initialize localization
-                _localizer = new LocalizationManager(configuration);
-
                 // Initialize hotkey manager to allow pausing or exiting via keyboard shortcuts
                 HotkeyManager.Initialize(_localizer);
 
@@ -118,6 +126,20 @@ internal class Program
                 if (!Directory.Exists("screens"))
                     Directory.CreateDirectory("screens");
 
+                // Parse values configured in appsettings.json (if they exist)
+                verbose ??= bool.Parse(configuration["verboseLogs"] ?? "false");
+                downscaled ??= bool.Parse(configuration["downscaledMode"] ?? "false");
+                ltm ??= bool.Parse(configuration["eventModeActive"] ?? "false");
+                scaling ??= double.Parse(configuration["scaling"] ?? "1.0");
+
+                if (!string.IsNullOrWhiteSpace(configuration["defaultRunSettings:enabled"]) && bool.Parse(configuration["defaultRunSettings:enabled"] ?? "false"))
+                {
+                    gameMode ??= configuration["defaultRunSettings:gameMode"];
+                    maxConquestTier ??= configuration["defaultRunSettings:maxConquestTier"];
+                    maxTurns ??= int.Parse(configuration["defaultRunSettings:maxRankedTurns"] ?? "0");
+                }
+
+                // Process configured values and prompt user for any that are missing
                 var mode = 0;
                 if (repair)
                     mode = 9;
@@ -152,12 +174,12 @@ internal class Program
 
                 var type = (GameMode)mode;
                 var logPath = $"logs\\{type.ToString().ToLower()}-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-                var config = new BotConfig(_localizer, scaling, verbose, autoplay, saveScreens, logPath, ltm, downscaled);
+                var config = new BotConfig(_localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled);
                 IBoosterBot bot = mode switch
                 {
-                    1 => new ConquestBot(config, retreat, maxTier),
-                    2 => new LadderBot(config, retreat),
-                    3 => new EventBot(config, retreat),
+                    1 => new ConquestBot(config, retreat ?? 0, maxTier),
+                    2 => new LadderBot(config, retreat ?? 0),
+                    3 => new EventBot(config, retreat ?? 0),
                     9 => new RepairBot(config),
                     _ => throw new Exception(_localizer.GetString("Log_InvalidModeSelection"))
                 };
@@ -217,6 +239,64 @@ internal class Program
         Console.WriteLine();
     }
 
+    private static bool GetAppLanguageSelection()
+    {
+        PrintTitle();
+
+        Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_BoosterBot") + Environment.NewLine);
+        Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Option1"));
+        Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Option2"));
+        Console.WriteLine();
+        Console.WriteLine(_localizer.GetNeutralString("Menu_WaitingForSelection"));
+
+        var key = Console.ReadKey();
+        if (key.KeyChar == '1' || key.KeyChar == '2')
+        {
+            var language = key.KeyChar switch
+            {
+                '1' => "en-US",
+                '2' => "zh-CN",
+                _ => "en-US"
+            };
+
+            // Write selection to appsettings.json
+            SettingsHelper.Save("appLanguage", language);
+
+            return GetGameLanguageSelection();
+        }
+
+        return GetAppLanguageSelection();
+    }
+
+    private static bool GetGameLanguageSelection()
+    {
+        PrintTitle();
+
+        Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Game") + Environment.NewLine);
+        Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Option1"));
+        Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Option2"));
+        Console.WriteLine();
+        Console.WriteLine(_localizer.GetNeutralString("Menu_WaitingForSelection"));
+
+        var key = Console.ReadKey();
+        if (key.KeyChar == '1' || key.KeyChar == '2')
+        {
+            var language = key.KeyChar switch
+            {
+                '1' => "en-US",
+                '2' => "zh-CN",
+                _ => "en-US"
+            };
+
+            // Write selection to appsettings.json
+            SettingsHelper.Save("gameLanguage", language);
+
+            return true;
+        }
+
+        return GetAppLanguageSelection();
+    }
+
     private static int GetModeSelection()
     {
         PrintTitle();
@@ -226,11 +306,11 @@ internal class Program
             Console.WriteLine(UpdateChecker.GetUpdateMessage());
 
         Console.WriteLine(Strings.Menu_ModeSelect_Description + Environment.NewLine);
-        Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Option1"));
-        Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Option2"));
-        Console.WriteLine(_localizer.GetString("Menu_ModeSelect_Option3"));
+        Console.WriteLine(Strings.Menu_ModeSelect_Option1);
+        Console.WriteLine(Strings.Menu_ModeSelect_Option2);
+        Console.WriteLine(Strings.Menu_ModeSelect_Option3);
         Console.WriteLine();
-        Console.Write(_localizer.GetString("Menu_WaitingForSelection"));
+        Console.Write(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (_updateAvailable && key.KeyChar == '0')
@@ -244,15 +324,15 @@ internal class Program
     private static GameState GetMaxTierSelection()
     {
         PrintTitle();
-        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Description") + Environment.NewLine);
-        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Option1"));
-        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Option2"));
-        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Option3"));
-        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_Option4"));
+        Console.WriteLine(Strings.Menu_ConquestLobby_Description + Environment.NewLine);
+        Console.WriteLine(Strings.Menu_ConquestLobby_Option1);
+        Console.WriteLine(Strings.Menu_ConquestLobby_Option2);
+        Console.WriteLine(Strings.Menu_ConquestLobby_Option3);
+        Console.WriteLine(Strings.Menu_ConquestLobby_Option4);
         Console.WriteLine();
-        Console.WriteLine(_localizer.GetString("Menu_ConquestLobby_NoticeTickets") + Environment.NewLine + _localizer.GetString("Menu_ConquestLobby_NoticeGold"));
+        Console.WriteLine(Strings.Menu_ConquestLobby_NoticeTickets + Environment.NewLine + Strings.Menu_ConquestLobby_NoticeGold);
         Console.WriteLine();
-        Console.Write(_localizer.GetString("Menu_WaitingForSelection"));
+        Console.Write(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3' || key.KeyChar == '4')
@@ -290,16 +370,16 @@ internal class Program
         PrintTitle();
 
         var tier = selection.ToString().Replace("CONQUEST_LOBBY_", "");
-        Console.WriteLine($"{_localizer.GetString("Menu_ConquestConfirm_HighestTier")} {tier}");
+        Console.WriteLine($"{Strings.Menu_ConquestConfirm_HighestTier} {tier}");
         Console.WriteLine();
-        Console.WriteLine(_localizer.GetString("Menu_ConquestConfirm_TicketWarning"));
-        Console.WriteLine(_localizer.GetString("Menu_ConquestConfirm_TicketDefault"));
+        Console.WriteLine(Strings.Menu_ConquestConfirm_TicketWarning);
+        Console.WriteLine(Strings.Menu_ConquestConfirm_TicketDefault);
         Console.WriteLine();
-        Console.WriteLine(_localizer.GetString("Menu_ConfirmContinue") + Environment.NewLine);
-        Console.WriteLine(_localizer.GetString("Menu_Option1_Yes"));
-        Console.WriteLine(_localizer.GetString("Menu_Option2_No"));
+        Console.WriteLine(Strings.Menu_ConfirmContinue + Environment.NewLine);
+        Console.WriteLine(Strings.Menu_Option1_Yes);
+        Console.WriteLine(Strings.Menu_Option2_No);
         Console.WriteLine();
-        Console.Write(_localizer.GetString("Menu_WaitingForSelection"));
+        Console.Write(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (key.KeyChar == '1')
@@ -313,15 +393,15 @@ internal class Program
 	private static int GetRetreatAfterTurn()
 	{
 		PrintTitle();
-		Console.WriteLine(_localizer.GetString("Menu_RetreatSelect_Description") + Environment.NewLine);
-		Console.WriteLine(_localizer.GetString("Menu_RetreatSelect_NoRetreat"));
+		Console.WriteLine(Strings.Menu_RetreatSelect_Description + Environment.NewLine);
+		Console.WriteLine(Strings.Menu_RetreatSelect_NoRetreat);
 		Console.WriteLine("[1]");
 		Console.WriteLine("[2]");
 		Console.WriteLine("[3]");
 		Console.WriteLine("[4]");
 		Console.WriteLine("[5]");
 		Console.WriteLine();
-        Console.Write(_localizer.GetString("Menu_WaitingForSelection"));
+        Console.Write(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if ("0,1,2,3,4,5".Contains(key.KeyChar.ToString()))
