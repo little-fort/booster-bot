@@ -1,4 +1,5 @@
-﻿using BoosterBot.Models;
+﻿using BoosterBot.Helpers;
+using BoosterBot.Models;
 using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
 
@@ -6,9 +7,11 @@ namespace BoosterBot
 {
     internal class EventBot : BaseBot
     {
-        public EventBot(double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn, bool downscaled, bool useEvent = false) :
-            base(GameMode.EVENT, scaling, verbose, autoplay, saveScreens, retreatAfterTurn, downscaled, useEvent)
+        private readonly LocalizationManager _localizer;
+
+        public EventBot(BotConfig config, int retreat) : base(config, retreat)
         {
+            _localizer = config.Localizer;
             // Debug();
         }
 
@@ -28,7 +31,7 @@ namespace BoosterBot
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"ERROR: {ex.Message}");
+                    Console.WriteLine($"{_localizer.GetString("Log_Error")} {ex.Message}");
                     Thread.Sleep(5000);
                 }
             }
@@ -36,7 +39,7 @@ namespace BoosterBot
 
         public override void Run()
         {
-            Log("Starting Event bot...");
+            Log("Event_Log_Start");
             var attempts = 0;
 
             while (true)
@@ -54,7 +57,7 @@ namespace BoosterBot
                 var onMenu = Check(_game.CanIdentifyMainMenu);
                 if (onMenu)
                 {
-                    Log("Detected main menu. Navigating to event LTM...");
+                    Log("Event_Log_Menu");
                     NavigateToGameModes();
                     NavigateToLtmMenu();
                     StartMatch();
@@ -65,7 +68,7 @@ namespace BoosterBot
                 {
                     if (attempts <= 2)
                     {
-                        Log($"Could not detect main menu (attempt #{attempts}). Trying again in 5 seconds...");
+                        Log("Log_FailedMenuDetection");
                         _game.ResetClick();
                         Thread.Sleep(5000);
                     }
@@ -80,7 +83,7 @@ namespace BoosterBot
 
         private void NavigateToGameModes()
         {
-            Log("Navigating to Game Modes tab...");
+            Log("Conquest_Log_Menu_GameModes");
             SystemUtilities.Click(_config.GameModesPoint);
             Thread.Sleep(1000);
             SystemUtilities.Click(_config.GameModesPoint);
@@ -89,7 +92,7 @@ namespace BoosterBot
 
         private void NavigateToLtmMenu()
         {
-            Log("Navigating to LTM menu...");
+            Log("Event_Log_Menu_ModeTab");
 
             for (int x = 0; x < 3; x++)
             {
@@ -100,42 +103,42 @@ namespace BoosterBot
 
         private bool DetermineLoopEntryPoint(int attempts = 0)
         {
-            Log("Attempting to determine loop entry point...");
+            Log("Log_LoopEntryPoint");
             var state = _game.DetermineLadderGameState();
 
             switch (state)
             {
                 case GameState.MAIN_MENU:
-                    Log("Detected main menu. Navigating to event menu...");
+                    Log("Event_Log_Menu");
                     NavigateToGameModes();
                     NavigateToLtmMenu();
-                    Log("Starting new match...");
+                    Log("Log_Match_StartNew");
                     StartMatch();
                     return true;
                 case GameState.EVENT_MENU:
-                    Log("Detected event menu. Starting new match...");
+                    Log("Event_Log_DetectedEventMenu");
                     StartMatch();
                     return true;
                 case GameState.RECONNECT_TO_GAME:
-                    Log("Detected 'Reconnect to Game' button. Resuming match play...");
+                    Log("Log_DetectedReconnect");
                     _game.ClickPlay();
                     Thread.Sleep(4000);
                     return PlayMatch();
                 case GameState.MID_MATCH:
-                    Log("Detected active match. Resuming match play...");
+                    Log("Log_DetectedActiveMatch");
                     return StartMatch();
                 case GameState.LADDER_MATCHMAKING:
-                    Log("Detected matchmaking...");
+                    Log("Log_DetectedMatchmaking");
                     return WaitForMatchmaking();
                 case GameState.LADDER_MATCH:
-                    Log("Detected active match. Resuming match play...");
+                    Log("Log_DetectedActiveMatch");
                     return PlayMatch();
                 case GameState.LADDER_MATCH_END:
                 case GameState.LADDER_MATCH_END_REWARDS:
-                    Log("Detected match end. Returning to main menu...");
+                    Log("Log_DetectedMatchEnd");
                     return ExitMatch();
                 case GameState.CONQUEST_LOBBY_PG:
-                    Log("Detected Conquest lobby. Resetting menu...");
+                    Log("Log_Ladder_DetectedConquest");
                     _game.ResetMenu();
                     NavigateToGameModes();
                     NavigateToLtmMenu();
@@ -147,10 +150,10 @@ namespace BoosterBot
                         return DetermineLoopEntryPoint(attempts + 1);
                     }
 
-                    Log("Bot is hopelessly lost... :/");
-                    Log("Return to main menu and restart bot.");
+                    Log("Log_LostBot");
+                    Log("Log_LostBot_Restart");
                     Console.WriteLine();
-                    Log("Press any key to exit...");
+                    Log("Menu_PressKeyToExit");
                     Console.ReadKey();
                     Environment.Exit(0);
                     return false;
@@ -160,7 +163,7 @@ namespace BoosterBot
 
         private bool StartMatch()
         {
-            Log("Clicking 'Play'...");
+            Log("Log_Match_StartNew");
             _game.ClickPlay();
             Thread.Sleep(1000);
             _game.ClickPlay(); // Press a second time just to be sure
@@ -176,17 +179,17 @@ namespace BoosterBot
             var mmTimer = new Stopwatch();
             mmTimer.Start();
 
-            Log("Checking for ongoing matchmaking...", true);
+            Log("Log_Check_Matchmaking", true);
             while (Check(_game.CanIdentifyLadderMatchmaking))
             {
                 if (mmTimer.Elapsed.TotalSeconds > _rand.Next(300, 360))
                 {
-                    Log("Matchmaking seems to be hanging. Returning to main menu to re-try...");
+                    Log("Log_Check_Matchmaking_Hanged");
                     _game.ClickCancel();
                     return true;
                 }
 
-                Logger.Log($"Waiting for match start... [Elapsed: {mmTimer.Elapsed}]", _logPath);
+                Log(_localizer.GetString("Log_Matchmaking_Waiting").Replace("%ELAPSED%", mmTimer.Elapsed.ToString()));
                 Thread.Sleep(5000);
                 _config.GetWindowPositions();
             }
@@ -196,7 +199,7 @@ namespace BoosterBot
 
         private bool PlayMatch()
         {
-            Log("Playing match...");
+            Log("Log_Match_Playing");
             var active = true;
             // var alreadySnapped = false;
             _rand = new Random();
@@ -220,13 +223,13 @@ namespace BoosterBot
             {
                 _config.GetWindowPositions();
 
-                Log("Checking for active ladder match...", true);
+                Log("Log_Check_ActiveMatch", true);
                 if (!Check(_game.CanIdentifyActiveEventMatch))
                 {
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
                     {
-                        Log("Could not detect active match, trying again in 2 seconds...");
+                        Log("Log_Check_ActiveMatch_Failed");
                         _config.GetWindowPositions();
                         _game.ResetClick();
                         check = Check(_game.CanIdentifyActiveEventMatch);
@@ -239,35 +242,35 @@ namespace BoosterBot
                 {
                     if (currentTurn++ >= _retreatAfterTurn)
                     {
-                        Log($"Configured turn limit ({_retreatAfterTurn}) reached. Attempting retreat...");
+                        Log(_localizer.GetString("Log_Match_ReachedTurnLimit").Replace("%VALUE%", _retreatAfterTurn.ToString()));
                         _game.ClickRetreat();
                         Thread.Sleep(5000);
 					}
 					else
                     {
-                        Log($"Attempting to play cards... [Turn count: {currentTurn}]");
+                        Log(_localizer.GetString("Log_Match_PlayingCards").Replace("%VALUE%", currentTurn.ToString()));
                         _game.PlayHand();
                         Thread.Sleep(1000);
 
                         _config.GetWindowPositions();
 
-                        Log("Checking for energy state...", true);
+                        Log("Log_Check_EnergyState", true);
                         if (!Check(_game.CanIdentifyZeroEnergy))
                         {
-                            Log("Detected leftover energy, will attempt to play cards again...");
+                            Log("Log_Match_LeftoverEnergy");
                             _game.PlayHand();
                         }
 
-                        Log("Clicking 'Next Turn'...");
+                        Log("Log_Match_EndTurn");
                         _game.ClickNext();
                         Thread.Sleep(1000);
 
                         _config.GetWindowPositions();
 
-                        Log("Checking for turn state...", true);
+                        Log("Log_Check_TurnState", true);
                         while (Check(_game.CanIdentifyMidTurn))
                         {
-                            Log("Waiting for turn to progress...");
+                            Log("Log_Match_WaitingForTurn");
                             Thread.Sleep(4000);
                             _config.GetWindowPositions();
                         }
@@ -286,12 +289,12 @@ namespace BoosterBot
 
             if (_matchTimer.Elapsed.Minutes > 15 && Check(_game.CanIdentifyLadderRetreatBtn))
             {
-                Log("Match timer has eclipsed 15 minutes. Attempting retreat...");
+                Log("Log_Match_MaxTimeReached");
                 _game.ClickRetreat();
                 Thread.Sleep(5000);
             }
 
-            Log("Checking for end of match...", true);
+            Log("Log_Check_MatchEnd", true);
             if (Check(_game.CanIdentifyLadderMatchEnd))
                 return ExitMatch();
 
@@ -300,10 +303,10 @@ namespace BoosterBot
 
         private bool ExitMatch()
         {
-            Log("Exiting match...");
+            Log("Log_Match_Exiting");
             _config.GetWindowPositions();
 
-            Log("Checking for post-match screens...", true);
+            Log("Log_Check_PostMatchScreen", true);
             while (Check(_game.CanIdentifyLadderCollectRewardsBtn) || Check(_game.CanIdentifyLadderMatchEndNextBtn))
             {
                 _game.ClickNext();

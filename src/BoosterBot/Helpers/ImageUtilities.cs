@@ -18,7 +18,7 @@ internal class ImageUtilities
     /// <param name="targetScore">The threshold of similarity that must be met to return true.</param>
     /// <param name="image">The target image that is being evaluated.</param>
     /// <returns>A tuple containing a boolean indicating if the images are similar enough and a list of logs for debugging.</returns>
-    public static IdentificationResult CheckImageAreaSimilarity(Rect area, string refImage, double targetScore = 0.95, string image = BotConfig.DefaultImageLocation)
+    public static IdentificationResult CheckImageAreaSimilarity(Rect area, string refImage, double targetScore = 0.95, string image = BotConfig.DefaultImageLocation, bool cropOnly = false)
     {
         var logs = new List<string>();
 
@@ -30,6 +30,12 @@ internal class ImageUtilities
         var preprocImagePath = crop.Replace(".png", "-preproc.png");
         var preprocImage = PreprocessImage(crop);
         preprocImage.ImWrite(preprocImagePath);
+
+        if (cropOnly)
+        {
+            logs.Add("   CROP ONLY: No comparison performed.");
+            return new IdentificationResult(true, logs);
+        }
 
         // Compare pre-processed version against base
         logs.Add($"   CROP:    {Path.GetFileName(crop)}");

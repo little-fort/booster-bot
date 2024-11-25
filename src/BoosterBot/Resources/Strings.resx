@@ -1,0 +1,582 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Menu_ModeSelect_Description" xml:space="preserve">
+    <value>Available game modes:</value>
+  </data>
+  <data name="Menu_ModeSelect_Option1" xml:space="preserve">
+    <value>[1] Conquest</value>
+  </data>
+  <data name="Menu_ModeSelect_Option2" xml:space="preserve">
+    <value>[2] Ranked ladder</value>
+  </data>
+  <data name="Menu_ModeSelect_Option3" xml:space="preserve">
+    <value>[3] Limited-time event mode</value>
+  </data>
+  <data name="Menu_WaitingForSelection" xml:space="preserve">
+    <value>Waiting for selection...</value>
+  </data>
+  <data name="Menu_ConquestLobby_Description" xml:space="preserve">
+    <value>Select the highest tier of Conquest the bot should farm:</value>
+  </data>
+  <data name="Menu_ConquestLobby_Option1" xml:space="preserve">
+    <value>[1] Proving Grounds (default)</value>
+  </data>
+  <data name="Menu_ConquestLobby_Option2" xml:space="preserve">
+    <value>[2] Silver</value>
+  </data>
+  <data name="Menu_ConquestLobby_Option3" xml:space="preserve">
+    <value>[3] Gold</value>
+  </data>
+  <data name="Menu_ConquestLobby_Option4" xml:space="preserve">
+    <value>[4] Infinity</value>
+  </data>
+  <data name="Menu_ConquestLobby_NoticeTickets" xml:space="preserve">
+    <value>The bot will only farm tiers higher than Proving Grounds if tickets are available.</value>
+  </data>
+  <data name="Menu_ConquestLobby_NoticeGold" xml:space="preserve">
+    <value>*** No gold will be consumed. ***</value>
+  </data>
+  <data name="Menu_ConquestConfirm_HighestTier" xml:space="preserve">
+    <value>Highest tier selected:</value>
+  </data>
+  <data name="Menu_ConquestConfirm_TicketWarning" xml:space="preserve">
+    <value>ALL available tickets for lobbies at or below the selected tier will be consumed.</value>
+  </data>
+  <data name="Menu_ConquestConfirm_TicketDefault" xml:space="preserve">
+    <value>If no tickets exist, bot will only play Proving Grounds.</value>
+  </data>
+  <data name="Menu_ConfirmContinue" xml:space="preserve">
+    <value>Are you sure you want to continue?</value>
+  </data>
+  <data name="Menu_Option1_Yes" xml:space="preserve">
+    <value>[1] Yes</value>
+  </data>
+  <data name="Menu_Option2_No" xml:space="preserve">
+    <value>[2] No</value>
+  </data>
+  <data name="Menu_RetreatSelect_Description" xml:space="preserve">
+    <value>Select how many turns to complete before retreating:</value>
+  </data>
+  <data name="Menu_RetreatSelect_NoRetreat" xml:space="preserve">
+    <value>[0] Do not retreat</value>
+  </data>
+  <data name="Menu_PressKeyToExit" xml:space="preserve">
+    <value>Press any key to exit...</value>
+  </data>
+  <data name="Log_FatalError" xml:space="preserve">
+    <value>***** FATAL ERROR *****</value>
+  </data>
+  <data name="Log_InvalidModeSelection" xml:space="preserve">
+    <value>Invalid mode selection.</value>
+  </data>
+  <data name="Ladder_Log_Start" xml:space="preserve">
+    <value>Starting Ranked Ladder routine...</value>
+  </data>
+  <data name="Log_FailedMenuDetection" xml:space="preserve">
+    <value>Could not detect main menu. Trying again in 5 seconds...</value>
+  </data>
+  <data name="Log_BotPaused" xml:space="preserve">
+    <value>Bot is paused. Press [Ctrl+Alt+P] to resume...</value>
+  </data>
+  <data name="Log_BotResuming" xml:space="preserve">
+    <value>Bot is resuming...</value>
+  </data>
+  <data name="Log_Info_Shortcuts" xml:space="preserve">
+    <value>Keyboard Shortcuts:</value>
+  </data>
+  <data name="Log_Info_Shortcuts_Pause" xml:space="preserve">
+    <value>[Ctrl+Alt+P] Pause/resume bot</value>
+  </data>
+  <data name="Log_Info_Shortcuts_Quit" xml:space="preserve">
+    <value>[Ctrl+Alt+Q] Quit bot</value>
+  </data>
+  <data name="Log_LoopEntryPoint" xml:space="preserve">
+    <value>Attempting to determine loop entry point...</value>
+  </data>
+  <data name="Log_DetectedMainMenu" xml:space="preserve">
+    <value>Detected main menu. Starting new match...</value>
+  </data>
+  <data name="Log_DetectedReconnect" xml:space="preserve">
+    <value>Detected 'Reconnect to Game' button. Resuming match play...</value>
+  </data>
+  <data name="Log_DetectedActiveMatch" xml:space="preserve">
+    <value>Detected active match. Resuming match play...</value>
+  </data>
+  <data name="Log_DetectedMatchmaking" xml:space="preserve">
+    <value>Detected matchmaking...</value>
+  </data>
+  <data name="Log_DetectedMatchEnd" xml:space="preserve">
+    <value>Detected match end. Returning to main menu...</value>
+  </data>
+  <data name="Log_Ladder_DetectedConquest" xml:space="preserve">
+    <value>Detected Conquest lobby. Resetting menu...</value>
+  </data>
+  <data name="Log_LostBot" xml:space="preserve">
+    <value>Bot is hopelessly lost... :/</value>
+  </data>
+  <data name="Log_LostBot_Restart" xml:space="preserve">
+    <value>Return to main menu and restart bot.</value>
+  </data>
+  <data name="Log_Match_StartNew" xml:space="preserve">
+    <value>Starting new match...</value>
+  </data>
+  <data name="Log_Check_Matchmaking" xml:space="preserve">
+    <value>Checking for ongoing matchmaking...</value>
+  </data>
+  <data name="Log_Check_Matchmaking_Hanged" xml:space="preserve">
+    <value>Matchmaking seems to be hanging. Returning to main menu to re-try...</value>
+  </data>
+  <data name="Log_Matchmaking_Waiting" xml:space="preserve">
+    <value>Waiting for match start... [Elapsed: %ELAPSED%]</value>
+  </data>
+  <data name="Log_Match_Playing" xml:space="preserve">
+    <value>Playing match...</value>
+  </data>
+  <data name="Log_Match_SnapRoll" xml:space="preserve">
+    <value>Determining snap decision...</value>
+  </data>
+  <data name="Log_Match_SnapRoll_Limit" xml:space="preserve">
+    <value>Limit:  %VALUE%</value>
+  </data>
+  <data name="Log_Match_SnapRoll_Result" xml:space="preserve">
+    <value>Result: %VALUE%</value>
+  </data>
+  <data name="Log_Match_SnapRoll_Snap" xml:space="preserve">
+    <value>Snap:   %VALUE%</value>
+  </data>
+  <data name="Log_Yes" xml:space="preserve">
+    <value>YES</value>
+  </data>
+  <data name="Log_No" xml:space="preserve">
+    <value>NO</value>
+  </data>
+  <data name="Log_Check_ActiveMatch" xml:space="preserve">
+    <value>Checking for active match...</value>
+  </data>
+  <data name="Log_Check_ActiveMatch_Failed" xml:space="preserve">
+    <value>Could not detect active match, trying again in 2 seconds...</value>
+  </data>
+  <data name="Log_Match_ReachedTurnLimit" xml:space="preserve">
+    <value>Configured turn limit (%VALUE%) reached. Attempting retreat...</value>
+  </data>
+  <data name="Log_Match_PlayingCards" xml:space="preserve">
+    <value>Attempting to play cards... [Turn count: %VALUE%]</value>
+  </data>
+  <data name="Log_Check_EnergyState" xml:space="preserve">
+    <value>Checking current energy count...</value>
+  </data>
+  <data name="Log_Match_LeftoverEnergy" xml:space="preserve">
+    <value>Detected leftover energy, attempting to play cards again...</value>
+  </data>
+  <data name="Log_Match_EndTurn" xml:space="preserve">
+    <value>Clicking 'End Turn'...</value>
+  </data>
+  <data name="Log_Check_TurnState" xml:space="preserve">
+    <value>Checking current turn state...</value>
+  </data>
+  <data name="Log_Match_WaitingForTurn" xml:space="preserve">
+    <value>Waiting for turn to progress...</value>
+  </data>
+  <data name="Log_Match_Snapping" xml:space="preserve">
+    <value>Attempting to snap...</value>
+  </data>
+  <data name="Log_Match_MaxTimeReached" xml:space="preserve">
+    <value>Match timer has exceeded 15 minutes. Attempting retreat...</value>
+  </data>
+  <data name="Log_Check_MatchEnd" xml:space="preserve">
+    <value>Checking for end of match...</value>
+  </data>
+  <data name="Log_Match_Exiting" xml:space="preserve">
+    <value>Exiting match...</value>
+  </data>
+  <data name="Log_Check_PostMatchScreen" xml:space="preserve">
+    <value>Checking for post-match screens...</value>
+  </data>
+  <data name="Log_Error" xml:space="preserve">
+    <value>ERROR: </value>
+  </data>
+  <data name="Conquest_Log_Start" xml:space="preserve">
+    <value>Starting Conquest routine...</value>
+  </data>
+  <data name="Conquest_Log_Menu_Main" xml:space="preserve">
+    <value>Detected main menu. Navigating to Conquest mode...</value>
+  </data>
+  <data name="Conquest_Log_Menu_GameModes" xml:space="preserve">
+    <value>Navigating to Game Modes tab...</value>
+  </data>
+  <data name="Conquest_Log_Menu" xml:space="preserve">
+    <value>Navigating to Conquest menu...</value>
+  </data>
+  <data name="Conquest_Log_DetectedMain" xml:space="preserve">
+    <value>Detected main menu. Returning to start...</value>
+  </data>
+  <data name="Conquest_Log_DetectedLobby" xml:space="preserve">
+    <value>Detected Conquest lobby selection. Entering lobby at selected tier or lower...</value>
+  </data>
+  <data name="Conquest_Log_DetectedPrematch" xml:space="preserve">
+    <value>Detected Conquest prematch. Starting match...</value>
+  </data>
+  <data name="Conquest_Log_DetectedActiveMatch" xml:space="preserve">
+    <value>Detected Conquest match. Playing match...</value>
+  </data>
+  <data name="Conquest_Log_DetectedRoundEnd" xml:space="preserve">
+    <value>Detected end of round in Conquest match. Moving to next round...</value>
+  </data>
+  <data name="Conquest_Log_DetectedMatchEnd" xml:space="preserve">
+    <value>Detected end of Conquest match. Returning to Conquest menu...</value>
+  </data>
+  <data name="Conquest_Log_PostMatch" xml:space="preserve">
+    <value>Detected Conquest post match screens. Returning to Conquest menu...</value>
+  </data>
+  <data name="Log_Match_StartingLoop" xml:space="preserve">
+    <value>Starting match loop...</value>
+  </data>
+  <data name="Conquest_Log_VerifyEntryButton" xml:space="preserve">
+    <value>Verifying lobby entry button exists...</value>
+  </data>
+  <data name="Conquest_Log_Menu_LobbyChoice" xml:space="preserve">
+    <value>Making sure lobby type is set to specified tier or lower: %VALUE%</value>
+  </data>
+  <data name="Conquest_Log_Menu_SelectedTier" xml:space="preserve">
+    <value>Selected tier: %VALUE%</value>
+  </data>
+  <data name="Conquest_Log_Check_Tickets" xml:space="preserve">
+    <value>Checking for available tickets...</value>
+  </data>
+  <data name="Conquest_Log_EnteringLobby" xml:space="preserve">
+    <value>Entering lobby for new Conquest match...</value>
+  </data>
+  <data name="Conquest_Log_ConfirmDeck" xml:space="preserve">
+    <value>Confirming deck selection...</value>
+  </data>
+  <data name="Conquest_Log_Match_Concede" xml:space="preserve">
+    <value>Attempting to concede match...</value>
+  </data>
+  <data name="Log_Check_RetreatButton" xml:space="preserve">
+    <value>Checking for 'Retreat' button...</value>
+  </data>
+  <data name="Conquest_Log_Match_MaxTimerReached" xml:space="preserve">
+    <value>Match timer has exceeded 30 minutes. Attempting to exit match...</value>
+  </data>
+  <data name="Log_Check_Concede" xml:space="preserve">
+    <value>Checking for 'Concede' button...</value>
+  </data>
+  <data name="Log_Check_MatchState" xml:space="preserve">
+    <value>Checking current match state...</value>
+  </data>
+  <data name="Conquest_Log_MaxWaitTimeReached" xml:space="preserve">
+    <value>Exceeded maximum wait time of %VALUE% seconds...</value>
+  </data>
+  <data name="Conquest_Log_Menu_WaitingPostMatch" xml:space="preserve">
+    <value>Waiting for post match screens...</value>
+  </data>
+  <data name="Conquest_Log_Check_AnyLobby" xml:space="preserve">
+    <value>Checking for any Conquest mode lobby...</value>
+  </data>
+  <data name="Conquest_Log_Menu_DetectedLobby" xml:space="preserve">
+    <value>Detected Conquest mode lobby...</value>
+  </data>
+  <data name="Conquest_Log_Match_ProcessingPostMatch" xml:space="preserve">
+    <value>Processing post match screens...</value>
+  </data>
+  <data name="Conquest_Log_Check_Screens" xml:space="preserve">
+    <value>Checking for win, loss, or ticket claim screens...</value>
+  </data>
+  <data name="Log_ClickNext" xml:space="preserve">
+    <value>Clicking through to next screen...</value>
+  </data>
+  <data name="Conquest_Log_Menu_ClaimTicket" xml:space="preserve">
+    <value>Claiming ticket...</value>
+  </data>
+  <data name="Event_Log_Start" xml:space="preserve">
+    <value>Starting routine for limited-time event mode...</value>
+  </data>
+  <data name="Event_Log_Menu" xml:space="preserve">
+    <value>Detected main menu. Navigating to limited-time event mode...</value>
+  </data>
+  <data name="Event_Log_Menu_ModeTab" xml:space="preserve">
+    <value>Navigating to menu for limited-time event mode...</value>
+  </data>
+  <data name="Event_Log_DetectedEventMenu" xml:space="preserve">
+    <value>Detected menu for event game mode. Starting new match...</value>
+  </data>
+  <data name="Log_OhSnap" xml:space="preserve">
+    <value>OH SNAP!</value>
+  </data>
+  <data name="Log_BlindReset" xml:space="preserve">
+    <value>Attempting blind reset clicks...</value>
+  </data>
+  <data name="Log_ExitShortcut" xml:space="preserve">
+    <value>Exit shortcut [Ctrl+Alt+Q] detected. Terminating process...</value>
+  </data>
+  <data name="Log_PauseShortcut" xml:space="preserve">
+    <value>Pause shortcut [Ctrl+Alt+P] detected. Pausing bot...</value>
+  </data>
+  <data name="Log_ResumeShortcut" xml:space="preserve">
+    <value>Resume shortcut [Ctrl+Alt+P] detected. Resuming bot...</value>
+  </data>
+  <data name="Repair_Confirm_Warning" xml:space="preserve">
+    <value>WARNING:</value>
+  </data>
+  <data name="Repair_Confirm_Description1" xml:space="preserve">
+    <value>This function will attempt to repair BoosterBot's detection of critical parts of the game's interface.</value>
+  </data>
+  <data name="Repair_Confirm_Description2" xml:space="preserve">
+    <value>You should only proceed if BoosterBot cannot operate properly.</value>
+  </data>
+  <data name="Repair_ModeSelect_Description1" xml:space="preserve">
+    <value>To complete the process of repairing detection, you will manually interact with the game until specific buttons, icons, or text labels are visible.</value>
+  </data>
+  <data name="Repair_ModeSelect_Description2" xml:space="preserve">
+    <value>When you confirm that the specified game component is on the screen, this program will capture the current image and use it for future reference.</value>
+  </data>
+  <data name="Repair_ModeSelect_Description3" xml:space="preserve">
+    <value>Each game type must be repaired separately. Please select the mode you would like to repair:</value>
+  </data>
+  <data name="Repair_ModeSelect_ProcessComplete" xml:space="preserve">
+    <value>Repair process complete. You may select an additional mode to repair, or close this window and restart BoosterBot normally.</value>
+  </data>
+  <data name="Repair_Prompt_PressToConfirm" xml:space="preserve">
+    <value>When the specified game component is visible on the screen, press [2] to confirm.</value>
+  </data>
+  <data name="Repair_Prompt_Option0_Previous" xml:space="preserve">
+    <value>[0] Previous</value>
+  </data>
+  <data name="Repair_Prompt_Option1_Example" xml:space="preserve">
+    <value>[1] Show example</value>
+  </data>
+  <data name="Repair_Prompt_Option2_Confirm" xml:space="preserve">
+    <value>[2] Confirm</value>
+  </data>
+  <data name="Repair_Prompt_Option3_Skip" xml:space="preserve">
+    <value>[3] Skip</value>
+  </data>
+  <data name="Repair_Error_ExampleImageNotFound" xml:space="preserve">
+    <value>ERROR: Example image not found:</value>
+  </data>
+  <data name="Repair_Error_CantShowImage" xml:space="preserve">
+    <value>Error showing image:</value>
+  </data>
+  <data name="Repair_Title" xml:space="preserve">
+    <value>REPAIR MODE</value>
+  </data>
+  <data name="Repair_Ladder_BTN_PLAY" xml:space="preserve">
+    <value>Navigate to the game's main menu and identify the 'Play' button used to start a match.</value>
+  </data>
+  <data name="Repair_Ladder_BTN_MATCHMAKING" xml:space="preserve">
+    <value>Press the button to start matchmaking and identify the 'Cancel' button on the wait screen.</value>
+  </data>
+  <data name="Repair_Ladder_BTN_RETREAT" xml:space="preserve">
+    <value>While in a match, identify the 'Retreat' button.</value>
+  </data>
+  <data name="Repair_Match_ZERO_ENERGY" xml:space="preserve">
+    <value>Play cards to spend energy, then identify the indicator showing zero remaining energy.</value>
+  </data>
+  <data name="Repair_Match_END_TURN" xml:space="preserve">
+    <value>Identify the 'End Turn' button.</value>
+  </data>
+  <data name="Repair_Match_UNDO" xml:space="preserve">
+    <value>After ending a turn, identify the 'Undo End Turn' button.</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_1" xml:space="preserve">
+    <value>(Optional) After ending a turn, identify the 'Waiting...' button.</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_2" xml:space="preserve">
+    <value>This text is only displayed during the following conditions:</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_3" xml:space="preserve">
+    <value>- The player has ended their turn after Agatha Harkness played a card</value>
+  </data>
+  <data name="Repair_Match_BTN_WAITING_4" xml:space="preserve">
+    <value>- The opponent has played Daredevil and the player is waiting for the opponent to play a card on turn 5</value>
+  </data>
+  <data name="Repair_Match_BTN_PLAYING" xml:space="preserve">
+    <value>While cards are being played, identify when the button's text shows 'Playing...'.</value>
+  </data>
+  <data name="Repair_Match_RECONNECT_1" xml:space="preserve">
+    <value>While in a match, close the game client. Restart the game client and wait for the main menu to load.</value>
+  </data>
+  <data name="Repair_Match_RECONNECT_2" xml:space="preserve">
+    <value>Identify the 'Reconnect to Game' button.</value>
+  </data>
+  <data name="Repair_Ladder_BTN_COLLECT_REWARDS" xml:space="preserve">
+    <value>Play a match to the end, then identify the 'Collect Rewards' button shown after the final turn.</value>
+  </data>
+  <data name="Repair_Match_END_NEXT" xml:space="preserve">
+    <value>Press 'Collect Rewards', then identify the 'Next' button.</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_INFINITE" xml:space="preserve">
+    <value>Navigate to the Conquest menu and identify the 'Infinity' lobby.</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_GOLD" xml:space="preserve">
+    <value>In the Conquest menu, identify the 'Gold' lobby.</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_SILVER" xml:space="preserve">
+    <value>In the Conquest menu, identify the 'Silver' lobby.</value>
+  </data>
+  <data name="Repair_Conquest_LOBBY_PG" xml:space="preserve">
+    <value>In the Conquest menu, identify the 'Proving Grounds' lobby.</value>
+  </data>
+  <data name="Repair_Conquest_NO_TICKETS" xml:space="preserve">
+    <value>Identify any lobby with no available tickets.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_PLAY" xml:space="preserve">
+    <value>Enter the 'Proving Grounds' lobby and identify the 'Play' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_CONCEDE" xml:space="preserve">
+    <value>After completing a round, identify the 'Concede' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_MATCH_END" xml:space="preserve">
+    <value>After completing the final round, identify the 'Next' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_MATCH_END_NEXT" xml:space="preserve">
+    <value>While collecting rewards, identify the 'Next' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_WIN_NEXT" xml:space="preserve">
+    <value>After winning a match and returning to the Conquest menu, identify the 'Next' button.</value>
+  </data>
+  <data name="Repair_Conquest_BTN_WIN_TICKET" xml:space="preserve">
+    <value>After winning a match and returning to the Conquest menu, identify the 'Claim Ticket' button.</value>
+  </data>
+  <data name="Error_SnapNotRunning" xml:space="preserve">
+    <value>SNAP.exe is not running!</value>
+  </data>
+  <data name="Update_NewVersion" xml:space="preserve">
+    <value>*** Version %VALUE% is available! Enter [0] to open GitHub download page ***</value>
+  </data>
+  <data name="InitialSetup_Language_Option1" xml:space="preserve">
+    <value>[1] English (en-US)</value>
+  </data>
+  <data name="InitialSetup_Language_Option2" xml:space="preserve">
+    <value>[2] 中文 (zh-CN)</value>
+  </data>
+  <data name="InitialSetup_Language_BoosterBot" xml:space="preserve">
+    <value>Select your preferred language for BoosterBot:</value>
+  </data>
+  <data name="InitialSetup_Language_Game" xml:space="preserve">
+    <value>Select the language used in the game client:</value>
+  </data>
+  <data name="InitialSetup_Language_Game_Note" xml:space="preserve">
+    <value>NOTE: If you select 'Other', you will need to launch BoosterBot with the '--repair' parameter and complete the detection repair process before the program will function correctly.</value>
+  </data>
+  <data name="InitialSetup_Language_Option3" xml:space="preserve">
+    <value>[3] Other</value>
+  </data>
+</root>

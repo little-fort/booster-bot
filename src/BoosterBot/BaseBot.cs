@@ -1,4 +1,5 @@
 ﻿using BoosterBot.Models;
+using BoosterBot.Resources;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,16 +18,16 @@ namespace BoosterBot
         protected Random _rand { get; set; }
         protected Stopwatch _matchTimer { get; set; }
 
-        public BaseBot(GameMode type, double scaling, bool verbose, bool autoplay, bool saveScreens, int retreatAfterTurn, bool downscaled, bool useEvent = false)
+        public BaseBot(BotConfig config, int retreat)
         {
-            _logPath = $"logs\\{type.ToString().ToLower()}-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-            _config = new BotConfig(scaling, verbose, autoplay, saveScreens, _logPath, useEvent);
-            _retreatAfterTurn = retreatAfterTurn;
+            _config = config;
+            _logPath = config.LogPath;
+            _retreatAfterTurn = retreat;
             _game = new GameUtilities(_config);
             _rand = new Random();
 
             // If the bot is running on a lower resolution, we need to adjust the confidence level to account for slight variations in image quality
-            if (downscaled)
+            if (_config.Downscaled)
                 _game.SetDefaultConfidence(0.9);
 
             PrintShortcutInfo();
@@ -36,26 +37,26 @@ namespace BoosterBot
 
         public string GetLogPath() => _logPath;
 
-        protected static void PrintShortcutInfo()
+        protected void PrintShortcutInfo()
         {
-            Console.WriteLine("Keyboard Shortcuts:");
-            Console.WriteLine("   [Ctrl+Alt+P] Pause/resume bot");
-            Console.WriteLine("   [Ctrl+Alt+Q] Quit bot");
+            Console.WriteLine(Strings.Log_Info_Shortcuts);
+            Console.WriteLine("   " + Strings.Log_Info_Shortcuts_Pause);
+            Console.WriteLine("   " + Strings.Log_Info_Shortcuts_Quit);
             Console.WriteLine();
         }
 
-        protected void Log(List<string> messages, bool verboseOnly = false)
+        protected void Log(List<string> keys, bool verboseOnly = false)
         {
-            foreach (var message in messages)
-                Log(message, verboseOnly);
+            foreach (var key in keys)
+                Log(key, verboseOnly);
 
             CheckForPause();
         }
 
-        protected void Log(string message, bool verboseOnly = false)
+        protected void Log(string key, bool verboseOnly = false, List<FindReplaceValue> replace = null)
         {
             if (!verboseOnly || _config.Verbose)
-                Logger.Log(message, _logPath);
+                Logger.Log(_config.Localizer, key, _logPath, replace: replace);
 
             CheckForPause();
         }
@@ -64,7 +65,7 @@ namespace BoosterBot
         {
             for (int i = seconds; i > 0; i--)
             {
-                Logger.Log($"{preface} {i} second{(i == 1 ? "" : "s")}...", _logPath);
+                Console.WriteLine($"{preface} {i} second{(i == 1 ? "" : "s")}...", _logPath);
                 Thread.Sleep(1000);
             }
         }
@@ -80,13 +81,13 @@ namespace BoosterBot
         {
             var paused = HotkeyManager.IsPaused;
             if (paused)
-                Logger.Log("Bot is paused. Press [Ctrl+Alt+P] to resume...", _logPath);
+                Logger.Log(_config.Localizer, "Log_BotPaused", _logPath);
 
             while (HotkeyManager.IsPaused)
                 Thread.Sleep(100);
 
             if (paused)
-                Logger.Log("Bot is resuming...", _logPath);
+                Logger.Log(_config.Localizer, "Log_BotResuming", _logPath);
         }
     }
 }

@@ -3,52 +3,55 @@ namespace BoosterBot
 {
     internal class ComponentMappings
     {
-        public const string REF_BTN_RECONNECT_TO_GAME = "reference\\btn-main-reconnect-preproc.png";
-        public const string REF_EVENT_BTN_PLAY = "reference\\btn-event-play-preproc.png";
-        public const string REF_EVENT_BTN_FORFEIT = "reference\\btn-event-forfeit-preproc.png";
-        public const string REF_LADD_BTN_PLAY = "reference\\btn-main-play-preproc.png";
-        public const string REF_LADD_BTN_MATCHMAKING_1 = "reference\\btn-ladder-matchmaking-cancel-1-preproc.png";
-        public const string REF_LADD_BTN_MATCHMAKING_2 = "reference\\btn-ladder-matchmaking-cancel-2-preproc.png";
-        public const string REF_LADD_BTN_RETREAT = "reference\\btn-ladder-retreat-preproc.png";
-        public const string REF_LADD_BTN_COLLECT_REWARDS = "reference\\btn-ladder-collect-rewards-preproc.png";
-        public const string REF_LADD_BTN_MATCH_END_NEXT = "reference\\btn-ladder-match-end-next-preproc.png";
-        public const string REF_ICON_ZERO_ENERGY = "reference\\lbl-energy-zero-preproc.png";
-        public const string REF_CONQ_BTN_PLAY = "reference\\btn-conquest-play-preproc.png";
-        public const string REF_CONQ_LBL_NO_TICKETS = "reference\\lbl-conquest-no-tickets-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_PG_1 = "reference\\lbl-conquest-pg-1-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_PG_2 = "reference\\lbl-conquest-pg-2-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_SILVER_1 = "reference\\lbl-conquest-silver-1-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_SILVER_2 = "reference\\lbl-conquest-silver-2-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_SILVER_3 = "reference\\lbl-conquest-silver-3-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_GOLD_1 = "reference\\lbl-conquest-gold-1-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_GOLD_2 = "reference\\lbl-conquest-gold-2-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_GOLD_3 = "reference\\lbl-conquest-gold-3-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_INFINITE_1 = "reference\\lbl-conquest-infinite-1-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_INFINITE_2 = "reference\\lbl-conquest-infinite-2-preproc.png";
-        public const string REF_CONQ_LBL_LOBBY_INFINITE_3 = "reference\\lbl-conquest-infinite-3-preproc.png";
-        public const string REF_CONQ_BTN_MATCHMAKING_1 = "reference\\btn-conquest-matchmaking-cancel-1-preproc.png";
-        public const string REF_CONQ_BTN_MATCHMAKING_2 = "reference\\btn-conquest-matchmaking-cancel-2-preproc.png";
-        public const string REF_CONQ_BTN_RETREAT_1 = "reference\\btn-conquest-retreat-preproc.png";
-        public const string REF_CONQ_BTN_RETREAT_2 = "reference\\btn-conquest-retreat-2-preproc.png";
-        public const string REF_CONQ_BTN_END_TURN = "reference\\btn-conquest-end-turn-preproc.png";
-        public const string REF_CONQ_BTN_WAITING = "reference\\btn-conquest-waiting-preproc.png";
-        public const string REF_CONQ_BTN_WAITING_2 = "reference\\btn-conquest-waiting-preproc-2.png";
-        public const string REF_CONQ_BTN_PLAYING = "reference\\btn-conquest-playing-preproc.png";
-        public const string REF_CONQ_BTN_CONCEDE_1 = "reference\\btn-conquest-concede-preproc.png";
-        public const string REF_CONQ_BTN_CONCEDE_2 = "reference\\btn-conquest-concede-2-preproc.png";
-        public const string REF_CONQ_BTN_MATCH_END_1 = "reference\\btn-conquest-match-end-next-1-preproc.png";
-        public const string REF_CONQ_BTN_MATCH_END_2 = "reference\\btn-conquest-match-end-next-2-preproc.png";
-        public const string REF_CONQ_BTN_CONTINUE = "reference\\btn-conquest-continue-preproc.png";
-        public const string REF_CONQ_BTN_WIN_NEXT = "reference\\btn-conquest-victory-next-preproc.png";
-        public const string REF_CONQ_BTN_WIN_TICKET = "reference\\btn-conquest-ticket-claim-preproc.png";
-        public const string REF_CONQ_BTN_WIN_TICKET_2 = "reference\\btn-conquest-ticket-claim-2-preproc.png";
-        public const string REF_CONQ_BTN_WIN_TICKET_3 = "reference\\btn-conquest-ticket-claim-3-preproc.png";
-
         public readonly BotConfig _config;
+        private readonly string _culture;
+        public string Culture { get => _culture; }
+        public string REF_BTN_RECONNECT_TO_GAME { get => $"reference\\{_culture}\\btn-main-reconnect-preproc.png"; }
+        public string REF_EVENT_BTN_PLAY { get => $"reference\\{_culture}\\btn-event-play-preproc.png"; }
+        public string REF_EVENT_BTN_FORFEIT { get => $"reference\\{_culture}\\btn-event-forfeit-preproc.png"; }
+        public string REF_LADD_BTN_PLAY { get => $"reference\\{_culture}\\btn-main-play-preproc.png"; }
+        public string REF_LADD_BTN_MATCHMAKING_1 { get => $"reference\\{_culture}\\btn-ladder-matchmaking-cancel-1-preproc.png"; }
+        public string REF_LADD_BTN_MATCHMAKING_2 { get => $"reference\\{_culture}\\btn-ladder-matchmaking-cancel-2-preproc.png"; }
+        public string REF_LADD_BTN_RETREAT { get => $"reference\\{_culture}\\btn-ladder-retreat-preproc.png"; }
+        public string REF_LADD_BTN_COLLECT_REWARDS { get => $"reference\\{_culture}\\btn-ladder-collect-rewards-preproc.png"; }
+        public string REF_LADD_BTN_MATCH_END_NEXT { get => $"reference\\{_culture}\\btn-ladder-match-end-next-preproc.png"; }
+        public string REF_ICON_ZERO_ENERGY { get => $"reference\\{_culture}\\lbl-energy-zero-preproc.png"; }
+        public string REF_CONQ_BTN_PLAY { get => $"reference\\{_culture}\\btn-conquest-play-preproc.png"; }
+        public string REF_CONQ_LBL_ENTRANCE_FEE { get => $"reference\\{_culture}\\btn-conquest-entrance-fee-preproc.png"; }
+        public string REF_CONQ_LBL_NO_TICKETS { get => $"reference\\{_culture}\\lbl-conquest-no-tickets-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_PG_1 { get => $"reference\\{_culture}\\lbl-conquest-pg-1-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_PG_2 { get => $"reference\\{_culture}\\lbl-conquest-pg-2-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_SILVER_1 { get => $"reference\\{_culture}\\lbl-conquest-silver-1-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_SILVER_2 { get => $"reference\\{_culture}\\lbl-conquest-silver-2-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_SILVER_3 { get => $"reference\\{_culture}\\lbl-conquest-silver-3-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_GOLD_1 { get => $"reference\\{_culture}\\lbl-conquest-gold-1-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_GOLD_2 { get => $"reference\\{_culture}\\lbl-conquest-gold-2-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_GOLD_3 { get => $"reference\\{_culture}\\lbl-conquest-gold-3-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_INFINITE_1 { get => $"reference\\{_culture}\\lbl-conquest-infinite-1-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_INFINITE_2 { get => $"reference\\{_culture}\\lbl-conquest-infinite-2-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_INFINITE_3 { get => $"reference\\{_culture}\\lbl-conquest-infinite-3-preproc.png"; }
+        public string REF_CONQ_BTN_MATCHMAKING_1 { get => $"reference\\{_culture}\\btn-conquest-matchmaking-cancel-1-preproc.png"; }
+        public string REF_CONQ_BTN_MATCHMAKING_2 { get => $"reference\\{_culture}\\btn-conquest-matchmaking-cancel-2-preproc.png"; }
+        public string REF_CONQ_BTN_RETREAT_1 { get => $"reference\\{_culture}\\btn-conquest-retreat-preproc.png"; }
+        public string REF_CONQ_BTN_RETREAT_2 { get => $"reference\\{_culture}\\btn-conquest-retreat-2-preproc.png"; }
+        public string REF_CONQ_BTN_END_TURN { get => $"reference\\{_culture}\\btn-conquest-end-turn-preproc.png"; }
+        public string REF_CONQ_BTN_WAITING_1 { get => $"reference\\{_culture}\\btn-conquest-waiting-preproc.png"; }
+        public string REF_CONQ_BTN_WAITING_2 { get => $"reference\\{_culture}\\btn-conquest-waiting-2-preproc.png"; }
+        public string REF_CONQ_BTN_PLAYING { get => $"reference\\{_culture}\\btn-conquest-playing-preproc.png"; }
+        public string REF_CONQ_BTN_CONCEDE_1 { get => $"reference\\{_culture}\\btn-conquest-concede-preproc.png"; }
+        public string REF_CONQ_BTN_CONCEDE_2 { get => $"reference\\{_culture}\\btn-conquest-concede-2-preproc.png"; }
+        public string REF_CONQ_BTN_MATCH_END_1 { get => $"reference\\{_culture}\\btn-conquest-match-end-next-1-preproc.png"; }
+        public string REF_CONQ_BTN_MATCH_END_2 { get => $"reference\\{_culture}\\btn-conquest-match-end-next-2-preproc.png"; }
+        public string REF_CONQ_BTN_CONTINUE { get => $"reference\\{_culture}\\btn-conquest-continue-preproc.png"; }
+        public string REF_CONQ_BTN_WIN_NEXT { get => $"reference\\{_culture}\\btn-conquest-victory-next-preproc.png"; }
+        public string REF_CONQ_BTN_WIN_TICKET { get => $"reference\\{_culture}\\btn-conquest-ticket-claim-preproc.png"; }
+        public string REF_CONQ_BTN_WIN_TICKET_2 { get => $"reference\\{_culture}\\btn-conquest-ticket-claim-2-preproc.png"; }
+        public string REF_CONQ_BTN_WIN_TICKET_3 { get => $"reference\\{_culture}\\btn-conquest-ticket-claim-3-preproc.png"; }
 
         public ComponentMappings(BotConfig config)
         {
             _config = config;
+            _culture = config.Settings["gameLanguage"]?.Split('-')[0] ?? "en";
         }
 
         public Rect GetBtnPlay() => new()

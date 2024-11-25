@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Management;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Rebar;
+using BoosterBot.Resources;
 
 namespace BoosterBot;
 
@@ -114,7 +115,7 @@ internal class SystemUtilities
         processes.AddRange(Process.GetProcessesByName("streaming_client"));
 
         if (processes?.Count == 0)
-            throw new Exception("SNAP.exe is not running!");
+            throw new Exception(Strings.Error_SnapNotRunning);
 
         var snap = processes[0];
         var ptr = snap.MainWindowHandle;
