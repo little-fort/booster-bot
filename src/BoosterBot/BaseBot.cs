@@ -21,6 +21,7 @@ namespace BoosterBot
         public BaseBot(BotConfig config, int retreat)
         {
             _config = config;
+            _logPath = config.LogPath;
             _retreatAfterTurn = retreat;
             _game = new GameUtilities(_config);
             _rand = new Random();
