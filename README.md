@@ -28,8 +28,6 @@ Game should be run in fullscreen mode at 1080p for best results. Although the bo
 
 ## Getting Started
 
-### Simple
-
 1. Download the [latest](https://github.com/little-fort/booster-bot/releases/latest) .zip from the Releases page.
 2. Unpack the archive into directory of your choice. 
 3. Start the game and wait until main menu is loaded.
@@ -39,11 +37,19 @@ Game should be run in fullscreen mode at 1080p for best results. Although the bo
 
 **NOTE:** Due to the bot's nature (taking over cursor control and processing screen content on an endless loop), it may be flagged and quarantined by certain third-party antivirus programs. If you find the bot being halted repeatedly, you may need to whitelist the application directory in your antivirus software.
 
-### Advanced
+## Advanced
 
 Source can be cloned directly. Project is built on .NET 8, so you will need [Visual Studio 2022](https://visualstudio.microsoft.com/downloads/) or the [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0) installed in order to run.
 
+### Parameters
+
 The .exe can also be run from the command line with the following options:
+
+**Repair mode**
+
+`--repair`
+
+Should be used only if the bot is completely unable to recognize the game UI. This will walk you through a series of steps designed to let the bot capture snapshots of relevant UI elements as they appear on your system to repair detection functionality. If desired, this can also be used to enable functionality with alternate in-game languages.
 
 **Downscaled mode**
 
@@ -88,6 +94,28 @@ Usage:
 Can be used to adjust the default click point for the Conquest button in case there's an active event mode (e.g. Deadpool's Diner, High Voltage).
 
 Usage: `BoosterBot.exe -e`
+
+### Settings
+
+Alternatively, many of the command-line options shown in the previous section can be configured in the `appsettings.json` file like so:
+
+```json
+{
+  "initialStart": true,
+  "appLanguage": "en-US",
+  "gameLanguage": "en-US", 
+  "verboseLogs": false,
+  "downscaledMode": false,
+  "eventModeActive": false,
+  "scaling": 1.0,
+  "defaultRunSettings": {
+    "enabled": false,
+    "gameMode": "conquest",
+    "maxConquestTier": "silver",
+    "maxRankedTurns": 3
+  }
+}
+```
 
 ## Notes
 
