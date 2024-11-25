@@ -116,6 +116,7 @@ Alternatively, many of the command-line options shown in the previous section ca
   }
 }
 ```
+Using the settings file will allow these options to persist between runs without having to re-enter the command line arguments every time. In the event that both methods are used interchangeably, command line arguments will always override any settings configured in the `appsettings.json` file.
 
 ## Notes
 
