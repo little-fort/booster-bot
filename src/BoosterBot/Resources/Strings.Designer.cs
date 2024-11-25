@@ -340,15 +340,6 @@ namespace BoosterBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select the language used in the game client:.
-        /// </summary>
-        internal static string InitialSetup_Languaeg_Game {
-            get {
-                return ResourceManager.GetString("InitialSetup_Languaeg_Game", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Select your preferred language for BoosterBot:.
         /// </summary>
         internal static string InitialSetup_Language_BoosterBot {
@@ -358,7 +349,25 @@ namespace BoosterBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [1] en-US | English.
+        ///   Looks up a localized string similar to Select the language used in the game client:.
+        /// </summary>
+        internal static string InitialSetup_Language_Game {
+            get {
+                return ResourceManager.GetString("InitialSetup_Language_Game", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NOTE: If you select &apos;Other&apos;, you will need to launch BoosterBot with the &apos;--repair&apos; parameter and complete the detection repair process before the program will function correctly..
+        /// </summary>
+        internal static string InitialSetup_Language_Game_Note {
+            get {
+                return ResourceManager.GetString("InitialSetup_Language_Game_Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [1] English (en-US).
         /// </summary>
         internal static string InitialSetup_Language_Option1 {
             get {
@@ -367,11 +376,20 @@ namespace BoosterBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [2] 中文 | zh-CN.
+        ///   Looks up a localized string similar to [2] 中文 (zh-CN).
         /// </summary>
         internal static string InitialSetup_Language_Option2 {
             get {
                 return ResourceManager.GetString("InitialSetup_Language_Option2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [3] Other.
+        /// </summary>
+        internal static string InitialSetup_Language_Option3 {
+            get {
+                return ResourceManager.GetString("InitialSetup_Language_Option3", resourceCulture);
             }
         }
         

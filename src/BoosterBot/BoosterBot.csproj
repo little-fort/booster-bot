@@ -65,7 +65,7 @@
 		<None Update="reference\btn-conquest-end-turn.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\en\btn-conquest-entrance-fee.png">
+		<None Update="reference\en\btn-conquest-entrance-fee-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\en\btn-conquest-match-end-next-1-preproc.png">
@@ -248,6 +248,9 @@
 		<None Update="reference\zh\btn-conquest-end-turn-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\zh\btn-conquest-entrance-fee-preproc.png">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\zh\btn-conquest-match-end-next-1-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -284,7 +287,7 @@
 		<None Update="reference\zh\btn-conquest-victory-next-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Update="reference\zh\btn-conquest-waiting-preproc-2.png">
+		<None Update="reference\zh\btn-conquest-waiting-2-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\zh\btn-conquest-waiting-preproc.png">
@@ -435,7 +438,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="reference\zh\" />
 	  <Folder Include="Resources\repair\" />
 	</ItemGroup>
 

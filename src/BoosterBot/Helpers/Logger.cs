@@ -23,7 +23,7 @@ namespace BoosterBot
                 var localized = localizer.GetString(key);
                 var neutral = localizer.GetNeutralString(key);
 
-                if (replace?.Any() ?? false)
+                if (replace != null)
                     foreach (var replacement in replace)
                     {
                         localized = localized.Replace(replacement.Token, replacement.Value);

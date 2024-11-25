@@ -130,7 +130,7 @@
     <value>[3] 限时活动模式</value>
   </data>
   <data name="Menu_WaitingForSelection" xml:space="preserve">
-    <value>等待选择......</value>
+    <value>等待选择……</value>
   </data>
   <data name="Menu_ConquestLobby_Description" xml:space="preserve">
     <value>选择程序应进入的最高征服等级：</value>
@@ -178,7 +178,7 @@
     <value>[0] 不撤退</value>
   </data>
   <data name="Menu_PressKeyToExit" xml:space="preserve">
-    <value>按任意键退出......</value>
+    <value>按任意键退出……</value>
   </data>
   <data name="Log_FatalError" xml:space="preserve">
     <value>***** 严重错误 *****</value>
@@ -187,16 +187,16 @@
     <value>模式选择无效。</value>
   </data>
   <data name="Ladder_Log_Start" xml:space="preserve">
-    <value>开始排名阶梯例程......</value>
+    <value>开始排名阶梯例程……</value>
   </data>
   <data name="Log_FailedMenuDetection" xml:space="preserve">
-    <value>无法检测主菜单。5 秒后重试......</value>
+    <value>无法检测主菜单。5 秒后重试……</value>
   </data>
   <data name="Log_BotPaused" xml:space="preserve">
-    <value>程序已暂停。按 [Ctrl+Alt+P] 可恢复......</value>
+    <value>程序已暂停。按 [Ctrl+Alt+P] 可恢复……</value>
   </data>
   <data name="Log_BotResuming" xml:space="preserve">
-    <value>程序正在恢复......</value>
+    <value>程序正在恢复……</value>
   </data>
   <data name="Log_Info_Shortcuts" xml:space="preserve">
     <value>键盘快捷键：</value>
@@ -208,7 +208,7 @@
     <value>[Ctrl+Alt+Q] 退出程序</value>
   </data>
   <data name="Log_LoopEntryPoint" xml:space="preserve">
-    <value>尝试确定循环入口点......</value>
+    <value>尝试确定循环入口点……</value>
   </data>
   <data name="Log_DetectedMainMenu" xml:space="preserve">
     <value>检测到主菜单。开始新比赛……</value>
@@ -220,37 +220,37 @@
     <value>检测到正在进行的比赛。正在恢复比赛……</value>
   </data>
   <data name="Log_DetectedMatchmaking" xml:space="preserve">
-    <value>检测到匹配......</value>
+    <value>检测到匹配……</value>
   </data>
   <data name="Log_DetectedMatchEnd" xml:space="preserve">
-    <value>检测到匹配结束。返回主菜单......</value>
+    <value>检测到匹配结束。返回主菜单……</value>
   </data>
   <data name="Log_Ladder_DetectedConquest" xml:space="preserve">
     <value>检测到征服大厅。正在重置菜单……</value>
   </data>
   <data name="Log_LostBot" xml:space="preserve">
-    <value>程序已彻底丢失......</value>
+    <value>程序已彻底丢失……</value>
   </data>
   <data name="Log_LostBot_Restart" xml:space="preserve">
     <value>返回主菜单并重新启动机器人。</value>
   </data>
   <data name="Log_Match_StartNew" xml:space="preserve">
-    <value>开始新的比赛......</value>
+    <value>开始新的比赛……</value>
   </data>
   <data name="Log_Check_Matchmaking" xml:space="preserve">
-    <value>正在检查正在进行的匹配......</value>
+    <value>正在检查正在进行的匹配……</value>
   </data>
   <data name="Log_Check_Matchmaking_Hanged" xml:space="preserve">
-    <value>匹配似乎卡住了。返回主菜单重试......</value>
+    <value>匹配似乎卡住了。返回主菜单重试……</value>
   </data>
   <data name="Log_Matchmaking_Waiting" xml:space="preserve">
-    <value>等待比赛开始...... [已用时：%ELAPSED%]</value>
+    <value>等待比赛开始…… [已用时：%ELAPSED%]</value>
   </data>
   <data name="Log_Match_Playing" xml:space="preserve">
-    <value>正在进行比赛......</value>
+    <value>正在进行比赛……</value>
   </data>
   <data name="Log_Match_SnapRoll" xml:space="preserve">
-    <value>正在做出快速决定......</value>
+    <value>正在做出快速决定……</value>
   </data>
   <data name="Log_Match_SnapRoll_Limit" xml:space="preserve">
     <value>限制：%VALUE%</value>
@@ -268,10 +268,10 @@
     <value>拒绝</value>
   </data>
   <data name="Log_Check_ActiveMatch" xml:space="preserve">
-    <value>正在检查有效匹配......</value>
+    <value>正在检查有效匹配……</value>
   </data>
   <data name="Log_Check_ActiveMatch_Failed" xml:space="preserve">
-    <value>无法检测到活动匹配，2 秒后重试......</value>
+    <value>无法检测到活动匹配，2 秒后重试……</value>
   </data>
   <data name="Log_Match_ReachedTurnLimit" xml:space="preserve">
     <value>已达到配置的回合限制（%VALUE%）。正在尝试撤退……</value>
@@ -280,76 +280,76 @@
     <value>尝试打牌...[回合数：%VALUE%]</value>
   </data>
   <data name="Log_Check_EnergyState" xml:space="preserve">
-    <value>正在检查当前能量计数......</value>
+    <value>正在检查当前能量计数……</value>
   </data>
   <data name="Log_Match_LeftoverEnergy" xml:space="preserve">
     <value>检测到剩余能量，正在尝试再次打牌……</value>
   </data>
   <data name="Log_Match_EndTurn" xml:space="preserve">
-    <value>点击‘结束回合’按钮......</value>
+    <value>点击‘结束回合’按钮……</value>
   </data>
   <data name="Log_Check_TurnState" xml:space="preserve">
-    <value>检查当前转弯状态......</value>
+    <value>检查当前转弯状态……</value>
   </data>
   <data name="Log_Match_WaitingForTurn" xml:space="preserve">
-    <value>等待轮流进行......</value>
+    <value>等待轮流进行……</value>
   </data>
   <data name="Log_Match_Snapping" xml:space="preserve">
-    <value>尝试单击“捕捉”按钮......</value>
+    <value>尝试单击“捕捉”按钮……</value>
   </data>
   <data name="Log_Match_MaxTimeReached" xml:space="preserve">
     <value>比赛计时器已超过 15 分钟。正在尝试撤退……</value>
   </data>
   <data name="Log_Check_MatchEnd" xml:space="preserve">
-    <value>检查比赛是否结束......</value>
+    <value>检查比赛是否结束……</value>
   </data>
   <data name="Log_Match_Exiting" xml:space="preserve">
-    <value>退出比赛......</value>
+    <value>退出比赛……</value>
   </data>
   <data name="Log_Check_PostMatchScreen" xml:space="preserve">
-    <value>检查赛后屏幕......</value>
+    <value>检查赛后屏幕……</value>
   </data>
   <data name="Log_Error" xml:space="preserve">
     <value>错误：</value>
   </data>
   <data name="Conquest_Log_Start" xml:space="preserve">
-    <value>开始征服例程......</value>
+    <value>开始征服例程……</value>
   </data>
   <data name="Conquest_Log_Menu_Main" xml:space="preserve">
     <value>检测到主菜单。导航至征服模式……</value>
   </data>
   <data name="Conquest_Log_Menu_GameModes" xml:space="preserve">
-    <value>导航到游戏模式选项卡......</value>
+    <value>导航到游戏模式选项卡……</value>
   </data>
   <data name="Conquest_Log_Menu" xml:space="preserve">
-    <value>导航至征服模式菜单......</value>
+    <value>导航至征服模式菜单……</value>
   </data>
   <data name="Conquest_Log_DetectedMain" xml:space="preserve">
-    <value>检测到主菜单。返回开始......</value>
+    <value>检测到主菜单。返回开始……</value>
   </data>
   <data name="Conquest_Log_DetectedLobby" xml:space="preserve">
-    <value>检测到征服大厅选择。进入所选等级或更低等级的大厅......</value>
+    <value>检测到征服大厅选择。进入所选等级或更低等级的大厅……</value>
   </data>
   <data name="Conquest_Log_DetectedPrematch" xml:space="preserve">
     <value>检测到征服模式赛前情况。比赛开始……</value>
   </data>
   <data name="Conquest_Log_DetectedActiveMatch" xml:space="preserve">
-    <value>检测到正在进行的征服比赛。正在进行比赛......</value>
+    <value>检测到正在进行的征服比赛。正在进行比赛……</value>
   </data>
   <data name="Conquest_Log_DetectedRoundEnd" xml:space="preserve">
-    <value>检测到征服赛回合结束。进入下一回合......</value>
+    <value>检测到征服赛回合结束。进入下一回合……</value>
   </data>
   <data name="Conquest_Log_DetectedMatchEnd" xml:space="preserve">
-    <value>检测到征服比赛结束。返回征服菜单......</value>
+    <value>检测到征服比赛结束。返回征服菜单……</value>
   </data>
   <data name="Conquest_Log_PostMatch" xml:space="preserve">
-    <value>检测到征服赛后画面。返回征服菜单......</value>
+    <value>检测到征服赛后画面。返回征服菜单……</value>
   </data>
   <data name="Log_Match_StartingLoop" xml:space="preserve">
-    <value>开始比赛循环......</value>
+    <value>开始比赛循环……</value>
   </data>
   <data name="Conquest_Log_VerifyEntryButton" xml:space="preserve">
-    <value>验证大厅进入按钮是否存在......</value>
+    <value>验证大厅进入按钮是否存在……</value>
   </data>
   <data name="Conquest_Log_Menu_LobbyChoice" xml:space="preserve">
     <value>确保大厅类型设置为指定层级或更低层级：%VALUE%</value>
@@ -358,37 +358,37 @@
     <value>所选等级：%VALUE%</value>
   </data>
   <data name="Conquest_Log_Check_Tickets" xml:space="preserve">
-    <value>正在检查可用的票......</value>
+    <value>正在检查可用的票……</value>
   </data>
   <data name="Conquest_Log_EnteringLobby" xml:space="preserve">
     <value>进入新征服比赛大厅……</value>
   </data>
   <data name="Conquest_Log_ConfirmDeck" xml:space="preserve">
-    <value>确认卡组选择......</value>
+    <value>确认卡组选择……</value>
   </data>
   <data name="Conquest_Log_Match_Concede" xml:space="preserve">
     <value>试图认输……</value>
   </data>
   <data name="Log_Check_RetreatButton" xml:space="preserve">
-    <value>检查‘撤退’按钮......</value>
+    <value>检查‘撤退’按钮……</value>
   </data>
   <data name="Conquest_Log_Match_MaxTimerReached" xml:space="preserve">
     <value>比赛计时器已超过 30 分钟。正在尝试退出比赛...</value>
   </data>
   <data name="Log_Check_Concede" xml:space="preserve">
-    <value>检查‘让步’按钮......</value>
+    <value>检查‘让步’按钮……</value>
   </data>
   <data name="Log_Check_MatchState" xml:space="preserve">
-    <value>检查当前比赛状态......</value>
+    <value>检查当前比赛状态……</value>
   </data>
   <data name="Conquest_Log_MaxWaitTimeReached" xml:space="preserve">
-    <value>已超过最长等待时间 %VALUE% 秒......</value>
+    <value>已超过最长等待时间 %VALUE% 秒……</value>
   </data>
   <data name="Conquest_Log_Menu_WaitingPostMatch" xml:space="preserve">
-    <value>等待赛后画面......</value>
+    <value>等待赛后画面……</value>
   </data>
   <data name="Conquest_Log_Check_AnyLobby" xml:space="preserve">
-    <value>检查任何征服模式大厅......</value>
+    <value>检查任何征服模式大厅……</value>
   </data>
   <data name="Conquest_Log_Menu_DetectedLobby" xml:space="preserve">
     <value>检测到征服模式大厅……</value>
@@ -397,22 +397,22 @@
     <value>正在处理赛后屏幕...</value>
   </data>
   <data name="Conquest_Log_Check_Screens" xml:space="preserve">
-    <value>检查获胜、失败或票证索取屏幕......</value>
+    <value>检查获胜、失败或票证索取屏幕……</value>
   </data>
   <data name="Log_ClickNext" xml:space="preserve">
     <value>点击进入下一个屏幕...</value>
   </data>
   <data name="Conquest_Log_Menu_ClaimTicket" xml:space="preserve">
-    <value>正在领取票......</value>
+    <value>正在领取票……</value>
   </data>
   <data name="Event_Log_Start" xml:space="preserve">
     <value>限时活动模式的启动程序……</value>
   </data>
   <data name="Event_Log_Menu" xml:space="preserve">
-    <value>检测到主菜单。导航至限时活动模式......</value>
+    <value>检测到主菜单。导航至限时活动模式……</value>
   </data>
   <data name="Event_Log_Menu_ModeTab" xml:space="preserve">
-    <value>导航至限时活动模式菜单......</value>
+    <value>导航至限时活动模式菜单……</value>
   </data>
   <data name="Event_Log_DetectedEventMenu" xml:space="preserve">
     <value>检测到事件游戏模式的菜单。开始新比赛...</value>
@@ -421,7 +421,7 @@
     <value>OH SNAP!</value>
   </data>
   <data name="Log_BlindReset" xml:space="preserve">
-    <value>尝试盲目重置点击......</value>
+    <value>尝试盲目重置点击……</value>
   </data>
   <data name="Log_ExitShortcut" xml:space="preserve">
     <value>检测到退出快捷键 [Ctrl+Alt+Q]。正在终止进程...</value>
@@ -496,7 +496,7 @@
     <value>结束一回合后，找到“撤消结束回合”按钮。</value>
   </data>
   <data name="Repair_Match_BTN_WAITING_1" xml:space="preserve">
-    <value>（可选）结束回合后，找到“等待......”按钮。</value>
+    <value>（可选）结束回合后，找到“等待……”按钮。</value>
   </data>
   <data name="Repair_Match_BTN_WAITING_2" xml:space="preserve">
     <value>此文本仅在以下情况下显示：</value>
@@ -508,7 +508,7 @@
     <value>- 对手已打出夜魔侠，玩家正在等待对手在第 5 回合打出一张牌</value>
   </data>
   <data name="Repair_Match_BTN_PLAYING" xml:space="preserve">
-    <value>在出牌时，识别按钮上的文字何时显示“正在玩......”。</value>
+    <value>在出牌时，识别按钮上的文字何时显示“正在玩……”。</value>
   </data>
   <data name="Repair_Match_RECONNECT_1" xml:space="preserve">
     <value>在比赛中，关闭游戏客户端。重新启动游戏客户端并等待主菜单加载。</value>
@@ -560,5 +560,21 @@
   </data>
   <data name="Update_NewVersion" xml:space="preserve">
     <value>*** %VALUE% 版本已上线！输入 [0] 打开 GitHub 下载页面 ***</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="InitialSetup_Language_Option1" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
+  </data>
+  <data name="InitialSetup_Language_BoosterBot" xml:space="preserve">
+    <value>选择 BoosterBot 的首选语言：</value>
+  </data>
+  <data name="InitialSetup_Language_Game" xml:space="preserve">
+    <value>选择游戏客户端使用的语言：</value>
+  </data>
+  <data name="InitialSetup_Language_Game_Note" xml:space="preserve">
+    <value>注意：如果选择“其他”，则需要使用“--repair”参数启动BoosterBot并完成检测修复过程，程序才能正常运行。</value>
+  </data>
+  <data name="InitialSetup_Language_Option3" xml:space="preserve">
+    <value>[3] 其他</value>
   </data>
 </root>

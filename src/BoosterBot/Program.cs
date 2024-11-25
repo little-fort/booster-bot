@@ -2,6 +2,7 @@
 using BoosterBot.Models;
 using BoosterBot.Resources;
 using Microsoft.Extensions.Configuration;
+using System.Configuration;
 using System.Diagnostics;
 using System.Reflection;
 
@@ -11,19 +12,23 @@ internal class Program
 {
     private static bool _updateAvailable = false;
     private static LocalizationManager _localizer;
+    private static IConfiguration _configuration;
 
     static async Task Main(string[] args)
     {
+        // Set encoding
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
         // Setup configuration
-        IConfiguration configuration = new ConfigurationBuilder()
+        _configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
             .Build();
 
         // Initialize localization
-        _localizer = new LocalizationManager(configuration);
+        _localizer = new LocalizationManager(_configuration);
 
         // Prompt user for language selection on first start
-        if (string.IsNullOrWhiteSpace(configuration["appLanguage"]) || string.IsNullOrWhiteSpace(configuration["gameLanguage"]) || bool.Parse(configuration["initialStart"] ?? "false"))
+        if (string.IsNullOrWhiteSpace(_configuration["appLanguage"]) || string.IsNullOrWhiteSpace(_configuration["gameLanguage"]) || bool.Parse(_configuration["initialStart"] ?? "false"))
         {
             if (!GetAppLanguageSelection())
                 return;
@@ -31,7 +36,7 @@ internal class Program
                 SettingsHelper.Save("initialStart", false);
         }
 
-        bool masked = true; // REVERT BEFORE PR
+        bool masked = false;
         bool autoplay = true;
         bool saveScreens = false;
         bool repair = false;
@@ -104,14 +109,13 @@ internal class Program
                         break;
                 }
 
-        try
-        {
+        /*try
+        {*/
             if (!Directory.Exists("logs"))
                 Directory.CreateDirectory("logs");
             else
                 PurgeLogs();
 
-            
             if (masked)
             {
                 // Initialize hotkey manager to allow pausing or exiting via keyboard shortcuts
@@ -120,23 +124,20 @@ internal class Program
                 // Check for updates
                 _updateAvailable = await UpdateChecker.CheckForUpdates();
 
-                // Set encoding
-                Console.OutputEncoding = System.Text.Encoding.UTF8;
-
                 if (!Directory.Exists("screens"))
                     Directory.CreateDirectory("screens");
 
                 // Parse values configured in appsettings.json (if they exist)
-                verbose ??= bool.Parse(configuration["verboseLogs"] ?? "false");
-                downscaled ??= bool.Parse(configuration["downscaledMode"] ?? "false");
-                ltm ??= bool.Parse(configuration["eventModeActive"] ?? "false");
-                scaling ??= double.Parse(configuration["scaling"] ?? "1.0");
+                verbose ??= bool.Parse(_configuration["verboseLogs"] ?? "false");
+                downscaled ??= bool.Parse(_configuration["downscaledMode"] ?? "false");
+                ltm ??= bool.Parse(_configuration["eventModeActive"] ?? "false");
+                scaling ??= double.Parse(_configuration["scaling"] ?? "1.0");
 
-                if (!string.IsNullOrWhiteSpace(configuration["defaultRunSettings:enabled"]) && bool.Parse(configuration["defaultRunSettings:enabled"] ?? "false"))
+                if (!string.IsNullOrWhiteSpace(_configuration["defaultRunSettings:enabled"]) && bool.Parse(_configuration["defaultRunSettings:enabled"] ?? "false"))
                 {
-                    gameMode ??= configuration["defaultRunSettings:gameMode"];
-                    maxConquestTier ??= configuration["defaultRunSettings:maxConquestTier"];
-                    maxTurns ??= int.Parse(configuration["defaultRunSettings:maxRankedTurns"] ?? "0");
+                    gameMode ??= _configuration["defaultRunSettings:gameMode"];
+                    maxConquestTier ??= _configuration["defaultRunSettings:maxConquestTier"];
+                    maxTurns ??= int.Parse(_configuration["defaultRunSettings:maxRankedTurns"] ?? "0");
                 }
 
                 // Process configured values and prompt user for any that are missing
@@ -174,7 +175,7 @@ internal class Program
 
                 var type = (GameMode)mode;
                 var logPath = $"logs\\{type.ToString().ToLower()}-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-                var config = new BotConfig(_localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled);
+                var config = new BotConfig(_configuration, _localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled);
                 IBoosterBot bot = mode switch
                 {
                     1 => new ConquestBot(config, retreat ?? 0, maxTier),
@@ -209,11 +210,11 @@ internal class Program
 
                 var process = new Process();
                 process.StartInfo = startInfo;
-                process.StartInfo.Arguments = "-masked " + string.Join(' ', args);
+                process.StartInfo.Arguments = "--masked " + string.Join(' ', args);
 
                 process.Start();
             }
-        }
+        /*}
         catch (Exception ex)
         {
             var log = $"logs\\startup-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
@@ -221,7 +222,7 @@ internal class Program
             Logger.Log(_localizer, ex.Message, log, true);
             Console.WriteLine();
             Logger.Log(_localizer, ex.StackTrace, log, true);
-        }
+        }*/
     }
 
     internal static void PrintTitle()
@@ -243,11 +244,11 @@ internal class Program
     {
         PrintTitle();
 
-        Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_BoosterBot") + Environment.NewLine);
+        Console.WriteLine(Strings.InitialSetup_Language_BoosterBot + Environment.NewLine);
         Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Option1"));
         Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Option2"));
         Console.WriteLine();
-        Console.WriteLine(_localizer.GetNeutralString("Menu_WaitingForSelection"));
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (key.KeyChar == '1' || key.KeyChar == '2')
@@ -261,6 +262,7 @@ internal class Program
 
             // Write selection to appsettings.json
             SettingsHelper.Save("appLanguage", language);
+            RefreshLanguage();
 
             return GetGameLanguageSelection();
         }
@@ -268,18 +270,32 @@ internal class Program
         return GetAppLanguageSelection();
     }
 
+    private static void RefreshLanguage()
+    {
+        // Reload configuration
+        _configuration.GetReloadToken();
+
+        // Update LocalizationManager with new language settings
+        var appLanguage = _configuration["appLanguage"];
+        var gameLanguage = _configuration["gameLanguage"];
+        _localizer.SetCulture(appLanguage);
+    }
+
     private static bool GetGameLanguageSelection()
     {
         PrintTitle();
 
-        Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Game") + Environment.NewLine);
+        Console.WriteLine(Strings.InitialSetup_Language_Game + Environment.NewLine);
         Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Option1"));
         Console.WriteLine(_localizer.GetNeutralString("InitialSetup_Language_Option2"));
+        Console.WriteLine(Strings.InitialSetup_Language_Option3);
         Console.WriteLine();
-        Console.WriteLine(_localizer.GetNeutralString("Menu_WaitingForSelection"));
+        Console.WriteLine(Strings.InitialSetup_Language_Game_Note);
+        Console.WriteLine();
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
-        if (key.KeyChar == '1' || key.KeyChar == '2')
+        if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3')
         {
             var language = key.KeyChar switch
             {
@@ -423,7 +439,11 @@ internal class Program
         var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.exe");
         foreach (var file in files)
             if (!file.EndsWith("BoosterBot.exe") && !file.EndsWith("createdump.exe") && !file.EndsWith(process))
-                File.Delete(file);
+                try
+                {
+                    File.Delete(file);
+                }
+                catch { }
     }
 
     private static void PurgeLogs()

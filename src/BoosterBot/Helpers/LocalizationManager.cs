@@ -23,7 +23,7 @@ namespace BoosterBot.Helpers
             _resourceManager = new ResourceManager("BoosterBot.Resources.Strings", typeof(LocalizationManager).Assembly);
 
             // Get culture from settings, default to English if not specified
-            string cultureName = _configuration["language"] ?? "en-US";
+            string cultureName = _configuration["appLanguage"] ?? "en-US";
             SetCulture(cultureName);
         }
 
@@ -51,7 +51,7 @@ namespace BoosterBot.Helpers
             try
             {
                 string? value = _resourceManager.GetString(key, _currentCulture);
-                return value ?? $"[Missing: {key}]";
+                return value ?? key;
             }
             catch (MissingManifestResourceException)
             {
@@ -64,7 +64,7 @@ namespace BoosterBot.Helpers
             try
             {
                 string? value = _resourceManager.GetString(key, CultureInfo.GetCultureInfo("en-US"));
-                return value ?? $"[Missing: {key}]";
+                return value ?? key;
             }
             catch (MissingManifestResourceException)
             {

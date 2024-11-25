@@ -189,8 +189,7 @@ namespace BoosterBot
                 Console.WriteLine();
                 Console.WriteLine(Strings.Repair_ModeSelect_Description2);
                 Console.WriteLine();
-                Console.WriteLine(Strings.Repair_ModeSelect_Description1 + Environment.NewLine);
-                Console.WriteLine();
+                Console.WriteLine(Strings.Repair_ModeSelect_Description3 + Environment.NewLine);
 
                 // TODO: Uncomment for future releases
                 // Console.WriteLine("NOTE: If you have run the repair process on a previous version of BoosterBot, copying the 'reference' directory from that version to the current version may solve any detection problems.");
@@ -244,7 +243,7 @@ namespace BoosterBot
                 foreach (var file in prompt.Files)
                 {
                     var capPath = Path.Combine("screens", file);
-                    var refPath = Path.Combine("reference", file);
+                    var refPath = Path.Combine("reference", _maps.Culture, file);
                     File.Copy(capPath, refPath, true);
                 }
 

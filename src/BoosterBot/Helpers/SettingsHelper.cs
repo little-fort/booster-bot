@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace BoosterBot
 
             // Update the value of the specified key
             dynamic jsonObj = JsonConvert.DeserializeObject(json);
-            jsonObj[key] = value;
+            jsonObj[key] = JToken.FromObject(value);
 
             // Write the updated settings to appsettings.json
             string output = JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented);

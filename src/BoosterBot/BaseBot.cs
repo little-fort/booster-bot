@@ -47,12 +47,12 @@ namespace BoosterBot
         protected void Log(List<string> keys, bool verboseOnly = false)
         {
             foreach (var key in keys)
-                Log(key, 9999, verboseOnly);
+                Log(key, verboseOnly);
 
             CheckForPause();
         }
 
-        protected void Log(string key, int check, bool verboseOnly = false, List<FindReplaceValue> replace = null)
+        protected void Log(string key, bool verboseOnly = false, List<FindReplaceValue> replace = null)
         {
             if (!verboseOnly || _config.Verbose)
                 Logger.Log(_config.Localizer, key, _logPath, replace: replace);
@@ -80,13 +80,13 @@ namespace BoosterBot
         {
             var paused = HotkeyManager.IsPaused;
             if (paused)
-                Log("Log_BotPaused", 9999);
+                Logger.Log(_config.Localizer, "Log_BotPaused", _logPath);
 
             while (HotkeyManager.IsPaused)
                 Thread.Sleep(100);
 
             if (paused)
-                Log("Log_BotResuming", 9999);
+                Logger.Log(_config.Localizer, "Log_BotResuming", _logPath);
         }
     }
 }

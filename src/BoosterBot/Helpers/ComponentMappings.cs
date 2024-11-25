@@ -5,6 +5,7 @@ namespace BoosterBot
     {
         public readonly BotConfig _config;
         private readonly string _culture;
+        public string Culture { get => _culture; }
         public string REF_BTN_RECONNECT_TO_GAME { get => $"reference\\{_culture}\\btn-main-reconnect-preproc.png"; }
         public string REF_EVENT_BTN_PLAY { get => $"reference\\{_culture}\\btn-event-play-preproc.png"; }
         public string REF_EVENT_BTN_FORFEIT { get => $"reference\\{_culture}\\btn-event-forfeit-preproc.png"; }
@@ -16,7 +17,7 @@ namespace BoosterBot
         public string REF_LADD_BTN_MATCH_END_NEXT { get => $"reference\\{_culture}\\btn-ladder-match-end-next-preproc.png"; }
         public string REF_ICON_ZERO_ENERGY { get => $"reference\\{_culture}\\lbl-energy-zero-preproc.png"; }
         public string REF_CONQ_BTN_PLAY { get => $"reference\\{_culture}\\btn-conquest-play-preproc.png"; }
-        public string REF_CONQ_LBL_ENTRANCE_FEE { get => $"reference\\{_culture}\\btn-conquest-entrance-fee.png"; }
+        public string REF_CONQ_LBL_ENTRANCE_FEE { get => $"reference\\{_culture}\\btn-conquest-entrance-fee-preproc.png"; }
         public string REF_CONQ_LBL_NO_TICKETS { get => $"reference\\{_culture}\\lbl-conquest-no-tickets-preproc.png"; }
         public string REF_CONQ_LBL_LOBBY_PG_1 { get => $"reference\\{_culture}\\lbl-conquest-pg-1-preproc.png"; }
         public string REF_CONQ_LBL_LOBBY_PG_2 { get => $"reference\\{_culture}\\lbl-conquest-pg-2-preproc.png"; }
@@ -50,7 +51,7 @@ namespace BoosterBot
         public ComponentMappings(BotConfig config)
         {
             _config = config;
-            _culture = _config.Localizer.GetCulture();
+            _culture = config.Settings["gameLanguage"]?.Split('-')[0] ?? "en";
         }
 
         public Rect GetBtnPlay() => new()
