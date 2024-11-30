@@ -561,10 +561,6 @@
   <data name="Update_NewVersion" xml:space="preserve">
     <value>*** %VALUE% 版本已上线！输入 [0] 打开 GitHub 下载页面 ***</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="InitialSetup_Language_Option1" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
   <data name="InitialSetup_Language_BoosterBot" xml:space="preserve">
     <value>选择 BoosterBot 的首选语言：</value>
   </data>
@@ -576,5 +572,11 @@
   </data>
   <data name="InitialSetup_Language_Option3" xml:space="preserve">
     <value>[3] 其他</value>
+  </data>
+  <data name="Conquest_Log_LobbyReset" xml:space="preserve">
+    <value>重置大厅界面以避免检测点错位......</value>
+  </data>
+    <data name="Repair_Conquest_LOBBY_NOTE" xml:space="preserve">
+    <value>注意：切换大厅时，请确保大厅标题居中后再确认。（按 [1] 查看示例图像。）</value>
   </data>
 </root>
