@@ -580,7 +580,7 @@
     <value>[3] Other</value>
   </data>
   <data name="Conquest_Log_LobbyReset" xml:space="preserve">
-    <value>Resetting lobby UI to avoid misaligned detection points...</value>
+    <value>Resetting lobby interface to avoid misaligned detection points...</value>
   </data>
   <data name="Repair_Conquest_LOBBY_NOTE" xml:space="preserve">
     <value>NOTE: When switching lobbies, make sure the lobby title is centered before confirming. (Press [1] to see example image.)</value>

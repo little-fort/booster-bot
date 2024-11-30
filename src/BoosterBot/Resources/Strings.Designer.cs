@@ -160,7 +160,7 @@ namespace BoosterBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resetting lobby UI to avoid misaligned detection points....
+        ///   Looks up a localized string similar to Resetting lobby interface to avoid misaligned detection points....
         /// </summary>
         internal static string Conquest_Log_LobbyReset {
             get {
