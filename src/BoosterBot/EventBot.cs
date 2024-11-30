@@ -54,7 +54,7 @@ namespace BoosterBot
                 Thread.Sleep(500);
 
                 _config.GetWindowPositions();
-                var onMenu = Check(_game.CanIdentifyMainMenu);
+                var onMenu = Check(() => _game.CanIdentifyMainMenu());
                 if (onMenu)
                 {
                     Log("Event_Log_Menu");
@@ -180,7 +180,7 @@ namespace BoosterBot
             mmTimer.Start();
 
             Log("Log_Check_Matchmaking", true);
-            while (Check(_game.CanIdentifyLadderMatchmaking))
+            while (Check(() => _game.CanIdentifyLadderMatchmaking()))
             {
                 if (mmTimer.Elapsed.TotalSeconds > _rand.Next(300, 360))
                 {
@@ -224,7 +224,7 @@ namespace BoosterBot
                 _config.GetWindowPositions();
 
                 Log("Log_Check_ActiveMatch", true);
-                if (!Check(_game.CanIdentifyActiveEventMatch))
+                if (!Check(() => _game.CanIdentifyActiveEventMatch()))
                 {
                     var check = false;
                     for (int x = 1; x < 3 && !check; x++)
@@ -232,7 +232,7 @@ namespace BoosterBot
                         Log("Log_Check_ActiveMatch_Failed");
                         _config.GetWindowPositions();
                         _game.ResetClick();
-                        check = Check(_game.CanIdentifyActiveEventMatch);
+                        check = Check(() => _game.CanIdentifyActiveEventMatch());
                         Thread.Sleep(2500);
                     }
 
@@ -255,7 +255,7 @@ namespace BoosterBot
                         _config.GetWindowPositions();
 
                         Log("Log_Check_EnergyState", true);
-                        if (!Check(_game.CanIdentifyZeroEnergy))
+                        if (!Check(() => _game.CanIdentifyZeroEnergy()))
                         {
                             Log("Log_Match_LeftoverEnergy");
                             _game.PlayHand();
@@ -268,7 +268,7 @@ namespace BoosterBot
                         _config.GetWindowPositions();
 
                         Log("Log_Check_TurnState", true);
-                        while (Check(_game.CanIdentifyMidTurn))
+                        while (Check(() => _game.CanIdentifyMidTurn()))
                         {
                             Log("Log_Match_WaitingForTurn");
                             Thread.Sleep(4000);
@@ -287,7 +287,7 @@ namespace BoosterBot
 
             _config.GetWindowPositions();
 
-            if (_matchTimer.Elapsed.Minutes > 15 && Check(_game.CanIdentifyLadderRetreatBtn))
+            if (_matchTimer.Elapsed.Minutes > 15 && Check(() => _game.CanIdentifyLadderRetreatBtn()))
             {
                 Log("Log_Match_MaxTimeReached");
                 _game.ClickRetreat();
@@ -295,7 +295,7 @@ namespace BoosterBot
             }
 
             Log("Log_Check_MatchEnd", true);
-            if (Check(_game.CanIdentifyLadderMatchEnd))
+            if (Check(() => _game.CanIdentifyLadderMatchEnd()))
                 return ExitMatch();
 
             return false;
@@ -307,7 +307,7 @@ namespace BoosterBot
             _config.GetWindowPositions();
 
             Log("Log_Check_PostMatchScreen", true);
-            while (Check(_game.CanIdentifyLadderCollectRewardsBtn) || Check(_game.CanIdentifyLadderMatchEndNextBtn))
+            while (Check(() => _game.CanIdentifyLadderCollectRewardsBtn()) || Check(() => _game.CanIdentifyLadderMatchEndNextBtn()))
             {
                 _game.ClickNext();
                 Thread.Sleep(6000);

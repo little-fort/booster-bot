@@ -199,7 +199,7 @@ namespace BoosterBot
 
                 // There is a bug where the Enter button can disappear. Verify it exists before proceeding. If not, reset the menu and try again.
                 Log("Conquest_Log_VerifyEntryButton");
-                if (Check(_game.CanIdentifyConquestEntranceFee))
+                if (Check(_game.CanIdentifyConquestPlayBtn) || Check(() => _game.CanIdentifyConquestEntranceFee()))
                 {
                     var success = StartMatch();
 
@@ -226,7 +226,7 @@ namespace BoosterBot
             for (int x = 0; x < 6 && !lobbyConfirmed; x++)
             {
                 var selectedTier = _game.DetermineConquestLobbyTier();
-                Log("Conquest_Log_Menu_SelectedTier", replace: [new("%VALUE%", _maxTier.ToString())]);
+                Log("Conquest_Log_Menu_SelectedTier", replace: [new("%VALUE%", selectedTier.ToString())]);
                 Log("Conquest_Log_Check_Tickets", true);
                 if ((selectedTier <= _maxTier && !Check(_game.CanIdentifyConquestNoTickets)) || selectedTier == GameState.CONQUEST_LOBBY_PG)
                     lobbyConfirmed = true;
@@ -274,7 +274,7 @@ namespace BoosterBot
             mmTimer.Start();
 
             Log("Log_Check_Matchmaking", true);
-            while (Check(_game.CanIdentifyConquestMatchmaking))
+            while (Check(() => _game.CanIdentifyConquestMatchmaking()))
             {
                 if (mmTimer.Elapsed.TotalSeconds > 600)
                 {
@@ -354,7 +354,7 @@ namespace BoosterBot
                         _config.GetWindowPositions();
 
                         Log("Log_Check_TurnState", true);
-                        while (Check(_game.CanIdentifyMidTurn))
+                        while (Check(() => _game.CanIdentifyMidTurn()))
                         {
                             Log("Log_Match_WaitingForTurn");
                             Thread.Sleep(4000);
@@ -367,7 +367,7 @@ namespace BoosterBot
             _config.GetWindowPositions();
 
             Log("Log_Check_RetreatButton", true);
-            if (_matchTimer.Elapsed.Minutes > 15 && Check(_game.CanIdentifyConquestRetreatBtn))
+            if (_matchTimer.Elapsed.Minutes > 15 && Check(() => _game.CanIdentifyConquestRetreatBtn()))
             {
                 Log("Conquest_Log_Match_Concede");
                 _game.ClickRetreat();
@@ -375,11 +375,11 @@ namespace BoosterBot
             }
 
             Log("Log_Check_Concede", true);
-            if (Check(_game.CanIdentifyConquestConcede))
+            if (Check(() => _game.CanIdentifyConquestConcede()))
                 return ProgressRound();
 
             Log("Log_Check_MatchEnd", true);
-            if (Check(_game.CanIdentifyConquestMatchEnd))
+            if (Check(() => _game.CanIdentifyConquestMatchEnd()))
                 return ExitMatch();
 
             return false;
@@ -393,7 +393,7 @@ namespace BoosterBot
             _config.GetWindowPositions();
             var waitTime = 0;
             Log("Log_Check_MatchState", true);
-            while (!Check(_game.CanIdentifyActiveConquestMatch) && !Check(_game.CanIdentifyConquestMatchEnd))
+            while (!Check(_game.CanIdentifyActiveConquestMatch) && !Check(() => _game.CanIdentifyConquestMatchEnd()))
             {
                 if (waitTime >= 90000)
                 {
@@ -416,7 +416,7 @@ namespace BoosterBot
             _config.GetWindowPositions();
 
             Log("Log_Check_PostMatchScreen", true);
-            while (Check(_game.CanIdentifyConquestMatchEndNext1) || Check(_game.CanIdentifyConquestMatchEndNext2))
+            while (Check(() => _game.CanIdentifyConquestMatchEndNext1()) || Check(() => _game.CanIdentifyConquestMatchEndNext2()))
             {
                 _game.ClickNext();
                 Thread.Sleep(4000);
@@ -444,7 +444,7 @@ namespace BoosterBot
                 if (totalSleep > 60000)
                 {
                     Log("Conquest_Log_MaxWaitTimeReached", replace: [new("%VALUE%", "60")]);
-                    return true;
+                    return DetermineLoopEntryPoint();
                 }
             }
 
@@ -465,7 +465,7 @@ namespace BoosterBot
                 _config.GetWindowPositions();
                 return AcceptResult();
             }
-            else if (Check(_game.CanIdentifyConquestTicketClaim))
+            else if (Check(() => _game.CanIdentifyConquestTicketClaim()))
             {
                 Log("Conquest_Log_Match_ProcessingPostMatch");
                 _game.ClickClaim();
