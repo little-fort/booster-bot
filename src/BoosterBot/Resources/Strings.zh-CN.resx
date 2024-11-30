@@ -121,10 +121,10 @@
     <value>可用的游戏模式：</value>
   </data>
   <data name="Menu_ModeSelect_Option1" xml:space="preserve">
-    <value>[1] 征服</value>
+    <value>[1] 征服模式</value>
   </data>
   <data name="Menu_ModeSelect_Option2" xml:space="preserve">
-    <value>[2] 积分天梯</value>
+    <value>[2] 天梯模式</value>
   </data>
   <data name="Menu_ModeSelect_Option3" xml:space="preserve">
     <value>[3] 限时活动模式</value>
@@ -136,10 +136,10 @@
     <value>选择程序应进入的最高征服等级：</value>
   </data>
   <data name="Menu_ConquestLobby_Option1" xml:space="preserve">
-    <value>[1] 试验场（默认）</value>
+    <value>[1] 试炼之地（默认）</value>
   </data>
   <data name="Menu_ConquestLobby_Option2" xml:space="preserve">
-    <value>[2] 银奖</value>
+    <value>[2] 白银</value>
   </data>
   <data name="Menu_ConquestLobby_Option3" xml:space="preserve">
     <value>[3] 黄金</value>
@@ -148,7 +148,7 @@
     <value>[4] 无限</value>
   </data>
   <data name="Menu_ConquestLobby_NoticeTickets" xml:space="preserve">
-    <value>如果有入场券，该计划才会在比试验场更高的级别上进行。</value>
+    <value>如果有入场券，该程序才会在比试炼之地更高级别的场次上进行。</value>
   </data>
   <data name="Menu_ConquestLobby_NoticeGold" xml:space="preserve">
     <value>*** 不会消耗任何金币。***</value>
@@ -160,7 +160,7 @@
     <value>所选等级或以下大厅的所有可用门票将被消耗。</value>
   </data>
   <data name="Menu_ConquestConfirm_TicketDefault" xml:space="preserve">
-    <value>如果没有门票，该计划将只播放试验场层。</value>
+    <value>如果没有门票，该计划将只会运行试炼之地场次。</value>
   </data>
   <data name="Menu_ConfirmContinue" xml:space="preserve">
     <value>您确定要继续吗？</value>
@@ -187,7 +187,7 @@
     <value>模式选择无效。</value>
   </data>
   <data name="Ladder_Log_Start" xml:space="preserve">
-    <value>开始排名阶梯例程……</value>
+    <value>开始天梯模式进程……</value>
   </data>
   <data name="Log_FailedMenuDetection" xml:space="preserve">
     <value>无法检测主菜单。5 秒后重试……</value>
@@ -289,13 +289,13 @@
     <value>点击‘结束回合’按钮……</value>
   </data>
   <data name="Log_Check_TurnState" xml:space="preserve">
-    <value>检查当前转弯状态……</value>
+    <value>检查当前回合状态……</value>
   </data>
   <data name="Log_Match_WaitingForTurn" xml:space="preserve">
     <value>等待轮流进行……</value>
   </data>
   <data name="Log_Match_Snapping" xml:space="preserve">
-    <value>尝试单击“捕捉”按钮……</value>
+    <value>尝试单击“加倍”按钮……</value>
   </data>
   <data name="Log_Match_MaxTimeReached" xml:space="preserve">
     <value>比赛计时器已超过 15 分钟。正在尝试撤退……</value>
@@ -307,13 +307,13 @@
     <value>退出比赛……</value>
   </data>
   <data name="Log_Check_PostMatchScreen" xml:space="preserve">
-    <value>检查赛后屏幕……</value>
+    <value>检查赛后界面……</value>
   </data>
   <data name="Log_Error" xml:space="preserve">
     <value>错误：</value>
   </data>
   <data name="Conquest_Log_Start" xml:space="preserve">
-    <value>开始征服例程……</value>
+    <value>开始征服模式进程……</value>
   </data>
   <data name="Conquest_Log_Menu_Main" xml:space="preserve">
     <value>检测到主菜单。导航至征服模式……</value>
@@ -352,7 +352,7 @@
     <value>验证大厅进入按钮是否存在……</value>
   </data>
   <data name="Conquest_Log_Menu_LobbyChoice" xml:space="preserve">
-    <value>确保大厅类型设置为指定层级或更低层级：%VALUE%</value>
+    <value>确保大厅类型设置为指定场次或更低场次：%VALUE%</value>
   </data>
   <data name="Conquest_Log_Menu_SelectedTier" xml:space="preserve">
     <value>所选等级：%VALUE%</value>
@@ -367,7 +367,7 @@
     <value>确认卡组选择……</value>
   </data>
   <data name="Conquest_Log_Match_Concede" xml:space="preserve">
-    <value>试图认输……</value>
+    <value>尝试放弃……</value>
   </data>
   <data name="Log_Check_RetreatButton" xml:space="preserve">
     <value>检查‘撤退’按钮……</value>
@@ -376,7 +376,7 @@
     <value>比赛计时器已超过 30 分钟。正在尝试退出比赛...</value>
   </data>
   <data name="Log_Check_Concede" xml:space="preserve">
-    <value>检查‘让步’按钮……</value>
+    <value>检查‘放弃’按钮……</value>
   </data>
   <data name="Log_Check_MatchState" xml:space="preserve">
     <value>检查当前比赛状态……</value>
@@ -394,13 +394,13 @@
     <value>检测到征服模式大厅……</value>
   </data>
   <data name="Conquest_Log_Match_ProcessingPostMatch" xml:space="preserve">
-    <value>正在处理赛后屏幕...</value>
+    <value>正在处理赛后界面...</value>
   </data>
   <data name="Conquest_Log_Check_Screens" xml:space="preserve">
-    <value>检查获胜、失败或票证索取屏幕……</value>
+    <value>检查胜利、失败或领取奖励界面……</value>
   </data>
   <data name="Log_ClickNext" xml:space="preserve">
-    <value>点击进入下一个屏幕...</value>
+    <value>点击进入下一个界面...</value>
   </data>
   <data name="Conquest_Log_Menu_ClaimTicket" xml:space="preserve">
     <value>正在领取票……</value>
@@ -439,13 +439,13 @@
     <value>此功能将尝试修复 BoosterBot 对游戏界面关键部分的检测。</value>
   </data>
   <data name="Repair_Confirm_Description2" xml:space="preserve">
-    <value>仅当 BoosterBot 无法正常运行时您才应该继续。</value>
+    <value>仅当 BoosterBot 无法正常运行时继续该操作。</value>
   </data>
   <data name="Repair_ModeSelect_Description1" xml:space="preserve">
     <value>为了完成修复检测的过程，您将手动与游戏交互，直到特定的按钮、图标或文本标签可见。</value>
   </data>
   <data name="Repair_ModeSelect_Description2" xml:space="preserve">
-    <value>当您确认指定的游戏组件在屏幕上时，该程序将捕获当前图像并将其用于将来的参考。</value>
+    <value>当您确认指定的游戏组件在界面上时，该程序将捕获当前图像并将其用于将来的参考。</value>
   </data>
   <data name="Repair_ModeSelect_Description3" xml:space="preserve">
     <value>每种游戏类型都必须单独修复。请选择您要修复的模式：</value>
@@ -454,7 +454,7 @@
     <value>修复过程已完成。您可以选择其他模式进行修复，或关闭此窗口并正常重启 BoosterBot。</value>
   </data>
   <data name="Repair_Prompt_PressToConfirm" xml:space="preserve">
-    <value>当指定的游戏组件出现在屏幕上时，按 [2] 确认。</value>
+    <value>当指定的游戏组件出现在界面上时，按 [2] 确认。</value>
   </data>
   <data name="Repair_Prompt_Option0_Previous" xml:space="preserve">
     <value>[0] 上一页</value>
@@ -478,10 +478,10 @@
     <value>修复模式</value>
   </data>
   <data name="Repair_Ladder_BTN_PLAY" xml:space="preserve">
-    <value>导航到游戏主菜单并找到用于开始比赛的“播放”按钮。</value>
+    <value>导航到游戏主菜单并找到用于开始比赛的“开战”按钮。</value>
   </data>
   <data name="Repair_Ladder_BTN_MATCHMAKING" xml:space="preserve">
-    <value>按下按钮开始匹配，并在等待屏幕上找到“取消”按钮。</value>
+    <value>按下按钮开始匹配，并在等待界面上找到“取消”按钮。</value>
   </data>
   <data name="Repair_Ladder_BTN_RETREAT" xml:space="preserve">
     <value>在比赛中，找到“撤退”按钮。</value>
@@ -496,7 +496,7 @@
     <value>结束一回合后，找到“撤消结束回合”按钮。</value>
   </data>
   <data name="Repair_Match_BTN_WAITING_1" xml:space="preserve">
-    <value>（可选）结束回合后，找到“等待……”按钮。</value>
+    <value>（可选）结束回合后，找到“放置中”按钮。</value>
   </data>
   <data name="Repair_Match_BTN_WAITING_2" xml:space="preserve">
     <value>此文本仅在以下情况下显示：</value>
@@ -508,7 +508,7 @@
     <value>- 对手已打出夜魔侠，玩家正在等待对手在第 5 回合打出一张牌</value>
   </data>
   <data name="Repair_Match_BTN_PLAYING" xml:space="preserve">
-    <value>在出牌时，识别按钮上的文字何时显示“正在玩……”。</value>
+    <value>在出牌时，识别按钮上的文字何时显示“放置中”。</value>
   </data>
   <data name="Repair_Match_RECONNECT_1" xml:space="preserve">
     <value>在比赛中，关闭游戏客户端。重新启动游戏客户端并等待主菜单加载。</value>
@@ -517,10 +517,10 @@
     <value>找到“重新连接游戏”按钮。</value>
   </data>
   <data name="Repair_Ladder_BTN_COLLECT_REWARDS" xml:space="preserve">
-    <value>玩完一场比赛，然后找到最后一轮后显示的“收集奖励”按钮。</value>
+    <value>玩完一场比赛，然后找到最后一轮后显示的“领取奖励”按钮。</value>
   </data>
   <data name="Repair_Match_END_NEXT" xml:space="preserve">
-    <value>按下“收集奖励”，然后找到“下一步”按钮。</value>
+    <value>按下“领取奖励”，然后找到“下一步”按钮。</value>
   </data>
   <data name="Repair_Conquest_LOBBY_INFINITE" xml:space="preserve">
     <value>导航到征服菜单并找到“无限”大厅。</value>
@@ -529,37 +529,41 @@
     <value>在征服菜单中，找到“黄金”大厅。</value>
   </data>
   <data name="Repair_Conquest_LOBBY_SILVER" xml:space="preserve">
-    <value>在征服菜单中，找到“银”大厅。</value>
+    <value>在征服菜单中，找到“白银”大厅。</value>
   </data>
   <data name="Repair_Conquest_LOBBY_PG" xml:space="preserve">
-    <value>在征服菜单中，找到“试验场”大厅。</value>
+    <value>在征服菜单中，找到“试炼之地”大厅。</value>
   </data>
   <data name="Repair_Conquest_NO_TICKETS" xml:space="preserve">
-    <value>找出任何没有可用票证的大厅。</value>
+    <value>找出任何没有可用票的大厅。</value>
   </data>
   <data name="Repair_Conquest_BTN_PLAY" xml:space="preserve">
-    <value>进入“试验场”大厅并找到“播放”按钮。</value>
+    <value>进入“试炼之地”大厅并找到“开战”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_CONCEDE" xml:space="preserve">
-    <value>完成一轮后，找到“认输”按钮。</value>
+    <value>完成一轮后，找到“放弃”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_MATCH_END" xml:space="preserve">
     <value>完成最后一轮后，找到“下一步”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_MATCH_END_NEXT" xml:space="preserve">
-    <value>在收集奖励时，找到“下一步”按钮。</value>
+    <value>在领取奖励时，找到“下一步”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_WIN_NEXT" xml:space="preserve">
     <value>赢得比赛并返回征服菜单后，找到“下一步”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_WIN_TICKET" xml:space="preserve">
-    <value>赢得比赛并返回征服菜单后，找到“领取门票”按钮。</value>
+    <value>赢得比赛并返回征服菜单后，找到“领取奖励”按钮。</value>
   </data>
   <data name="Error_SnapNotRunning" xml:space="preserve">
     <value>SnapCN.exe 没有运行！</value>
   </data>
   <data name="Update_NewVersion" xml:space="preserve">
     <value>*** %VALUE% 版本已上线！输入 [0] 打开 GitHub 下载页面 ***</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="InitialSetup_Language_Option1" type="System.Resources.ResXNullRef, System.Windows.Forms">
+    <value />
   </data>
   <data name="InitialSetup_Language_BoosterBot" xml:space="preserve">
     <value>选择 BoosterBot 的首选语言：</value>
@@ -572,11 +576,5 @@
   </data>
   <data name="InitialSetup_Language_Option3" xml:space="preserve">
     <value>[3] 其他</value>
-  </data>
-  <data name="Conquest_Log_LobbyReset" xml:space="preserve">
-    <value>重置大厅 UI 以避免检测点错位……</value>
-  </data>
-  <data name="Repair_Conquest_LOBBY_NOTE" xml:space="preserve">
-    <value>注意：切换大厅时，请确保大厅标题居中后再确认。（按 [1] 查看示例图像。）</value>
   </data>
 </root>
