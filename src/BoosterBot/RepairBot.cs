@@ -37,45 +37,45 @@ namespace BoosterBot
             if (mode == 2) // Ladder
                 prompts =
                 [
-                    new(Strings.Repair_Ladder_BTN_PLAY, [_maps.REF_LADD_BTN_PLAY], _game.CanIdentifyMainMenu),
-                    new(Strings.Repair_Ladder_BTN_MATCHMAKING, [_maps.REF_LADD_BTN_MATCHMAKING_1], _game.CanIdentifyLadderMatchmaking),
-                    new(Strings.Repair_Ladder_BTN_RETREAT, [_maps.REF_LADD_BTN_RETREAT], _game.CanIdentifyLadderRetreatBtn),
-                    new(Strings.Repair_Match_ZERO_ENERGY, [_maps.REF_ICON_ZERO_ENERGY], _game.CanIdentifyZeroEnergy),
-                    new(Strings.Repair_Match_END_TURN, [_maps.REF_CONQ_BTN_END_TURN], _game.CanIdentifyEndTurnBtn),
-                    new(Strings.Repair_Match_UNDO, [_maps.REF_CONQ_BTN_WAITING_1], _game.CanIdentifyMidTurn),
+                    new(Strings.Repair_Ladder_BTN_PLAY, [_maps.REF_LADD_BTN_PLAY], [_game.CanIdentifyMainMenu]),
+                    new(Strings.Repair_Ladder_BTN_MATCHMAKING, [_maps.REF_LADD_BTN_MATCHMAKING_1], [() => _game.CanIdentifyLadderMatchmaking()]),
+                    new(Strings.Repair_Ladder_BTN_RETREAT, [_maps.REF_LADD_BTN_RETREAT], [() => _game.CanIdentifyLadderRetreatBtn()]),
+                    new(Strings.Repair_Match_ZERO_ENERGY, [_maps.REF_ICON_ZERO_ENERGY], [_game.CanIdentifyZeroEnergy]),
+                    new(Strings.Repair_Match_END_TURN, [_maps.REF_CONQ_BTN_END_TURN], [() => _game.CanIdentifyEndTurnBtn()]),
+                    new(Strings.Repair_Match_UNDO, [_maps.REF_CONQ_BTN_WAITING_1], [() => _game.CanIdentifyMidTurn()]),
                     new(Strings.Repair_Match_BTN_WAITING_1 + Environment.NewLine +
                         Strings.Repair_Match_BTN_WAITING_2 + Environment.NewLine + 
                         "    " + Strings.Repair_Match_BTN_WAITING_3 + Environment.NewLine +
-                        "    " + Strings.Repair_Match_BTN_WAITING_4, [_maps.REF_CONQ_BTN_WAITING_2], _game.CanIdentifyMidTurn),
-                    new(Strings.Repair_Match_BTN_PLAYING, [_maps.REF_CONQ_BTN_PLAYING], _game.CanIdentifyMidTurn),
+                        "    " + Strings.Repair_Match_BTN_WAITING_4, [_maps.REF_CONQ_BTN_WAITING_2], [() => _game.CanIdentifyMidTurn()]),
+                    new(Strings.Repair_Match_BTN_PLAYING, [_maps.REF_CONQ_BTN_PLAYING], [() => _game.CanIdentifyMidTurn()]),
                     new(Strings.Repair_Match_RECONNECT_1 + Environment.NewLine +
-                        Strings.Repair_Match_RECONNECT_2, [_maps.REF_BTN_RECONNECT_TO_GAME], _game.CanIdentifyReconnectToGameBtn),
-                    new(Strings.Repair_Ladder_BTN_COLLECT_REWARDS, [_maps.REF_LADD_BTN_COLLECT_REWARDS], _game.CanIdentifyLadderCollectRewardsBtn),
-                    new(Strings.Repair_Match_END_NEXT, [_maps.REF_LADD_BTN_MATCH_END_NEXT], _game.CanIdentifyLadderMatchEndNextBtn)
+                        Strings.Repair_Match_RECONNECT_2, [_maps.REF_BTN_RECONNECT_TO_GAME], [_game.CanIdentifyReconnectToGameBtn]),
+                    new(Strings.Repair_Ladder_BTN_COLLECT_REWARDS, [_maps.REF_LADD_BTN_COLLECT_REWARDS], [() => _game.CanIdentifyLadderCollectRewardsBtn()]),
+                    new(Strings.Repair_Match_END_NEXT, [_maps.REF_LADD_BTN_MATCH_END_NEXT], [() => _game.CanIdentifyLadderMatchEndNextBtn()])
                 ];
             else if (mode == 1) // Conquest
                 prompts =
                 [
-                    new(Strings.Repair_Ladder_BTN_PLAY, [_maps.REF_CONQ_BTN_PLAY], _game.CanIdentifyMainMenu),
-                    new(Strings.Repair_Conquest_LOBBY_INFINITE, [_maps.REF_CONQ_LBL_LOBBY_INFINITE_1, _maps.REF_CONQ_LBL_LOBBY_INFINITE_3], _game.CanIdentifyConquestLobbyInfinite),
-                    new(Strings.Repair_Conquest_LOBBY_GOLD, [_maps.REF_CONQ_LBL_LOBBY_GOLD_1, _maps.REF_CONQ_LBL_LOBBY_GOLD_3], _game.CanIdentifyConquestLobbyGold),
-                    new(Strings.Repair_Conquest_LOBBY_SILVER, [_maps.REF_CONQ_LBL_LOBBY_SILVER_1, _maps.REF_CONQ_LBL_LOBBY_SILVER_3], _game.CanIdentifyConquestLobbySilver),
-                    new(Strings.Repair_Conquest_LOBBY_PG, [_maps.REF_CONQ_LBL_LOBBY_PG_1, _maps.REF_CONQ_LBL_LOBBY_PG_2, _maps.REF_CONQ_LBL_ENTRANCE_FEE], _game.CanIdentifyConquestLobbyPG),
-                    new(Strings.Repair_Conquest_NO_TICKETS, [_maps.REF_CONQ_LBL_NO_TICKETS], _game.CanIdentifyConquestNoTickets),
-                    new(Strings.Repair_Conquest_BTN_PLAY, [_maps.REF_CONQ_BTN_PLAY], _game.CanIdentifyConquestPlayBtn),
-                    new(Strings.Repair_Ladder_BTN_MATCHMAKING, [_maps.REF_CONQ_BTN_MATCHMAKING_1], _game.CanIdentifyConquestMatchmaking),
-                    new(Strings.Repair_Ladder_BTN_RETREAT, [_maps.REF_CONQ_BTN_RETREAT_1], _game.CanIdentifyConquestRetreatBtn),
-                    new(Strings.Repair_Match_ZERO_ENERGY, [_maps.REF_ICON_ZERO_ENERGY], _game.CanIdentifyZeroEnergy),
-                    new(Strings.Repair_Match_END_TURN, [_maps.REF_CONQ_BTN_END_TURN], _game.CanIdentifyEndTurnBtn),
-                    new(Strings.Repair_Match_UNDO, [_maps.REF_CONQ_BTN_WAITING_1], _game.CanIdentifyMidTurn),
-                    new(Strings.Repair_Match_BTN_PLAYING, [_maps.REF_CONQ_BTN_PLAYING], _game.CanIdentifyMidTurn),
+                    new(Strings.Repair_Ladder_BTN_PLAY, [_maps.REF_LADD_BTN_PLAY], [_game.CanIdentifyMainMenu]),
+                    new(Strings.Repair_Conquest_LOBBY_INFINITE, [_maps.REF_CONQ_LBL_LOBBY_INFINITE_1], [() => _game.CanIdentifyConquestLobbyInfinite(false)]),
+                    new(Strings.Repair_Conquest_LOBBY_GOLD, [_maps.REF_CONQ_LBL_LOBBY_GOLD_1], [() => _game.CanIdentifyConquestLobbyGold(false)]),
+                    new(Strings.Repair_Conquest_LOBBY_SILVER, [_maps.REF_CONQ_LBL_LOBBY_SILVER_1], [() => _game.CanIdentifyConquestLobbySilver(false)]),
+                    new(Strings.Repair_Conquest_LOBBY_PG, [_maps.REF_CONQ_LBL_LOBBY_PG_1, _maps.REF_CONQ_LBL_ENTRANCE_FEE], [() => _game.CanIdentifyConquestLobbyPG(false), () => _game.CanIdentifyConquestEntranceFee(false)]),
+                    new(Strings.Repair_Conquest_NO_TICKETS, [_maps.REF_CONQ_LBL_NO_TICKETS], [_game.CanIdentifyConquestNoTickets]),
+                    new(Strings.Repair_Conquest_BTN_PLAY, [_maps.REF_CONQ_BTN_PLAY], [_game.CanIdentifyConquestPlayBtn]),
+                    new(Strings.Repair_Ladder_BTN_MATCHMAKING, [_maps.REF_CONQ_BTN_MATCHMAKING_1], [() => _game.CanIdentifyConquestMatchmaking()]),
+                    new(Strings.Repair_Ladder_BTN_RETREAT, [_maps.REF_CONQ_BTN_RETREAT_1], [() => _game.CanIdentifyConquestRetreatBtn()]),
+                    new(Strings.Repair_Match_ZERO_ENERGY, [_maps.REF_ICON_ZERO_ENERGY], [_game.CanIdentifyZeroEnergy]),
+                    new(Strings.Repair_Match_END_TURN, [_maps.REF_CONQ_BTN_END_TURN], [() => _game.CanIdentifyEndTurnBtn()]),
+                    new(Strings.Repair_Match_UNDO, [_maps.REF_CONQ_BTN_WAITING_1], [() => _game.CanIdentifyMidTurn()]),
+                    new(Strings.Repair_Match_BTN_PLAYING, [_maps.REF_CONQ_BTN_PLAYING], [() => _game.CanIdentifyMidTurn()]),
                     new(Strings.Repair_Match_RECONNECT_1 + Environment.NewLine +
-                        Strings.Repair_Match_RECONNECT_2, [_maps.REF_BTN_RECONNECT_TO_GAME], _game.CanIdentifyReconnectToGameBtn),
-                    new(Strings.Repair_Conquest_BTN_CONCEDE, [_maps.REF_CONQ_BTN_CONCEDE_1], _game.CanIdentifyConquestConcede),
-                    new(Strings.Repair_Conquest_BTN_MATCH_END, [_maps.REF_CONQ_BTN_MATCH_END_1], _game.CanIdentifyConquestMatchEndNext1),
-                    new(Strings.Repair_Conquest_BTN_MATCH_END_NEXT, [_maps.REF_CONQ_BTN_MATCH_END_2], _game.CanIdentifyConquestMatchEndNext2),
-                    new(Strings.Repair_Conquest_BTN_WIN_NEXT, [_maps.REF_CONQ_BTN_WIN_NEXT], _game.CanIdentifyConquestWinNext),
-                    new(Strings.Repair_Conquest_BTN_WIN_TICKET, [_maps.REF_CONQ_BTN_WIN_TICKET], _game.CanIdentifyConquestTicketClaim),
+                        Strings.Repair_Match_RECONNECT_2, [_maps.REF_BTN_RECONNECT_TO_GAME], [_game.CanIdentifyReconnectToGameBtn]),
+                    new(Strings.Repair_Conquest_BTN_CONCEDE, [_maps.REF_CONQ_BTN_CONCEDE_1], [() => _game.CanIdentifyConquestConcede()]),
+                    new(Strings.Repair_Conquest_BTN_MATCH_END, [_maps.REF_CONQ_BTN_MATCH_END_1], [() => _game.CanIdentifyConquestMatchEndNext1()]),
+                    new(Strings.Repair_Conquest_BTN_MATCH_END_NEXT, [_maps.REF_CONQ_BTN_MATCH_END_2], [() => _game.CanIdentifyConquestMatchEndNext2()]),
+                    new(Strings.Repair_Conquest_BTN_WIN_NEXT, [_maps.REF_CONQ_BTN_WIN_NEXT], [_game.CanIdentifyConquestWinNext]),
+                    new(Strings.Repair_Conquest_BTN_WIN_TICKET, [_maps.REF_CONQ_BTN_WIN_TICKET], [() => _game.CanIdentifyConquestTicketClaim()]),
                     // new("After losing a match and returning to the Conquest menu, identify the 'Continue' button.", [ComponentMappings.REF_CONQ_BTN_CONTINUE], _game.CanIdentifyConquestLossContinue)
                 ];
 
@@ -237,7 +237,8 @@ namespace BoosterBot
                 _config.GetWindowPositions();
 
                 // Run the relevant CanIdentify method to crop an updated reference image
-                prompt.Identify();
+                foreach (var func in prompt.IdentifyFuncs)
+                    func();
 
                 // Copy the captured image to the reference directory
                 foreach (var file in prompt.Files)

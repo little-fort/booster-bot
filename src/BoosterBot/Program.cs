@@ -109,8 +109,11 @@ internal class Program
                         break;
                 }
 
-        /*try
-        {*/
+        try
+        {
+            if (!Directory.Exists("screens"))
+                Directory.CreateDirectory("screens");
+
             if (!Directory.Exists("logs"))
                 Directory.CreateDirectory("logs");
             else
@@ -123,9 +126,6 @@ internal class Program
 
                 // Check for updates
                 _updateAvailable = await UpdateChecker.CheckForUpdates();
-
-                if (!Directory.Exists("screens"))
-                    Directory.CreateDirectory("screens");
 
                 // Parse values configured in appsettings.json (if they exist)
                 verbose ??= bool.Parse(_configuration["verboseLogs"] ?? "false");
@@ -214,7 +214,7 @@ internal class Program
 
                 process.Start();
             }
-        /*}
+        }
         catch (Exception ex)
         {
             var log = $"logs\\startup-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
@@ -222,7 +222,7 @@ internal class Program
             Logger.Log(_localizer, ex.Message, log, true);
             Console.WriteLine();
             Logger.Log(_localizer, ex.StackTrace, log, true);
-        }*/
+        }
     }
 
     internal static void PrintTitle()
