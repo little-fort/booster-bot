@@ -57,10 +57,10 @@ namespace BoosterBot
                 prompts =
                 [
                     new(Strings.Repair_Ladder_BTN_PLAY, [_maps.REF_LADD_BTN_PLAY], [_game.CanIdentifyMainMenu]),
-                    new(Strings.Repair_Conquest_LOBBY_INFINITE, [_maps.REF_CONQ_LBL_LOBBY_INFINITE_1], [() => _game.CanIdentifyConquestLobbyInfinite(false)]),
-                    new(Strings.Repair_Conquest_LOBBY_GOLD, [_maps.REF_CONQ_LBL_LOBBY_GOLD_1], [() => _game.CanIdentifyConquestLobbyGold(false)]),
-                    new(Strings.Repair_Conquest_LOBBY_SILVER, [_maps.REF_CONQ_LBL_LOBBY_SILVER_1], [() => _game.CanIdentifyConquestLobbySilver(false)]),
-                    new(Strings.Repair_Conquest_LOBBY_PG, [_maps.REF_CONQ_LBL_LOBBY_PG_1, _maps.REF_CONQ_LBL_ENTRANCE_FEE], [() => _game.CanIdentifyConquestLobbyPG(false), () => _game.CanIdentifyConquestEntranceFee(false)]),
+                    new(Strings.Repair_Conquest_LOBBY_INFINITE, [_maps.REF_CONQ_LBL_LOBBY_INFINITE_1, _maps.REF_CONQ_LBL_LOBBY_INFINITE_4], [() => _game.CanIdentifyConquestLobbyInfinite(false)]),
+                    new(Strings.Repair_Conquest_LOBBY_GOLD, [_maps.REF_CONQ_LBL_LOBBY_GOLD_1, _maps.REF_CONQ_LBL_LOBBY_GOLD_4], [() => _game.CanIdentifyConquestLobbyGold(false)]),
+                    new(Strings.Repair_Conquest_LOBBY_SILVER, [_maps.REF_CONQ_LBL_LOBBY_SILVER_1, _maps.REF_CONQ_LBL_LOBBY_SILVER_4], [() => _game.CanIdentifyConquestLobbySilver(false)]),
+                    new(Strings.Repair_Conquest_LOBBY_PG, [_maps.REF_CONQ_LBL_LOBBY_PG_1, _maps.REF_CONQ_LBL_LOBBY_PG_3, _maps.REF_CONQ_LBL_ENTRANCE_FEE], [() => _game.CanIdentifyConquestLobbyPG(false), () => _game.CanIdentifyConquestEntranceFee(false)]),
                     new(Strings.Repair_Conquest_NO_TICKETS, [_maps.REF_CONQ_LBL_NO_TICKETS], [_game.CanIdentifyConquestNoTickets]),
                     new(Strings.Repair_Conquest_BTN_PLAY, [_maps.REF_CONQ_BTN_PLAY], [_game.CanIdentifyConquestPlayBtn]),
                     new(Strings.Repair_Ladder_BTN_MATCHMAKING, [_maps.REF_CONQ_BTN_MATCHMAKING_1], [() => _game.CanIdentifyConquestMatchmaking()]),

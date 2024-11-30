@@ -21,15 +21,19 @@ namespace BoosterBot
         public string REF_CONQ_LBL_NO_TICKETS { get => $"reference\\{_culture}\\lbl-conquest-no-tickets-preproc.png"; }
         public string REF_CONQ_LBL_LOBBY_PG_1 { get => $"reference\\{_culture}\\lbl-conquest-pg-1-preproc.png"; }
         public string REF_CONQ_LBL_LOBBY_PG_2 { get => $"reference\\{_culture}\\lbl-conquest-pg-2-preproc.png"; }
-        public string REF_CONQ_LBL_LOBBY_SILVER_1 { get => $"reference\\{_culture}\\lbl-conquest-silver-1-preproc.png"; }
-        public string REF_CONQ_LBL_LOBBY_SILVER_2 { get => $"reference\\{_culture}\\lbl-conquest-silver-2-preproc.png"; }
-        public string REF_CONQ_LBL_LOBBY_SILVER_3 { get => $"reference\\{_culture}\\lbl-conquest-silver-3-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_PG_3 { get => $"reference\\{_culture}\\lbl-conquest-pg-3-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_SILVER_1 { get => $"reference\\{_culture}\\lbl-conquest-silver-1-preproc.png"; } // The default "Silver Conquest" label on the lobby entrance screen
+        public string REF_CONQ_LBL_LOBBY_SILVER_2 { get => $"reference\\{_culture}\\lbl-conquest-silver-2-preproc.png"; } // The off-center "Silver Conquest" label that has been shifted by a UI bug
+        public string REF_CONQ_LBL_LOBBY_SILVER_3 { get => $"reference\\{_culture}\\lbl-conquest-silver-3-preproc.png"; } // The in-lobby "Silver" banner that appears after starting a run
+        public string REF_CONQ_LBL_LOBBY_SILVER_4 { get => $"reference\\{_culture}\\lbl-conquest-silver-4-preproc.png"; } // The "1 Gold Ticket" reward label on the lobby entrance screen
         public string REF_CONQ_LBL_LOBBY_GOLD_1 { get => $"reference\\{_culture}\\lbl-conquest-gold-1-preproc.png"; }
         public string REF_CONQ_LBL_LOBBY_GOLD_2 { get => $"reference\\{_culture}\\lbl-conquest-gold-2-preproc.png"; }
         public string REF_CONQ_LBL_LOBBY_GOLD_3 { get => $"reference\\{_culture}\\lbl-conquest-gold-3-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_GOLD_4 { get => $"reference\\{_culture}\\lbl-conquest-gold-4-preproc.png"; }
         public string REF_CONQ_LBL_LOBBY_INFINITE_1 { get => $"reference\\{_culture}\\lbl-conquest-infinite-1-preproc.png"; }
         public string REF_CONQ_LBL_LOBBY_INFINITE_2 { get => $"reference\\{_culture}\\lbl-conquest-infinite-2-preproc.png"; }
         public string REF_CONQ_LBL_LOBBY_INFINITE_3 { get => $"reference\\{_culture}\\lbl-conquest-infinite-3-preproc.png"; }
+        public string REF_CONQ_LBL_LOBBY_INFINITE_4 { get => $"reference\\{_culture}\\lbl-conquest-infinite-4-preproc.png"; }
         public string REF_CONQ_BTN_MATCHMAKING_1 { get => $"reference\\{_culture}\\btn-conquest-matchmaking-cancel-1-preproc.png"; }
         public string REF_CONQ_BTN_MATCHMAKING_2 { get => $"reference\\{_culture}\\btn-conquest-matchmaking-cancel-2-preproc.png"; }
         public string REF_CONQ_BTN_RETREAT_1 { get => $"reference\\{_culture}\\btn-conquest-retreat-preproc.png"; }
@@ -114,6 +118,14 @@ namespace BoosterBot
             Right = _config.Center + 120,
             Top = 135,
             Bottom = 160
+        };
+
+        public Rect GetConquestLobbyRewardCrop() => new()
+        {
+            Left = _config.Center + 95,
+            Right = _config.Center + 195,
+            Top = 465,
+            Bottom = 485
         };
 
         public Rect GetConquestOwnedTicketsIcon() => new()

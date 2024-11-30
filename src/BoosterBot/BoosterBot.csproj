@@ -191,6 +191,18 @@
 		<None Update="reference\en\lbl-conquest-gold-3-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\en\lbl-conquest-gold-4-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\en\lbl-conquest-infinite-4-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\en\lbl-conquest-pg-3-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\en\lbl-conquest-silver-4-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\lbl-conquest-gold-preproc.png">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
@@ -329,6 +341,9 @@
 		<None Update="reference\zh\lbl-conquest-gold-3-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\zh\lbl-conquest-gold-4-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\zh\lbl-conquest-infinite-1-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -336,6 +351,9 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\zh\lbl-conquest-infinite-3-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-infinite-4-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\zh\lbl-conquest-no-tickets-preproc.png">
@@ -347,6 +365,9 @@
 		<None Update="reference\zh\lbl-conquest-pg-2-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\zh\lbl-conquest-pg-3-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\zh\lbl-conquest-silver-1-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
@@ -354,6 +375,9 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\zh\lbl-conquest-silver-3-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\lbl-conquest-silver-4-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\zh\lbl-energy-zero-preproc.png">

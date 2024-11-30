@@ -256,12 +256,14 @@ namespace BoosterBot
 
         public IdentificationResult CanIdentifyConquestLobbyPG(bool returnFirstFound = true)
             => CheckMultipleSimilarities(returnFirstFound,
+                    (_mappings.GetConquestLobbyRewardCrop, _mappings.REF_CONQ_LBL_LOBBY_PG_3, _defaultConfidence),
                     (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_PG_1, _defaultConfidence),
                     (_mappings.GetConquestBannerCrop, _mappings.REF_CONQ_LBL_LOBBY_PG_2, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyConquestLobbySilver(bool returnFirstFound = true)
             => CheckMultipleSimilarities(returnFirstFound,
+                    (_mappings.GetConquestLobbyRewardCrop, _mappings.REF_CONQ_LBL_LOBBY_SILVER_4, _defaultConfidence),
                     (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_SILVER_1, _defaultConfidence),
                     (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_SILVER_2, _defaultConfidence),
                     (_mappings.GetConquestBannerCrop, _mappings.REF_CONQ_LBL_LOBBY_SILVER_3, _defaultConfidence)
@@ -269,6 +271,7 @@ namespace BoosterBot
 
         public IdentificationResult CanIdentifyConquestLobbyGold(bool returnFirstFound = true)
             => CheckMultipleSimilarities(returnFirstFound,
+                    (_mappings.GetConquestLobbyRewardCrop, _mappings.REF_CONQ_LBL_LOBBY_GOLD_4, _defaultConfidence),
                     (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_GOLD_1, _defaultConfidence),
                     (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_GOLD_2, _defaultConfidence),
                     (_mappings.GetConquestBannerCrop, _mappings.REF_CONQ_LBL_LOBBY_GOLD_3, _defaultConfidence)
@@ -276,6 +279,7 @@ namespace BoosterBot
 
         public IdentificationResult CanIdentifyConquestLobbyInfinite(bool returnFirstFound = true)
             => CheckMultipleSimilarities(returnFirstFound,
+                    (_mappings.GetConquestLobbyRewardCrop, _mappings.REF_CONQ_LBL_LOBBY_INFINITE_4, _defaultConfidence),
                     (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_INFINITE_1, _defaultConfidence),
                     (_mappings.GetConquestLobbySelection, _mappings.REF_CONQ_LBL_LOBBY_INFINITE_2, _defaultConfidence),
                     (_mappings.GetConquestBannerCrop, _mappings.REF_CONQ_LBL_LOBBY_INFINITE_3, _defaultConfidence)
