@@ -160,6 +160,15 @@ namespace BoosterBot.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resetting lobby UI to avoid misaligned detection points....
+        /// </summary>
+        internal static string Conquest_Log_LobbyReset {
+            get {
+                return ResourceManager.GetString("Conquest_Log_LobbyReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attempting to concede match....
         /// </summary>
         internal static string Conquest_Log_Match_Concede {
@@ -1164,6 +1173,15 @@ namespace BoosterBot.Resources {
         internal static string Repair_Conquest_LOBBY_INFINITE {
             get {
                 return ResourceManager.GetString("Repair_Conquest_LOBBY_INFINITE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NOTE: When switching lobbies, make sure the lobby title is centered before confirming. (Press [1] to see example image.).
+        /// </summary>
+        internal static string Repair_Conquest_LOBBY_NOTE {
+            get {
+                return ResourceManager.GetString("Repair_Conquest_LOBBY_NOTE", resourceCulture);
             }
         }
         

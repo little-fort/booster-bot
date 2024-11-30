@@ -222,6 +222,20 @@ namespace BoosterBot
             Thread.Sleep(5000);
             var lobbyConfirmed = false;
 
+            // Start by scrolling all the way to the right to avoid UI bug that shifts detection points
+            Log("Conquest_Log_LobbyReset");
+            for (int x = 0; x < 5; x++)
+            {
+                var vertCenter = (_config.Window.Bottom - _config.Window.Top) / 2;
+                SystemUtilities.Drag(
+                    startX: _config.Window.Left + _config.Center + _config.Scale(250),
+                    startY: _config.Window.Top + vertCenter,
+                    endX: _config.Window.Left + _config.Center - _config.Scale(250),
+                    endY: _config.Window.Top + vertCenter
+                );
+                Thread.Sleep(2000);
+            }
+
             Log("Conquest_Log_Menu_LobbyChoice", replace: [new("%VALUE%", _maxTier.ToString())]);
             for (int x = 0; x < 6 && !lobbyConfirmed; x++)
             {
