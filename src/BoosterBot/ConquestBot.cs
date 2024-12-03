@@ -1,88 +1,98 @@
-﻿using BoosterBot.Helpers;
-using BoosterBot.Models;
-using BoosterBot.Resources;
-using System.Diagnostics;
+using BoosterBot.Helpers; // 引入辅助工具类
+using BoosterBot.Models;  // 引入模型类
+using BoosterBot.Resources; // 引入资源类
+using System.Diagnostics; // 引入调试工具
 
 namespace BoosterBot
 {
+    // 定义一个内部类ConquestBot，继承自BaseBot
     internal class ConquestBot : BaseBot
     {
+        // 定义一个只读变量_maxTier，表示最高等级状态
         private readonly GameState _maxTier;
 
+        // 构造函数，接收配置参数、撤退次数和最高等级
         public ConquestBot(BotConfig config, int retreat, GameState maxTier) : base(config, retreat)
         {
             _maxTier = maxTier;
+            // 调试方法
             // Debug();
         }
 
+        // 调试模式，用于实时显示窗口位置和游戏状态
         public void Debug()
         {
-            Console.WriteLine("************** DEBUG MODE **************\n");
+            Console.WriteLine("************** DEBUG MODE **************\\n");
             while (true)
             {
                 try
                 {
+                    // 获取窗口位置，记录当前游戏状态日志
                     _config.GetWindowPositions();
 
                     var print = _game.LogConquestGameState();
                     Console.Clear();
                     Console.WriteLine(DateTime.Now);
 
-                    foreach (var line in print.Logs) Console.WriteLine(line);
-                    foreach (var line in print.Results) Console.WriteLine(line);
+                    foreach (var line in print.Logs) Console.WriteLine(line); // 输出日志
+                    foreach (var line in print.Results) Console.WriteLine(line); // 输出结果
 
                     Console.WriteLine();
 
+                    // 倒计时显示，提示下一次扫描
                     for (int i = 4; i >= 0; i--)
                         for (int x = 9; x >= 0; x--)
                         {
                             var text = $"Re-scanning window contents in {i}.{x} seconds...";
 
-                            // Move cursor to the beginning of the last line
+                            // 将光标移动到最后一行的开头
                             Console.SetCursorPosition(0, Console.CursorTop);
 
-                            // Write the new content (and clear the rest of the line if the new content is shorter)
+                            // 写入新内容
                             Console.Write(text + new string(' ', Console.WindowWidth - text.Length - 1));
 
                             Thread.Sleep(100);
                         }
 
+                    // 提示重新扫描窗口内容
                     var txt = $"Re-scanning window contents...";
                     Console.SetCursorPosition(0, Console.CursorTop);
                     Console.Write(txt + new string(' ', Console.WindowWidth - txt.Length - 1));
                 }
                 catch (Exception ex)
                 {
+                    // 捕获异常并输出错误信息
                     Console.WriteLine($"{Strings.Log_Error} {ex.Message}");
                     Thread.Sleep(5000);
                 }
             }
         }
 
+        // 主运行逻辑
         public override void Run()
         {
-            Log("Conquest_Log_Start");
-            var attempts = 0;
+            Log("Conquest_Log_Start"); // 记录日志
+            var attempts = 0; // 初始化尝试次数
 
             while (true)
             {
                 attempts++;
 
-                _config.GetWindowPositions();
-                _game.ResetClick();
-                _game.ResetMenu();
-                _game.ResetClick();
+                _config.GetWindowPositions(); // 获取窗口位置
+                _game.ResetClick(); // 重置点击
+                _game.ResetMenu(); // 重置菜单
+                _game.ResetClick(); // 重置点击
 
-                Thread.Sleep(500);
+                Thread.Sleep(500); // 等待
 
                 _config.GetWindowPositions();
-                var onMenu = Check(_game.CanIdentifyMainMenu);
+                var onMenu = Check(_game.CanIdentifyMainMenu); // 检查是否在主菜单
                 if (onMenu)
                 {
                     Log("Conquest_Log_Menu_Main");
-                    NavigateToGameModes();
-                    NavigateToConquestMenu();
-                    RunMatchLoop();
+                    NavigateToGameModes(); // 导航到游戏模式菜单
+                    NavigateToConquestMenu(); // 导航到征服菜单
+                    RunMatchLoop(); // 运行比赛循环
                 }
                 else
                 {
@@ -95,14 +105,15 @@ namespace BoosterBot
                     else
                     {
                         attempts = 0;
-                        DetermineLoopEntryPoint();
+                        DetermineLoopEntryPoint(); // 确定循环入口点
                     }
                 }
             }
         }
 
+        // 导航到游戏模式菜单
         private void NavigateToGameModes()
-        {   
+        {
             Log("Conquest_Log_Menu_GameModes");
             SystemUtilities.Click(_config.GameModesPoint);
             Thread.Sleep(1000);
@@ -110,6 +121,7 @@ namespace BoosterBot
             Thread.Sleep(2500);
         }
 
+        // 导航到征服菜单
         private void NavigateToConquestMenu()
         {
             Log("Conquest_Log_Menu");
@@ -121,10 +133,11 @@ namespace BoosterBot
             }
         }
 
+        // 确定循环入口点
         private bool DetermineLoopEntryPoint(int attempts = 0)
         {
             Log("Log_LoopEntryPoint");
-            var state = _game.DetermineConquestGameState();
+            var state = _game.DetermineConquestGameState(); // 确定当前游戏状态
 
             switch (state)
             {
@@ -136,7 +149,7 @@ namespace BoosterBot
                     Log("Log_DetectedReconnect");
                     _game.ClickPlay();
                     Thread.Sleep(4000);
-                    return PlayMatch();
+                    return PlayMatch(); // 开始比赛
                 case GameState.MID_MATCH:
                     Log("Log_DetectedActiveMatch");
                     return PlayMatch();
@@ -145,85 +158,94 @@ namespace BoosterBot
                 case GameState.CONQUEST_LOBBY_GOLD:
                 case GameState.CONQUEST_LOBBY_INFINITE:
                     Log("Conquest_Log_DetectedLobby");
-                    SelectLobby();
-                    return StartMatch();
+                    SelectLobby(); // 选择大厅
+                    return StartMatch(); // 开始比赛
                 case GameState.CONQUEST_PREMATCH:
                     Log("Conquest_Log_DetectedPrematch");
                     return StartMatch();
                 case GameState.CONQUEST_MATCHMAKING:
                     Log("Log_DetectedMatchmaking");
-                    return WaitForMatchmaking();
+                    return WaitForMatchmaking(); // 等待匹配
                 case GameState.CONQUEST_MATCH:
                     Log("Conquest_Log_DetectedActiveMatch");
                     return PlayMatch();
                 case GameState.CONQUEST_ROUND_END:
                     Log("Conquest_Log_DetectedRoundEnd");
-                    return ProgressRound();
+                    return ProgressRound(); // 进行下一回合
                 case GameState.CONQUEST_MATCH_END:
                 case GameState.CONQUEST_MATCH_END_REWARDS:
                     Log("Conquest_Log_DetectedMatchEnd");
-                    return ExitMatch();
+                    return ExitMatch(); // 退出比赛
                 case GameState.CONQUEST_POSTMATCH_LOSS_SCREEN:
                 case GameState.CONQUEST_POSTMATCH_WIN_CONTINUE:
                 case GameState.CONQUEST_POSTMATCH_WIN_TICKET:
                     Log("Conquest_Log_PostMatch");
-                    return AcceptResult();
+                    return AcceptResult(); // 接受结果
                 default:
                     if (attempts < 5)
                     {
                         _game.BlindReset();
-                        return DetermineLoopEntryPoint(attempts + 1);
+                        return DetermineLoopEntryPoint(attempts + 1); // 再次尝试
                     }
 
                     Log("Log_LostBot");
                     Log("Log_LostBot_Restart");
                     Console.WriteLine();
                     Log("Menu_PressKeyToExit");
-                    Console.ReadKey();
-                    Environment.Exit(0);
+                    Console.ReadKey(); // 等待用户输入
+                    Environment.Exit(0); // 退出程序
                     return false;
             }
         }
 
         private void RunMatchLoop()
         {
-            Log("Log_Match_StartingLoop");
+            // 开始日志记录：进入匹配循环
+	    Log("Log_Match_StartingLoop");
             var run = true;
             while (run)
             {
-                if (!SelectLobby())
+                // 尝试选择大厅，如果失败，跳转到相应的入口点
+		if (!SelectLobby())
                 {
                     DetermineLoopEntryPoint();
                     return;
                 }
 
                 // There is a bug where the Enter button can disappear. Verify it exists before proceeding. If not, reset the menu and try again.
-                Log("Conquest_Log_VerifyEntryButton");
+                // 验证“进入比赛”按钮是否存在，解决按钮消失的潜在问题
+		Log("Conquest_Log_VerifyEntryButton");
                 if (Check(_game.CanIdentifyConquestPlayBtn) || Check(() => _game.CanIdentifyConquestEntranceFee()))
                 {
-                    var success = StartMatch();
+                    // 开始比赛并检查成功状态
+		    var success = StartMatch();
 
-                    if (!success)
+                    // 如果未成功进入比赛，尝试调整入口点
+		    if (!success)
                         success = DetermineLoopEntryPoint();
 
-                    if (!success)
+                    // 如果仍未成功，进行盲重置
+		    if (!success)
                         _game.BlindReset();
                 }
                 else
                 {
-                    _game.BlindReset();
+                    // 如果按钮不存在，盲重置并退出循环
+		    _game.BlindReset();
                     run = false;
                 }
-            }
+            } 
         }
 
         private bool SelectLobby()
         {
-            Thread.Sleep(5000);
+            // 等待加载完成
+	    Thread.Sleep(5000);
             var lobbyConfirmed = false;
 
             // Start by scrolling all the way to the right to avoid UI bug that shifts detection points
-            Log("Conquest_Log_LobbyReset");
+            // 滑动界面，防止 UI 错位导致检测失误
+	    Log("Conquest_Log_LobbyReset");
             for (int x = 0; x < 5; x++)
             {
                 var vertCenter = (_config.Window.Bottom - _config.Window.Top) / 2;
@@ -236,17 +258,20 @@ namespace BoosterBot
                 Thread.Sleep(2000);
             }
 
-            Log("Conquest_Log_Menu_LobbyChoice", replace: [new("%VALUE%", _maxTier.ToString())]);
+             // 循环尝试确认合适的大厅
+	    Log("Conquest_Log_Menu_LobbyChoice", replace: [new("%VALUE%", _maxTier.ToString())]);
             for (int x = 0; x < 6 && !lobbyConfirmed; x++)
             {
                 var selectedTier = _game.DetermineConquestLobbyTier();
                 Log("Conquest_Log_Menu_SelectedTier", replace: [new("%VALUE%", selectedTier.ToString())]);
                 Log("Conquest_Log_Check_Tickets", true);
-                if ((selectedTier <= _maxTier && !Check(_game.CanIdentifyConquestNoTickets)) || selectedTier == GameState.CONQUEST_LOBBY_PG)
+                // 检查是否符合选中大厅的条件
+		if ((selectedTier <= _maxTier && !Check(_game.CanIdentifyConquestNoTickets)) || selectedTier == GameState.CONQUEST_LOBBY_PG)
                     lobbyConfirmed = true;
                 else
                 {
-                    _config.GetWindowPositions();
+                    // 若不符合条件，滑动到其他大厅
+		    _config.GetWindowPositions();
                     var vertCenter = (_config.Window.Bottom - _config.Window.Top) / 2;
                     SystemUtilities.Drag(
                         startX: _config.Window.Left + _config.Center - _config.Scale(250),
@@ -263,69 +288,85 @@ namespace BoosterBot
 
         private bool StartMatch()
         {
-            Log("Conquest_Log_EnteringLobby");
+            // 尝试进入比赛
+	    Log("Conquest_Log_EnteringLobby");
             _game.ClickPlay();
             Thread.Sleep(5000);
 
-            Log("Log_Match_StartNew");
+            // 再次点击确认按钮确保进入比赛
+	    Log("Log_Match_StartNew");
             _game.ClickPlay();
             Thread.Sleep(1000);
             _game.ClickPlay(); // Press a second time just to be sure
             Thread.Sleep(1000);
 
-            Log("Conquest_Log_ConfirmDeck");
+            // 确认选择的牌组
+	    Log("Conquest_Log_ConfirmDeck");
             SystemUtilities.Click(_config.Window.Left + _config.Center + _config.Scale(100), _config.Window.Bottom - _config.Scale(345));
             Thread.Sleep(2000);
 
-            return WaitForMatchmaking();
+             // 等待匹配成功
+	    return WaitForMatchmaking();
         }
 
         private bool WaitForMatchmaking()
         {
-            _config.GetWindowPositions();
+            // 获取窗口位置以更新坐标
+	    _config.GetWindowPositions();
 
-            var mmTimer = new Stopwatch();
+            // 初始化匹配计时器
+	    var mmTimer = new Stopwatch();
             mmTimer.Start();
 
             Log("Log_Check_Matchmaking", true);
-            while (Check(() => _game.CanIdentifyConquestMatchmaking()))
+             // 循环检测是否仍在匹配中
+	    while (Check(() => _game.CanIdentifyConquestMatchmaking()))
             {
-                if (mmTimer.Elapsed.TotalSeconds > 600)
-                {
-                    Log("Log_Check_Matchmaking_Hanged");
+                // 如果匹配时间超过10分钟，视为挂起，取消匹配
+		if (mmTimer.Elapsed.TotalSeconds > 600)
+                { 
+		    Log("Log_Check_Matchmaking_Hanged");
                     _game.ClickCancel();
                     return true;
                 }
 
-                Log("Log_Matchmaking_Waiting", replace: [new("%ELAPSED%", mmTimer.Elapsed.ToString())]);
+                // 每隔5秒检查一次匹配状态
+		Log("Log_Matchmaking_Waiting", replace: [new("%ELAPSED%", mmTimer.Elapsed.ToString())]);
                 Thread.Sleep(5000);
                 _config.GetWindowPositions();
             }
 
-            return PlayMatch();
+            // 匹配成功，进入比赛
+	    return PlayMatch();
         }
 
         private bool PlayMatch()
         {
-            Log("Log_Match_Playing");
+            // 开始日志记录：正在进行比赛
+	    Log("Log_Match_Playing");
             Thread.Sleep(1000);
-            var active = true;
+            // 激活比赛状态
+	    var active = true;
             _game.ClickSnap();
 
-            _matchTimer = new Stopwatch();
+	    // 启动比赛计时器
+	    _matchTimer = new Stopwatch();
             _matchTimer.Start();
 
             var currentTurn = 0;
 
-            while (active && _matchTimer.Elapsed.Minutes < 30)
+            // 主循环，控制比赛逻辑并限制最大比赛时间
+	    while (active && _matchTimer.Elapsed.Minutes < 30)
             {
                 _config.GetWindowPositions();
 
                 Log("Log_Check_ActiveMatch", true);
-                if (!Check(_game.CanIdentifyActiveConquestMatch))
+                // 检查比赛是否仍处于活跃状态
+		if (!Check(_game.CanIdentifyActiveConquestMatch))
                 {
                     var check = false;
-                    for (int x = 1; x < 3 && !check; x++)
+                    // 尝试重新检测比赛状态，最多两次
+		    for (int x = 1; x < 3 && !check; x++)
                     {
                         Log("Log_Check_ActiveMatch_Failed");
                         _config.GetWindowPositions();
@@ -334,11 +375,13 @@ namespace BoosterBot
                         Thread.Sleep(2500);
                     }
 
-                    active = check;
+                    // 如果仍然无法检测到活跃比赛状态，退出比赛循环
+		    active = check;
                 }
                 else
                 {
-                    if (currentTurn++ >= _retreatAfterTurn)
+                    // 如果当前回合数达到设定的回合限制，触发退赛逻辑
+		    if (currentTurn++ >= _retreatAfterTurn)
                     {
                         Log("Log_Match_ReachedTurnLimit", replace: [new("%VALUE%", _retreatAfterTurn.ToString())]);
                         _game.ClickRetreat();
@@ -350,24 +393,28 @@ namespace BoosterBot
 					}
 					else
                     {
-                        Log("Log_Match_PlayingCards", replace: [new("%VALUE%", currentTurn.ToString())]);
+                        // 否则，继续进行比赛逻辑，执行出牌并结束回合
+			Log("Log_Match_PlayingCards", replace: [new("%VALUE%", currentTurn.ToString())]);
                         _game.PlayHand();
                         Thread.Sleep(1000);
 
                         Log("Log_Check_EnergyState", true);
-                        if (!Check(_game.CanIdentifyZeroEnergy))
+                        // 检查是否有剩余能量，如果有，继续出牌
+			if (!Check(_game.CanIdentifyZeroEnergy))
                         {
                             Log("Log_Match_LeftoverEnergy");
                             _game.PlayHand();
                         }
 
-                        Log("Log_Match_EndTurn");
+                        // 结束当前回合
+			Log("Log_Match_EndTurn");
                         _game.ClickNext();
                         Thread.Sleep(1000);
 
                         _config.GetWindowPositions();
 
-                        Log("Log_Check_TurnState", true);
+                        // 等待对方完成回合
+			Log("Log_Check_TurnState", true);
                         while (Check(() => _game.CanIdentifyMidTurn()))
                         {
                             Log("Log_Match_WaitingForTurn");
@@ -380,7 +427,8 @@ namespace BoosterBot
 
             _config.GetWindowPositions();
 
-            Log("Log_Check_RetreatButton", true);
+            // 如果比赛时间超过15分钟且可以退赛，则执行退赛逻辑
+	    Log("Log_Check_RetreatButton", true);
             if (_matchTimer.Elapsed.Minutes > 15 && Check(() => _game.CanIdentifyConquestRetreatBtn()))
             {
                 Log("Conquest_Log_Match_Concede");
@@ -388,11 +436,13 @@ namespace BoosterBot
                 Thread.Sleep(5000);
             }
 
-            Log("Log_Check_Concede", true);
+            // 检查是否需要退赛确认
+	    Log("Log_Check_Concede", true);
             if (Check(() => _game.CanIdentifyConquestConcede()))
                 return ProgressRound();
 
-            Log("Log_Check_MatchEnd", true);
+            // 检查比赛是否结束，若已结束，则退出比赛
+	    Log("Log_Check_MatchEnd", true);
             if (Check(() => _game.CanIdentifyConquestMatchEnd()))
                 return ExitMatch();
 
@@ -401,15 +451,19 @@ namespace BoosterBot
 
         private bool ProgressRound()
         {
-            Log("Conquest_Log_DetectedRoundEnd");
+            // 日志记录：检测到比赛回合结束
+	    Log("Conquest_Log_DetectedRoundEnd");
             _game.ClickNext();
 
-            _config.GetWindowPositions();
+            // 更新窗口位置以适应新的状态
+	    _config.GetWindowPositions();
             var waitTime = 0;
             Log("Log_Check_MatchState", true);
-            while (!Check(_game.CanIdentifyActiveConquestMatch) && !Check(() => _game.CanIdentifyConquestMatchEnd()))
+            // 等待进入下一回合或比赛结束
+	    while (!Check(_game.CanIdentifyActiveConquestMatch) && !Check(() => _game.CanIdentifyConquestMatchEnd()))
             {
-                if (waitTime >= 90000)
+                // 如果等待时间超过90秒，执行盲重置并返回循环入口
+		if (waitTime >= 90000)
                 {
                     Log("Conquest_Log_MaxWaitTimeReached", replace: [new("%VALUE%", "90")]);
                     _game.BlindReset();
@@ -418,74 +472,92 @@ namespace BoosterBot
 
                 Thread.Sleep(3000);
                 waitTime += 3000;
-                _config.GetWindowPositions();
+                // 每次等待周期后刷新窗口位置
+		_config.GetWindowPositions();
             }
 
-            return PlayMatch();
+            // 成功进入下一回合或比赛继续
+	    return PlayMatch();
         }
 
         private bool ExitMatch()
         {
-            Log("Log_Match_Exiting");
-            _config.GetWindowPositions();
+            // 日志记录：退出比赛
+	    Log("Log_Match_Exiting");
+             // 更新窗口位置
+	    _config.GetWindowPositions();
 
-            Log("Log_Check_PostMatchScreen", true);
-            while (Check(() => _game.CanIdentifyConquestMatchEndNext1()) || Check(() => _game.CanIdentifyConquestMatchEndNext2()))
+            // 检查是否处于比赛后屏幕状态
+	    Log("Log_Check_PostMatchScreen", true);
+            // 循环检查比赛后界面是否加载完成，并点击"下一步"按钮
+	    while (Check(() => _game.CanIdentifyConquestMatchEndNext1()) || Check(() => _game.CanIdentifyConquestMatchEndNext2()))
             {
                 _game.ClickNext();
                 Thread.Sleep(4000);
                 _config.GetWindowPositions();
             }
 
-            Log("Conquest_Log_Menu_WaitingPostMatch");
+            // 等待进入比赛后菜单
+	    Log("Conquest_Log_Menu_WaitingPostMatch");
             Thread.Sleep(15000);
 
             var totalSleep = 0;
-            Log("Log_Check_PostMatchScreen", true);
+            // 检查是否已进入比赛后状态
+	    Log("Log_Check_PostMatchScreen", true);
             while (!Check(_game.CanIdentifyConquestLossContinue) && !Check(_game.CanIdentifyConquestWinNext) && !Check(_game.CanIdentifyConquestPlayBtn))
             {
                 Thread.Sleep(2000);
                 totalSleep += 2000;
-                _config.GetWindowPositions();
+                // 更新窗口位置并检查状态
+		_config.GetWindowPositions();
 
                 Log("Conquest_Log_Check_AnyLobby", true);
-                if (totalSleep > 4000 && Check(_game.CanIdentifyAnyConquestLobby))
+                // 如果检测到任何大厅状态，认为成功退出比赛
+		if (totalSleep > 4000 && Check(_game.CanIdentifyAnyConquestLobby))
                 {
                     Log("Conquest_Log_Menu_DetectedLobby");
                     return true;
                 }
 
-                if (totalSleep > 60000)
+                // 如果等待超过60秒，返回循环入口以重新调整状态
+		if (totalSleep > 60000)
                 {
                     Log("Conquest_Log_MaxWaitTimeReached", replace: [new("%VALUE%", "60")]);
                     return DetermineLoopEntryPoint();
                 }
             }
 
-            return AcceptResult();
+            // 如果检测到比赛结果界面，处理相关逻辑
+	    return AcceptResult();
         }
 
         private bool AcceptResult()
         {
-            Log("Conquest_Log_Match_ProcessingPostMatch");
+            // 日志记录：处理比赛后结果
+	    Log("Conquest_Log_Match_ProcessingPostMatch");
 
-            _config.GetWindowPositions();
+            // 更新窗口位置
+	    _config.GetWindowPositions();
             Log("Conquest_Log_Check_Screens");
-            if (Check(_game.CanIdentifyConquestLossContinue) || Check(_game.CanIdentifyConquestWinNext))
+            // 检查是否需要继续点击"下一步"按钮来推进比赛后流程
+	    if (Check(_game.CanIdentifyConquestLossContinue) || Check(_game.CanIdentifyConquestWinNext))
             {
                 Log("Log_ClickNext");
                 _game.ClickPlay();
                 Thread.Sleep(5000);
                 _config.GetWindowPositions();
-                return AcceptResult();
+                // 递归调用以确保完全处理比赛后流程
+		return AcceptResult();
             }
             else if (Check(() => _game.CanIdentifyConquestTicketClaim()))
             {
-                Log("Conquest_Log_Match_ProcessingPostMatch");
+                // 检测到奖励领取界面，执行领取操作
+		Log("Conquest_Log_Match_ProcessingPostMatch");
                 _game.ClickClaim();
             }
 
-            return true;
+            // 所有比赛后流程处理完成
+	    return true;
         }
     }
 }
