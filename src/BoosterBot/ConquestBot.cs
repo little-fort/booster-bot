@@ -5,13 +5,12 @@ using System.Diagnostics; // 引入调试工具
 
 namespace BoosterBot
 {
-    // 定义一个内部类ConquestBot，继承自BaseBot
-    internal class ConquestBot : BaseBot
+        internal class ConquestBot : BaseBot
     {
-        // 定义一个只读变量_maxTier，表示最高等级状态
+        // 定义一个只读变量_maxTier，表示征服最高等级状态
         private readonly GameState _maxTier;
 
-        // 构造函数，接收配置参数、撤退次数和最高等级
+        // 构造函数，接收配置参数、撤退次数和征服最高等级
         public ConquestBot(BotConfig config, int retreat, GameState maxTier) : base(config, retreat)
         {
             _maxTier = maxTier;
