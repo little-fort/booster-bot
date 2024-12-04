@@ -245,7 +245,7 @@ namespace BoosterBot
             // Start by scrolling all the way to the right to avoid UI bug that shifts detection points
             // 滑动界面，防止 UI 错位导致检测失误
             Log("Conquest_Log_LobbyReset");
-            for (int x = 0; x < 5; x++)
+            for (int x = 0; x < 3; x++)
             {
                 var vertCenter = (_config.Window.Bottom - _config.Window.Top) / 2;
                 SystemUtilities.Drag(
@@ -259,7 +259,7 @@ namespace BoosterBot
 
             // 循环尝试确认合适的大厅
             Log("Conquest_Log_Menu_LobbyChoice", replace: [new("%VALUE%", _maxTier.ToString())]);
-            for (int x = 0; x < 3 && !lobbyConfirmed; x++)
+            for (int x = 0; x < 4 && !lobbyConfirmed; x++)
             {
                 var selectedTier = _game.DetermineConquestLobbyTier();
                 Log("Conquest_Log_Menu_SelectedTier", replace: [new("%VALUE%", selectedTier.ToString())]);
@@ -278,7 +278,7 @@ namespace BoosterBot
                         endX: _config.Window.Left + _config.Center + _config.Scale(250),
                         endY: _config.Window.Top + vertCenter
                     );
-                    Thread.Sleep(3000);
+                    Thread.Sleep(2500);
                 }
             }
 
@@ -290,7 +290,7 @@ namespace BoosterBot
             // 尝试进入比赛
             Log("Conquest_Log_EnteringLobby");
             _game.ClickPlay();
-            Thread.Sleep(3500);
+            Thread.Sleep(4000);
 
             // 再次点击确认按钮确保进入比赛
             Log("Log_Match_StartNew");
@@ -321,8 +321,8 @@ namespace BoosterBot
             // 循环检测是否仍在匹配中
             while (Check(() => _game.CanIdentifyConquestMatchmaking()))
             {
-                // 如果匹配时间超过5分钟，视为挂起，取消匹配
-                if (mmTimer.Elapsed.TotalSeconds > 300)
+                // 如果匹配时间超过10分钟，视为挂起，取消匹配
+                if (mmTimer.Elapsed.TotalSeconds > 600)
                 {
                     Log("Log_Check_Matchmaking_Hanged");
                     _game.ClickCancel();
@@ -371,7 +371,7 @@ namespace BoosterBot
                         _config.GetWindowPositions();
                         _game.ResetClick();
                         check = Check(_game.CanIdentifyActiveConquestMatch);
-                        Thread.Sleep(2500);
+                        Thread.Sleep(2000);
                     }
 
                     // 如果仍然无法检测到活跃比赛状态，退出比赛循环
@@ -384,11 +384,11 @@ namespace BoosterBot
                     {
                         Log("Log_Match_ReachedTurnLimit", replace: [new("%VALUE%", _retreatAfterTurn.ToString())]);
                         _game.ClickRetreat();
-                        Thread.Sleep(4000);
+                        Thread.Sleep(3000);
 
                         Log("Conquest_Log_Match_Concede");
                         _game.ClickConcede();
-                        Thread.Sleep(4000);
+                        Thread.Sleep(3000);
                     }
                     else
                     {
@@ -408,7 +408,7 @@ namespace BoosterBot
                         // 结束当前回合
                         Log("Log_Match_EndTurn");
                         _game.ClickNext();
-                        Thread.Sleep(750);
+                        Thread.Sleep(1000);
 
                         _config.GetWindowPositions();
 
@@ -461,17 +461,17 @@ namespace BoosterBot
             // 等待进入下一回合或比赛结束
             while (!Check(_game.CanIdentifyActiveConquestMatch) && !Check(() => _game.CanIdentifyConquestMatchEnd()))
             {
-                // 如果等待时间超过30秒，执行盲重置并返回循环入口
-                if (waitTime >= 30000)
+                // 如果等待时间超过5秒，执行盲重置并返回循环入口
+                if (waitTime >= 5000)
                 {
                     Log("Conquest_Log_MaxWaitTimeReached", replace: [new("%VALUE%", "30")]);
                     _game.BlindReset();
                     return DetermineLoopEntryPoint();
                 }
 
-                Thread.Sleep(3000);
-                waitTime += 3000;
-                // 每次等待周期后刷新窗口位置
+                // 每次等待1秒后刷新窗口位置
+                Thread.Sleep(1000);
+                waitTime += 1000;
                 _config.GetWindowPositions();
             }
 
@@ -496,9 +496,9 @@ namespace BoosterBot
                 _config.GetWindowPositions();
             }
 
-            // 等待进入比赛后菜单
+            // 等待5秒进入比赛后菜单
             Log("Conquest_Log_Menu_WaitingPostMatch");
-            Thread.Sleep(15000);
+            Thread.Sleep(5000);
 
             var totalSleep = 0;
             // 检查是否已进入比赛后状态
@@ -512,14 +512,14 @@ namespace BoosterBot
 
                 Log("Conquest_Log_Check_AnyLobby", true);
                 // 如果检测到任何大厅状态，认为成功退出比赛
-                if (totalSleep > 4000 && Check(_game.CanIdentifyAnyConquestLobby))
+                if (totalSleep > 3000 && Check(_game.CanIdentifyAnyConquestLobby))
                 {
                     Log("Conquest_Log_Menu_DetectedLobby");
                     return true;
                 }
 
-                // 如果等待超过30秒，返回循环入口以重新调整状态
-                if (totalSleep > 30000)
+                // 如果等待超过5秒，返回循环入口以重新调整状态
+                if (totalSleep > 5000)
                 {
                     Log("Conquest_Log_MaxWaitTimeReached", replace: [new("%VALUE%", "30")]);
                     return DetermineLoopEntryPoint();
@@ -543,7 +543,7 @@ namespace BoosterBot
             {
                 Log("Log_ClickNext");
                 _game.ClickPlay();
-                Thread.Sleep(5000);
+                Thread.Sleep(3000);
                 _config.GetWindowPositions();
                 // 递归调用以确保完全处理比赛后流程
                 return AcceptResult();
