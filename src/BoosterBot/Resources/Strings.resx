@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Menu_ModeSelect_Description" xml:space="preserve">
-    <value>Available game modes:</value>
+    <value>Available game modes: (购买获得，举报卖家)</value>
   </data>
   <data name="Menu_ModeSelect_Option1" xml:space="preserve">
     <value>[1] Conquest</value>
@@ -565,7 +565,7 @@
     <value>[1] English (en-US)</value>
   </data>
   <data name="InitialSetup_Language_Option2" xml:space="preserve">
-    <value>[2] 中文 (zh-CN)</value>
+    <value>[2] 中文 (zh-CN)(购买获得，举报卖家)</value>
   </data>
   <data name="InitialSetup_Language_BoosterBot" xml:space="preserve">
     <value>Select your preferred language for BoosterBot:</value>
@@ -577,7 +577,7 @@
     <value>NOTE: If you select 'Other', you will need to launch BoosterBot with the '--repair' parameter and complete the detection repair process before the program will function correctly.</value>
   </data>
   <data name="InitialSetup_Language_Option3" xml:space="preserve">
-    <value>[3] Other</value>
+    <value>[3] Others</value>
   </data>
   <data name="Conquest_Log_LobbyReset" xml:space="preserve">
     <value>Resetting lobby interface to avoid misaligned detection points...</value>
