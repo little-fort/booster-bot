@@ -308,7 +308,7 @@ namespace BoosterBot
         private bool PlayMatch()
         {
             Log("Log_Match_Playing");
-            Thread.Sleep(1000);
+            Thread.Sleep(2000);
             var active = true;
             _game.ClickSnap();
 
