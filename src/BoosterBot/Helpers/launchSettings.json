@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BoosterBot": {
+      "commandName": "Project",
+      "commandLineArgs": "--masked"
+    }
+  }
+}
