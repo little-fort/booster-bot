@@ -77,7 +77,7 @@ namespace BoosterBot
             return result.IsMatch;
         }
 
-        public void CheckForPause()
+        protected void CheckForPause()
         {
             var paused = HotkeyManager.IsPaused;
             if (paused)

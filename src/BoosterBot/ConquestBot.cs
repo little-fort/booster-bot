@@ -20,6 +20,7 @@ namespace BoosterBot
         {
             _maxTier = maxTier;
             // 调试方法
+            // Debug();
         }
 
         // 调试模式，用于实时显示窗口位置和游戏状态
@@ -215,6 +216,7 @@ namespace BoosterBot
                     return;
                 }
 
+                // There is a bug where the Enter button can disappear. Verify it exists before proceeding. If not, reset the menu and try again.
                 // 验证“进入比赛”按钮是否存在，解决按钮消失的潜在问题
                 Log("Conquest_Log_VerifyEntryButton");
                 if (Check(_game.CanIdentifyConquestPlayBtn) || Check(() => _game.CanIdentifyConquestEntranceFee()))
@@ -245,6 +247,7 @@ namespace BoosterBot
             Thread.Sleep(3000);
             var lobbyConfirmed = false;
 
+            // Start by scrolling all the way to the right to avoid UI bug that shifts detection points
             // 滑动界面，防止 UI 错位导致检测失误
             Log("Conquest_Log_LobbyReset");
             for (int x = 0; x < 3; x++)
@@ -560,6 +563,20 @@ namespace BoosterBot
 
             // 所有比赛后流程处理完成
             return true;
+        }
+	
+	    // 进程暂停与恢复
+        private void CheckForPause()
+        {
+            var paused = HotkeyManager.IsPaused;
+            if (paused)
+                Logger.Log(_config.Localizer, "Log_BotPaused", _logPath);
+
+            while (HotkeyManager.IsPaused)
+                Thread.Sleep(100);
+
+            if (paused)
+                Logger.Log(_config.Localizer, "Log_BotResuming", _logPath);
         }
     }
 }

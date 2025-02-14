@@ -3,15 +3,7 @@ using BoosterBot.Models;
 using BoosterBot.Resources;
 using System.Diagnostics;
 using static System.Net.Mime.MediaTypeNames;
-using BoosterBot.Helpers; // 引入辅助工具类
-using BoosterBot.Models;  // 引入模型类
-using BoosterBot.Resources; // 引入资源类
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BoosterBot
 {
