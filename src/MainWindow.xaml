@@ -14,7 +14,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Image Source="/Resources/icon.png" Height="20" Margin="0,0,70,0" VerticalAlignment="Center" Grid.Column="1"/>
+                <Image Source="BoosterBot/Resources/icon.png" Height="20" Margin="0,0,70,0" VerticalAlignment="Center" Grid.Column="1"/>
                 <TextBlock Text="BoosterBot V1.6.1" Foreground="BLACK" FontSize="14" VerticalAlignment="Center" Margin="26,0,453,0" Grid.ColumnSpan="2" Height="18" Grid.Column="1"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="3" HorizontalAlignment="Center" Width="75">
                     <Button Content="-" Width="25" Height="25" Background="White" Foreground="BLACK" BorderBrush="White" Click="Minimize_Click"/>
@@ -30,7 +30,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto" MinWidth="231"/>
                 </Grid.ColumnDefinitions>
-                <Image Source="/Resources/icon.png" Height="50" Margin="10,0,10,0" VerticalAlignment="Center"/>
+                <Image Source="BoosterBot//Resources/icon.png" Height="50" Margin="10,0,10,0" VerticalAlignment="Center"/>
                 <TextBlock Text="BoosterBot——免费使用，严禁倒卖！！！" Foreground="White" FontSize="16" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Column="1" Height="20"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center" Width="230">
                     <ComboBox x:Name="EventComboBox" 
