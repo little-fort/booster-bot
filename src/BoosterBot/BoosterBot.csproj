@@ -1,486 +1,70 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<Version>1.6.0-dev</Version>
-		<FileVersion>1.6.0</FileVersion>
-		<AssemblyVersion>1.6.0</AssemblyVersion>
-		<OutputType>Exe</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<PackageIcon>icon.png</PackageIcon>
-		<ApplicationIcon>Resources\icon.ico</ApplicationIcon>
-	</PropertyGroup>
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <PackageIcon>icon.png</PackageIcon>
+    <PlatformTarget>x64</PlatformTarget>
+    <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<Content Include="Resources\icon.ico" />
-	</ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\icon.png" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.0" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="OpenCvSharp4" Version="4.8.0.20230708" />
-		<PackageReference Include="OpenCvSharp4.Windows" Version="4.8.0.20230708" />
-		<PackageReference Include="System.Drawing.Common" Version="7.0.0" />
-		<PackageReference Include="System.Management" Version="7.0.0" />
-	</ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\icon.ico" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<FrameworkReference Include="Microsoft.WindowsDesktop.App.WindowsForms" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="InputSimulator" Version="1.0.4" />
+    <PackageReference Include="Microsoft.Bot.Configuration" Version="4.22.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Abstractions" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.FileSystemGlobbing" Version="9.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Primitives" Version="9.0.1" />
+    <PackageReference Include="Microsoft.NETCore.Platforms" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Win32.SystemEvents" Version="9.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="OpenCvSharp4" Version="4.10.0.20241108" />
+    <PackageReference Include="OpenCvSharp4.runtime.win" Version="4.10.0.20241108" />
+    <PackageReference Include="OpenCvSharp4.Windows" Version="4.10.0.20241108" />
+    <PackageReference Include="System.CodeDom" Version="9.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.1" />
+    <PackageReference Include="System.IO.Pipelines" Version="9.0.1" />
+    <PackageReference Include="System.Management" Version="9.0.1" />
+    <PackageReference Include="System.Memory" Version="4.6.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="9.0.1" />
+    <PackageReference Include="System.Text.Json" Version="9.0.1" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<None Update="appsettings.json">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-concede-2-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-concede-2.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-concede-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-concede.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-continue-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-continue.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-end-turn-2-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-end-turn-2.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-end-turn-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-end-turn.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-entrance-fee-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-match-end-next-1-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-match-end-next-2-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-matchmaking-cancel-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-matchmaking-cancel-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-matchmaking-cancel-preproc.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-matchmaking-cancel.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-play-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-play.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-playing-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-playing.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-retreat-2-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-retreat-2.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-retreat-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-retreat.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-ticket-claim-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-ticket-claim-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-ticket-claim-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-ticket-claim.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-victory-next-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-victory-next.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-waiting-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-conquest-waiting-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-conquest-waiting.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-event-forfeit-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-event-play-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-ladder-collect-rewards-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-ladder-match-end-next-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-ladder-matchmaking-cancel-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-ladder-matchmaking-cancel-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-ladder-matchmaking-cancel-preproc.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-ladder-retreat-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-main-play-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-main-play.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\btn-main-reconnect-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-match-end-next-1-preproc.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-match-end-next-1.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-match-end-next-2-preproc.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\btn-match-end-next-2.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-gold-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-gold-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-gold-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-gold-4-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-infinite-4-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-pg-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-silver-4-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\lbl-conquest-gold-preproc.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-infinite-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-infinite-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-infinite-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\lbl-conquest-infinite-preproc.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-no-tickets-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-pg-1-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-pg-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\lbl-conquest-pg.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-silver-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-silver-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-conquest-silver-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\en\lbl-energy-zero-preproc.png">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\lbl-energy-zero.png">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-concede-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-concede-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-continue-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-end-turn-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-end-turn-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-entrance-fee-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-match-end-next-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-match-end-next-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-matchmaking-cancel-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-matchmaking-cancel-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-play-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-playing-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-retreat-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-retreat-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-ticket-claim-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-ticket-claim-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-ticket-claim-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-victory-next-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-waiting-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-conquest-waiting-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-event-forfeit-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-event-play-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-ladder-collect-rewards-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-ladder-match-end-next-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-ladder-matchmaking-cancel-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-ladder-matchmaking-cancel-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-ladder-retreat-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-main-play-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\btn-main-reconnect-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-gold-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-gold-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-gold-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-gold-4-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-infinite-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-infinite-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-infinite-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-infinite-4-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-no-tickets-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-pg-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-pg-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-pg-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-silver-1-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-silver-2-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-silver-3-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-conquest-silver-4-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="reference\zh\lbl-energy-zero-preproc.png">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\icon.png">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Update="Resources\repair\btn-conquest-concede.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-end-turn.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-match-end-next-1.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-match-end-next-2.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-matchmaking-cancel-1.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-play.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-playing.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-retreat.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-ticket-claim.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-victory-next.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-waiting-2.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-conquest-waiting.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-ladder-collect-rewards.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-ladder-match-end-next.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-ladder-matchmaking-cancel-1.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-ladder-retreat.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-main-play.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\btn-main-reconnect.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\lbl-conquest-gold-1.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\lbl-conquest-infinite-1.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\lbl-conquest-no-tickets.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\lbl-conquest-pg-1.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\lbl-conquest-silver-1.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-		<None Update="Resources\repair\lbl-energy-zero.png">
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Resources\repair\" />
-	</ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+   <None Update="reference\**" CopyToOutputDirectory="PreserveNewest" />
+   <None Update="Resources\**" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 
-	<ItemGroup>
-	  <Compile Update="Resources\Strings.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>Strings.resx</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Update="Resources\Strings.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="Resources\Strings.zh-CN.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	  </EmbeddedResource>
-	</ItemGroup>
 
 </Project>

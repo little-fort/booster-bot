@@ -4,6 +4,7 @@ using BoosterBot.Resources;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -99,7 +100,7 @@ namespace BoosterBot
 
         private void PrintTitle()
         {
-            Program.PrintTitle();
+            //Program.PrintTitle();
             var title = Strings.Repair_Title;
             title = title.PadLeft(24 + (title.Length / 2), ' ');
             title = $"{title}{"".PadRight(49 - title.Length, ' ')}";

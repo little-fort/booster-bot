@@ -6,5 +6,6 @@ namespace BoosterBot
         void Run();
 
         string GetLogPath();
+        void CheckForPause();
     }
 }
