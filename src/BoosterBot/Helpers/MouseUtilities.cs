@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace BoosterBot
 {
@@ -45,6 +46,12 @@ namespace BoosterBot
         [DllImport("user32.dll")]
         private static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
 
+        [DllImport("user32.dll")]
+        private static extern bool SetCursorPos(int X, int Y);
+
+        [DllImport("user32.dll")]
+        private static extern bool GetCursorPos(out Point lpPoint);
+
         private const int INPUT_MOUSE = 0;
 
         public static void SendMouseEvent(MouseEventFlags flags, int x = 0, int y = 0)
@@ -76,7 +83,7 @@ namespace BoosterBot
             var rand = new Random();
 
             // Click on card:
-            Cursor.Position = new Point(card.X, card.Y);
+            SetCursorPos(card.X, card.Y);
             SendMouseEvent(MouseEventFlags.LEFTDOWN);
 
             Thread.Sleep(rand.Next(100, 300));
@@ -88,12 +95,12 @@ namespace BoosterBot
 
             for (int i = 1; i <= steps; i++)
             {
-                Cursor.Position = new Point(card.X + (xStep * i), card.Y + (yStep * i));
+                SetCursorPos(card.X + (xStep * i), card.Y + (yStep * i));
                 Thread.Sleep(rand.Next(5, 10));
             }
 
             // Ensure the cursor is precisely at the target location
-            Cursor.Position = new Point(loc.X, loc.Y);
+            SetCursorPos(loc.X, loc.Y);
 
             Thread.Sleep(rand.Next(100, 300));
 
@@ -107,7 +114,7 @@ namespace BoosterBot
             SendMouseEvent(MouseEventFlags.LEFTUP);
 
             // Add a click to reset view because LEFTUP while hovering over another card will register as click event:
-            Cursor.Position = new Point(reset.X + rand.Next(-50, 50), reset.Y + rand.Next(-50, 50));
+            SetCursorPos(reset.X + rand.Next(-50, 50), reset.Y + rand.Next(-50, 50));
             SendMouseEvent(MouseEventFlags.LEFTDOWN);
             Thread.Sleep(rand.Next(50, 100));
             SendMouseEvent(MouseEventFlags.LEFTUP);

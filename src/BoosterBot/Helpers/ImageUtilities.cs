@@ -3,6 +3,7 @@ using System.Text;
 using System.Security.Cryptography;
 using OpenCvSharp;
 using BoosterBot.Models;
+using System.IO;
 
 namespace BoosterBot;
 

@@ -3,6 +3,10 @@ using System;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
+using System.Windows.Input;
+using WindowsInput;
+using WindowsInput.Native;
+
 
 namespace BoosterBot
 {
@@ -343,9 +347,7 @@ namespace BoosterBot
 
         public void ClearError() => SystemUtilities.Click(_config.ClearErrorPoint);
 
-        /// <summary>
-        /// Simulates attempting to play four cards in your hand to random locations.
-        /// </summary>
+
         public void PlayHand()
         {
             var rand = new Random();
@@ -371,10 +373,7 @@ namespace BoosterBot
                 ResetClick();
         }
 
-        /// <summary>
-        /// SNAP
-        /// </summary>
-        /// <returns></returns>
+
         public bool ClickSnap()
         {
             SystemUtilities.Click(_config.SnapPoint);
@@ -383,29 +382,19 @@ namespace BoosterBot
             return true;
         }
 
-        /// <summary>
-        /// Simulates clicking the "Play" button while on the main menu.
-        /// </summary>
+
         public void ClickPlay() => SystemUtilities.Click(_config.PlayPoint);
 
-        /// <summary>
-        /// Simulates clicking the "Cancel" button during matchmaking.
-        /// </summary>
+
         public void ClickCancel() => SystemUtilities.Click(_config.CancelPoint);
 
-        /// <summary>
-        /// Simulates clicking the "Next"/"Collect Rewards" button while in a match.
-        /// </summary>
+
         public void ClickNext() => SystemUtilities.Click(_config.NextPoint);
 
-        /// <summary>
-        /// Simulates clicking the "Claim" button after winning a Conquest match.
-        /// </summary>
+
         public void ClickClaim() => SystemUtilities.Click(_config.ClaimPoint);
 
-        /// <summary>
-        /// Simulates clicks to from a match.
-        /// </summary>
+
         public void ClickRetreat()
         {
             _config.GetWindowPositions();
@@ -417,9 +406,7 @@ namespace BoosterBot
             Thread.Sleep(5000);
         }
 
-		/// <summary>
-		/// Simulates clicks to from a match.
-		/// </summary>
+
 		public void ClickConcede()
 		{
 			_config.GetWindowPositions();
@@ -431,7 +418,14 @@ namespace BoosterBot
 			Thread.Sleep(5000);
 		}
 
-		public void PressEscKey() => SendKeys.SendWait("{ESC}");
+        public void PressEscKey()
+        {
+            var simulator = new InputSimulator();
+            // 模拟按下 ESC 键
+            simulator.Keyboard.KeyDown(VirtualKeyCode.ESCAPE);
+            // 模拟释放 ESC 键
+            simulator.Keyboard.KeyUp(VirtualKeyCode.ESCAPE);
+        }
 
         public void BlindReset()
         {
