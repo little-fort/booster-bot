@@ -1,6 +1,6 @@
-using BoosterBot.Helpers;
-using BoosterBot.Models; 
-using BoosterBot.Resources; 
+using BoosterBot.Helpers; // 引入辅助工具类
+using BoosterBot.Models;  // 引入模型类
+using BoosterBot.Resources; // 引入资源类
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
