@@ -1,6 +1,6 @@
-﻿using BoosterBot.Helpers; // 引入辅助工具类
-using BoosterBot.Models;  // 引入模型类
-using BoosterBot.Resources; // 引入资源类
+using BoosterBot.Helpers;
+using BoosterBot.Models; 
+using BoosterBot.Resources; 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -15,10 +15,14 @@ namespace BoosterBot
         // 定义一个只读变量_maxTier，表示征服最高等级状态
         private readonly GameState _maxTier;
 
-        // 构造函数，接收配置参数、撤退次数和征服最高等级
-        public ConquestBot(BotConfig config, int retreat, GameState maxTier) : base(config, retreat)
+        // 新增字段：是否投降
+        private readonly bool _shouldSurrender;
+
+        // 构造函数，接收配置参数、撤退次数、征服最高等级和是否投降
+        public ConquestBot(BotConfig config, int retreat, GameState maxTier, bool shouldSurrender) : base(config, retreat)
         {
             _maxTier = maxTier;
+            _shouldSurrender = shouldSurrender; // 初始化是否投降
             // 调试方法
             // Debug();
         }
@@ -301,7 +305,7 @@ namespace BoosterBot
             Log("Log_Match_StartNew");
             _game.ClickPlay();
             Thread.Sleep(1000);
-            _game.ClickPlay(); 
+            _game.ClickPlay();
             // Press a second time just to be sure
             Thread.Sleep(1000);
 
@@ -360,8 +364,8 @@ namespace BoosterBot
 
             var currentTurn = 0;
 
-            // 主循环，控制比赛逻辑并限制最大比赛时间10分钟
-            while (active && _matchTimer.Elapsed.Minutes < 10)
+            // 主循环，控制比赛逻辑并限制最大比赛时间30分钟
+            while (active && _matchTimer.Elapsed.Minutes < 30)
             {
                 _config.GetWindowPositions();
 
@@ -386,7 +390,7 @@ namespace BoosterBot
                 else
                 {
                     // 如果当前回合数达到设定的回合限制，触发退赛逻辑
-                    if (currentTurn++ >= _retreatAfterTurn)
+                    if (currentTurn++ >= _retreatAfterTurn && _shouldSurrender)  // 新增 _shouldSurrender 检查
                     {
                         Log("Log_Match_ReachedTurnLimit", replace: [new("%VALUE%", _retreatAfterTurn.ToString())]);
                         _game.ClickRetreat();
@@ -432,9 +436,11 @@ namespace BoosterBot
 
             _config.GetWindowPositions();
 
-            // 如果比赛时间超过10分钟且可以退赛，则执行退赛逻辑
+            // 如果比赛时间超过10分钟且可以退赛，则执行退赛逻辑（新增 _shouldSurrender 检查）
             Log("Log_Check_RetreatButton", true);
-            if (_matchTimer.Elapsed.Minutes > 10 && Check(() => _game.CanIdentifyConquestRetreatBtn()))
+            if (_matchTimer.Elapsed.Minutes > 10 &&
+                Check(() => _game.CanIdentifyConquestRetreatBtn()) &&
+                _shouldSurrender)
             {
                 Log("Conquest_Log_Match_Concede");
                 _game.ClickRetreat();
