@@ -1,15 +1,15 @@
-﻿using System.Net.Http;
+using System.Net.Http;
 using System.Text.Json;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Policy;
 using BoosterBot.Resources;
 
-namespace BoosterBot;
+namespace BoosterBot.Helpers;
 
 public class GitHubRelease
 {
-    public string tag_name { get; set; }
+    public string  tag_name { get; set; }
     public string html_url { get; set; }
     public string body { get; set; }
     public bool prerelease { get; set; }
@@ -35,10 +35,17 @@ public static class UpdateChecker
                 return false;
 
             // Get current version
-            var currentVersion = Assembly.GetEntryAssembly()
-                .GetCustomAttribute<AssemblyInformationalVersionAttribute>()
-                .InformationalVersion
-                .Split('+')[0]; // Remove any build metadata
+            var assembly = Assembly.GetEntryAssembly();
+            string currentVersion = null;
+            if (assembly != null)
+            {
+                currentVersion = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion?.Split('+')[0];
+            }
+            else
+            {
+                // Handle null assembly (for example, throw exception or set a default value)
+                return false;
+            }
 
             // Compare versions (assuming semantic versioning without 'v' prefix)
             var latestVersion = _latestRelease.tag_name.TrimStart('v');
