@@ -564,19 +564,5 @@ namespace BoosterBot
             // 所有比赛后流程处理完成
             return true;
         }
-	
-	    // 进程暂停与恢复
-        private void CheckForPause()
-        {
-            var paused = HotkeyManager.IsPaused;
-            if (paused)
-                Logger.Log(_config.Localizer, "Log_BotPaused", _logPath);
-
-            while (HotkeyManager.IsPaused)
-                Thread.Sleep(100);
-
-            if (paused)
-                Logger.Log(_config.Localizer, "Log_BotResuming", _logPath);
-        }
     }
 }
