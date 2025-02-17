@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BoosterBot.Models
 {
-    internal enum GameMode
+    internal static class GameMode
     {
-        CONQUEST = 1,
-        LADDER = 2,
-        EVENT = 3,
-        REPAIR = 9
+        public const string CONQUEST = "conquest";
+        public const string LADDER = "ladder";
+        public const string EVENT = "event";
+        public const string REPAIR = "repair";
     }
 }
