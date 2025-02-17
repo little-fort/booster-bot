@@ -1,4 +1,4 @@
-﻿using BoosterBot.Helpers;
+using BoosterBot.Helpers;
 using BoosterBot;
 using BoosterBot.Models;
 using Microsoft.Extensions.Configuration;
@@ -115,12 +115,14 @@ namespace BoosterBot
             bool? downscaled = null;
             bool? ltm = null;
             double? scaling = null;
+            bool shouldSurrender = (SurrenderComboBoxGeneral.SelectedItem as ComboBoxItem)?.Content.ToString() == "Yes";
 
             // 从 UI 获取游戏模式
             string? gameMode = (ModeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString()?.ToLower();
             string? maxConquestTier = (ConquestModeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
             int? maxTurns = int.Parse((RoundComboBoxGeneral.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "0");
 
+           
             // 启动 bot
             try
             {
@@ -192,7 +194,7 @@ namespace BoosterBot
                 var config = new BotConfig(_configuration, _localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled);
                 IBoosterBot bot = mode switch
                 {
-                    1 => new ConquestBot(config, retreat ?? 0, maxTier),
+                    1 => new ConquestBot(config, retreat ?? 0, maxTier, shouldSurrender),  // 新增 shouldSurrender 参数
                     2 => new LadderBot(config, retreat ?? 0),
                     3 => new EventBot(config, retreat ?? 0),
                     9 => new RepairBot(config),
@@ -258,11 +260,18 @@ namespace BoosterBot
                     var json = File.ReadAllText(appSettingsPath);
                     var jsonObj = JObject.Parse(json);
 
-                    // 设置语言
+                    // 设置程序语言
                     var appLanguage = jsonObj["appLanguage"]?.ToString();
                     if (appLanguage == "en-US")
                         LanguageComboBox.SelectedValue = "en-US";
                     else if (appLanguage == "zh-CN")
+                        LanguageComboBox.SelectedValue = "zh-CN";
+
+                    // 设置游戏语言
+                    var gameLanguage = jsonObj["gameLanguage"]?.ToString();
+                    if (gameLanguage == "en-US")
+                        LanguageComboBox.SelectedValue = "en-US";
+                    else if (gameLanguage == "zh-CN")
                         LanguageComboBox.SelectedValue = "zh-CN";
 
                     // 设置游戏模式
