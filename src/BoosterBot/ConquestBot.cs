@@ -1,4 +1,4 @@
-using BoosterBot.Helpers; // 引入辅助工具类
+﻿using BoosterBot.Helpers; // 引入辅助工具类
 using BoosterBot.Models;  // 引入模型类
 using BoosterBot.Resources; // 引入资源类
 using System;
@@ -24,7 +24,6 @@ namespace BoosterBot
             _maxTier = maxTier;
             _shouldSurrender = shouldSurrender; // 初始化是否投降
             // 调试方法
-            // Debug();
         }
 
         // 调试模式，用于实时显示窗口位置和游戏状态
@@ -126,7 +125,7 @@ namespace BoosterBot
             SystemUtilities.Click(_config.GameModesPoint);
             Thread.Sleep(1000);
             SystemUtilities.Click(_config.GameModesPoint);
-            Thread.Sleep(2000);
+            Thread.Sleep(1500);
         }
 
         // 导航到征服菜单
@@ -220,7 +219,6 @@ namespace BoosterBot
                     return;
                 }
 
-                // There is a bug where the Enter button can disappear. Verify it exists before proceeding. If not, reset the menu and try again.
                 // 验证“进入比赛”按钮是否存在，解决按钮消失的潜在问题
                 Log("Conquest_Log_VerifyEntryButton");
                 if (Check(_game.CanIdentifyConquestPlayBtn) || Check(() => _game.CanIdentifyConquestEntranceFee()))
@@ -244,14 +242,12 @@ namespace BoosterBot
                 }
             }
         }
-
         private bool SelectLobby()
         {
             // 等待加载完成
             Thread.Sleep(3000);
             var lobbyConfirmed = false;
 
-            // Start by scrolling all the way to the right to avoid UI bug that shifts detection points
             // 滑动界面，防止 UI 错位导致检测失误
             Log("Conquest_Log_LobbyReset");
             for (int x = 0; x < 3; x++)
@@ -287,7 +283,7 @@ namespace BoosterBot
                         endX: _config.Window.Left + _config.Center + _config.Scale(250),
                         endY: _config.Window.Top + vertCenter
                     );
-                    Thread.Sleep(1000);
+                    Thread.Sleep(1500);
                 }
             }
 
@@ -299,15 +295,14 @@ namespace BoosterBot
             // 尝试进入比赛
             Log("Conquest_Log_EnteringLobby");
             _game.ClickPlay();
-            Thread.Sleep(4000);
+            Thread.Sleep(4500);
 
             // 再次点击确认按钮确保进入比赛
             Log("Log_Match_StartNew");
             _game.ClickPlay();
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             _game.ClickPlay();
-            // Press a second time just to be sure
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
 
             // 确认选择的牌组
             Log("Conquest_Log_ConfirmDeck");
@@ -317,7 +312,6 @@ namespace BoosterBot
             // 等待匹配成功
             return WaitForMatchmaking();
         }
-
         private bool WaitForMatchmaking()
         {
             // 获取窗口位置以更新坐标
@@ -459,7 +453,6 @@ namespace BoosterBot
 
             return false;
         }
-
         private bool ProgressRound()
         {
             // 日志记录：检测到比赛回合结束
@@ -468,13 +461,13 @@ namespace BoosterBot
 
             // 更新窗口位置以适应新的状态
             _config.GetWindowPositions();
-            var waitTime = 0;
+            var waitTime = 10000;
             Log("Log_Check_MatchState", true);
             // 等待进入下一回合或比赛结束
             while (!Check(_game.CanIdentifyActiveConquestMatch) && !Check(() => _game.CanIdentifyConquestMatchEnd()))
             {
-                // 如果等待时间超过2秒，执行盲重置并返回循环入口
-                if (waitTime >= 2000)
+                // 如果等待时间超过30秒，执行盲重置并返回循环入口
+                if (waitTime >= 30000)
                 {
                     Log("Conquest_Log_MaxWaitTimeReached", replace: [new("%VALUE%", "30")]);
                     _game.BlindReset();
@@ -490,7 +483,6 @@ namespace BoosterBot
             // 成功进入下一回合或比赛继续
             return PlayMatch();
         }
-
         private bool ExitMatch()
         {
             // 日志记录：退出比赛
@@ -530,8 +522,8 @@ namespace BoosterBot
                     return true;
                 }
 
-                // 如果等待超过4秒，返回循环入口以重新调整状态
-                if (totalSleep > 4000)
+                // 如果等待超过40秒，返回循环入口以重新调整状态
+                if (totalSleep > 40000)
                 {
                     Log("Conquest_Log_MaxWaitTimeReached", replace: [new("%VALUE%", "30")]);
                     return DetermineLoopEntryPoint();
@@ -541,7 +533,6 @@ namespace BoosterBot
             // 如果检测到比赛结果界面，处理相关逻辑
             return AcceptResult();
         }
-
         private bool AcceptResult()
         {
             // 日志记录：处理比赛后结果
@@ -555,14 +546,13 @@ namespace BoosterBot
             {
                 Log("Log_ClickNext");
                 _game.ClickPlay();
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
+                _game.ClickPlay();
                 _config.GetWindowPositions();
-                // 递归调用以确保完全处理比赛后流程
                 return AcceptResult();
             }
             else if (Check(() => _game.CanIdentifyConquestTicketClaim()))
             {
-                // 检测到奖励领取界面，执行领取操作
                 Log("Conquest_Log_Match_ProcessingPostMatch");
                 _game.ClickClaim();
             }
