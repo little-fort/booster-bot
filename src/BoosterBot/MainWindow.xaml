@@ -125,7 +125,7 @@
                 <TextBlock Text="Program Details" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
                 <TextBlock Text="Author: Little-fort" Foreground="White" FontSize="14" Margin="0,0,0,5"/>
                 <TextBlock Text="Version: V1.6.1" Foreground="White" FontSize="14" Margin="0,0,0,5"/>
-                <TextBlock Text="Description: A bot for farming boosters. Strictly educational." 
+                <TextBlock Text="Description: A bot that could hypothetically be used to farm boosters for any deck in Marvel Snap. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to more effectively farm missions and seasonal ranks. The bot uses various UI reference points to determine game state and then simulates user clicks to perform relevant actions." 
                            Foreground="White" FontSize="14" Margin="0,0,0,5" TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>

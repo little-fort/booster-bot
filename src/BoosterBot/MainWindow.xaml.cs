@@ -22,17 +22,20 @@ namespace BoosterBot
         public MainWindow()
         {
             InitializeComponent();
-            InitializeLocalization(); // 初始化本地化
-            LoadAppSettings(); // 初始化时加载配置
-
-            // 订阅 Logger 的 OnLogUpdated 事件
+            InitializeLocalization(); 
+            LoadAppSettings();
+            HotkeyManager.Initialize(_localizer);
             Logger.OnLogUpdated += UpdateLogPanel;
-            // 初始化 UI 组件的事件
             LanguageComboBox.SelectionChanged += LanguageComboBox_SelectionChanged;
             ModeComboBox.SelectionChanged += ModeComboBox_SelectionChanged;
             EventComboBox.SelectionChanged += EventComboBox_SelectionChanged;
             ConquestModeComboBox.SelectionChanged += ConquestModeComboBox_SelectionChanged;
             RoundComboBoxGeneral.SelectionChanged += RoundComboBoxGeneral_SelectionChanged;
+        }
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            // 调用公开的 Stop 方法来清理
+            HotkeyManager.Stop();
         }
 
         static void InitializeLocalization()
@@ -42,6 +45,7 @@ namespace BoosterBot
                 .Build();
             _localizer = new LocalizationManager(_configuration);
         }
+
 
         // 窗口拖动事件
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -303,7 +307,8 @@ namespace BoosterBot
                     "repair" => new RepairBot(config),
                     _ => throw new Exception(_localizer.GetString("Log_InvalidModeSelection"))
                 };
-
+                // 启动后台任务
+                HotkeyManager.StartBackgroundTask();
                 try
                 {
                     bot.Run();
