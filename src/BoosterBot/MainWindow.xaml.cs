@@ -1,24 +1,23 @@
-using BoosterBot.Helpers;
-using BoosterBot;
+﻿using BoosterBot.Helpers;
 using BoosterBot.Models;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
-using System.IO;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace BoosterBot
 {
     public partial class MainWindow : Window
     {
-        private string appSettingsPath = "appsettings.json";
-        private LocalizationManager _localizer;
-        private IConfiguration _configuration;
-        private bool _updateAvailable = false;
-        private HashSet<string> loggedMessages = new HashSet<string>();
+        private static string appSettingsPath = "appsettings.json";
+        private static bool _updateAvailable = false;
+        private static LocalizationManager _localizer;
+        private static IConfiguration _configuration;
 
         public MainWindow()
         {
@@ -26,12 +25,22 @@ namespace BoosterBot
             InitializeLocalization(); // 初始化本地化
             LoadAppSettings(); // 初始化时加载配置
 
+            // 订阅 Logger 的 OnLogUpdated 事件
+            Logger.OnLogUpdated += UpdateLogPanel;
             // 初始化 UI 组件的事件
             LanguageComboBox.SelectionChanged += LanguageComboBox_SelectionChanged;
             ModeComboBox.SelectionChanged += ModeComboBox_SelectionChanged;
             EventComboBox.SelectionChanged += EventComboBox_SelectionChanged;
             ConquestModeComboBox.SelectionChanged += ConquestModeComboBox_SelectionChanged;
             RoundComboBoxGeneral.SelectionChanged += RoundComboBoxGeneral_SelectionChanged;
+        }
+
+        static void InitializeLocalization()
+        {
+            _configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
+            _localizer = new LocalizationManager(_configuration);
         }
 
         // 窗口拖动事件
@@ -61,15 +70,17 @@ namespace BoosterBot
             {
                 UpdateAppSettings("appLanguage", selectedLanguage);
                 UpdateAppSettings("gameLanguage", selectedLanguage);
-                AddLog($"Language set to {selectedLanguage}");
+                UpdateLogPanel($"Language set to {selectedLanguage}");
             }
         }
 
         // 游戏模式选择事件
         private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedMode = (ModeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            if (selectedMode == "Conquest")
+            var selectedMode = (ModeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString()?.ToLower();
+
+            // 根据选择的游戏模式显示/隐藏征服模式设置
+            if (selectedMode == "conquest")
             {
                 ConquestModeTitle.Visibility = Visibility.Visible;
                 ConquestModeComboBox.Visibility = Visibility.Visible;
@@ -80,9 +91,12 @@ namespace BoosterBot
                 ConquestModeComboBox.Visibility = Visibility.Collapsed;
             }
 
-            // 更新 appsettings.json 中的游戏模式
-            UpdateAppSettings("defaultRunSettings:gameMode", selectedMode?.ToLower());
-            AddLog($"Game mode set to {selectedMode}");
+            // 更新 appsettings.json 中的游戏模式，确保是小写字母
+            if (!string.IsNullOrEmpty(selectedMode))
+            {
+                UpdateAppSettings("defaultRunSettings:GameMode", selectedMode);
+                UpdateLogPanel($"Game mode set to {selectedMode}");
+            }
         }
 
         // Event 模式选择事件
@@ -92,7 +106,7 @@ namespace BoosterBot
             if (!string.IsNullOrEmpty(selectedValue))
             {
                 UpdateAppSettings("eventModeActive", selectedValue);
-                AddLog($"Event mode set to {selectedValue}");
+                UpdateLogPanel($"Event mode set to {selectedValue}");
             }
         }
 
@@ -121,13 +135,13 @@ namespace BoosterBot
                         LanguageComboBox.SelectedValue = "zh-CN";
 
                     // 设置游戏模式
-                    var gameMode = jsonObj["defaultRunSettings"]?["gameMode"]?.ToString();
-                    if (gameMode == "ranked")
-                        ModeComboBox.SelectedValue = "ranked";
-                    else if (gameMode == "conquest")
-                        ModeComboBox.SelectedValue = "conquest";
-                    else if (gameMode == "event")
-                        ModeComboBox.SelectedValue = "event";
+                    var GameMode = jsonObj["defaultRunSettings"]?["GameMode"]?.ToString();
+                    if (GameMode == "ladder")
+                        ModeComboBox.SelectedValue = "Ladder";
+                    else if (GameMode == "conquest")
+                        ModeComboBox.SelectedValue = "Conquest";
+                    else if (GameMode == "event")
+                        ModeComboBox.SelectedValue = "Event";
 
                     // 设置 Event 模式
                     var eventModeActive = jsonObj["eventModeActive"]?.ToString();
@@ -138,7 +152,7 @@ namespace BoosterBot
                 }
                 catch (Exception ex)
                 {
-                    AddLog("Error loading appsettings.json: " + ex.Message);
+                    UpdateLogPanel("Error loading appsettings.json: " + ex.Message);
                 }
             }
         }
@@ -163,7 +177,7 @@ namespace BoosterBot
             }
             catch (Exception ex)
             {
-                AddLog("Error updating appsettings.json: " + ex.Message);
+                UpdateLogPanel("Error updating appsettings.json: " + ex.Message);
             }
         }
 
@@ -173,7 +187,7 @@ namespace BoosterBot
             if (!string.IsNullOrEmpty(selectedTurns))
             {
                 UpdateAppSettings("defaultRunSettings:maxRankedTurns", selectedTurns);
-                AddLog($"Max ranked turns set to {selectedTurns}");
+                UpdateLogPanel($"Max ranked turns set to {selectedTurns}");
             }
         }
 
@@ -183,36 +197,47 @@ namespace BoosterBot
             if (!string.IsNullOrEmpty(selectedTier))
             {
                 UpdateAppSettings("defaultRunSettings:maxConquestTier", selectedTier.ToLower());
-                AddLog($"Conquest tier set to {selectedTier}");
+                UpdateLogPanel($"Conquest tier set to {selectedTier}");
             }
         }
 
         // 点击 Start 按钮时的事件
         private async void StartButton_Click(object sender, RoutedEventArgs e)
         {
+            UpdateLogPanel("BoosterBot started!");
 
+            // 从 appsettings.json 获取游戏模式
+            var GameMode = _configuration["defaultRunSettings:GameMode"]?.ToLower();  // 确保读取的是小写模式值
 
-            AddLog("BoosterBot started!");
+            // 确保在 appsettings.json 中选择的游戏模式值是合法的
+            if (string.IsNullOrWhiteSpace(GameMode) || !new[] { "ladder", "conquest", "event" }.Contains(GameMode))
+            {
+                UpdateLogPanel("Error: Invalid mode selection.");
+                return;
+            }
 
-            // 解析 UI 选择
-            bool masked = false; // 默认启用 masked 模式
-            bool autoplay = true;
-            bool saveScreens = false;
-            bool repair = false;
-            bool? verbose = null;
-            bool? downscaled = null;
-            bool? ltm = null;
-            double? scaling = null;
-            bool shouldSurrender = (SurrenderComboBoxGeneral.SelectedItem as ComboBoxItem)?.Content.ToString() == "Yes";
+            string? maxConquestTier = null;
 
-            // 从 UI 获取游戏模式
-            string? gameMode = (ModeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString()?.ToLower();
-            string? maxConquestTier = (ConquestModeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
-            int? maxTurns = int.Parse((RoundComboBoxGeneral.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "0");
+            // 只有在征服模式下，maxConquestTier 才能有值
+            if (GameMode == "conquest")
+            {
+                maxConquestTier = _configuration["defaultRunSettings:maxConquestTier"];  // 获取征服模式层级
+            }
 
+            // 获取其他配置项
+            var maxTurns = int.TryParse(_configuration["defaultRunSettings:maxRankedTurns"], out int turns) ? turns : 0;  // 获取回合数
+            var shouldSurrender = _configuration["defaultRunSettings:surrenderGame"] == "Yes";  // 是否放弃游戏
 
+            // 其他配置项
+            bool masked = bool.Parse(_configuration["defaultRunSettings:masked"] ?? "false");
+            bool autoplay = bool.Parse(_configuration["defaultRunSettings:autoplay"] ?? "true");
+            bool saveScreens = bool.Parse(_configuration["defaultRunSettings:saveScreens"] ?? "false");
+            bool repair = bool.Parse(_configuration["defaultRunSettings:repair"] ?? "false");
+            bool? verbose = bool.TryParse(_configuration["verboseLogs"], out var v) ? v : null;
+            bool? downscaled = bool.TryParse(_configuration["downscaledMode"], out var ds) ? ds : null;
+            bool? ltm = bool.TryParse(_configuration["eventModeActive"], out var lt) ? lt : null;
+            double? scaling = double.TryParse(_configuration["scaling"], out var scale) ? scale : null;
 
-            // 启动 bot
             try
             {
                 if (!Directory.Exists("screens"))
@@ -220,115 +245,117 @@ namespace BoosterBot
 
                 if (!Directory.Exists("logs"))
                     Directory.CreateDirectory("logs");
-                else
-                    PurgeLogs();
+
 
                 // 检查更新
                 _updateAvailable = await UpdateChecker.CheckForUpdates();
 
-                // 从 appsettings.json 获取 bot 配置
-                var botMode = _configuration["defaultRunSettings:gameMode"];  // 获取配置中的模式
-                var retreatConfig = _configuration["BotConfig:Retreat"];  // 获取撤退相关配置
-                var maxTierConfig = _configuration["BotConfig:MaxTier"];  // 获取最大层级配置
+                GameState selectedGameState = GameState.UNKNOWN;
+                var retreat = maxTurns > 0 || repair ? maxTurns : 0;
 
-                // 解析配置参数
-                var retreat = retreatConfig != null && int.TryParse(retreatConfig, out var retreatValue) ? retreatValue : 0;
-                var maxTier = string.IsNullOrWhiteSpace(maxTierConfig) ? GameState.UNKNOWN : Enum.Parse<GameState>(maxTierConfig, true);
+                if (GameMode == "conquest")
+                {
+                    var maxTier = (ConquestModeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+                    if (!string.IsNullOrEmpty(maxTier))
+                    {
+                        switch (maxTier)
+                        {
+                            case "Proving Ground":
+                                selectedGameState = GameState.CONQUEST_LOBBY_PG;
+                                break;
+                            case "Silver":
+                                selectedGameState = GameState.CONQUEST_LOBBY_SILVER;
+                                break;
+                            case "Gold":
+                                selectedGameState = GameState.CONQUEST_LOBBY_GOLD;
+                                break;
+                            case "infinite":
+                                selectedGameState = GameState.CONQUEST_LOBBY_INFINITE;
+                                break;
+                            default:
+                                selectedGameState = GameState.UNKNOWN;
+                                break;
+                        }
 
-                // 初始化 bot 配置
-                var logPath = $"logs\\{botMode.ToLower()}-log-{DateTime.Now:yyyyMMddHHmmss}.txt";
+                        if (selectedGameState > GameState.CONQUEST_LOBBY_PG)
+                        {
+                            if (!ConfirmMaxTierSelection(selectedGameState))
+                            {
+                                return;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        UpdateLogPanel("Error: No conquest tier selected.");
+                        return;
+                    }
+                }
+
+                var logPath = $"logs\\{GameMode}-log-{DateTime.Now:yyyyMMddHHmmss}.txt";
                 var config = new BotConfig(_configuration, _localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled);
 
-                // 根据appsettings.json选择实例化 bot
-                IBoosterBot bot = botMode.ToLower() switch
+                IBoosterBot bot = GameMode switch
                 {
-                    "conquest" => new ConquestBot(config, retreat, maxTier, shouldSurrender),
+                    "conquest" => new ConquestBot(config, retreat, selectedGameState, shouldSurrender),
                     "ladder" => new LadderBot(config, retreat),
                     "event" => new EventBot(config, retreat),
                     "repair" => new RepairBot(config),
                     _ => throw new Exception(_localizer.GetString("Log_InvalidModeSelection"))
                 };
 
-
-                // 运行 bot
                 try
                 {
                     bot.Run();
                 }
                 catch (Exception ex)
                 {
-                    AddLog(_localizer.GetString("Log_FatalError"));
-                    AddLog(ex.Message);
-                    AddLog(ex.StackTrace);
+                    UpdateLogPanel(_localizer.GetString("Log_FatalError"));
+                    UpdateLogPanel(ex.Message);
+                    UpdateLogPanel(ex.StackTrace);
                 }
             }
             catch (Exception ex)
             {
-                AddLog("Error starting BoosterBot: " + ex.Message);
+                UpdateLogPanel("Error starting BoosterBot: " + ex.Message);
             }
         }
-        
+
+        // 确认最大层级选择
+        private bool ConfirmMaxTierSelection(GameState maxState)
+        {
+            var result = MessageBox.Show($"Are you sure you want to select {maxState} as the maximum tier?", "Confirm Selection", MessageBoxButton.YesNo);
+            return result == MessageBoxResult.Yes;
+        }
+
         // 添加日志
-        private void AddLog(string logMessage)
+        private string lastLogMessage = string.Empty; // 用于存储上一条日志消息
+        private void UpdateLogPanel(string LogMessage)
         {
-            // 构造日志的格式
-            string formattedMessage = $"[{DateTime.Now:HH:mm:ss}] {logMessage}";
-
-            // 如果该日志没有被记录过，才添加
-            if (!loggedMessages.Contains(formattedMessage))
+            // 创建一个新的 TextBox 来显示日志信息
+            TextBox logTextBox = new TextBox
             {
-                // 标记日志为已记录
-                loggedMessages.Add(formattedMessage);
+                Text = LogMessage,
+                Foreground = System.Windows.Media.Brushes.White,
+                Margin = new Thickness(0, 2, 0, 2),
+                IsReadOnly = true, // 禁止编辑
+                Background = System.Windows.Media.Brushes.Transparent, // 透明背景
+                BorderBrush = System.Windows.Media.Brushes.Transparent, // 不显示边框
+                TextWrapping = TextWrapping.Wrap,
+                FontSize = 12
+            };
+            // 如果当前日志与上一条日志相同，则跳过
+            if (LogMessage == lastLogMessage)
+                return;
 
-                // 创建并配置 TextBox 控件来显示日志
-                var logTextBox = new TextBox
-                {
-                    Text = formattedMessage,
-                    Foreground = System.Windows.Media.Brushes.White,
-                    Background = System.Windows.Media.Brushes.Transparent,
-                    BorderThickness = new Thickness(0),
-                    IsReadOnly = true, // 设置为只读
-                    TextWrapping = TextWrapping.Wrap,
-                    VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                    HorizontalScrollBarVisibility = ScrollBarVisibility.Auto,
-                    FontSize = 12
-                };
+            // 更新上一条日志为当前日志
+            lastLogMessage = LogMessage;
 
-                // 将日志添加到 LogPanel 中
-                LogPanel.Children.Add(logTextBox);
-            }
-        }
-        // 清除过期日志
-        private void PurgeLogs()
-        {
-            var logDirectory = new DirectoryInfo("logs");
-            var logFiles = logDirectory.GetFiles("*.txt")
-                                       .OrderByDescending(f => f.LastWriteTime)
-                                       .Skip(10) // 保留最近的 10 个日志
-                                       .ToList();
+            // 将新的日志消息追加到现有文本
+            LogTextBox.AppendText(LogMessage + Environment.NewLine);
 
-            foreach (var file in logFiles)
-            {
-                file.Delete();
-            }
-        }
-
-        // 初始化本地化
-        private void InitializeLocalization()
-        {
-            _configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .Build();
-            _localizer = new LocalizationManager(_configuration);
-        }
-
-        private void LogMessage(string message)
-        {
-            // 确保调用你的 AddLog 方法，不重复添加相同内容
-            if (!string.IsNullOrEmpty(message))
-            {
-                AddLog(message);
-            }
+            // 滚动到最新日志
+            LogScrollViewer.ScrollToEnd();
         }
     }
 }
