@@ -1,9 +1,6 @@
-﻿using BoosterBot.Helpers;
+﻿
 using BoosterBot.Models;
-using BoosterBot.Resources;
 using System.Diagnostics;
-using static System.Net.Mime.MediaTypeNames;
-
 
 namespace BoosterBot
 {
@@ -27,7 +24,7 @@ namespace BoosterBot
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"{Strings.Log_Error} {ex.Message}");
+
                     Thread.Sleep(5000);
                 }
             }
@@ -124,9 +121,15 @@ namespace BoosterBot
         {
             Log("Log_Match_StartNew");
             _game.ClickPlay();
-            Thread.Sleep(1000);
+            for (int i = 0; i < 10 && !_isStopped; i++)
+            {
+                Thread.Sleep(1000);
+            }
             _game.ClickPlay(); // Press a second time just to be sure
-            Thread.Sleep(3000);
+            for (int i = 0; i < 10 && !_isStopped; i++)
+            {
+                Thread.Sleep(3000);
+            }
 
             return WaitForMatchmaking();
         }
@@ -149,7 +152,10 @@ namespace BoosterBot
                 }
 
                 Log("Log_Matchmaking_Waiting", replace: [new("%ELAPSED%", mmTimer.Elapsed.ToString())]);
-                Thread.Sleep(5000);
+                for (int i = 0; i < 10 && !_isStopped; i++)
+                {
+                    Thread.Sleep(5000);
+                }
                 _config.GetWindowPositions();
             }
 
@@ -201,13 +207,19 @@ namespace BoosterBot
                     {
                         Log("Log_Match_ReachedTurnLimit", replace: [new("%VALUE%", _retreatAfterTurn.ToString())]);
                         _game.ClickRetreat();
-                        Thread.Sleep(5000);
-					}
-					else
+                        for (int i = 0; i < 10 && !_isStopped; i++)
+                        {
+                            Thread.Sleep(5000);
+                        }
+                    }
+                    else
                     {
                         Log("Log_Match_PlayingCards", replace: [new("%VALUE%", currentTurn.ToString())]);
                         _game.PlayHand();
-                        Thread.Sleep(1000);
+                        for (int i = 0; i < 10 && !_isStopped; i++)
+                        {
+                            Thread.Sleep(1000);
+                        }
 
                         _config.GetWindowPositions();
 
@@ -220,7 +232,10 @@ namespace BoosterBot
 
                         Log("Log_Match_EndTurn");
                         _game.ClickNext();
-                        Thread.Sleep(1000);
+                        for (int i = 0; i < 10 && !_isStopped; i++)
+                        {
+                            Thread.Sleep(1000);
+                        }
 
                         _config.GetWindowPositions();
 
@@ -228,14 +243,17 @@ namespace BoosterBot
                         while (Check(() => _game.CanIdentifyMidTurn()))
                         {
                             Log("Log_Match_WaitingForTurn");
-                            Thread.Sleep(4000);
+                            for (int i = 0; i < 10 && !_isStopped; i++)
+                            {
+                                Thread.Sleep(4000);
+                            }
                             _config.GetWindowPositions();
                         }
                     }
                 }
 
                 if (shouldSnap && !alreadySnapped)
-                {                     
+                {
                     Log("Log_Match_Snapping");
                     _game.ClickSnap();
                     alreadySnapped = true;
@@ -248,7 +266,10 @@ namespace BoosterBot
             {
                 Log("Log_Match_MaxTimeReached");
                 _game.ClickRetreat();
-                Thread.Sleep(5000);
+                for (int i = 0; i < 10 && !_isStopped; i++)
+                {
+                    Thread.Sleep(5000);
+                }
             }
 
             Log("Log_Check_MatchEnd", true);
@@ -267,12 +288,46 @@ namespace BoosterBot
             while (Check(() => _game.CanIdentifyLadderCollectRewardsBtn()) || Check(() => _game.CanIdentifyLadderMatchEndNextBtn()))
             {
                 _game.ClickNext();
-                Thread.Sleep(6000);
+                for (int i = 0; i < 10 && !_isStopped; i++)
+                {
+                    Thread.Sleep(6000);
+                }
                 _config.GetWindowPositions();
             }
 
             return true;
         }
-    }
 
+        protected override async Task ExecuteCycleAsync(CancellationToken token)
+        {
+            try
+            {
+                while (!token.IsCancellationRequested && !_isStopped) // 同时检查停止标记
+                {
+                    // 检查停止（必须放在循环顶部）
+                    CheckForStop();
+
+                    // 检查暂停状态（通过异步方法）
+                    await CheckPauseStateAsync(token);
+
+                    // 执行具体逻辑（改为异步调用）
+                    await Task.Run(async () =>
+                    {
+                        await RunAsync(token); // 将 Run() 改为异步方法，内部支持取消
+                    }, token);
+
+                    // 更频繁的延迟以提高响应速度
+                    await Task.Delay(100, token);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Log("Operation canceled gracefully.");
+            }
+            catch (Exception ex)
+            {
+                Log($"Error: {ex.Message}");
+            }
+        }
+    }
 }

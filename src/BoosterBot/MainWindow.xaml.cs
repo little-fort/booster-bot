@@ -9,11 +9,17 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace BoosterBot
 {
     public partial class MainWindow : Window
     {
+        private CancellationTokenSource _globalCts;
+        private IBoosterBot _currentBot;
+        private bool _isRunning;
         private static string appSettingsPath = "appsettings.json";
         private static bool _updateAvailable = false;
         private static LocalizationManager _localizer;
@@ -22,51 +28,75 @@ namespace BoosterBot
         public MainWindow()
         {
             InitializeComponent();
-            InitializeLocalization(); 
+            InitializeLocalization();
             LoadAppSettings();
-            HotkeyManager.Initialize(_localizer);
-            Logger.OnLogUpdated += UpdateLogPanel;
+            HotkeyManager.Initialize(_localizer, this.Dispatcher); // 传递当前窗口的Dispatcher
+            HotkeyManager.StopRequested += StopBot;
+            HotkeyManager.PauseStateChanged += OnPauseStateChanged;
             LanguageComboBox.SelectionChanged += LanguageComboBox_SelectionChanged;
             ModeComboBox.SelectionChanged += ModeComboBox_SelectionChanged;
             EventComboBox.SelectionChanged += EventComboBox_SelectionChanged;
             ConquestModeComboBox.SelectionChanged += ConquestModeComboBox_SelectionChanged;
             RoundComboBoxGeneral.SelectionChanged += RoundComboBoxGeneral_SelectionChanged;
         }
+
         private void Window_Closed(object sender, EventArgs e)
         {
-            // 调用公开的 Stop 方法来清理
-            HotkeyManager.Stop();
+            HotkeyManager.Pause();
         }
-
-        static void InitializeLocalization()
+        private void OnPauseStateChanged(bool isPaused)
         {
-            _configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .Build();
-            _localizer = new LocalizationManager(_configuration);
+            Dispatcher.Invoke(() =>
+            {
+                if (isPaused)
+                {
+                    StartButton.Content = "Pausing";
+                }
+                else
+                {
+                    StartButton.Content = "Resuming";
+                    // 可选：稍后恢复为"Start" 当任务真正恢复时
+                }
+            });
+        }
+        private static void InitializeLocalization()
+        {
+            try
+            {
+                // 确保 _configuration 已初始化
+                if (_configuration == null)
+                {
+                    _configuration = new ConfigurationBuilder()
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                        .Build();
+                }
+
+                // 初始化 LocalizationManager
+                _localizer = new LocalizationManager(_configuration);
+            }
+            catch (Exception ex)
+            {
+                // 如果初始化失败，记录错误日志
+                Logger.Log(null, "Log_InitializationFailed", "logs/error.log", true);
+                _localizer = new LocalizationManager(new ConfigurationBuilder().Build()); // 使用空的 IConfiguration
+            }
         }
 
-
-        // 窗口拖动事件
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
 
-        // 最小化窗口
         private void Minimize_Click(object sender, RoutedEventArgs e) =>
             WindowState = WindowState.Minimized;
 
-        // 最大化或恢复窗口
         private void Maximize_Click(object sender, RoutedEventArgs e) =>
             WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 
-        // 关闭窗口
         private void Close_Click(object sender, RoutedEventArgs e) =>
             Close();
 
-        // 语言选择事件
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedLanguage = LanguageComboBox.SelectedValue?.ToString();
@@ -78,12 +108,9 @@ namespace BoosterBot
             }
         }
 
-        // 游戏模式选择事件
         private void ModeComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedMode = (ModeComboBox.SelectedItem as ComboBoxItem)?.Content.ToString()?.ToLower();
-
-            // 根据选择的游戏模式显示/隐藏征服模式设置
             if (selectedMode == "conquest")
             {
                 ConquestModeTitle.Visibility = Visibility.Visible;
@@ -94,8 +121,6 @@ namespace BoosterBot
                 ConquestModeTitle.Visibility = Visibility.Collapsed;
                 ConquestModeComboBox.Visibility = Visibility.Collapsed;
             }
-
-            // 更新 appsettings.json 中的游戏模式，确保是小写字母
             if (!string.IsNullOrEmpty(selectedMode))
             {
                 UpdateAppSettings("defaultRunSettings:GameMode", selectedMode);
@@ -103,7 +128,6 @@ namespace BoosterBot
             }
         }
 
-        // Event 模式选择事件
         private void EventComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedValue = EventComboBox.SelectedValue?.ToString();
@@ -114,7 +138,6 @@ namespace BoosterBot
             }
         }
 
-        // 加载 appsettings.json 配置
         private void LoadAppSettings()
         {
             if (File.Exists(appSettingsPath))
@@ -123,22 +146,18 @@ namespace BoosterBot
                 {
                     var json = File.ReadAllText(appSettingsPath);
                     var jsonObj = JObject.Parse(json);
-
-                    // 设置程序语言
                     var appLanguage = jsonObj["appLanguage"]?.ToString();
                     if (appLanguage == "en-US")
                         LanguageComboBox.SelectedValue = "en-US";
                     else if (appLanguage == "zh-CN")
                         LanguageComboBox.SelectedValue = "zh-CN";
 
-                    // 设置游戏语言
                     var gameLanguage = jsonObj["gameLanguage"]?.ToString();
                     if (gameLanguage == "en-US")
                         LanguageComboBox.SelectedValue = "en-US";
                     else if (gameLanguage == "zh-CN")
                         LanguageComboBox.SelectedValue = "zh-CN";
 
-                    // 设置游戏模式
                     var GameMode = jsonObj["defaultRunSettings"]?["GameMode"]?.ToString();
                     if (GameMode == "ladder")
                         ModeComboBox.SelectedValue = "Ladder";
@@ -147,7 +166,6 @@ namespace BoosterBot
                     else if (GameMode == "event")
                         ModeComboBox.SelectedValue = "Event";
 
-                    // 设置 Event 模式
                     var eventModeActive = jsonObj["eventModeActive"]?.ToString();
                     if (eventModeActive == "true")
                         EventComboBox.SelectedValue = "true";
@@ -161,7 +179,6 @@ namespace BoosterBot
             }
         }
 
-        // 更新 appsettings.json 配置
         private void UpdateAppSettings(string key, string value)
         {
             try
@@ -170,12 +187,10 @@ namespace BoosterBot
                 var jsonObj = JObject.Parse(json);
                 var keys = key.Split(':');
                 var tempObj = jsonObj;
-
                 foreach (var k in keys.Take(keys.Length - 1))
                 {
                     tempObj = (JObject)tempObj[k];
                 }
-
                 tempObj[keys.Last()] = value;
                 File.WriteAllText(appSettingsPath, jsonObj.ToString());
             }
@@ -205,53 +220,69 @@ namespace BoosterBot
             }
         }
 
-        // 点击 Start 按钮时的事件
+        private void ResetUIStateToDefaults()
+        {
+            // 恢复下拉框的默认选项
+            LanguageComboBox.SelectedValue = "en-US";  // 设置为默认语言
+            ModeComboBox.SelectedValue = "Ladder";  // 设置为默认模式
+            EventComboBox.SelectedValue = "false";  // 设置事件模式为默认
+
+            // 你可以在这里继续添加更多的下拉框恢复逻辑
+            ConquestModeComboBox.SelectedValue = null;  // 清空征服模式选项
+            RoundComboBoxGeneral.SelectedValue = null;  // 清空回合选项
+
+            // 其他状态的恢复，比如按钮文本等
+            UpdateLogPanel("UI reset to defaults.");
+        }
         private async void StartButton_Click(object sender, RoutedEventArgs e)
         {
-            UpdateLogPanel("BoosterBot started!");
-
-            // 从 appsettings.json 获取游戏模式
-            var GameMode = _configuration["defaultRunSettings:GameMode"]?.ToLower();  // 确保读取的是小写模式值
-
-            // 确保在 appsettings.json 中选择的游戏模式值是合法的
-            if (string.IsNullOrWhiteSpace(GameMode) || !new[] { "ladder", "conquest", "event" }.Contains(GameMode))
-            {
-                UpdateLogPanel("Error: Invalid mode selection.");
-                return;
-            }
-
-            string? maxConquestTier = null;
-
-            // 只有在征服模式下，maxConquestTier 才能有值
-            if (GameMode == "conquest")
-            {
-                maxConquestTier = _configuration["defaultRunSettings:maxConquestTier"];  // 获取征服模式层级
-            }
-
-            // 获取其他配置项
-            var maxTurns = int.TryParse(_configuration["defaultRunSettings:maxRankedTurns"], out int turns) ? turns : 0;  // 获取回合数
-            var shouldSurrender = _configuration["defaultRunSettings:surrenderGame"] == "Yes";  // 是否放弃游戏
-
-            // 其他配置项
-            bool masked = bool.Parse(_configuration["defaultRunSettings:masked"] ?? "false");
-            bool autoplay = bool.Parse(_configuration["defaultRunSettings:autoplay"] ?? "true");
-            bool saveScreens = bool.Parse(_configuration["defaultRunSettings:saveScreens"] ?? "false");
-            bool repair = bool.Parse(_configuration["defaultRunSettings:repair"] ?? "false");
-            bool? verbose = bool.TryParse(_configuration["verboseLogs"], out var v) ? v : null;
-            bool? downscaled = bool.TryParse(_configuration["downscaledMode"], out var ds) ? ds : null;
-            bool? ltm = bool.TryParse(_configuration["eventModeActive"], out var lt) ? lt : null;
-            double? scaling = double.TryParse(_configuration["scaling"], out var scale) ? scale : null;
-
             try
             {
-                if (!Directory.Exists("screens"))
-                    Directory.CreateDirectory("screens");
 
-                if (!Directory.Exists("logs"))
-                    Directory.CreateDirectory("logs");
+                if (_isRunning)
+                {
+                    PauseBot();
+                    StartButton.Content = "Pausing";
+                    return;
+                }
 
+                if (StartButton.Content.ToString() == "Pausing")  
+                {
+                    ResetUIStateToDefaults();  // 调用一个方法恢复 UI 状态
+                    StartButton.Content = "Start";  // 按钮文本恢复为 "Start"
+                    return;
+                }
+                // 启动新脚本
+                _isRunning = true;
+                StartButton.Content = "Running";  // 更新按钮文本为 "Running"
+                _globalCts = new CancellationTokenSource();
 
-                // 检查更新
+                var GameMode = _configuration["defaultRunSettings:GameMode"]?.ToLower();
+                if (string.IsNullOrWhiteSpace(GameMode) || !new[] { "ladder", "conquest", "event" }.Contains(GameMode))
+                {
+                    UpdateLogPanel("Error: Invalid mode selection.");
+                    return;
+                }
+
+                string? maxConquestTier = null;
+                if (GameMode == "conquest")
+                {
+                    maxConquestTier = _configuration["defaultRunSettings:maxConquestTier"];
+                }
+
+                var maxTurns = int.TryParse(_configuration["defaultRunSettings:maxRankedTurns"], out int turns) ? turns : 0;
+                var shouldSurrender = _configuration["defaultRunSettings:surrenderGame"] == "Yes";
+                bool autoplay = bool.Parse(_configuration["defaultRunSettings:autoplay"] ?? "true");
+                bool saveScreens = bool.Parse(_configuration["defaultRunSettings:saveScreens"] ?? "false");
+                bool repair = bool.Parse(_configuration["defaultRunSettings:repair"] ?? "false");
+                bool? verbose = bool.TryParse(_configuration["verboseLogs"], out var v) ? v : null;
+                bool? downscaled = bool.TryParse(_configuration["downscaledMode"], out var ds) ? ds : null;
+                bool? ltm = bool.TryParse(_configuration["eventModeActive"], out var lt) ? lt : null;
+                double? scaling = double.TryParse(_configuration["scaling"], out var scale) ? scale : null;
+
+                if (!Directory.Exists("screens")) Directory.CreateDirectory("screens");
+                if (!Directory.Exists("logs")) Directory.CreateDirectory("logs");
+
                 _updateAvailable = await UpdateChecker.CheckForUpdates();
 
                 GameState selectedGameState = GameState.UNKNOWN;
@@ -299,7 +330,7 @@ namespace BoosterBot
                 var logPath = $"logs\\{GameMode}-log-{DateTime.Now:yyyyMMddHHmmss}.txt";
                 var config = new BotConfig(_configuration, _localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled);
 
-                IBoosterBot bot = GameMode switch
+                _currentBot = GameMode switch
                 {
                     "conquest" => new ConquestBot(config, retreat, selectedGameState, shouldSurrender),
                     "ladder" => new LadderBot(config, retreat),
@@ -307,59 +338,119 @@ namespace BoosterBot
                     "repair" => new RepairBot(config),
                     _ => throw new Exception(_localizer.GetString("Log_InvalidModeSelection"))
                 };
-                // 启动后台任务
+
                 HotkeyManager.StartBackgroundTask();
-                try
-                {
-                    bot.Run();
-                }
-                catch (Exception ex)
-                {
-                    UpdateLogPanel(_localizer.GetString("Log_FatalError"));
-                    UpdateLogPanel(ex.Message);
-                    UpdateLogPanel(ex.StackTrace);
-                }
+                await Task.Run(() => _currentBot.RunAsync(_globalCts.Token), _globalCts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                UpdateLogPanel("Operation canceled");
             }
             catch (Exception ex)
             {
                 UpdateLogPanel("Error starting BoosterBot: " + ex.Message);
             }
+            finally
+            {
+                ResetUIState();
+            }
         }
 
-        // 确认最大层级选择
+        private void PauseBot()
+        {
+            _globalCts?.Cancel();
+            _currentBot?.Cancel();
+            UpdateLogPanel("Bot pausing");
+        }
+        private void StopBot()
+        {
+            _globalCts?.Cancel();
+            _currentBot?.Stop();
+            HotkeyManager.Stop();
+
+            Dispatcher.Invoke(() =>
+            {
+                UpdateLogPanel("Bot stopped");
+                StartButton.Content = "Stopped";
+                StartButton.IsEnabled = true;
+
+                // 获取当前应用程序的目录
+                string currentDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+                string baseDirectory = Path.GetDirectoryName(currentDirectory);  // 当前目录的父目录
+                string targetFileName = "BoosterBot.exe";
+
+                // 查找包含BoosterBot.exe的文件夹
+                var targetFolderPath = Directory.GetDirectories(baseDirectory)
+                                                 .FirstOrDefault(dir => Directory.GetFiles(dir, targetFileName).Any());
+
+                if (targetFolderPath != null)
+                {
+                    string appPath = Path.Combine(targetFolderPath, targetFileName);
+                    if (File.Exists(appPath))
+                    {
+                        Process.Start(new ProcessStartInfo
+                        {
+                            FileName = appPath,
+                            UseShellExecute = true
+                        });
+
+                        Application.Current.Shutdown();
+                    }
+                    else
+                    {
+                        Console.WriteLine("文件未找到: " + appPath);
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("未找到目标文件夹包含BoosterBot.exe！");
+                }
+            });
+
+        }
+
+        private void ResetUIState()
+        {
+            Dispatcher.Invoke(() =>
+            {
+                _isRunning = false;
+                StartButton.Content = "Start";  // 在任务完成或取消后，按钮文本变回 "Start"
+                StartButton.IsEnabled = true;    // 使按钮恢复为可点击状态
+            });
+        }
+
+
         private bool ConfirmMaxTierSelection(GameState maxState)
         {
             var result = MessageBox.Show($"Are you sure you want to select {maxState} as the maximum tier?", "Confirm Selection", MessageBoxButton.YesNo);
             return result == MessageBoxResult.Yes;
         }
 
-        // 添加日志
-        private string lastLogMessage = string.Empty; // 用于存储上一条日志消息
+        private string lastLogMessage = string.Empty;
         private void UpdateLogPanel(string LogMessage)
         {
-            // 创建一个新的 TextBox 来显示日志信息
+            // 添加线程调度检查
+            if (!Dispatcher.CheckAccess())
+            {
+                Dispatcher.Invoke(() => UpdateLogPanel(LogMessage));
+                return;
+            }
             TextBox logTextBox = new TextBox
             {
                 Text = LogMessage,
                 Foreground = System.Windows.Media.Brushes.White,
                 Margin = new Thickness(0, 2, 0, 2),
-                IsReadOnly = true, // 禁止编辑
-                Background = System.Windows.Media.Brushes.Transparent, // 透明背景
-                BorderBrush = System.Windows.Media.Brushes.Transparent, // 不显示边框
+                IsReadOnly = true,
+                Background = System.Windows.Media.Brushes.Transparent,
+                BorderBrush = System.Windows.Media.Brushes.Transparent,
                 TextWrapping = TextWrapping.Wrap,
                 FontSize = 12
             };
-            // 如果当前日志与上一条日志相同，则跳过
             if (LogMessage == lastLogMessage)
                 return;
 
-            // 更新上一条日志为当前日志
             lastLogMessage = LogMessage;
-
-            // 将新的日志消息追加到现有文本
             LogTextBox.AppendText(LogMessage + Environment.NewLine);
-
-            // 滚动到最新日志
             LogScrollViewer.ScrollToEnd();
         }
     }

@@ -7,7 +7,7 @@
         <!-- 顶部区域 -->
         <StackPanel DockPanel.Dock="Top" Orientation="Vertical" Background="White">
             <!-- 自定义标题栏 -->
-            <Grid Height="20">
+            <Grid Height="25">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0"/>
                     <ColumnDefinition Width="95"/>
@@ -34,18 +34,18 @@
                 <TextBlock Text="BoosterBot for Marvel Snap" Foreground="White" FontSize="16" VerticalAlignment="Center" Margin="10,0,10,0" Grid.Column="1" Height="20"/>
                 <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Center" Width="230">
                     <ComboBox x:Name="EventComboBox" 
-                              Width="80" Height="30" 
+                              Width="80" Height="25" 
                               Background="#3C3C3C" Foreground="Black" 
-                              FontSize="14" Margin="10,0,10,0"
+                              FontSize="14" FontWeight="Bold" Margin="10,0,10,0"
                               SelectedValuePath="Tag"
                               SelectionChanged="EventComboBox_SelectionChanged">
-                        <ComboBoxItem Content="Enable" Tag="true"/>
-                        <ComboBoxItem Content="Disable" Tag="false"/>
+                        <ComboBoxItem Content="Enable" Tag="true" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                        <ComboBoxItem Content="Disable" Tag="false" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                     </ComboBox>
-                    <Button Content="Start" Width="100" Height="33" 
+                    <Button x:Name="StartButton" Content="Start" Width="100" Height="33" 
                             Background="#FFC107" Foreground="Black" 
                             FontSize="16" FontWeight="Bold" 
-                            Margin="10" Click="StartButton_Click"/>
+                            Margin="10" Click="StartButton_Click" IsEnabled="{Binding IsUiEnabled}"/>
                 </StackPanel>
             </Grid>
         </StackPanel>
@@ -123,9 +123,10 @@
             <!-- 右侧详情 -->
             <StackPanel Background="#2E2E2E" Margin="20,20,16,20" Grid.Column="1">
                 <TextBlock Text="Program Details" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
-                <TextBlock Text="Author: Little-fort" Foreground="White" FontSize="14" Margin="0,0,0,5"/>
+                <TextBlock Text="Author: Little-fort/Kusaki-Y" Foreground="White" FontSize="14" Margin="0,0,0,5"/>
                 <TextBlock Text="Version: V1.6.1" Foreground="White" FontSize="14" Margin="0,0,0,5"/>
-                <TextBlock Text="Description: A bot that could hypothetically be used to farm boosters for any deck in Marvel Snap. Strictly for educational purposes, of course. Can also be paired with an Agatha deck to more effectively farm missions and seasonal ranks. The bot uses various UI reference points to determine game state and then simulates user clicks to perform relevant actions." 
+                <TextBlock Text="Description: A bot designed to farm boosters in Marvel Snap by automating gameplay through UI references, ideal for pairing with an Agatha deck to complete missions and seasonal ranks efficiently. Strictly for educational purposes.
+                           (本程序仅限于学习研究，不可用于买卖。)" 
                            Foreground="White" FontSize="14" Margin="0,0,0,5" TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>

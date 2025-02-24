@@ -256,5 +256,57 @@ namespace BoosterBot
 
             return ShowRepairPrompt(prompt);
         }
+        protected override async Task ExecuteCycleAsync(CancellationToken token)
+        {
+            try
+            {
+                // 修改循环条件，同时检查停止标志
+                while (!token.IsCancellationRequested && !_isStopped)
+                {
+                    // 在核心逻辑执行前检查停止状态
+                    if (_isStopped) break;
+
+                    // 包装同步操作为可取消任务
+                    await Task.Run(() =>
+                    {
+                        // 在同步代码中插入停止检查
+                        if (_isStopped) return;
+                        Run();
+
+                        // 在长时间操作中插入定期检查
+                        for (var i = 0; i < 5; i++) // 每100ms检查一次
+                        {
+                            if (_isStopped) return;
+                            Thread.Sleep(100);
+                        }
+                    }, token);
+
+                    // 修改延迟为可中断等待
+                    for (var i = 0; i < 5 && !_isStopped; i++) // 分解为100ms间隔检查
+                    {
+                        await Task.Delay(100, token);
+                        if (_isStopped) break;
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                // 区分取消原因
+                Log(_isStopped ? "Execution force stopped" : "Execution canceled normally");
+            }
+            catch (Exception ex)
+            {
+                Log($"Error: {ex.Message}");
+            }
+            finally
+            {
+                // 确保停止后重置状态
+                if (_isStopped)
+                {
+                    _matchTimer?.Stop();
+                    Log("Stop cleanup completed");
+                }
+            }
+        }
     }
 }

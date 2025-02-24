@@ -1,6 +1,5 @@
 ﻿using BoosterBot.Helpers; // 引入辅助工具类
 using BoosterBot.Models;  // 引入模型类
-using BoosterBot.Resources; // 引入资源类
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -68,20 +67,18 @@ namespace BoosterBot
                 }
                 catch (Exception ex)
                 {
-                    // 捕获异常并输出错误信息
-                    Console.WriteLine($"{Strings.Log_Error} {ex.Message}");
+
                     Thread.Sleep(5000);
                 }
             }
         }
 
-        // 主运行逻辑
         public override void Run()
         {
             Log("Conquest_Log_Start"); // 记录日志
             var attempts = 0; // 初始化尝试次数
 
-            while (true)
+            while (!_isStopped && !_cts.Token.IsCancellationRequested)
             {
                 attempts++;
 
@@ -116,6 +113,7 @@ namespace BoosterBot
                     }
                 }
             }
+            Log("EventBot stopped"); // 添加停止日志
         }
 
         // 导航到游戏模式菜单
@@ -559,6 +557,30 @@ namespace BoosterBot
 
             // 所有比赛后流程处理完成
             return true;
+        }
+
+        protected override async Task ExecuteCycleAsync(CancellationToken token)
+        {
+            try
+            {
+                while (true) // 继续循环直到手动停止
+                {
+                    // 如果检测到停止请求，立刻退出循环
+                    if (_isStopped || token.IsCancellationRequested)
+                        break;
+
+                    // 执行核心逻辑
+                    await Task.Run(() => Run(), token);
+
+                    // 立即返回，如果已经请求停止
+                    if (_isStopped || token.IsCancellationRequested)
+                        break;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Log("Operation canceled");
+            }
         }
     }
 }

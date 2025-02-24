@@ -2,7 +2,6 @@
 using BoosterBot.Models;
 using System.Diagnostics;
 
-
 namespace BoosterBot
 {
     internal class EventBot : BaseBot
@@ -42,7 +41,7 @@ namespace BoosterBot
             Log("Event_Log_Start");
             var attempts = 0;
 
-            while (true)
+            while (!_isStopped) // 使用 BaseBot 中已存在的字段
             {
                 attempts++;
 
@@ -77,8 +76,17 @@ namespace BoosterBot
                         attempts = 0;
                         DetermineLoopEntryPoint();
                     }
+
+                }
+                if (_isStopped) break;
+
+                // 将长时阻塞拆分为短时检查
+                for (int i = 0; i < 5 && !_isStopped; i++)
+                {
+                    Thread.Sleep(100); // 保持原同步等待
                 }
             }
+            Log("EventBot stopped");
         }
 
         private void NavigateToGameModes()
@@ -245,8 +253,8 @@ namespace BoosterBot
                         Log(_localizer.GetString("Log_Match_ReachedTurnLimit").Replace("%VALUE%", _retreatAfterTurn.ToString()));
                         _game.ClickRetreat();
                         Thread.Sleep(5000);
-					}
-					else
+                    }
+                    else
                     {
                         Log(_localizer.GetString("Log_Match_PlayingCards").Replace("%VALUE%", currentTurn.ToString()));
                         _game.PlayHand();
@@ -315,6 +323,39 @@ namespace BoosterBot
             }
 
             return true;
+        }
+
+        protected override async Task ExecuteCycleAsync(CancellationToken token)
+        {
+            try
+            {
+                while (!token.IsCancellationRequested && !_isStopped)
+                {
+                    await Task.Run(() =>
+                    {
+                        // 在同步代码中插入高频停止检查
+                        foreach (var _ in Enumerable.Range(0, 10)) // 每100ms检查一次
+                        {
+                            if (_isStopped || token.IsCancellationRequested)
+                                return;
+
+                            RunStep(); // 将原Run逻辑拆分为单步操作
+                            Thread.Sleep(100);
+                        }
+                    }, token);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Log("Operation canceled");
+            }
+        }
+        private void RunStep()
+        {
+            // 将原Run循环体拆分为单步操作
+            _config.GetWindowPositions();
+            _game.ResetClick();
+            // ...其他操作...
         }
     }
 
