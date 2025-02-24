@@ -2,10 +2,8 @@
 using System;
 using System.Drawing;
 using System.Reflection;
-using System.Windows.Forms;
 using System.Windows.Input;
-using WindowsInput;
-using WindowsInput.Native;
+using System.Runtime.InteropServices;
 
 
 namespace BoosterBot
@@ -15,7 +13,36 @@ namespace BoosterBot
         private readonly BotConfig _config;
         private readonly ComponentMappings _mappings;
         private double _defaultConfidence = 0.95;
+        private bool _disposed = false;
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    // 释放托管资源
+                    if (_config is IDisposable configDisposable)
+                    {
+                        configDisposable.Dispose();
+                    }
+                    if (_mappings is IDisposable mappingsDisposable)
+                    {
+                        mappingsDisposable.Dispose();
+                    }
+                }
+
+                // 释放非托管资源（如果有的话）
+                // （本例中没有非托管资源需要直接释放）
+
+                _disposed = true;
+            }
+        }
         public GameUtilities(BotConfig config)
         {
             _config = config;
@@ -60,7 +87,6 @@ namespace BoosterBot
 
             return ProcessChecks(checks);
         }
-
         public (List<string> Logs, List<string> Results) LogConquestGameState()
         {
             var logs = new List<string>();
@@ -92,7 +118,6 @@ namespace BoosterBot
 
             return ProcessChecks(checks);
         }
-
         public GameState DetermineLadderGameState(bool checkEvent = false)
         {
             _config.GetWindowPositions();
@@ -110,7 +135,6 @@ namespace BoosterBot
 
             return GameState.UNKNOWN;
         }
-
         public GameState DetermineConquestGameState()
         {
             _config.GetWindowPositions();
@@ -132,7 +156,6 @@ namespace BoosterBot
 
             return GameState.UNKNOWN;
         }
-
         public GameState DetermineConquestLobbyTier()
         {
             _config.GetWindowPositions();
@@ -144,9 +167,7 @@ namespace BoosterBot
 
             return GameState.UNKNOWN;
         }
-
         #region Check Helpers
-
         private IdentificationResult CheckSimilarity(Func<Rect> getAreaFunc, string referenceImagePath, double threshold = 0.95, bool cropOnly = false)
         {
             var area = getAreaFunc();
@@ -154,8 +175,7 @@ namespace BoosterBot
                 threshold = _defaultConfidence;
             return ImageUtilities.CheckImageAreaSimilarity(area, referenceImagePath, threshold, cropOnly: cropOnly);
         }
-
-        private IdentificationResult CheckMultipleSimilarities(bool returnFirstFound = true, params(Func<Rect> GetAreaFunc, string ReferenceImagePath, double Threshold)[] checks)
+        private IdentificationResult CheckMultipleSimilarities(bool returnFirstFound = true, params (Func<Rect> GetAreaFunc, string ReferenceImagePath, double Threshold)[] checks)
         {
             var combinedLogs = new List<string>();
             foreach (var (getAreaFunc, referenceImagePath, threshold) in checks)
@@ -167,7 +187,6 @@ namespace BoosterBot
             }
             return new IdentificationResult(false, combinedLogs);
         }
-
         private IdentificationResult CheckSequentially(bool returnFirstFound = true, params Func<bool, IdentificationResult>[] identificationMethods)
         {
             var combinedLogs = new List<string>();
@@ -184,9 +203,7 @@ namespace BoosterBot
             // No match found; return false with combined logs
             return new IdentificationResult(false, combinedLogs);
         }
-
         #endregion
-
         #region Core UI
 
         public IdentificationResult CanIdentifyMainMenu()
@@ -199,10 +216,8 @@ namespace BoosterBot
             => CheckSimilarity(_mappings.GetEnergy, _mappings.REF_ICON_ZERO_ENERGY, 0.925);
 
         #endregion
-
         public IdentificationResult RunFullIdentifySequence(Func<bool, IdentificationResult> func, bool returnFirstFound = false)
             => func(returnFirstFound);
-
         #region Event
 
         public IdentificationResult CanIdentifyEventMenu()
@@ -215,7 +230,6 @@ namespace BoosterBot
             => CheckSequentially(returnFirstFound, CanIdentifyEventForfeitBtn, CanIdentifyEndTurnBtn, CanIdentifyMidTurn);
 
         #endregion
-
         #region Ladder
 
         public IdentificationResult CanIdentifyActiveLadderMatch(bool returnFirstFound = true)
@@ -240,7 +254,6 @@ namespace BoosterBot
             => CheckSequentially(returnFirstFound, CanIdentifyLadderCollectRewardsBtn, CanIdentifyLadderMatchEndNextBtn);
 
         #endregion
-
         #region Conquest
 
         public IdentificationResult CanIdentifyActiveConquestMatch()
@@ -340,18 +353,12 @@ namespace BoosterBot
                 );
 
         #endregion
-
         public void ResetClick() => SystemUtilities.Click(_config.ResetPoint);
-
         public void ResetMenu() => SystemUtilities.Click(_config.Window.Left + _config.Center, _config.Window.Bottom - _config.Scale(5));
-
         public void ClearError() => SystemUtilities.Click(_config.ClearErrorPoint);
-
-
         public void PlayHand()
         {
             var rand = new Random();
-
             // Randomize the order in which cards are attempted to be played:
             int[] handPos = { 0, 1, 2, 3 };
             for (int i = handPos.Length - 1; i > 0; i--)
@@ -359,7 +366,6 @@ namespace BoosterBot
                 int j = rand.Next(0, i + 1);
                 (handPos[j], handPos[i]) = (handPos[i], handPos[j]);
             }
-
             // Attempt to play cards from hand to random locations. Will exit early if zero energy is detected.
             MouseUtilities.MoveCard(_config.Cards[handPos[0]], _config.Locations[rand.Next(3)], _config.ResetPoint);
             _config.GetWindowPositions(); if (CanIdentifyZeroEnergy().IsMatch) goto Exit;
@@ -369,32 +375,22 @@ namespace BoosterBot
             _config.GetWindowPositions(); if (CanIdentifyZeroEnergy().IsMatch) goto Exit;
             MouseUtilities.MoveCard(_config.Cards[handPos[3]], _config.Locations[rand.Next(3)], _config.ResetPoint);
 
-            Exit:
-                ResetClick();
+        Exit:
+            ResetClick();
         }
-
 
         public bool ClickSnap()
         {
             SystemUtilities.Click(_config.SnapPoint);
             Logger.Log(_config.Localizer, "Log_OhSnap", _config.LogPath);
-
             return true;
         }
 
 
         public void ClickPlay() => SystemUtilities.Click(_config.PlayPoint);
-
-
         public void ClickCancel() => SystemUtilities.Click(_config.CancelPoint);
-
-
         public void ClickNext() => SystemUtilities.Click(_config.NextPoint);
-
-
         public void ClickClaim() => SystemUtilities.Click(_config.ClaimPoint);
-
-
         public void ClickRetreat()
         {
             _config.GetWindowPositions();
@@ -405,26 +401,23 @@ namespace BoosterBot
 
             Thread.Sleep(5000);
         }
+        public void ClickConcede()
+        {
+            _config.GetWindowPositions();
+            SystemUtilities.Click(_config.ConcedePoint);
 
+            Thread.Sleep(1000);
+            SystemUtilities.Click(_config.ConcedeConfirmPoint);
 
-		public void ClickConcede()
-		{
-			_config.GetWindowPositions();
-			SystemUtilities.Click(_config.ConcedePoint);
-
-			Thread.Sleep(1000);
-			SystemUtilities.Click(_config.ConcedeConfirmPoint);
-
-			Thread.Sleep(5000);
-		}
-
+            Thread.Sleep(5000);
+        }
         public void PressEscKey()
         {
-            var simulator = new InputSimulator();
+            var simulator = new WindowsInput.InputSimulator();
             // 模拟按下 ESC 键
-            simulator.Keyboard.KeyDown(VirtualKeyCode.ESCAPE);
+            simulator.Keyboard.KeyDown(WindowsInput.VirtualKeyCode.ESCAPE);
             // 模拟释放 ESC 键
-            simulator.Keyboard.KeyUp(VirtualKeyCode.ESCAPE);
+            simulator.Keyboard.KeyUp(WindowsInput.VirtualKeyCode.ESCAPE);
         }
 
         public void BlindReset()
@@ -456,6 +449,9 @@ namespace BoosterBot
 
         public LeadStatus GetLeadStatus()
         {
+            if (_disposed)
+                throw new ObjectDisposedException(nameof(GameUtilities));
+
             bool[] lanes = new bool[3];
 
             // Check color points of three lanes. If orange, lane is leading.
@@ -491,7 +487,7 @@ namespace BoosterBot
 
                 // Get the color of the pixel at the specified point
                 Color pixelColor = image.GetPixel(point.X, point.Y);
-                // Console.WriteLine($"[{point.X}, {point.Y}] #{pixelColor.Name}");
+                Console.WriteLine($"[{point.X}, {point.Y}] #{pixelColor.Name}");
 
                 // Convert the color to HSV
                 float hue = pixelColor.GetHue();

@@ -1,9 +1,8 @@
-using System.Net.Http;
+﻿using System.Net.Http;
 using System.Text.Json;
 using System.Diagnostics;
 using System.Reflection;
 using System.Security.Policy;
-using BoosterBot.Resources;
 
 namespace BoosterBot.Helpers;
 
@@ -17,7 +16,7 @@ public class GitHubRelease
 
 public static class UpdateChecker
 {
-    private const string GITHUB_API_URL = "https://api.github.com/repos/little-fort/booster-bot/releases/latest";
+    private const string GITHUB_API_URL = "null";
     private static GitHubRelease _latestRelease;
 
     public static async Task<bool> CheckForUpdates()
@@ -80,23 +79,10 @@ public static class UpdateChecker
             }
             catch (Exception ex)
             {
-                // Logger.Log($"Failed to open release page: {ex.Message}", "logs\\update.txt");
+                //Logger.Log($"Failed to open release page: {ex.Message}", "logs\\update.txt");
             }
         }
     }
 
-    public static string GetUpdateMessage()
-    {
-        if (_latestRelease == null)
-            return string.Empty;
 
-        var body = _latestRelease.body;
-        var lines = body.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-        var message = Strings.Update_NewVersion.Replace("%VALUE%", _latestRelease.tag_name);
-
-        foreach (var line in lines)
-            message += $"   {line}\n";
-
-        return message;
-    }
 }

@@ -1,12 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Globalization;
-using System.Linq;
 using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BoosterBot.Helpers
 {
@@ -18,7 +14,9 @@ namespace BoosterBot.Helpers
 
         public LocalizationManager(IConfiguration configuration)
         {
-            _configuration = configuration;
+            // 确保 configuration 不为 null
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration), "Configuration cannot be null.");
+
             // Assumes resources are in a .resx file in the Resources folder
             _resourceManager = new ResourceManager("BoosterBot.Resources.Strings", typeof(LocalizationManager).Assembly);
 

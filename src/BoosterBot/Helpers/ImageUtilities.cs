@@ -11,9 +11,9 @@ internal class ImageUtilities
 {
     #region Image Comparison
 
-    /// <summary>
+
     /// A method to compare two images and return a similarity score based on how close they are to each other.
-    /// </summary>
+
     /// <param name="area">The area that should be cropped from the target image.</param>
     /// <param name="refImage">The reference image that should be used for comparison.</param>
     /// <param name="targetScore">The threshold of similarity that must be met to return true.</param>
@@ -55,9 +55,9 @@ internal class ImageUtilities
     }
 
 
-    /// <summary>
+
     /// A method to preprocess the cropped image so that the Tesseract OCR will return more consistent results.
-    /// </summary>
+
     public static Mat PreprocessImage(string imagePath)
     {
         // Load the image
@@ -140,9 +140,9 @@ internal class ImageUtilities
 
     #region OCR
 
-    /// <summary>
+
     /// Takes a crop with the given dimensions from the specified image and saves it as an image to the disk. Used for debugging.
-    /// </summary>
+
     private static void SaveImage(Rectangle crop, string image = BotConfig.DefaultImageLocation)
     {
         var destRect = new Rectangle(System.Drawing.Point.Empty, crop.Size);
@@ -154,9 +154,9 @@ internal class ImageUtilities
         cropImage.Save(@"screens//snapcap-" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".png", System.Drawing.Imaging.ImageFormat.Png);
     }
 
-    /// <summary>
+
     /// Takes in an expected value and compares it to what OCR returned to generate a similarity score based on how close the values are. Calculation is case-insensitive.
-    /// </summary>
+
     private static double CalculateStringSimilarity(string expected, string ocr)
     {
         int maxLen = Math.Max(expected.Length, ocr.Length);
@@ -169,9 +169,9 @@ internal class ImageUtilities
     }
 
 
-    /// <summary>
+
     /// Used to calculate the Levenshtein distance—the minimum number of single-character edits (insertions, deletions, or substitutions) required to change one word into the other.
-    /// </summary>
+
     private static int LevenshteinDistance(string source, string target)
     {
         if (string.IsNullOrEmpty(source))

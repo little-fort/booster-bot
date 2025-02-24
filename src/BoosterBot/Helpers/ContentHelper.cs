@@ -8,13 +8,13 @@ namespace BoosterBot;
 internal static class ContentHelper
 {
     private static string _resourcePath;
-    private static Process _currentViewer;
+    private static Process? _currentViewer;
 
     static ContentHelper()
     {
         // Get the executing assembly's directory
         var assemblyLocation = Assembly.GetExecutingAssembly().Location;
-        var assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
+        var assemblyDirectory = Path.GetDirectoryName(assemblyLocation) ?? throw new InvalidOperationException("Assembly directory cannot be determined.");
         _resourcePath = Path.Combine(assemblyDirectory, "resources");
 
         // Ensure resources directory exists
