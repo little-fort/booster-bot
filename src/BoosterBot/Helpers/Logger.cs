@@ -8,19 +8,17 @@ namespace BoosterBot
 {
     internal static class Logger
     {
-        // 全局静态字段，用于存储 LocalizationManager 实例
-        private static LocalizationManager _globalLocalizer;
+        private static LocalizationManager? _globalLocalizer;
 
-        public static void Log(LocalizationManager localizer, string key, string logPath, bool directWrite = false, List<FindReplaceValue> replace = null)
+        public static void Log(LocalizationManager localizer, string key, string logPath, bool directWrite = false, List<FindReplaceValue>? replace = null)
         {
-            var time = $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}] ";
+            var time = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] ";
 
-            // 如果传入的 localizer 为 null，尝试使用全局的 LocalizationManager
             if (localizer == null)
             {
                 if (_globalLocalizer == null)
                 {
-                    Console.WriteLine($"{time} ERROR: LocalizationManager is not initialized. Logging key directly: {key}");
+                    Console.WriteLine($"{time}ERROR: LocalizationManager is not initialized. Logging key directly: {key}");
                     if (logPath != null)
                     {
                         using var writer = new StreamWriter(logPath, true);
@@ -64,7 +62,6 @@ namespace BoosterBot
             }
         }
 
-        // 设置全局的 LocalizationManager 实例
         public static void SetGlobalLocalizer(LocalizationManager localizer)
         {
             _globalLocalizer = localizer;

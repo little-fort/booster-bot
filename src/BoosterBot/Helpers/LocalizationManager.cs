@@ -1,26 +1,21 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Resources;
+using Microsoft.Extensions.Configuration;
 
 namespace BoosterBot.Helpers
 {
     public class LocalizationManager
     {
         private readonly ResourceManager _resourceManager;
-        private CultureInfo _currentCulture;
+        private CultureInfo _currentCulture = CultureInfo.InvariantCulture; 
         private readonly IConfiguration _configuration;
 
         public LocalizationManager(IConfiguration configuration)
         {
-            // 确保 configuration 不为 null
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration), "Configuration cannot be null.");
 
-            // Assumes resources are in a .resx file in the Resources folder
             _resourceManager = new ResourceManager("BoosterBot.Resources.Strings", typeof(LocalizationManager).Assembly);
 
-            // Get culture from settings, default to English if not specified
             string cultureName = _configuration["appLanguage"] ?? "en-US";
             SetCulture(cultureName);
         }
@@ -35,11 +30,8 @@ namespace BoosterBot.Helpers
             }
             catch (CultureNotFoundException)
             {
-                // Fallback to English if culture not found
                 _currentCulture = CultureInfo.GetCultureInfo("en-US");
             }
-
-            // Set current thread culture (important for console apps)
             CultureInfo.CurrentUICulture = _currentCulture;
             CultureInfo.CurrentCulture = _currentCulture;
         }
@@ -69,11 +61,8 @@ namespace BoosterBot.Helpers
                 return $"[Resource Error: {key}]";
             }
         }
-
-        // Optional: Method to get all supported cultures
         public IEnumerable<CultureInfo> GetSupportedCultures()
         {
-            // You would need to maintain this list based on your available .resx files
             return new[]
             {
                 CultureInfo.GetCultureInfo("en-US"),

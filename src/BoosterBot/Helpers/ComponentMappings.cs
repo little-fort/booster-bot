@@ -1,10 +1,10 @@
 ﻿
 namespace BoosterBot
 {
-    internal class ComponentMappings
+    internal class ComponentMappings(BotConfig config)
     {
-        public readonly BotConfig _config;
-        private readonly string _culture;
+        public readonly BotConfig _config = config;
+        private readonly string _culture = config.Settings["gameLanguage"]?.Split('-')[0] ?? "en";
         public string Culture { get => _culture; }
         public string REF_BTN_RECONNECT_TO_GAME { get => $"reference\\{_culture}\\btn-main-reconnect-preproc.png"; }
         public string REF_EVENT_BTN_PLAY { get => $"reference\\{_culture}\\btn-event-play-preproc.png"; }
@@ -51,12 +51,8 @@ namespace BoosterBot
         public string REF_CONQ_BTN_WIN_TICKET { get => $"reference\\{_culture}\\btn-conquest-ticket-claim-preproc.png"; }
         public string REF_CONQ_BTN_WIN_TICKET_2 { get => $"reference\\{_culture}\\btn-conquest-ticket-claim-2-preproc.png"; }
         public string REF_CONQ_BTN_WIN_TICKET_3 { get => $"reference\\{_culture}\\btn-conquest-ticket-claim-3-preproc.png"; }
-
-        public ComponentMappings(BotConfig config)
-        {
-            _config = config;
-            _culture = config.Settings["gameLanguage"]?.Split('-')[0] ?? "en";
-        }
+        public string REF_EXP_BTN_CLAIM_1 { get => $"reference\\{_culture}\\btn-exp-claim-1-preproc.png"; }
+        public string REF_EXP_BTN_CLAIM_2 { get => $"reference\\{_culture}\\btn-exp-claim-2-preproc.png"; }
 
         public Rect GetBtnPlay() => new()
         {
@@ -65,7 +61,7 @@ namespace BoosterBot
             Top = _config.Screencap.Height - 235,
             Bottom = _config.Screencap.Height - 195
         };
-        
+
         public Rect GetEnergy() => new()
         {
             Left = _config.Center - 30,
@@ -73,7 +69,13 @@ namespace BoosterBot
             Top = _config.Screencap.Height - 90,
             Bottom = _config.Screencap.Height - 45
         };
-
+        public Rect GetExperienceClaim() => new()
+        {
+            Left = _config.Center + 70,
+            Right = _config.Center + 130,
+            Top = _config.Screencap.Height - 440,
+            Bottom = _config.Screencap.Height - 410
+        };
         #region Ladder
 
         public Rect GetLadderMatchmakingCancel() => new()
@@ -212,10 +214,11 @@ namespace BoosterBot
         {
             Left = _config.Center - 65,
             Right = _config.Center + 40,
-            Top = _config.Screencap.Height - 160,
-            Bottom = _config.Screencap.Height - 130
+            Top = _config.Screencap.Height - 120,
+            Bottom = _config.Screencap.Height - 90
         };
 
         #endregion
+
     }
 }

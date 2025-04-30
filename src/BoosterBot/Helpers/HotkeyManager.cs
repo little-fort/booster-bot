@@ -1,8 +1,6 @@
-﻿using BoosterBot.Helpers;
-using System;
-using System.Runtime.InteropServices;
-using System.Threading;
+﻿using System.Runtime.InteropServices;
 using System.Windows.Threading;
+using BoosterBot.Helpers;
 
 namespace BoosterBot
 {
@@ -42,22 +40,26 @@ namespace BoosterBot
 
         #region State Management
         private static IntPtr _windowHandle;
-        private static Thread _messageLoopThread;
+        private static Thread? _messageLoopThread; // 改为可空类型
         private static volatile bool _isRunning;
-        private static LocalizationManager _localizer;
-        private static Dispatcher _uiDispatcher;
+        private static LocalizationManager? _localizer; // 改为可空类型
+        private static Dispatcher? _uiDispatcher; // 改为可空类型
+
         public static bool IsPaused { get; private set; }
         public static bool IsStopped { get; private set; }
         #endregion
 
         #region Events
-        public static event Action<bool> PauseStateChanged;
-        public static event Action StopRequested;
+        public static event Action<bool> PauseStateChanged = delegate { };
+        public static event Action StopRequested = delegate { };
+
         #endregion
 
         #region Public Methods
         public static void Initialize(LocalizationManager localizer, Dispatcher uiDispatcher)
         {
+            ArgumentNullException.ThrowIfNull(localizer);
+            ArgumentNullException.ThrowIfNull(uiDispatcher);
             _localizer = localizer ?? throw new ArgumentNullException(nameof(localizer));
             _uiDispatcher = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
             StartBackgroundTask();
@@ -93,7 +95,7 @@ namespace BoosterBot
         {
             IsPaused = false;
             PauseStateChanged?.Invoke(false);
-        }      
+        }
         #endregion
 
         #region Core Logic
@@ -135,21 +137,20 @@ namespace BoosterBot
 
         private static void HandleHotkey(IntPtr hotkeyId)
         {
+            if (_uiDispatcher == null)
+            {
+                Logger.LogError("UI Dispatcher not initialized");
+                return;
+            }
             switch ((int)hotkeyId)
             {
                 case HOTKEY_ID_STOP:
                     _uiDispatcher.Invoke(() => StopRequested?.Invoke());
-                    Logger.Log(_localizer, "Log_StopShortcut", "logs/hotkey.log", false);
                     break;
 
                 case HOTKEY_ID_PAUSE:
                     IsPaused = !IsPaused;
                     _uiDispatcher.Invoke(() => PauseStateChanged?.Invoke(IsPaused));
-                    Logger.Log(_localizer,
-                        IsPaused ? "Log_PauseShortcut" : "Log_ResumeShortcut",
-                        "logs/hotkey.log",
-                        false
-                    );
                     break;
             }
         }

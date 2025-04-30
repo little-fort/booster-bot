@@ -1,17 +1,14 @@
-﻿using BoosterBot.Models;
-using System;
-using System.Drawing;
-using System.Reflection;
-using System.Windows.Input;
+﻿using System.Drawing;
 using System.Runtime.InteropServices;
+using BoosterBot.Models;
 
 
 namespace BoosterBot
 {
-    internal class GameUtilities
+    internal class GameUtilities(BotConfig config)
     {
-        private readonly BotConfig _config;
-        private readonly ComponentMappings _mappings;
+        private readonly BotConfig _config = config;
+        private readonly ComponentMappings _mappings = new ComponentMappings(config);
         private double _defaultConfidence = 0.95;
         private bool _disposed = false;
 
@@ -37,16 +34,8 @@ namespace BoosterBot
                     }
                 }
 
-                // 释放非托管资源（如果有的话）
-                // （本例中没有非托管资源需要直接释放）
-
                 _disposed = true;
             }
-        }
-        public GameUtilities(BotConfig config)
-        {
-            _config = config;
-            _mappings = new ComponentMappings(config);
         }
 
         public void SetDefaultConfidence(double confidence) => _defaultConfidence = confidence;
@@ -121,7 +110,6 @@ namespace BoosterBot
         public GameState DetermineLadderGameState(bool checkEvent = false)
         {
             _config.GetWindowPositions();
-
             if (CanIdentifyMainMenu().IsMatch) return GameState.MAIN_MENU;
             if (checkEvent && CanIdentifyEventMenu().IsMatch) return GameState.EVENT_MENU;
             if (CanIdentifyReconnectToGameBtn().IsMatch) return GameState.RECONNECT_TO_GAME;
@@ -159,7 +147,6 @@ namespace BoosterBot
         public GameState DetermineConquestLobbyTier()
         {
             _config.GetWindowPositions();
-
             if (CanIdentifyConquestLobbyPG().IsMatch) return GameState.CONQUEST_LOBBY_PG;
             if (CanIdentifyConquestLobbySilver().IsMatch) return GameState.CONQUEST_LOBBY_SILVER;
             if (CanIdentifyConquestLobbyGold().IsMatch) return GameState.CONQUEST_LOBBY_GOLD;
@@ -171,6 +158,10 @@ namespace BoosterBot
         private IdentificationResult CheckSimilarity(Func<Rect> getAreaFunc, string referenceImagePath, double threshold = 0.95, bool cropOnly = false)
         {
             var area = getAreaFunc();
+            if (area.Left >= area.Right || area.Top >= area.Bottom)
+            {
+                return new IdentificationResult(false, new List<string> { $"无效的矩形区域: {area}" });
+            }
             if (threshold != _defaultConfidence)
                 threshold = _defaultConfidence;
             return ImageUtilities.CheckImageAreaSimilarity(area, referenceImagePath, threshold, cropOnly: cropOnly);
@@ -353,6 +344,11 @@ namespace BoosterBot
                 );
 
         #endregion
+        public IdentificationResult CanIdentifyExperienceClaim(bool returnFirstFound = true)
+            => CheckMultipleSimilarities(returnFirstFound,
+                    (_mappings.GetExperienceClaim, _mappings.REF_EXP_BTN_CLAIM_1, 0.9),
+                    (_mappings.GetExperienceClaim, _mappings.REF_EXP_BTN_CLAIM_2, 0.9)
+            );
         public void ResetClick() => SystemUtilities.Click(_config.ResetPoint);
         public void ResetMenu() => SystemUtilities.Click(_config.Window.Left + _config.Center, _config.Window.Bottom - _config.Scale(5));
         public void ClearError() => SystemUtilities.Click(_config.ClearErrorPoint);
@@ -391,6 +387,12 @@ namespace BoosterBot
         public void ClickCancel() => SystemUtilities.Click(_config.CancelPoint);
         public void ClickNext() => SystemUtilities.Click(_config.NextPoint);
         public void ClickClaim() => SystemUtilities.Click(_config.ClaimPoint);
+        public void ClickExperienceClaim()
+        {
+            SystemUtilities.Click(_config.ExperienceClaimPoint);
+            Thread.Sleep(800);
+        }
+
         public void ClickRetreat()
         {
             _config.GetWindowPositions();
@@ -411,13 +413,19 @@ namespace BoosterBot
 
             Thread.Sleep(5000);
         }
+        [DllImport("user32.dll")]
+        public static extern void keybd_event(byte bVk, byte bScan, uint dwFlags, int dwExtraInfo);
+
         public void PressEscKey()
         {
-            var simulator = new WindowsInput.InputSimulator();
-            // 模拟按下 ESC 键
-            simulator.Keyboard.KeyDown(WindowsInput.VirtualKeyCode.ESCAPE);
-            // 模拟释放 ESC 键
-            simulator.Keyboard.KeyUp(WindowsInput.VirtualKeyCode.ESCAPE);
+            const byte VK_ESCAPE = 0x1B;
+            const int KEYEVENTF_KEYDOWN = 0x0000;
+            const int KEYEVENTF_KEYUP = 0x0002;
+
+            // 按下 ESC
+            keybd_event(VK_ESCAPE, 0, KEYEVENTF_KEYDOWN, 0);
+            // 释放 ESC
+            keybd_event(VK_ESCAPE, 0, KEYEVENTF_KEYUP, 0);
         }
 
         public void BlindReset()
