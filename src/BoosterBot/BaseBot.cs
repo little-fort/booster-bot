@@ -12,7 +12,6 @@ namespace BoosterBot
 {
     internal abstract class BaseBot : IBoosterBot, IDisposable
     {
-        // 添加接口要求的属性
         public void Dispose()
         {
             CleanupResources();
@@ -71,6 +70,7 @@ namespace BoosterBot
             {
                 while (!linkedCts.IsCancellationRequested && !_isStopped)
                 {
+                    AutoClaimExperience();
                     await CheckPauseStateAsync(linkedCts.Token);
                     if (linkedCts.IsCancellationRequested || _isStopped)
                         break;
@@ -81,7 +81,6 @@ namespace BoosterBot
             }
             catch (OperationCanceledException)
             {
-                // 处理取消
             }
             finally
             {
@@ -139,11 +138,25 @@ namespace BoosterBot
 
             CheckForPause();
         }
-
-        protected void Log(string key, bool verboseOnly = false, List<FindReplaceValue> replace = null)
+        public event Action<string>? OnLogMessage;
+        protected void Log(string key, bool verboseOnly = false, List<FindReplaceValue>? replace = null)
         {
             if (!verboseOnly || _config.Verbose)
+            {
+                var message = _config.Localizer.GetString(key);
+
+                // 安全处理替换
+                if (replace != null)
+                {
+                    foreach (var item in replace.Where(r => r != null && !string.IsNullOrEmpty(r.Find)))
+                    {
+                        message = message.Replace(item.Find, item.Replace ?? string.Empty);
+                    }
+                }
+
+                OnLogMessage?.Invoke($"[{DateTime.Now:HH:mm:ss}] {message}");
                 Logger.Log(_config.Localizer, key, _logPath, replace: replace);
+            }
             CheckForPause();
         }
 
@@ -169,6 +182,7 @@ namespace BoosterBot
             while (HotkeyManager.IsPaused && !_isPaused && !_isStopped)
             {
                 Logger.Log(_config.Localizer, "Log_BotPausing", _logPath);
+                AutoClaimExperience();
                 Thread.Sleep(100);
             }
             if (!HotkeyManager.IsPaused && _isPaused)
@@ -181,8 +195,7 @@ namespace BoosterBot
         {
             _isStopped = true;
             _cts.Cancel();
-
-            // 强制释放可能被阻塞的资源
+                        
             _game?.Dispose();
         }
         protected void CheckForStop()
@@ -191,6 +204,27 @@ namespace BoosterBot
             {
                 _isStopped = true;
                 _cts.Cancel();
+            }
+        }
+        private void AutoClaimExperience()
+        {
+            try
+            {
+                // 仅当不在匹配中时执行检测
+                if (!_matchTimer.IsRunning)
+                {
+                    var result = _game.CanIdentifyExperienceClaim(returnFirstFound: true);
+                    if (result.IsMatch)
+                    {
+                        _game.ClickExperienceClaim();
+                        Logger.Log(_config.Localizer, "Log_ExpAutoClaimed", _logPath);
+                        Thread.Sleep(1500); // 等待界面刷新
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"经验领取失败: {ex.Message}");
             }
         }
     }

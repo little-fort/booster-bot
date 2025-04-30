@@ -1,85 +1,24 @@
-﻿using BoosterBot.Helpers;
+﻿using System.Diagnostics;
 using BoosterBot.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace BoosterBot
 {
-    internal class ConquestBot : BaseBot
+    internal class ConquestBot(BotConfig config, int retreatAfterTurn, GameState maxTier, bool enableConcede) : BaseBot(config, retreatAfterTurn)
     {
-        private readonly GameState _maxTier;
-
-        private readonly bool _shouldSurrender;
-
-        public ConquestBot(BotConfig config, int retreat, GameState maxTier, bool shouldSurrender) : base(config, retreat)
-        {
-            _maxTier = maxTier;
-            _shouldSurrender = shouldSurrender; 
-        }
-
-        public void Debug()
-        {
-            Console.WriteLine("************** DEBUG MODE **************\\n");
-            while (true)
-            {
-                try
-                {
-                    _config.GetWindowPositions();
-
-                    var print = _game.LogConquestGameState();
-                    Console.Clear();
-                    Console.WriteLine(DateTime.Now);
-
-                    foreach (var line in print.Logs) Console.WriteLine(line);
-                    foreach (var line in print.Results) Console.WriteLine(line); 
-
-                    Console.WriteLine();
-
-                    for (int i = 4; i >= 0; i--)
-                        for (int x = 9; x >= 0; x--)
-                        {
-                            var text = $"Re-scanning window contents in {i}.{x} seconds...";
-
-                            Console.SetCursorPosition(0, Console.CursorTop);
-
-                            Console.Write(text + new string(' ', Console.WindowWidth - text.Length - 1));
-
-                            Thread.Sleep(100);
-                        }
-
-                    // 提示重新扫描窗口内容
-                    var txt = $"Re-scanning window contents...";
-                    Console.SetCursorPosition(0, Console.CursorTop);
-                    Console.Write(txt + new string(' ', Console.WindowWidth - txt.Length - 1));
-                }
-                catch (Exception ex)
-                {
-
-                    Thread.Sleep(5000);
-                }
-            }
-        }
+        private readonly GameState _maxTier = maxTier;
+        private readonly bool _enableConcede = enableConcede;
 
         public override void Run()
         {
             Log("Conquest_Log_Start"); 
             var attempts = 0; 
-
             while (!_isStopped && !_cts.Token.IsCancellationRequested)
             {
                 attempts++;
-
                 _config.GetWindowPositions(); 
-                _game.ResetClick(); 
+                _game.ResetClick();
                 _game.ResetMenu(); 
                 _game.ResetClick(); 
-
-                Thread.Sleep(300); // 等待
-
+                Thread.Sleep(300); 
                 _config.GetWindowPositions();
                 var onMenu = Check(_game.CanIdentifyMainMenu); 
                 if (onMenu)
@@ -113,25 +52,21 @@ namespace BoosterBot
             SystemUtilities.Click(_config.GameModesPoint);
             Thread.Sleep(1000);
             SystemUtilities.Click(_config.GameModesPoint);
-            Thread.Sleep(1500);
+            Thread.Sleep(1000);
         }
-
         private void NavigateToConquestMenu()
         {
             Log("Conquest_Log_Menu");
-
             for (int x = 0; x < 3; x++)
             {
                 SystemUtilities.Click(_config.ConquestBannerPoint);
                 Thread.Sleep(1000);
             }
         }
-
         private bool DetermineLoopEntryPoint(int attempts = 0)
         {
             Log("Log_LoopEntryPoint");
             var state = _game.DetermineConquestGameState(); 
-
             switch (state)
             {
                 case GameState.MAIN_MENU:
@@ -180,7 +115,6 @@ namespace BoosterBot
                         _game.BlindReset();
                         return DetermineLoopEntryPoint(attempts + 1); 
                     }
-
                     Log("Log_LostBot");
                     Log("Log_LostBot_Restart");
                     Console.WriteLine();
@@ -190,7 +124,6 @@ namespace BoosterBot
                     return false;
             }
         }
-
         private void RunMatchLoop()
         {
             Log("Log_Match_StartingLoop");
@@ -202,15 +135,12 @@ namespace BoosterBot
                     DetermineLoopEntryPoint();
                     return;
                 }
-
                 Log("Conquest_Log_VerifyEntryButton");
                 if (Check(_game.CanIdentifyConquestPlayBtn) || Check(() => _game.CanIdentifyConquestEntranceFee()))
                 {
                     var success = StartMatch();
-
                     if (!success)
                         success = DetermineLoopEntryPoint();
-
                     if (!success)
                         _game.BlindReset();
                 }
@@ -225,7 +155,6 @@ namespace BoosterBot
         {
             Thread.Sleep(3000);
             var lobbyConfirmed = false;
-
             Log("Conquest_Log_LobbyReset");
             for (int x = 0; x < 3; x++)
             {
@@ -238,7 +167,6 @@ namespace BoosterBot
                 );
                 Thread.Sleep(1000);
             }
-
             Log("Conquest_Log_Menu_LobbyChoice", replace: [new("%VALUE%", _maxTier.ToString())]);
             for (int x = 0; x < 4 && !lobbyConfirmed; x++)
             {
@@ -260,34 +188,30 @@ namespace BoosterBot
                     Thread.Sleep(1500);
                 }
             }
-
             return lobbyConfirmed;
         }
-
         private bool StartMatch()
         {
             Log("Conquest_Log_EnteringLobby");
             _game.ClickPlay();
+            
             Thread.Sleep(4500);
-
             Log("Log_Match_StartNew");
             _game.ClickPlay();
             Thread.Sleep(500);
             _game.ClickPlay();
             Thread.Sleep(500);
-
             Log("Conquest_Log_ConfirmDeck");
             SystemUtilities.Click(_config.Window.Left + _config.Center + _config.Scale(100), _config.Window.Bottom - _config.Scale(345));
             Thread.Sleep(1000);
-
             return WaitForMatchmaking();
         }
+
         private bool WaitForMatchmaking()
         {
             _config.GetWindowPositions();
             var mmTimer = new Stopwatch();
             mmTimer.Start();
-
             Log("Log_Check_Matchmaking", true);
             while (Check(() => _game.CanIdentifyConquestMatchmaking()))
             {
@@ -297,31 +221,26 @@ namespace BoosterBot
                     _game.ClickCancel();
                     return true;
                 }
-
                 Log("Log_Matchmaking_Waiting", replace: [new("%ELAPSED%", mmTimer.Elapsed.ToString())]);
                 Thread.Sleep(5000);
                 _config.GetWindowPositions();
             }
-
             return PlayMatch();
         }
-
         private bool PlayMatch()
         {
             Log("Log_Match_Playing");
-            Thread.Sleep(1000);
             var active = true;
-            _game.ClickSnap();
 
             _matchTimer = new Stopwatch();
+            Thread.Sleep(7500);
+            _game.ClickSnap();
+            Log("Log_OhSnap");
             _matchTimer.Start();
-
             var currentTurn = 0;
-
             while (active && _matchTimer.Elapsed.Minutes < 30)
             {
                 _config.GetWindowPositions();
-
                 Log("Log_Check_ActiveMatch", true);
                 if (!Check(_game.CanIdentifyActiveConquestMatch))
                 {
@@ -332,42 +251,43 @@ namespace BoosterBot
                         _config.GetWindowPositions();
                         _game.ResetClick();
                         check = Check(_game.CanIdentifyActiveConquestMatch);
-                        Thread.Sleep(2000);
+                        Thread.Sleep(2500);
                     }
-
                     active = check;
                 }
                 else
                 {
-                    if (currentTurn++ >= _retreatAfterTurn && _shouldSurrender)  // 新增 _shouldSurrender 检查
+                    currentTurn++;
+                    if (_retreatAfterTurn > 0 && currentTurn >= _retreatAfterTurn)
                     {
                         Log("Log_Match_ReachedTurnLimit", replace: [new("%VALUE%", _retreatAfterTurn.ToString())]);
                         _game.ClickRetreat();
-                        Thread.Sleep(1000);
 
-                        Log("Conquest_Log_Match_Concede");
-                        _game.ClickConcede();
-                        Thread.Sleep(1000);
+                        Thread.Sleep(5000);
+                        if (_enableConcede)
+                        {
+                            Log("Conquest_Log_Match_Concede");
+                            _game.ClickConcede();
+                            Thread.Sleep(5000);
+                        }
+                        active = false;
+                        break; // 直接退出循环
                     }
                     else
                     {
-                        Log("Log_Match_PlayingCards", replace: [new("%VALUE%", currentTurn.ToString())]);
+                        Log("Log_Match_PlayingCards", replace: [new("%VALUE%", (currentTurn + 1).ToString())]); // 显示第 N 回合
                         _game.PlayHand();
                         Thread.Sleep(1000);
-
                         Log("Log_Check_EnergyState", true);
                         if (!Check(_game.CanIdentifyZeroEnergy))
                         {
                             Log("Log_Match_LeftoverEnergy");
                             _game.PlayHand();
                         }
-
                         Log("Log_Match_EndTurn");
                         _game.ClickNext();
                         Thread.Sleep(1000);
-
                         _config.GetWindowPositions();
-
                         Log("Log_Check_TurnState", true);
                         while (Check(() => _game.CanIdentifyMidTurn()))
                         {
@@ -378,30 +298,20 @@ namespace BoosterBot
                     }
                 }
             }
-
             _config.GetWindowPositions();
-
-            // 如果比赛时间超过10分钟且可以退赛，则执行退赛逻辑（新增 _shouldSurrender 检查）
             Log("Log_Check_RetreatButton", true);
-            if (_matchTimer.Elapsed.Minutes > 10 &&
-                Check(() => _game.CanIdentifyConquestRetreatBtn()) &&
-                _shouldSurrender)
+            if (_matchTimer.Elapsed.Minutes > 30 && Check(() => _game.CanIdentifyConquestRetreatBtn()))
             {
                 Log("Conquest_Log_Match_Concede");
                 _game.ClickRetreat();
-                Thread.Sleep(3000);
+                Thread.Sleep(5000);
             }
-
-            // 检查是否需要退赛确认
             Log("Log_Check_Concede", true);
             if (Check(() => _game.CanIdentifyConquestConcede()))
                 return ProgressRound();
-
-            // 检查比赛是否结束，若已结束，则退出比赛
             Log("Log_Check_MatchEnd", true);
             if (Check(() => _game.CanIdentifyConquestMatchEnd()))
                 return ExitMatch();
-
             return false;
         }
         private bool ProgressRound()
@@ -409,7 +319,6 @@ namespace BoosterBot
             // 日志记录：检测到比赛回合结束
             Log("Conquest_Log_DetectedRoundEnd");
             _game.ClickNext();
-
             _config.GetWindowPositions();
             var waitTime = 10000;
             Log("Log_Check_MatchState", true);
@@ -421,31 +330,25 @@ namespace BoosterBot
                     _game.BlindReset();
                     return DetermineLoopEntryPoint();
                 }
-
                 Thread.Sleep(1000);
                 waitTime += 1000;
                 _config.GetWindowPositions();
             }
-
             return PlayMatch();
         }
         private bool ExitMatch()
         {
             Log("Log_Match_Exiting");
             _config.GetWindowPositions();
-
             Log("Log_Check_PostMatchScreen", true);
-            // 循环检查比赛后界面是否加载完成，并点击"下一步"按钮
             while (Check(() => _game.CanIdentifyConquestMatchEndNext1()) || Check(() => _game.CanIdentifyConquestMatchEndNext2()))
             {
                 _game.ClickNext();
                 Thread.Sleep(4000);
                 _config.GetWindowPositions();
             }
-
             Log("Conquest_Log_Menu_WaitingPostMatch");
             Thread.Sleep(4000);
-
             var totalSleep = 0;
             Log("Log_Check_PostMatchScreen", true);
             while (!Check(_game.CanIdentifyConquestLossContinue) && !Check(_game.CanIdentifyConquestWinNext) && !Check(_game.CanIdentifyConquestPlayBtn))
@@ -453,27 +356,23 @@ namespace BoosterBot
                 Thread.Sleep(2000);
                 totalSleep += 2000;
                 _config.GetWindowPositions();
-
                 Log("Conquest_Log_Check_AnyLobby", true);
                 if (totalSleep > 2500 && Check(_game.CanIdentifyAnyConquestLobby))
                 {
                     Log("Conquest_Log_Menu_DetectedLobby");
                     return true;
                 }
-
                 if (totalSleep > 40000)
                 {
                     Log("Conquest_Log_MaxWaitTimeReached", replace: [new("%VALUE%", "30")]);
                     return DetermineLoopEntryPoint();
                 }
             }
-
             return AcceptResult();
         }
         private bool AcceptResult()
         {
             Log("Conquest_Log_Match_ProcessingPostMatch");
-
             _config.GetWindowPositions();
             Log("Conquest_Log_Check_Screens");
             if (Check(_game.CanIdentifyConquestLossContinue) || Check(_game.CanIdentifyConquestWinNext))
@@ -487,14 +386,15 @@ namespace BoosterBot
             }
             else if (Check(() => _game.CanIdentifyConquestTicketClaim()))
             {
+                Log("Log_ClickNext");
+                _game.ClickPlay();
+                Thread.Sleep(3000);
                 Log("Conquest_Log_Match_ProcessingPostMatch");
                 _game.ClickClaim();
             }
-
             // 所有比赛后流程处理完成
             return true;
         }
-
         protected override async Task ExecuteCycleAsync(CancellationToken token)
         {
             try

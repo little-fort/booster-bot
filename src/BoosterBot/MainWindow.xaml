@@ -22,7 +22,6 @@
                     <Button Content="×" Width="25" Height="30" Background="Transparent" FontSize="25" Foreground="BLACK" BorderBrush="Transparent" Click="Close_Click" Margin="0,-8,0,0"/>
                 </StackPanel>
             </Grid>
-
             <!-- 标题行 -->
             <Grid Height="70" Background="#333333">
                 <Grid.ColumnDefinitions>
@@ -49,7 +48,6 @@
                 </StackPanel>
             </Grid>
         </StackPanel>
-
         <!-- 主界面 -->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -57,11 +55,9 @@
                 <ColumnDefinition Width="150*"/>
                 <ColumnDefinition Width="70*"/>
             </Grid.ColumnDefinitions>
-
             <!-- 左侧设置 -->
             <StackPanel Background="#2E2E2E" Margin="20,20,20,20" Grid.Column="0">
                 <TextBlock Text="Settings" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
-
                 <!-- 语言设置 -->
                 <TextBlock Text="Language：" Foreground="White" FontSize="14" Margin="0,10,0,5"/>
                 <ComboBox x:Name="LanguageComboBox" 
@@ -72,7 +68,6 @@
                     <ComboBoxItem Content="中文" Tag="zh-CN"/>
                     <ComboBoxItem Content="English" Tag="en-US"/>
                 </ComboBox>
-
                 <!-- 游戏模式设置 -->
                 <TextBlock Text="Game Mode：" Foreground="White" FontSize="14" Margin="0,10,0,5"/>
                 <ComboBox x:Name="ModeComboBox" 
@@ -83,9 +78,8 @@
                     <ComboBoxItem Content="Ladder" Tag="ladder"/>
                     <ComboBoxItem Content="Conquest" Tag="conquest"/>
                     <ComboBoxItem Content="Event" Tag="event"/>
-                    <ComboBoxItem Content="Repair" Tag="repair"/>
+                    
                 </ComboBox>
-
                 <!-- 征服模式标题和选项 -->
                 <TextBlock x:Name="ConquestModeTitle" Text="Conquest Mode：" Foreground="White" FontSize="14" Margin="0,10,0,5" Visibility="Collapsed"/>
                 <ComboBox x:Name="ConquestModeComboBox" 
@@ -94,9 +88,8 @@
                     <ComboBoxItem Content="Proving Ground"/>
                     <ComboBoxItem Content="Silver"/>
                     <ComboBoxItem Content="Gold"/>
-                    <ComboBoxItem Content="infinite"/>
+                    <ComboBoxItem Content="Infinite"/>
                 </ComboBox>
-
                 <!-- 回合数选择 -->
                 <TextBlock Text="Round：" Foreground="White" FontSize="14" Margin="0,10,0,5"/>
                 <ComboBox x:Name="RoundComboBoxGeneral" 
@@ -109,17 +102,15 @@
                     <ComboBoxItem Content="4"/>
                     <ComboBoxItem Content="5"/>
                 </ComboBox>
-
                 <!-- 是否放弃游戏 -->
                 <TextBlock Text="Surrender Game：" Foreground="White" FontSize="14" Margin="0,10,0,5"/>
                 <ComboBox x:Name="SurrenderComboBoxGeneral" 
                           Background="#3C3C3C" Foreground="Black" 
-                          Margin="0,0,0,10" FontSize="14">
+                          Margin="0,0,0,10" FontSize="14" >
                     <ComboBoxItem Content="Yes"/>
                     <ComboBoxItem Content="No" IsSelected="True"/>
                 </ComboBox>
             </StackPanel>
-
             <!-- 右侧详情 -->
             <StackPanel Background="#2E2E2E" Margin="20,20,16,20" Grid.Column="1">
                 <TextBlock Text="Program Details" Foreground="White" FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
@@ -130,7 +121,6 @@
                            Foreground="White" FontSize="14" Margin="0,0,0,5" TextWrapping="Wrap"/>
             </StackPanel>
         </Grid>
-
         <!-- 日志区域 -->
         <Grid DockPanel.Dock="Bottom" Background="#1B1B1B" Margin="10">
             <Grid.RowDefinitions>

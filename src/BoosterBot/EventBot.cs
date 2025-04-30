@@ -1,18 +1,12 @@
-﻿using BoosterBot.Helpers;
+﻿using System.Diagnostics;
+using BoosterBot.Helpers;
 using BoosterBot.Models;
-using System.Diagnostics;
 
 namespace BoosterBot
 {
-    internal class EventBot : BaseBot
+    internal class EventBot(BotConfig config, int retreat) : BaseBot(config, retreat)
     {
-        private readonly LocalizationManager _localizer;
-
-        public EventBot(BotConfig config, int retreat) : base(config, retreat)
-        {
-            _localizer = config.Localizer;
-            // Debug();
-        }
+        private readonly LocalizationManager _localizer = config.Localizer;
 
         public void Debug()
         {
