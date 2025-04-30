@@ -118,471 +118,522 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Menu_ModeSelect_Description" xml:space="preserve">
-    <value>Available game modes: (购买获得，举报卖家)</value>
+    <value>可用的游戏模式： (购买获得，举报卖家)</value>
   </data>
-  <data name="Menu_ModeSelect_Option1" xml:space="preserve">
-    <value>[1] Conquest</value>
+  <data name="GameMode_conquest" xml:space="preserve">
+    <value>征服模式</value>
   </data>
-  <data name="Menu_ModeSelect_Option2" xml:space="preserve">
-    <value>[2] Ranked ladder</value>
+  <data name="GameMode_ladder" xml:space="preserve">
+    <value>天梯模式</value>
   </data>
-  <data name="Menu_ModeSelect_Option3" xml:space="preserve">
-    <value>[3] Limited-time event mode</value>
+  <data name="GameMode_event" xml:space="preserve">
+    <value> 限时活动模式</value>
   </data>
   <data name="Menu_WaitingForSelection" xml:space="preserve">
-    <value>Waiting for selection...</value>
+    <value>等待选择……</value>
   </data>
   <data name="Menu_ConquestLobby_Description" xml:space="preserve">
-    <value>Select the highest tier of Conquest the bot should farm:</value>
-  </data>
-  <data name="Menu_ConquestLobby_Option1" xml:space="preserve">
-    <value>[1] Proving Grounds (default)</value>
-  </data>
-  <data name="Menu_ConquestLobby_Option2" xml:space="preserve">
-    <value>[2] Silver</value>
-  </data>
-  <data name="Menu_ConquestLobby_Option3" xml:space="preserve">
-    <value>[3] Gold</value>
-  </data>
-  <data name="Menu_ConquestLobby_Option4" xml:space="preserve">
-    <value>[4] Infinity</value>
+    <value>选择程序应进入的最高征服等级：</value>
   </data>
   <data name="Menu_ConquestLobby_NoticeTickets" xml:space="preserve">
-    <value>The bot will only farm tiers higher than Proving Grounds if tickets are available.</value>
+    <value>如果有入场券，该程序才会在比试炼之地更高级别的场次上进行。</value>
   </data>
   <data name="Menu_ConquestLobby_NoticeGold" xml:space="preserve">
-    <value>*** No gold will be consumed. ***</value>
+    <value>*** 不会消耗任何金币。***</value>
   </data>
   <data name="Menu_ConquestConfirm_HighestTier" xml:space="preserve">
-    <value>Highest tier selected:</value>
+    <value>选定的最高层级：</value>
   </data>
   <data name="Menu_ConquestConfirm_TicketWarning" xml:space="preserve">
-    <value>ALL available tickets for lobbies at or below the selected tier will be consumed.</value>
+    <value>所选等级或以下大厅的所有可用门票将被消耗。</value>
   </data>
   <data name="Menu_ConquestConfirm_TicketDefault" xml:space="preserve">
-    <value>If no tickets exist, bot will only play Proving Grounds.</value>
+    <value>如果没有门票，该计划将只会运行试炼之地场次。</value>
   </data>
   <data name="Menu_ConfirmContinue" xml:space="preserve">
-    <value>Are you sure you want to continue?</value>
+    <value>您确定要继续吗？</value>
   </data>
   <data name="Menu_Option1_Yes" xml:space="preserve">
-    <value>[1] Yes</value>
+    <value>[1] 是</value>
   </data>
   <data name="Menu_Option2_No" xml:space="preserve">
-    <value>[2] No</value>
+    <value>[2] 没有</value>
   </data>
   <data name="Menu_RetreatSelect_Description" xml:space="preserve">
-    <value>Select how many turns to complete before retreating:</value>
-  </data>
-  <data name="Menu_RetreatSelect_NoRetreat" xml:space="preserve">
-    <value>[0] Do not retreat</value>
+    <value>选择撤退前要完成多少回合：</value>
   </data>
   <data name="Menu_PressKeyToExit" xml:space="preserve">
-    <value>Press any key to exit...</value>
+    <value>按任意键退出……</value>
   </data>
   <data name="Log_FatalError" xml:space="preserve">
-    <value>***** FATAL ERROR *****</value>
+    <value>***** 严重错误 *****</value>
   </data>
   <data name="Log_InvalidModeSelection" xml:space="preserve">
-    <value>Invalid mode selection.</value>
+    <value>模式选择无效。</value>
   </data>
   <data name="Ladder_Log_Start" xml:space="preserve">
-    <value>Starting Ranked Ladder routine...</value>
+    <value>开始天梯模式进程……</value>
   </data>
   <data name="Log_FailedMenuDetection" xml:space="preserve">
-    <value>Could not detect main menu. Trying again in 5 seconds...</value>
+    <value>无法检测主菜单。5 秒后重试……</value>
   </data>
   <data name="Log_BotPaused" xml:space="preserve">
-    <value>Bot is paused. Press [Ctrl+Alt+P] to resume...</value>
+    <value>程序已暂停。按 [Ctrl+Alt+P] 可恢复……</value>
   </data>
   <data name="Log_BotResuming" xml:space="preserve">
-    <value>Bot is resuming...</value>
+    <value>程序正在恢复……</value>
   </data>
   <data name="Log_Info_Shortcuts" xml:space="preserve">
-    <value>Keyboard Shortcuts:</value>
+    <value>键盘快捷键：</value>
   </data>
   <data name="Log_Info_Shortcuts_Pause" xml:space="preserve">
-    <value>[Ctrl+Alt+P] Pause/resume bot</value>
+    <value>[Ctrl+Alt+P] 暂停/恢复程序</value>
   </data>
   <data name="Log_Info_Shortcuts_Quit" xml:space="preserve">
-    <value>[Ctrl+Alt+Q] Quit bot</value>
+    <value>[Ctrl+Alt+Q] 退出程序</value>
   </data>
   <data name="Log_LoopEntryPoint" xml:space="preserve">
-    <value>Attempting to determine loop entry point...</value>
+    <value>尝试确定循环入口点……</value>
   </data>
   <data name="Log_DetectedMainMenu" xml:space="preserve">
-    <value>Detected main menu. Starting new match...</value>
+    <value>检测到主菜单。开始新比赛……</value>
   </data>
   <data name="Log_DetectedReconnect" xml:space="preserve">
-    <value>Detected 'Reconnect to Game' button. Resuming match play...</value>
+    <value>检测到“重新连接游戏”按钮。正在恢复比赛……</value>
   </data>
   <data name="Log_DetectedActiveMatch" xml:space="preserve">
-    <value>Detected active match. Resuming match play...</value>
+    <value>检测到正在进行的比赛。正在恢复比赛……</value>
   </data>
   <data name="Log_DetectedMatchmaking" xml:space="preserve">
-    <value>Detected matchmaking...</value>
+    <value>检测到匹配……</value>
   </data>
   <data name="Log_DetectedMatchEnd" xml:space="preserve">
-    <value>Detected match end. Returning to main menu...</value>
+    <value>检测到匹配结束。返回主菜单……</value>
   </data>
   <data name="Log_Ladder_DetectedConquest" xml:space="preserve">
-    <value>Detected Conquest lobby. Resetting menu...</value>
+    <value>检测到征服大厅。正在重置菜单……</value>
   </data>
   <data name="Log_LostBot" xml:space="preserve">
-    <value>Bot is hopelessly lost... :/</value>
+    <value>程序已彻底丢失……</value>
   </data>
   <data name="Log_LostBot_Restart" xml:space="preserve">
-    <value>Return to main menu and restart bot.</value>
+    <value>返回主菜单并重新启动机器人。</value>
   </data>
   <data name="Log_Match_StartNew" xml:space="preserve">
-    <value>Starting new match...</value>
+    <value>开始新的比赛……</value>
   </data>
   <data name="Log_Check_Matchmaking" xml:space="preserve">
-    <value>Checking for ongoing matchmaking...</value>
+    <value>正在检查正在进行的匹配……</value>
   </data>
   <data name="Log_Check_Matchmaking_Hanged" xml:space="preserve">
-    <value>Matchmaking seems to be hanging. Returning to main menu to re-try...</value>
+    <value>匹配似乎卡住了。返回主菜单重试……</value>
   </data>
   <data name="Log_Matchmaking_Waiting" xml:space="preserve">
-    <value>Waiting for match start... [Elapsed: %ELAPSED%]</value>
+    <value>等待比赛开始…… [已用时：%ELAPSED%]</value>
   </data>
   <data name="Log_Match_Playing" xml:space="preserve">
-    <value>Playing match...</value>
+    <value>正在进行比赛……</value>
   </data>
   <data name="Log_Match_SnapRoll" xml:space="preserve">
-    <value>Determining snap decision...</value>
+    <value>正在做出快速决定……</value>
   </data>
   <data name="Log_Match_SnapRoll_Limit" xml:space="preserve">
-    <value>Limit:  %VALUE%</value>
+    <value>限制：%VALUE%</value>
   </data>
   <data name="Log_Match_SnapRoll_Result" xml:space="preserve">
-    <value>Result: %VALUE%</value>
+    <value>结果：%VALUE%</value>
   </data>
   <data name="Log_Match_SnapRoll_Snap" xml:space="preserve">
-    <value>Snap:   %VALUE%</value>
+    <value>折断：%VALUE%</value>
   </data>
   <data name="Log_Yes" xml:space="preserve">
-    <value>YES</value>
+    <value>是的</value>
   </data>
   <data name="Log_No" xml:space="preserve">
-    <value>NO</value>
+    <value>拒绝</value>
   </data>
   <data name="Log_Check_ActiveMatch" xml:space="preserve">
-    <value>Checking for active match...</value>
+    <value>正在检查有效匹配……</value>
   </data>
   <data name="Log_Check_ActiveMatch_Failed" xml:space="preserve">
-    <value>Could not detect active match, trying again in 2 seconds...</value>
+    <value>无法检测到活动匹配，2 秒后重试……</value>
   </data>
   <data name="Log_Match_ReachedTurnLimit" xml:space="preserve">
-    <value>Configured turn limit (%VALUE%) reached. Attempting retreat...</value>
+    <value>已达到配置的回合限制（%VALUE%）。正在尝试撤退……</value>
   </data>
   <data name="Log_Match_PlayingCards" xml:space="preserve">
-    <value>Attempting to play cards... [Turn count: %VALUE%]</value>
+    <value>尝试打牌...[回合数：%VALUE%]</value>
   </data>
   <data name="Log_Check_EnergyState" xml:space="preserve">
-    <value>Checking current energy count...</value>
+    <value>正在检查当前能量计数……</value>
   </data>
   <data name="Log_Match_LeftoverEnergy" xml:space="preserve">
-    <value>Detected leftover energy, attempting to play cards again...</value>
+    <value>检测到剩余能量，正在尝试再次打牌……</value>
   </data>
   <data name="Log_Match_EndTurn" xml:space="preserve">
-    <value>Clicking 'End Turn'...</value>
+    <value>点击‘结束回合’按钮……</value>
   </data>
   <data name="Log_Check_TurnState" xml:space="preserve">
-    <value>Checking current turn state...</value>
+    <value>检查当前回合状态……</value>
   </data>
   <data name="Log_Match_WaitingForTurn" xml:space="preserve">
-    <value>Waiting for turn to progress...</value>
+    <value>等待轮流进行……</value>
   </data>
   <data name="Log_Match_Snapping" xml:space="preserve">
-    <value>Attempting to snap...</value>
+    <value>尝试单击“加倍”按钮……</value>
   </data>
   <data name="Log_Match_MaxTimeReached" xml:space="preserve">
-    <value>Match timer has exceeded 15 minutes. Attempting retreat...</value>
+    <value>比赛计时器已超过 15 分钟。正在尝试撤退……</value>
   </data>
   <data name="Log_Check_MatchEnd" xml:space="preserve">
-    <value>Checking for end of match...</value>
+    <value>检查比赛是否结束……</value>
   </data>
   <data name="Log_Match_Exiting" xml:space="preserve">
-    <value>Exiting match...</value>
+    <value>退出比赛……</value>
   </data>
   <data name="Log_Check_PostMatchScreen" xml:space="preserve">
-    <value>Checking for post-match screens...</value>
+    <value>检查赛后界面……</value>
   </data>
   <data name="Log_Error" xml:space="preserve">
-    <value>ERROR: </value>
+    <value>错误：</value>
   </data>
   <data name="Conquest_Log_Start" xml:space="preserve">
-    <value>Starting Conquest routine...</value>
+    <value>开始征服模式进程……</value>
   </data>
   <data name="Conquest_Log_Menu_Main" xml:space="preserve">
-    <value>Detected main menu. Navigating to Conquest mode...</value>
+    <value>检测到主菜单。导航至征服模式……</value>
   </data>
   <data name="Conquest_Log_Menu_GameModes" xml:space="preserve">
-    <value>Navigating to Game Modes tab...</value>
+    <value>导航到游戏模式选项卡……</value>
   </data>
   <data name="Conquest_Log_Menu" xml:space="preserve">
-    <value>Navigating to Conquest menu...</value>
+    <value>导航至征服模式菜单……</value>
   </data>
   <data name="Conquest_Log_DetectedMain" xml:space="preserve">
-    <value>Detected main menu. Returning to start...</value>
+    <value>检测到主菜单。返回开始……</value>
   </data>
   <data name="Conquest_Log_DetectedLobby" xml:space="preserve">
-    <value>Detected Conquest lobby selection. Entering lobby at selected tier or lower...</value>
+    <value>检测到征服大厅选择。进入所选等级或更低等级的大厅……</value>
   </data>
   <data name="Conquest_Log_DetectedPrematch" xml:space="preserve">
-    <value>Detected Conquest prematch. Starting match...</value>
+    <value>检测到征服模式赛前情况。比赛开始……</value>
   </data>
   <data name="Conquest_Log_DetectedActiveMatch" xml:space="preserve">
-    <value>Detected Conquest match. Playing match...</value>
+    <value>检测到正在进行的征服比赛。正在进行比赛……</value>
   </data>
   <data name="Conquest_Log_DetectedRoundEnd" xml:space="preserve">
-    <value>Detected end of round in Conquest match. Moving to next round...</value>
+    <value>检测到征服赛回合结束。进入下一回合……</value>
   </data>
   <data name="Conquest_Log_DetectedMatchEnd" xml:space="preserve">
-    <value>Detected end of Conquest match. Returning to Conquest menu...</value>
+    <value>检测到征服比赛结束。返回征服菜单……</value>
   </data>
   <data name="Conquest_Log_PostMatch" xml:space="preserve">
-    <value>Detected Conquest post match screens. Returning to Conquest menu...</value>
+    <value>检测到征服赛后画面。返回征服菜单……</value>
   </data>
   <data name="Log_Match_StartingLoop" xml:space="preserve">
-    <value>Starting match loop...</value>
+    <value>开始比赛循环……</value>
   </data>
   <data name="Conquest_Log_VerifyEntryButton" xml:space="preserve">
-    <value>Verifying lobby entry button exists...</value>
+    <value>验证大厅进入按钮是否存在……</value>
   </data>
   <data name="Conquest_Log_Menu_LobbyChoice" xml:space="preserve">
-    <value>Making sure lobby type is set to specified tier or lower: %VALUE%</value>
+    <value>确保大厅类型设置为指定场次或更低场次：%VALUE%</value>
   </data>
   <data name="Conquest_Log_Menu_SelectedTier" xml:space="preserve">
-    <value>Selected tier: %VALUE%</value>
+    <value>所选等级：%VALUE%</value>
   </data>
   <data name="Conquest_Log_Check_Tickets" xml:space="preserve">
-    <value>Checking for available tickets...</value>
+    <value>正在检查可用的票……</value>
   </data>
   <data name="Conquest_Log_EnteringLobby" xml:space="preserve">
-    <value>Entering lobby for new Conquest match...</value>
+    <value>进入新征服比赛大厅……</value>
   </data>
   <data name="Conquest_Log_ConfirmDeck" xml:space="preserve">
-    <value>Confirming deck selection...</value>
+    <value>确认卡组选择……</value>
   </data>
   <data name="Conquest_Log_Match_Concede" xml:space="preserve">
-    <value>Attempting to concede match...</value>
+    <value>尝试放弃……</value>
   </data>
   <data name="Log_Check_RetreatButton" xml:space="preserve">
-    <value>Checking for 'Retreat' button...</value>
+    <value>检查‘撤退’按钮……</value>
   </data>
   <data name="Conquest_Log_Match_MaxTimerReached" xml:space="preserve">
-    <value>Match timer has exceeded 30 minutes. Attempting to exit match...</value>
+    <value>比赛计时器已超过 30 分钟。正在尝试退出比赛...</value>
   </data>
   <data name="Log_Check_Concede" xml:space="preserve">
-    <value>Checking for 'Concede' button...</value>
+    <value>检查‘放弃’按钮……</value>
   </data>
   <data name="Log_Check_MatchState" xml:space="preserve">
-    <value>Checking current match state...</value>
+    <value>检查当前比赛状态……</value>
   </data>
   <data name="Conquest_Log_MaxWaitTimeReached" xml:space="preserve">
-    <value>Exceeded maximum wait time of %VALUE% seconds...</value>
+    <value>已超过最长等待时间 %VALUE% 秒……</value>
   </data>
   <data name="Conquest_Log_Menu_WaitingPostMatch" xml:space="preserve">
-    <value>Waiting for post match screens...</value>
+    <value>等待赛后画面……</value>
   </data>
   <data name="Conquest_Log_Check_AnyLobby" xml:space="preserve">
-    <value>Checking for any Conquest mode lobby...</value>
+    <value>检查任何征服模式大厅……</value>
   </data>
   <data name="Conquest_Log_Menu_DetectedLobby" xml:space="preserve">
-    <value>Detected Conquest mode lobby...</value>
+    <value>检测到征服模式大厅……</value>
   </data>
   <data name="Conquest_Log_Match_ProcessingPostMatch" xml:space="preserve">
-    <value>Processing post match screens...</value>
+    <value>正在处理赛后界面...</value>
   </data>
   <data name="Conquest_Log_Check_Screens" xml:space="preserve">
-    <value>Checking for win, loss, or ticket claim screens...</value>
+    <value>检查胜利、失败或领取奖励界面……</value>
   </data>
   <data name="Log_ClickNext" xml:space="preserve">
-    <value>Clicking through to next screen...</value>
+    <value>点击进入下一个界面...</value>
   </data>
   <data name="Conquest_Log_Menu_ClaimTicket" xml:space="preserve">
-    <value>Claiming ticket...</value>
+    <value>正在领取票……</value>
   </data>
   <data name="Event_Log_Start" xml:space="preserve">
-    <value>Starting routine for limited-time event mode...</value>
+    <value>限时活动模式的启动程序……</value>
   </data>
   <data name="Event_Log_Menu" xml:space="preserve">
-    <value>Detected main menu. Navigating to limited-time event mode...</value>
+    <value>检测到主菜单。导航至限时活动模式……</value>
   </data>
   <data name="Event_Log_Menu_ModeTab" xml:space="preserve">
-    <value>Navigating to menu for limited-time event mode...</value>
+    <value>导航至限时活动模式菜单……</value>
   </data>
   <data name="Event_Log_DetectedEventMenu" xml:space="preserve">
-    <value>Detected menu for event game mode. Starting new match...</value>
+    <value>检测到事件游戏模式的菜单。开始新比赛...</value>
   </data>
   <data name="Log_OhSnap" xml:space="preserve">
     <value>OH SNAP!</value>
   </data>
   <data name="Log_BlindReset" xml:space="preserve">
-    <value>Attempting blind reset clicks...</value>
+    <value>尝试盲目重置点击……</value>
   </data>
   <data name="Log_ExitShortcut" xml:space="preserve">
-    <value>Exit shortcut [Ctrl+Alt+Q] detected. Terminating process...</value>
+    <value>检测到重启快捷键 [Ctrl+Alt+Q]。正在终止进程...</value>
   </data>
   <data name="Log_PauseShortcut" xml:space="preserve">
-    <value>Pause shortcut [Ctrl+Alt+P] detected. Pausing bot...</value>
+    <value>检测到暂停快捷键 [Ctrl+Alt+P]。正在暂停机器人……</value>
   </data>
   <data name="Log_ResumeShortcut" xml:space="preserve">
-    <value>Resume shortcut [Ctrl+Alt+P] detected. Resuming bot...</value>
+    <value>检测到恢复快捷键 [Ctrl+Alt+P]。正在恢复机器人……</value>
   </data>
   <data name="Repair_Confirm_Warning" xml:space="preserve">
-    <value>WARNING:</value>
+    <value>警告：</value>
   </data>
   <data name="Repair_Confirm_Description1" xml:space="preserve">
-    <value>This function will attempt to repair BoosterBot's detection of critical parts of the game's interface.</value>
+    <value>此功能将尝试修复 BoosterBot 对游戏界面关键部分的检测。</value>
   </data>
   <data name="Repair_Confirm_Description2" xml:space="preserve">
-    <value>You should only proceed if BoosterBot cannot operate properly.</value>
+    <value>仅当 BoosterBot 无法正常运行时继续该操作。</value>
   </data>
   <data name="Repair_ModeSelect_Description1" xml:space="preserve">
-    <value>To complete the process of repairing detection, you will manually interact with the game until specific buttons, icons, or text labels are visible.</value>
+    <value>为了完成修复检测的过程，您将手动与游戏交互，直到特定的按钮、图标或文本标签可见。</value>
   </data>
   <data name="Repair_ModeSelect_Description2" xml:space="preserve">
-    <value>When you confirm that the specified game component is on the screen, this program will capture the current image and use it for future reference.</value>
+    <value>当您确认指定的游戏组件在界面上时，该程序将捕获当前图像并将其用于将来的参考。</value>
   </data>
   <data name="Repair_ModeSelect_Description3" xml:space="preserve">
-    <value>Each game type must be repaired separately. Please select the mode you would like to repair:</value>
+    <value>每种游戏类型都必须单独修复。请选择您要修复的模式：</value>
   </data>
   <data name="Repair_ModeSelect_ProcessComplete" xml:space="preserve">
-    <value>Repair process complete. You may select an additional mode to repair, or close this window and restart BoosterBot normally.</value>
+    <value>修复过程已完成。您可以选择其他模式进行修复，或关闭此窗口并正常重启 BoosterBot。</value>
   </data>
   <data name="Repair_Prompt_PressToConfirm" xml:space="preserve">
-    <value>When the specified game component is visible on the screen, press [2] to confirm.</value>
+    <value>当指定的游戏组件出现在界面上时，按 [2] 确认。</value>
   </data>
   <data name="Repair_Prompt_Option0_Previous" xml:space="preserve">
-    <value>[0] Previous</value>
+    <value>[0] 上一页</value>
   </data>
   <data name="Repair_Prompt_Option1_Example" xml:space="preserve">
-    <value>[1] Show example</value>
+    <value>[1] 显示示例</value>
   </data>
   <data name="Repair_Prompt_Option2_Confirm" xml:space="preserve">
-    <value>[2] Confirm</value>
+    <value>[2] 确认</value>
   </data>
   <data name="Repair_Prompt_Option3_Skip" xml:space="preserve">
-    <value>[3] Skip</value>
+    <value>[3] 跳过</value>
   </data>
   <data name="Repair_Error_ExampleImageNotFound" xml:space="preserve">
-    <value>ERROR: Example image not found:</value>
+    <value>错误：未找到示例图像：</value>
   </data>
   <data name="Repair_Error_CantShowImage" xml:space="preserve">
-    <value>Error showing image:</value>
+    <value>显示图像错误：</value>
   </data>
-  <data name="Repair_Title" xml:space="preserve">
-    <value>REPAIR MODE</value>
+  <data name="GameMode_repair" xml:space="preserve">
+    <value>修复模式</value>
   </data>
   <data name="Repair_Ladder_BTN_PLAY" xml:space="preserve">
-    <value>Navigate to the game's main menu and identify the 'Play' button used to start a match.</value>
+    <value>导航到游戏主菜单并找到用于开始比赛的“开战”按钮。</value>
   </data>
   <data name="Repair_Ladder_BTN_MATCHMAKING" xml:space="preserve">
-    <value>Press the button to start matchmaking and identify the 'Cancel' button on the wait screen.</value>
+    <value>按下按钮开始匹配，并在等待界面上找到“取消”按钮。</value>
   </data>
   <data name="Repair_Ladder_BTN_RETREAT" xml:space="preserve">
-    <value>While in a match, identify the 'Retreat' button.</value>
+    <value>在比赛中，找到“撤退”按钮。</value>
   </data>
   <data name="Repair_Match_ZERO_ENERGY" xml:space="preserve">
-    <value>Play cards to spend energy, then identify the indicator showing zero remaining energy.</value>
+    <value>打牌消耗能量，然后识别显示剩余能量为零的指示器。</value>
   </data>
   <data name="Repair_Match_END_TURN" xml:space="preserve">
-    <value>Identify the 'End Turn' button.</value>
+    <value>找到‘结束回合’按钮。</value>
   </data>
   <data name="Repair_Match_UNDO" xml:space="preserve">
-    <value>After ending a turn, identify the 'Undo End Turn' button.</value>
+    <value>结束一回合后，找到“撤消结束回合”按钮。</value>
   </data>
   <data name="Repair_Match_BTN_WAITING_1" xml:space="preserve">
-    <value>(Optional) After ending a turn, identify the 'Waiting...' button.</value>
+    <value>（可选）结束回合后，找到“放置中”按钮。</value>
   </data>
   <data name="Repair_Match_BTN_WAITING_2" xml:space="preserve">
-    <value>This text is only displayed during the following conditions:</value>
+    <value>此文本仅在以下情况下显示：</value>
   </data>
   <data name="Repair_Match_BTN_WAITING_3" xml:space="preserve">
-    <value>- The player has ended their turn after Agatha Harkness played a card</value>
+    <value>- 阿加莎·哈克尼斯打出一张牌后，玩家结束了自己的回合</value>
   </data>
   <data name="Repair_Match_BTN_WAITING_4" xml:space="preserve">
-    <value>- The opponent has played Daredevil and the player is waiting for the opponent to play a card on turn 5</value>
+    <value>- 对手已打出夜魔侠，玩家正在等待对手在第 5 回合打出一张牌</value>
   </data>
   <data name="Repair_Match_BTN_PLAYING" xml:space="preserve">
-    <value>While cards are being played, identify when the button's text shows 'Playing...'.</value>
+    <value>在出牌时，识别按钮上的文字何时显示“放置中”。</value>
   </data>
   <data name="Repair_Match_RECONNECT_1" xml:space="preserve">
-    <value>While in a match, close the game client. Restart the game client and wait for the main menu to load.</value>
+    <value>在比赛中，关闭游戏客户端。重新启动游戏客户端并等待主菜单加载。</value>
   </data>
   <data name="Repair_Match_RECONNECT_2" xml:space="preserve">
-    <value>Identify the 'Reconnect to Game' button.</value>
+    <value>找到“重新连接游戏”按钮。</value>
   </data>
   <data name="Repair_Ladder_BTN_COLLECT_REWARDS" xml:space="preserve">
-    <value>Play a match to the end, then identify the 'Collect Rewards' button shown after the final turn.</value>
+    <value>玩完一场比赛，然后找到最后一轮后显示的“领取奖励”按钮。</value>
   </data>
   <data name="Repair_Match_END_NEXT" xml:space="preserve">
-    <value>Press 'Collect Rewards', then identify the 'Next' button.</value>
+    <value>按下“领取奖励”，然后找到“下一步”按钮。</value>
   </data>
   <data name="Repair_Conquest_LOBBY_INFINITE" xml:space="preserve">
-    <value>Navigate to the Conquest menu and identify the 'Infinity' lobby.</value>
+    <value>导航到征服菜单并找到“无限”大厅。</value>
   </data>
   <data name="Repair_Conquest_LOBBY_GOLD" xml:space="preserve">
-    <value>In the Conquest menu, identify the 'Gold' lobby.</value>
+    <value>在征服菜单中，找到“黄金”大厅。</value>
   </data>
   <data name="Repair_Conquest_LOBBY_SILVER" xml:space="preserve">
-    <value>In the Conquest menu, identify the 'Silver' lobby.</value>
+    <value>在征服菜单中，找到“白银”大厅。</value>
   </data>
   <data name="Repair_Conquest_LOBBY_PG" xml:space="preserve">
-    <value>In the Conquest menu, identify the 'Proving Grounds' lobby.</value>
+    <value>在征服菜单中，找到“试炼之地”大厅。</value>
   </data>
   <data name="Repair_Conquest_NO_TICKETS" xml:space="preserve">
-    <value>Identify any lobby with no available tickets.</value>
+    <value>找出任何没有可用票的大厅。</value>
   </data>
   <data name="Repair_Conquest_BTN_PLAY" xml:space="preserve">
-    <value>Enter the 'Proving Grounds' lobby and identify the 'Play' button.</value>
+    <value>进入“试炼之地”大厅并找到“开战”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_CONCEDE" xml:space="preserve">
-    <value>After completing a round, identify the 'Concede' button.</value>
+    <value>完成一轮后，找到“放弃”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_MATCH_END" xml:space="preserve">
-    <value>After completing the final round, identify the 'Next' button.</value>
+    <value>完成最后一轮后，找到“下一步”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_MATCH_END_NEXT" xml:space="preserve">
-    <value>While collecting rewards, identify the 'Next' button.</value>
+    <value>在领取奖励时，找到“下一步”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_WIN_NEXT" xml:space="preserve">
-    <value>After winning a match and returning to the Conquest menu, identify the 'Next' button.</value>
+    <value>赢得比赛并返回征服菜单后，找到“下一步”按钮。</value>
   </data>
   <data name="Repair_Conquest_BTN_WIN_TICKET" xml:space="preserve">
-    <value>After winning a match and returning to the Conquest menu, identify the 'Claim Ticket' button.</value>
+    <value>赢得比赛并返回征服菜单后，找到“领取奖励”按钮。</value>
   </data>
   <data name="Error_SnapNotRunning" xml:space="preserve">
-    <value>SNAP.exe is not running!</value>
+    <value>SnapCN.exe 没有运行！</value>
   </data>
   <data name="Update_NewVersion" xml:space="preserve">
-    <value>*** Version %VALUE% is available! Enter [0] to open GitHub download page ***</value>
-  </data>
-  <data name="InitialSetup_Language_Option1" xml:space="preserve">
-    <value>[1] English (en-US)</value>
-  </data>
-  <data name="InitialSetup_Language_Option2" xml:space="preserve">
-    <value>[2] 中文 (zh-CN)(购买获得，举报卖家)</value>
-  </data>
-  <data name="InitialSetup_Language_BoosterBot" xml:space="preserve">
-    <value>Select your preferred language for BoosterBot:</value>
-  </data>
-  <data name="InitialSetup_Language_Game" xml:space="preserve">
-    <value>Select the language used in the game client:</value>
+    <value>*** %VALUE% 版本已上线！输入 [0] 打开 GitHub 下载页面 ***</value>
   </data>
   <data name="InitialSetup_Language_Game_Note" xml:space="preserve">
-    <value>NOTE: If you select 'Other', you will need to launch BoosterBot with the '--repair' parameter and complete the detection repair process before the program will function correctly.</value>
-  </data>
-  <data name="InitialSetup_Language_Option3" xml:space="preserve">
-    <value>[3] Others</value>
+    <value>注意：如果选择“其他”，则需要使用“--repair”参数启动BoosterBot并完成检测修复过程，程序才能正常运行。</value>
   </data>
   <data name="Conquest_Log_LobbyReset" xml:space="preserve">
-    <value>Resetting lobby interface to avoid misaligned detection points...</value>
+    <value>重置大厅界面以避免检测点错位......</value>
   </data>
   <data name="Repair_Conquest_LOBBY_NOTE" xml:space="preserve">
-    <value>NOTE: When switching lobbies, make sure the lobby title is centered before confirming. (Press [1] to see example image.)</value>
+    <value>注意：切换大厅时，请确保大厅标题居中后再确认。（按 [1] 查看示例图像。）</value>
+  </data>
+  <data name="Log_ExpAutoClaimed" xml:space="preserve">
+    <value>自动领取经验奖励</value>
+  </data>
+  <data name="Round_0" xml:space="preserve">
+    <value>不撤退</value>
+  </data>
+  <data name="Round_3" xml:space="preserve">
+    <value>3回合</value>
+  </data>
+  <data name="Round_1" xml:space="preserve">
+    <value>1回合</value>
+  </data>
+  <data name="Round_4" xml:space="preserve">
+    <value>4回合</value>
+  </data>
+  <data name="Round_2" xml:space="preserve">
+    <value>2回合</value>
+  </data>
+  <data name="Round_5" xml:space="preserve">
+    <value>5回合</value>
+  </data>
+  <data name="EventMode_True" xml:space="preserve">
+    <value>开启</value>
+  </data>
+  <data name="EventMode_False" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="NoRetreat" xml:space="preserve">
+    <value>不撤退</value>
+  </data>
+  <data name="RetreatAfterTurns" xml:space="preserve">
+    <value>{0}回合后撤退</value>
+  </data>
+  <data name="RoundSelectionLog" xml:space="preserve">
+    <value>撤退设置已更新：{0}</value>
+  </data>
+  <data name="ConquestTier_ProvingGround" xml:space="preserve">
+    <value>试炼之地</value>
+  </data>
+  <data name="ConquestTier_Silver" xml:space="preserve">
+    <value>白银征服模式</value>
+  </data>
+  <data name="ConquestTier_Infinite" xml:space="preserve">
+    <value>无限征服模式</value>
+  </data>
+  <data name="ConquestTier_Gold" xml:space="preserve">
+    <value>黄金征服模式</value>
+  </data>
+  <data name="ConquestTierSelected" xml:space="preserve">
+    <value>征服模式层级设置：{0}</value>
+  </data>
+  <data name="LanguageSet" xml:space="preserve">
+    <value>语言已设置为：{0}</value>
+  </data>
+  <data name="Language_zh-CN" xml:space="preserve">
+    <value>中文</value>
+  </data>
+  <data name="Language_en-US" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="GameModeSelected" xml:space="preserve">
+    <value>已选择游戏模式：{0}</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="Disabled" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="EventModeSet" xml:space="preserve">
+    <value>限时活动模式已{0}</value>
+  </data>
+  <data name="Surrender_Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="Surrender_No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="SurrenderSelectionLog" xml:space="preserve">
+    <value>撤退后放弃游戏：{0}</value>
   </data>
 </root>
