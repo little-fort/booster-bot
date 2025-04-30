@@ -1,12 +1,6 @@
-﻿using BoosterBot.Helpers;
+﻿using System.Drawing;
+using BoosterBot.Helpers;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace BoosterBot
@@ -38,7 +32,7 @@ namespace BoosterBot
         public Dimension Screencap { get; set; }
         private Point BaseResetPointLeft { get; set; }
         private Point BaseResetPointRight { get; set; }
-        public Point ResetPoint 
+        public Point ResetPoint
         {
             get
             {
@@ -147,6 +141,20 @@ namespace BoosterBot
                 };
             }
         }
+        private Point BaseExperienceClaimPoint { get; set; }
+        public Point ExperienceClaimPoint
+        {
+            get
+            {
+                var rand = new Random();
+                var bound = (int)(20 * Scaling);
+                return new Point
+                {
+                    X = BaseExperienceClaimPoint.X + rand.Next(-bound, bound),
+                    Y = BaseExperienceClaimPoint.Y + rand.Next(-bound, bound)
+                };
+            }
+        }
         private Point BaseClaimPoint { get; set; }
         public Point ClaimPoint
         {
@@ -163,13 +171,13 @@ namespace BoosterBot
         }
         public Point RetreatPoint { get; set; }
         public Point RetreatConfirmPoint { get; set; }
-		public Point ConcedePoint { get; set; }
-		public Point ConcedeConfirmPoint { get; set; }
+        public Point ConcedePoint { get; set; }
+        public Point ConcedeConfirmPoint { get; set; }
         public Point LaneColorPoint1 { get; set; }
         public Point LaneColorPoint2 { get; set; }
         public Point LaneColorPoint3 { get; set; }
-        public List<Point> Cards { get; set; }
-        public List<Point> Locations { get; set; }
+        public List<Point> Cards { get; set; } = new List<Point>();
+        public List<Point> Locations { get; set; } = new List<Point>();
 
         public BotConfig(IConfiguration settings, LocalizationManager localizer, double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath, bool useEvent, bool downscaled)
         {
@@ -324,6 +332,12 @@ namespace BoosterBot
                 Y = Window.Bottom - Scale(135)
             };
 
+            BaseExperienceClaimPoint = new Point
+            {
+                X = Window.Left + Center + Scale(100),
+                Y = Window.Bottom - Scale(420)
+            };
+
             RetreatPoint = new Point
             {
                 X = Window.Left + Center - Scale(300),
@@ -336,17 +350,17 @@ namespace BoosterBot
                 Y = Window.Bottom - Scale(280)
             };
 
-			ConcedePoint = new Point
-			{
-				X = Window.Left + Center - Scale(300),
-				Y = Window.Bottom - Scale(70)
-			};
+            ConcedePoint = new Point
+            {
+                X = Window.Left + Center - Scale(300),
+                Y = Window.Bottom - Scale(70)
+            };
 
-			ConcedeConfirmPoint = new Point
-			{
-				X = Window.Left + Center + Scale(100),
-				Y = Window.Bottom - Scale(280)
-			};
-		}
-	}
+            ConcedeConfirmPoint = new Point
+            {
+                X = Window.Left + Center + Scale(100),
+                Y = Window.Bottom - Scale(280)
+            };
+        }
+    }
 }

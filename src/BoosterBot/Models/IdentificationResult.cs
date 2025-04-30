@@ -6,15 +6,9 @@ using System.Threading.Tasks;
 
 namespace BoosterBot.Models
 {
-    internal struct IdentificationResult
+    internal struct IdentificationResult(bool isMatch, List<string> logs)
     {
-        public bool IsMatch { get; set; }
-        public List<string> Logs { get; set; }
-
-        public IdentificationResult(bool isMatch, List<string> logs)
-        {
-            IsMatch = isMatch;
-            Logs = logs ?? new List<string>();
-        }
+        public bool IsMatch { get; set; } = isMatch;
+        public List<string> Logs { get; set; } = logs ?? new List<string>();
     }
 }

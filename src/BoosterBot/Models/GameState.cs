@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BoosterBot.Models
+﻿namespace BoosterBot.Models
 {
     internal enum GameState
     {
@@ -17,6 +11,7 @@ namespace BoosterBot.Models
         LADDER_MATCH_END,
         LADDER_MATCH_END_REWARDS,
         CONQUEST_NO_TICKETS,
+        EXPERIENCE_CLAIM_AVAILABLE,
         CONQUEST_LOBBY_PG,
         CONQUEST_LOBBY_SILVER,
         CONQUEST_LOBBY_GOLD,
