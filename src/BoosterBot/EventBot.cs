@@ -283,9 +283,15 @@ namespace BoosterBot
                     _game.ClickSnap();
                     alreadySnapped = true;
                 }*/
-            }
 
-            _config.GetWindowPositions();
+                if (_config.ConstantSnapping)
+                {
+                    Log("Constant Snapping enabled...");
+                    _game.ClickSnap();
+                }
+			}
+
+			_config.GetWindowPositions();
 
             if (_matchTimer.Elapsed.Minutes > 15 && Check(() => _game.CanIdentifyLadderRetreatBtn()))
             {

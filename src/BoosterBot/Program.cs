@@ -47,12 +47,17 @@ internal class Program
         string? gameMode = null;
         string? maxConquestTier = null;
         int? maxTurns = null;
+        bool constantSnapping = false;
 
         // Parse flags:
         if (args.Length > 0)
             for (int i = 0; i < args.Length; i++)
                 switch (args[i])
                 {
+					case "-cs":
+					case "--constantsnapping":
+                        constantSnapping = true;
+                        break;
 					case "-d":
 					case "--downscaled":
 						downscaled = true;
@@ -175,7 +180,8 @@ internal class Program
 
                 var type = (GameMode)mode;
                 var logPath = $"logs\\{type.ToString().ToLower()}-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-                var config = new BotConfig(_configuration, _localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled);
+                var config = new BotConfig(_configuration, _localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled, constantSnapping);
+
                 IBoosterBot bot = mode switch
                 {
                     1 => new ConquestBot(config, retreat ?? 0, maxTier),
@@ -184,7 +190,7 @@ internal class Program
                     9 => new RepairBot(config),
                     _ => throw new Exception(_localizer.GetString("Log_InvalidModeSelection"))
                 };
- 
+
                 try
                 {
                     bot.Run();

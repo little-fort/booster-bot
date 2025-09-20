@@ -21,7 +21,8 @@ namespace BoosterBot
         private readonly bool _useEvent;
         private readonly bool _downscaled;
         private readonly string _logPath;
-        private readonly IConfiguration _settings;
+        private readonly bool _constantSnapping;
+		private readonly IConfiguration _settings;
         private readonly LocalizationManager _localizer;
 
         public LocalizationManager Localizer { get => _localizer; }
@@ -31,7 +32,8 @@ namespace BoosterBot
         public bool SaveScreens { get => _saveScreens; }
         public bool Downscaled { get => _downscaled; }
         public string LogPath { get => _logPath; }
-        public IConfiguration Settings { get => _settings; }
+        public bool ConstantSnapping { get => _constantSnapping; }
+		public IConfiguration Settings { get => _settings; }
         public int Center { get; set; }
         public int vCenter { get; set; }
         public Rect Window { get; set; }
@@ -171,7 +173,7 @@ namespace BoosterBot
         public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
-        public BotConfig(IConfiguration settings, LocalizationManager localizer, double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath, bool useEvent, bool downscaled)
+        public BotConfig(IConfiguration settings, LocalizationManager localizer, double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath, bool useEvent, bool downscaled, bool constantSnapping)
         {
             _settings = settings;
             _localizer = localizer;
@@ -181,7 +183,8 @@ namespace BoosterBot
             _saveScreens = saveScreens;
             _downscaled = downscaled;
             _logPath = logPath;
-            _useEvent = useEvent;
+			_constantSnapping = constantSnapping;
+			_useEvent = useEvent;
         }
 
         public int Scale(int x) => (int)(Scaling * x);
