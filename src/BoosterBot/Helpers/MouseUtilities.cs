@@ -14,6 +14,7 @@ namespace BoosterBot
             MOVE = 0x0001,
             LEFTDOWN = 0x0002,
             LEFTUP = 0x0004,
+            VIRTUALDESK = 0x4000,
             ABSOLUTE = 0x8000
         }
 
@@ -71,12 +72,21 @@ namespace BoosterBot
             SendInput((uint)inputs.Length, inputs, Marshal.SizeOf(typeof(INPUT)));
         }
 
+        private static void MoveMouse(int x, int y)
+        {
+            Rectangle vScreen = SystemInformation.VirtualScreen;
+            int absX = (int)((double)(x - vScreen.Left) * 65535 / vScreen.Width);
+            int absY = (int)((double)(y - vScreen.Top) * 65535 / vScreen.Height);
+
+            SendMouseEvent(MouseEventFlags.MOVE | MouseEventFlags.ABSOLUTE | MouseEventFlags.VIRTUALDESK, absX, absY);
+        }
+
         public static void MoveCard(Point card, Point loc, Point reset)
         {
             var rand = new Random();
 
             // Click on card:
-            Cursor.Position = new Point(card.X, card.Y);
+            MoveMouse(card.X, card.Y);
             SendMouseEvent(MouseEventFlags.LEFTDOWN);
 
             Thread.Sleep(rand.Next(100, 300));
@@ -88,12 +98,12 @@ namespace BoosterBot
 
             for (int i = 1; i <= steps; i++)
             {
-                Cursor.Position = new Point(card.X + (xStep * i), card.Y + (yStep * i));
+                MoveMouse(card.X + (xStep * i), card.Y + (yStep * i));
                 Thread.Sleep(rand.Next(5, 10));
             }
 
             // Ensure the cursor is precisely at the target location
-            Cursor.Position = new Point(loc.X, loc.Y);
+            MoveMouse(loc.X, loc.Y);
 
             Thread.Sleep(rand.Next(100, 300));
 
@@ -107,7 +117,7 @@ namespace BoosterBot
             SendMouseEvent(MouseEventFlags.LEFTUP);
 
             // Add a click to reset view because LEFTUP while hovering over another card will register as click event:
-            Cursor.Position = new Point(reset.X + rand.Next(-50, 50), reset.Y + rand.Next(-50, 50));
+            MoveMouse(reset.X + rand.Next(-50, 50), reset.Y + rand.Next(-50, 50));
             SendMouseEvent(MouseEventFlags.LEFTDOWN);
             Thread.Sleep(rand.Next(50, 100));
             SendMouseEvent(MouseEventFlags.LEFTUP);
