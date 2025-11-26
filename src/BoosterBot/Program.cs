@@ -332,7 +332,7 @@ internal class Program
         Console.WriteLine(Strings.Menu_ModeSelect_Option2);
         Console.WriteLine(Strings.Menu_ModeSelect_Option3);
         Console.WriteLine();
-        Console.Write(Strings.Menu_WaitingForSelection);
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (_updateAvailable && key.KeyChar == '0')
@@ -354,7 +354,7 @@ internal class Program
         Console.WriteLine();
         Console.WriteLine(Strings.Menu_ConquestLobby_NoticeTickets + Environment.NewLine + Strings.Menu_ConquestLobby_NoticeGold);
         Console.WriteLine();
-        Console.Write(Strings.Menu_WaitingForSelection);
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3' || key.KeyChar == '4')
@@ -401,7 +401,7 @@ internal class Program
         Console.WriteLine(Strings.Menu_Option1_Yes);
         Console.WriteLine(Strings.Menu_Option2_No);
         Console.WriteLine();
-        Console.Write(Strings.Menu_WaitingForSelection);
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (key.KeyChar == '1')
@@ -423,7 +423,7 @@ internal class Program
 		Console.WriteLine("[4]");
 		Console.WriteLine("[5]");
 		Console.WriteLine();
-        Console.Write(Strings.Menu_WaitingForSelection);
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if ("0,1,2,3,4,5".Contains(key.KeyChar.ToString()))
