@@ -239,11 +239,11 @@ internal class Program
         Console.WriteLine("****************************************************");
         Console.WriteLine();
 
-        if (args != null && args.Length > 0)
-        {
-            Console.WriteLine("Arguments: " + string.Join(' ', args));
-            Console.WriteLine();
-        }
+        //if (args != null && args.Length > 0) // For debuggingComme
+        //{
+        //    Console.WriteLine("Arguments: " + string.Join(' ', args));
+        //    Console.WriteLine();
+        //}
     }
 
     private static bool GetAppLanguageSelection()
@@ -321,7 +321,8 @@ internal class Program
 
     private static int GetModeSelection(string[] args)
     {
-        PrintTitle(args);
+        // PrintTitle(args);
+        PrintTitle();
 
         // Show update notification if available
         if (_updateAvailable)
