@@ -448,6 +448,8 @@ namespace BoosterBot
             Thread.Sleep(rand.Next(500, 750));
             ResetClick();
             Thread.Sleep(rand.Next(500, 750));
+            ClickClaim();
+            Thread.Sleep(rand.Next(500, 750));
             PressEscKey();
             Thread.Sleep(rand.Next(500, 750));
             PressEscKey();
