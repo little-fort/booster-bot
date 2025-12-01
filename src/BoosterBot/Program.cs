@@ -145,9 +145,9 @@ internal class Program
                 if (repair)
                     mode = 9;
                 else if (!string.IsNullOrWhiteSpace(gameMode))
-                    mode = gameMode.ToLower() switch { "c" => 1, "conquest" => 1, "l" => 2, "ladder" => 2, "r" => 2, "ranked" => 2, _ => GetModeSelection() };
+                    mode = gameMode.ToLower() switch { "c" => 1, "conquest" => 1, "l" => 2, "ladder" => 2, "r" => 2, "ranked" => 2, _ => GetModeSelection(args) };
                 else
-                    mode = GetModeSelection();
+                    mode = GetModeSelection(args);
 
                 GameState maxTier = GameState.UNKNOWN;
                 if (mode == 1)
@@ -171,7 +171,7 @@ internal class Program
 
                 var retreat = maxTurns > 0 || repair ? maxTurns : GetRetreatAfterTurn();
 
-                PrintTitle();
+                PrintTitle(args);
 
                 var type = (GameMode)mode;
                 var logPath = $"logs\\{type.ToString().ToLower()}-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
@@ -225,7 +225,7 @@ internal class Program
         }
     }
 
-    internal static void PrintTitle()
+    internal static void PrintTitle(string[]? args = null)
     {
         var version = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
         version = version.Split('+')[0];
@@ -238,6 +238,12 @@ internal class Program
         Console.WriteLine(title);
         Console.WriteLine("****************************************************");
         Console.WriteLine();
+
+        //if (args != null && args.Length > 0) // For debugging
+        //{
+        //    Console.WriteLine("Arguments: " + string.Join(' ', args));
+        //    Console.WriteLine();
+        //}
     }
 
     private static bool GetAppLanguageSelection()
@@ -313,8 +319,9 @@ internal class Program
         return GetAppLanguageSelection();
     }
 
-    private static int GetModeSelection()
+    private static int GetModeSelection(string[] args)
     {
+        // PrintTitle(args);
         PrintTitle();
 
         // Show update notification if available
@@ -326,7 +333,7 @@ internal class Program
         Console.WriteLine(Strings.Menu_ModeSelect_Option2);
         Console.WriteLine(Strings.Menu_ModeSelect_Option3);
         Console.WriteLine();
-        Console.Write(Strings.Menu_WaitingForSelection);
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (_updateAvailable && key.KeyChar == '0')
@@ -334,7 +341,7 @@ internal class Program
         else if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3')
             return int.Parse(key.KeyChar.ToString());
 
-        return GetModeSelection();
+        return GetModeSelection(args);
     }
 
     private static GameState GetMaxTierSelection()
@@ -348,7 +355,7 @@ internal class Program
         Console.WriteLine();
         Console.WriteLine(Strings.Menu_ConquestLobby_NoticeTickets + Environment.NewLine + Strings.Menu_ConquestLobby_NoticeGold);
         Console.WriteLine();
-        Console.Write(Strings.Menu_WaitingForSelection);
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (key.KeyChar == '1' || key.KeyChar == '2' || key.KeyChar == '3' || key.KeyChar == '4')
@@ -395,7 +402,7 @@ internal class Program
         Console.WriteLine(Strings.Menu_Option1_Yes);
         Console.WriteLine(Strings.Menu_Option2_No);
         Console.WriteLine();
-        Console.Write(Strings.Menu_WaitingForSelection);
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if (key.KeyChar == '1')
@@ -417,7 +424,7 @@ internal class Program
 		Console.WriteLine("[4]");
 		Console.WriteLine("[5]");
 		Console.WriteLine();
-        Console.Write(Strings.Menu_WaitingForSelection);
+        Console.WriteLine(Strings.Menu_WaitingForSelection);
 
         var key = Console.ReadKey();
         if ("0,1,2,3,4,5".Contains(key.KeyChar.ToString()))

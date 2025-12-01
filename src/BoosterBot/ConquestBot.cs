@@ -2,6 +2,7 @@
 using BoosterBot.Models;
 using BoosterBot.Resources;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace BoosterBot
 {
@@ -227,12 +228,9 @@ namespace BoosterBot
             for (int x = 0; x < 5; x++)
             {
                 var vertCenter = (_config.Window.Bottom - _config.Window.Top) / 2;
-                SystemUtilities.Drag(
-                    startX: _config.Window.Left + _config.Center + _config.Scale(250),
-                    startY: _config.Window.Top + vertCenter,
-                    endX: _config.Window.Left + _config.Center - _config.Scale(250),
-                    endY: _config.Window.Top + vertCenter
-                );
+                var start = new Point(_config.Window.Left + _config.Center + _config.Scale(250), _config.Window.Top + vertCenter);
+                var end = new Point(_config.Window.Left + _config.Center - _config.Scale(250), _config.Window.Top + vertCenter);
+                MouseUtilities.MoveCard(start, end, start);
                 Thread.Sleep(2000);
             }
 
@@ -248,12 +246,9 @@ namespace BoosterBot
                 {
                     _config.GetWindowPositions();
                     var vertCenter = (_config.Window.Bottom - _config.Window.Top) / 2;
-                    SystemUtilities.Drag(
-                        startX: _config.Window.Left + _config.Center - _config.Scale(250),
-                        startY: _config.Window.Top + vertCenter,
-                        endX: _config.Window.Left + _config.Center + _config.Scale(250),
-                        endY: _config.Window.Top + vertCenter
-                    );
+                    var start = new Point(_config.Window.Left + _config.Center - _config.Scale(250), _config.Window.Top + vertCenter);
+                    var end = new Point(_config.Window.Left + _config.Center + _config.Scale(250), _config.Window.Top + vertCenter);
+                    MouseUtilities.MoveCard(start, end, start);
                     Thread.Sleep(3500);
                 }
             }

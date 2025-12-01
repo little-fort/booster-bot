@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<Version>1.6.0-dev</Version>
-		<FileVersion>1.6.0</FileVersion>
-		<AssemblyVersion>1.6.0</AssemblyVersion>
+		<Version>1.7.0-dev</Version>
+		<FileVersion>1.7.0</FileVersion>
+		<AssemblyVersion>1.7.0</AssemblyVersion>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -91,6 +91,9 @@
 		</None>
 		<None Update="reference\btn-conquest-play.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\en\btn-conquest-playing-2-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\en\btn-conquest-playing-preproc.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -276,6 +279,9 @@
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\zh\btn-conquest-play-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="reference\zh\btn-conquest-playing-2-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Update="reference\zh\btn-conquest-playing-preproc.png">

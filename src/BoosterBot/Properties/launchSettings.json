@@ -2,7 +2,7 @@
   "profiles": {
     "BoosterBot": {
       "commandName": "Project",
-      "commandLineArgs": "--masked"
+      "commandLineArgs": "--masked --event"
     }
   }
 }

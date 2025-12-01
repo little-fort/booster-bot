@@ -169,7 +169,7 @@ namespace BoosterBot
             Console.WriteLine(Strings.Menu_Option1_Yes);
             Console.WriteLine(Strings.Menu_Option2_No);
             Console.WriteLine();
-            Console.Write(Strings.Menu_WaitingForSelection);
+            Console.WriteLine(Strings.Menu_WaitingForSelection);
 
             var key = Console.ReadKey();
             if (key.KeyChar == '1')
@@ -200,7 +200,7 @@ namespace BoosterBot
             Console.WriteLine(Strings.Menu_ModeSelect_Option1);
             Console.WriteLine(Strings.Menu_ModeSelect_Option2);
             Console.WriteLine();
-            Console.Write(Strings.Menu_WaitingForSelection);
+            Console.WriteLine(Strings.Menu_WaitingForSelection);
 
             var key = Console.ReadKey();
             if (key.KeyChar == '1' || key.KeyChar == '2')
@@ -221,8 +221,7 @@ namespace BoosterBot
             Console.WriteLine(Strings.Repair_Prompt_Option2_Confirm);
             Console.WriteLine(Strings.Repair_Prompt_Option3_Skip);
             Console.WriteLine();
-            Console.Write(Strings.Menu_WaitingForSelection);
-            Console.WriteLine(Environment.NewLine);
+            Console.WriteLine(Strings.Menu_WaitingForSelection);
 
             var key = Console.ReadKey();
             if (key.KeyChar == '0')

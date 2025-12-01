@@ -291,7 +291,7 @@ namespace BoosterBot
             BaseConquestBannerPoint = new Point
             {
                 X = Window.Left + Center,
-                Y = Window.Top + (_useEvent ? Scale(540) : Scale(330)) // Adjust click point for LTM
+                Y = Window.Top + (_useEvent ? Scale(650) : Scale(330)) // Adjust click point for LTM
             };
 
             BaseSnapPoint = new Point
