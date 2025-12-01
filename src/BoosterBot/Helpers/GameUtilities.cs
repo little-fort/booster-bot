@@ -287,8 +287,8 @@ namespace BoosterBot
 
         public IdentificationResult CanIdentifyConquestMatchmaking(bool returnFirstFound = true)
             => CheckMultipleSimilarities(returnFirstFound,
-                    (_mappings.GetConquestMatchmakingCancel, _mappings.REF_CONQ_BTN_MATCHMAKING_1, _defaultConfidence),
-                    (_mappings.GetConquestMatchmakingCancel, _mappings.REF_CONQ_BTN_MATCHMAKING_2, _defaultConfidence)
+                    (_mappings.GetConquestMatchmakingCancel, _mappings.REF_CONQ_BTN_MATCHMAKING_1, 0.7),
+                    (_mappings.GetConquestMatchmakingCancel, _mappings.REF_CONQ_BTN_MATCHMAKING_2, 0.7)
                 );
 
         public IdentificationResult CanIdentifyConquestRetreatBtn(bool returnFirstFound = true)
@@ -304,7 +304,8 @@ namespace BoosterBot
             => CheckMultipleSimilarities(returnFirstFound,
                     (_mappings.GetConquestBtnWaiting, _mappings.REF_CONQ_BTN_WAITING_1, _defaultConfidence),
                     (_mappings.GetConquestBtnWaiting, _mappings.REF_CONQ_BTN_WAITING_2, _defaultConfidence),
-                    (_mappings.GetConquestBtnWaiting, _mappings.REF_CONQ_BTN_PLAYING, _defaultConfidence)
+                    (_mappings.GetConquestBtnWaiting, _mappings.REF_CONQ_BTN_PLAYING, _defaultConfidence),
+                    (_mappings.GetConquestBtnWaiting, _mappings.REF_CONQ_BTN_PLAYING_2, _defaultConfidence)
                 );
 
         public IdentificationResult CanIdentifyConquestConcede(bool returnFirstFound = true)

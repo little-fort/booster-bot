@@ -42,6 +42,7 @@ namespace BoosterBot
         public string REF_CONQ_BTN_WAITING_1 { get => $"reference\\{_culture}\\btn-conquest-waiting-preproc.png"; }
         public string REF_CONQ_BTN_WAITING_2 { get => $"reference\\{_culture}\\btn-conquest-waiting-2-preproc.png"; }
         public string REF_CONQ_BTN_PLAYING { get => $"reference\\{_culture}\\btn-conquest-playing-preproc.png"; }
+        public string REF_CONQ_BTN_PLAYING_2 { get => $"reference\\{_culture}\\btn-conquest-playing-2-preproc.png"; }
         public string REF_CONQ_BTN_CONCEDE_1 { get => $"reference\\{_culture}\\btn-conquest-concede-preproc.png"; }
         public string REF_CONQ_BTN_CONCEDE_2 { get => $"reference\\{_culture}\\btn-conquest-concede-2-preproc.png"; }
         public string REF_CONQ_BTN_MATCH_END_1 { get => $"reference\\{_culture}\\btn-conquest-match-end-next-1-preproc.png"; }
