@@ -95,6 +95,13 @@ Can be used to adjust the default click point for the Conquest button in case th
 
 Usage: `BoosterBot.exe -e`
 
+**Constant Snapping**
+
+`-cs`
+`--constantsnapping`
+
+Can be used to enable constant snapping during matches in the special event mode.  Useful for farming nachos if you have bubs to spare in deadpool's diner 09-2025.
+
 ### Settings
 
 Alternatively, many of the command-line options shown in the previous section can be configured in the `appsettings.json` file like so:
