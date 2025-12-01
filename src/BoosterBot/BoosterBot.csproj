@@ -92,6 +92,9 @@
 		<None Update="reference\btn-conquest-play.png">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\en\btn-conquest-playing-2-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\en\btn-conquest-playing-preproc.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>

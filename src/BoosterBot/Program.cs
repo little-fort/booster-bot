@@ -239,7 +239,7 @@ internal class Program
         Console.WriteLine("****************************************************");
         Console.WriteLine();
 
-        //if (args != null && args.Length > 0) // For debuggingComme
+        //if (args != null && args.Length > 0) // For debugging
         //{
         //    Console.WriteLine("Arguments: " + string.Join(' ', args));
         //    Console.WriteLine();
