@@ -281,6 +281,9 @@
 		<None Update="reference\zh\btn-conquest-play-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
+		<None Update="reference\zh\btn-conquest-playing-2-preproc.png">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Update="reference\zh\btn-conquest-playing-preproc.png">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
