@@ -396,3 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/.claude/rules/memory-decisions.md
+/.claude/rules/memory-preferences.md
+/.claude/rules/memory-sessions.md
