@@ -85,6 +85,8 @@ IMPORTANT: You MUST update the repo-specific memory files *as you are working*. 
 
 **What to skip:** Quick factual questions, trivial tasks with no new info.
 
+When updating the session history, keep descriptions to high level summaries of what was accomplished, not play-by-play logs. Focus on outcomes and insights, not minutiae. The goal is to create a useful record for future reference, not a detailed transcript.
+
 **DO NOT ASK. Just update the files when you learn something.**
 
 ## When Compacting
