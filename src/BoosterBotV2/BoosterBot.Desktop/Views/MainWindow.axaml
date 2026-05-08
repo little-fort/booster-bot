@@ -4,7 +4,7 @@
         x:Class="BoosterBot.Desktop.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Title="BoosterBot V2 — Pipeline Verification"
-        Width="640" Height="520"
+        Width="700" Height="720"
         MinWidth="480" MinHeight="400"
         WindowStartupLocation="CenterScreen"
         Background="#0a1026">
@@ -45,12 +45,45 @@
             </Border>
         </StackPanel>
 
-        <!-- Captured Image -->
+        <!-- Debug Images -->
         <Border Grid.Row="1" Margin="0,12,0,0"
                 Background="{StaticResource CardBgBrush}"
                 BorderBrush="{StaticResource CardBorderBrush}"
                 BorderThickness="1" CornerRadius="8" Padding="8" ClipToBounds="True">
-            <Image Source="{Binding CapturedImage}" Stretch="Uniform" />
+            <Grid RowDefinitions="Auto,*,Auto,Auto">
+                <!-- Full capture -->
+                <Image Grid.Row="0" Source="{Binding CapturedImage}" Stretch="Uniform"
+                       MaxHeight="200" />
+
+                <!-- Spacer -->
+                <Separator Grid.Row="1" Margin="0,8" Background="{StaticResource CardBorderBrush}" />
+
+                <!-- Side-by-side debug: Cropped | Preprocessed | Reference -->
+                <Grid Grid.Row="2" ColumnDefinitions="*,*,*" Height="120"
+                      IsVisible="{Binding DebugCropped, Converter={x:Static ObjectConverters.IsNotNull}}">
+                    <StackPanel Grid.Column="0" Spacing="4" HorizontalAlignment="Center">
+                        <TextBlock Text="Cropped" Foreground="{StaticResource MutedTextBrush}"
+                                   FontSize="11" HorizontalAlignment="Center" />
+                        <Border Background="#111" CornerRadius="4" Padding="4">
+                            <Image Source="{Binding DebugCropped}" Stretch="Uniform" MaxHeight="90" />
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Spacing="4" HorizontalAlignment="Center">
+                        <TextBlock Text="Preprocessed" Foreground="{StaticResource MutedTextBrush}"
+                                   FontSize="11" HorizontalAlignment="Center" />
+                        <Border Background="#111" CornerRadius="4" Padding="4">
+                            <Image Source="{Binding DebugPreprocessed}" Stretch="Uniform" MaxHeight="90" />
+                        </Border>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Spacing="4" HorizontalAlignment="Center">
+                        <TextBlock Text="Reference" Foreground="{StaticResource MutedTextBrush}"
+                                   FontSize="11" HorizontalAlignment="Center" />
+                        <Border Background="#111" CornerRadius="4" Padding="4">
+                            <Image Source="{Binding DebugReference}" Stretch="Uniform" MaxHeight="90" />
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Grid>
         </Border>
 
         <!-- Footer -->

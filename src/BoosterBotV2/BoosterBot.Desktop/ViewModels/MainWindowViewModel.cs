@@ -24,6 +24,15 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private string _detectionResult = "";
 
+    [ObservableProperty]
+    private Bitmap? _debugCropped;
+
+    [ObservableProperty]
+    private Bitmap? _debugPreprocessed;
+
+    [ObservableProperty]
+    private Bitmap? _debugReference;
+
     public MainWindowViewModel(IScreenCapture screenCapture, IWindowManager windowManager)
     {
         _screenCapture = screenCapture;
@@ -78,15 +87,20 @@ public partial class MainWindowViewModel : ObservableObject
             using var preprocessed = ImageProcessor.Preprocess(cropped);
 
             var reference = ImageProcessor.GetReferenceImage(ReferenceKeys.MainPlay);
-            var result = ImageProcessor.IsReferencePresent(preprocessed, reference, DetectionThresholds.ButtonHighConfidence);
+
+            DebugCropped = MatToAvaloniaBitmap(cropped);
+            DebugPreprocessed = MatToAvaloniaBitmap(preprocessed);
+            DebugReference = MatToAvaloniaBitmap(reference);
 
             var confidence = ImageProcessor.GetMatchConfidence(preprocessed, reference);
-            var matchText = result.Result ? "MATCH" : "NO MATCH";
+            var matchText = confidence >= DetectionThresholds.ButtonHighConfidence ? "MATCH" : "NO MATCH";
 
-            DetectionResult = $"{matchText} — Confidence: {confidence:P2} (threshold: {DetectionThresholds.ButtonHighConfidence:P2})";
-
-            if (result.Logs.Count > 0)
-                DetectionResult += "\n" + string.Join("\n", result.Logs);
+            DetectionResult = $"{matchText} — Confidence: {confidence:P2} (threshold: {DetectionThresholds.ButtonHighConfidence:P2})"
+                + $"\nCrop region: L={region.Left} T={region.Top} R={region.Right} B={region.Bottom} ({region.Width}x{region.Height})"
+                + $"\nCapture: {_lastCapture.Dimensions.Width}x{_lastCapture.Dimensions.Height} ch={_lastCapture.Screenshot.Channels()}"
+                + $"\nCropped: {cropped.Width}x{cropped.Height} ch={cropped.Channels()}"
+                + $"\nPreprocessed: {preprocessed.Width}x{preprocessed.Height} ch={preprocessed.Channels()}"
+                + $"\nReference: {reference.Width}x{reference.Height} ch={reference.Channels()}";
         }
         catch (Exception ex)
         {
