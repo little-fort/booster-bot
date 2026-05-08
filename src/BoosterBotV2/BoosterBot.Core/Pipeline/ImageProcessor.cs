@@ -19,7 +19,7 @@ public static class ImageProcessor
         foreach (var file in Directory.GetFiles(dir, "*.png"))
         {
             var key = Path.GetFileNameWithoutExtension(file);
-            var mat = Cv2.ImRead(file, ImreadModes.Color);
+            var mat = Cv2.ImRead(file, ImreadModes.Grayscale);
             if (!mat.Empty())
                 _referenceImages[key] = mat;
         }
@@ -56,7 +56,13 @@ public static class ImageProcessor
     public static Mat Preprocess(Mat source)
     {
         var gray = new Mat();
-        Cv2.CvtColor(source, gray, ColorConversionCodes.BGR2GRAY);
+        var code = source.Channels() switch
+        {
+            4 => ColorConversionCodes.BGRA2GRAY,
+            3 => ColorConversionCodes.BGR2GRAY,
+            _ => throw new ArgumentException($"Unexpected channel count: {source.Channels()}")
+        };
+        Cv2.CvtColor(source, gray, code);
 
         var blurred = new Mat();
         Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(5, 5), 0);
@@ -118,7 +124,10 @@ public static class ImageProcessor
             return source.Clone();
 
         var gray = new Mat();
-        Cv2.CvtColor(source, gray, ColorConversionCodes.BGR2GRAY);
+        var code = source.Channels() == 4
+            ? ColorConversionCodes.BGRA2GRAY
+            : ColorConversionCodes.BGR2GRAY;
+        Cv2.CvtColor(source, gray, code);
         return gray;
     }
 }
