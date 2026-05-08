@@ -1,0 +1,62 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:BoosterBot.Desktop.ViewModels"
+        x:Class="BoosterBot.Desktop.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="BoosterBot V2 — Pipeline Verification"
+        Width="640" Height="520"
+        MinWidth="480" MinHeight="400"
+        WindowStartupLocation="CenterScreen"
+        Background="#0a1026">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="CardBgBrush" Color="#1e2248" Opacity="0.55" />
+        <SolidColorBrush x:Key="CardBorderBrush" Color="#2d325a" />
+        <SolidColorBrush x:Key="AccentTealBrush" Color="#3cada9" />
+        <SolidColorBrush x:Key="MutedTextBrush" Color="#a8b4cc" />
+    </Window.Resources>
+
+    <Grid Margin="20" RowDefinitions="Auto,*,Auto">
+
+        <!-- Controls -->
+        <StackPanel Grid.Row="0" Spacing="12">
+            <TextBlock Text="BoosterBot V2 — Phase 1 Verification"
+                       FontSize="18" FontWeight="Bold" Foreground="White" />
+
+            <Border Background="{StaticResource CardBgBrush}"
+                    BorderBrush="{StaticResource CardBorderBrush}"
+                    BorderThickness="1" CornerRadius="8" Padding="16">
+                <StackPanel Spacing="10">
+                    <TextBlock Text="{Binding StatusText}"
+                               Foreground="{StaticResource MutedTextBrush}" TextWrapping="Wrap" />
+
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <Button Content="Capture" Command="{Binding CaptureScreenCommand}"
+                                Background="{StaticResource AccentTealBrush}" Foreground="White"
+                                Padding="16,8" FontWeight="SemiBold" />
+                        <Button Content="Test Detection" Command="{Binding TestDetectionCommand}"
+                                Padding="16,8" />
+                    </StackPanel>
+
+                    <TextBlock Text="{Binding DetectionResult}"
+                               Foreground="#e0e0e0" TextWrapping="Wrap" FontFamily="Cascadia Mono,Consolas,monospace"
+                               FontSize="12" IsVisible="{Binding DetectionResult, Converter={x:Static StringConverters.IsNotNullOrEmpty}}" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <!-- Captured Image -->
+        <Border Grid.Row="1" Margin="0,12,0,0"
+                Background="{StaticResource CardBgBrush}"
+                BorderBrush="{StaticResource CardBorderBrush}"
+                BorderThickness="1" CornerRadius="8" Padding="8" ClipToBounds="True">
+            <Image Source="{Binding CapturedImage}" Stretch="Uniform" />
+        </Border>
+
+        <!-- Footer -->
+        <TextBlock Grid.Row="2" Margin="0,8,0,0"
+                   Text="Phase 1 Foundation — Capture and Detection Pipeline"
+                   Foreground="{StaticResource MutedTextBrush}" FontSize="11"
+                   HorizontalAlignment="Center" />
+    </Grid>
+</Window>

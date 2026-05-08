@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="BoosterBot.Core/BoosterBot.Core.csproj" />
+  <Project Path="BoosterBot.Desktop/BoosterBot.Desktop.csproj" />
+  <Project Path="BoosterBot.Platform/BoosterBot.Platform.csproj" />
+</Solution>
