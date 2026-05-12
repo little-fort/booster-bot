@@ -130,12 +130,25 @@ public static class ImageProcessor
             return source.Clone();
 
         var resized = new Mat();
-        var interpolation = source.Channels() == 1
-            ? InterpolationFlags.Nearest   // binary/preprocessed: preserve sharp edges
-            : scale > 1.0
-                ? InterpolationFlags.Area   // color downscaling: area averaging
-                : InterpolationFlags.Cubic; // color upscaling: bicubic
-        Cv2.Resize(source, resized, new OpenCvSharp.Size(targetWidth, targetHeight), interpolation: interpolation);
+
+        if (source.Channels() == 1)
+        {
+            // Binary/preprocessed image: Area interpolation produces smooth anti-aliased
+            // edges during downscaling, then re-threshold to get clean binary output
+            // that approximates what native-resolution preprocessing would produce.
+            Cv2.Resize(source, resized, new OpenCvSharp.Size(targetWidth, targetHeight),
+                interpolation: InterpolationFlags.Area);
+            var clean = new Mat();
+            Cv2.Threshold(resized, clean, 128, 255, ThresholdTypes.Binary);
+            resized.Dispose();
+            return clean;
+        }
+
+        var interpolation = scale > 1.0
+            ? InterpolationFlags.Area
+            : InterpolationFlags.Cubic;
+        Cv2.Resize(source, resized, new OpenCvSharp.Size(targetWidth, targetHeight),
+            interpolation: interpolation);
         return resized;
     }
 
