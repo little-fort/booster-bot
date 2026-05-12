@@ -53,25 +53,37 @@ public static class ImageProcessor
         return result;
     }
 
-    public static Mat Preprocess(Mat source)
+    public static Mat Preprocess(Mat source) => PreprocessScaled(source, 1.0);
+
+    public static Mat PreprocessScaled(Mat source, double scale)
     {
-        var gray = new Mat();
-        var code = source.Channels() switch
-        {
-            4 => ColorConversionCodes.BGRA2GRAY,
-            3 => ColorConversionCodes.BGR2GRAY,
-            _ => throw new ArgumentException($"Unexpected channel count: {source.Channels()}")
-        };
-        Cv2.CvtColor(source, gray, code);
+        using var gray = ConvertToGray(source);
 
         var blurred = new Mat();
         Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(5, 5), 0);
-        gray.Dispose();
+
+        // Resize blurred grayscale to reference resolution BEFORE thresholding,
+        // so the adaptive threshold's 11px window covers the same physical area
+        // as when the 1080p reference images were created.
+        Mat toThreshold;
+        if (Math.Abs(scale - 1.0) >= 0.01)
+        {
+            var targetWidth = (int)Math.Round(blurred.Width / scale);
+            var targetHeight = (int)Math.Round(blurred.Height / scale);
+            toThreshold = new Mat();
+            Cv2.Resize(blurred, toThreshold, new OpenCvSharp.Size(targetWidth, targetHeight),
+                interpolation: InterpolationFlags.Area);
+            blurred.Dispose();
+        }
+        else
+        {
+            toThreshold = blurred;
+        }
 
         var thresh = new Mat();
-        Cv2.AdaptiveThreshold(blurred, thresh, 255,
+        Cv2.AdaptiveThreshold(toThreshold, thresh, 255,
             AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, 11, 2);
-        blurred.Dispose();
+        toThreshold.Dispose();
 
         return thresh;
     }

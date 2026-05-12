@@ -88,24 +88,23 @@ public partial class MainWindowViewModel : ObservableObject
                 return;
             }
 
-            using var preprocessed = ImageProcessor.Preprocess(cropped);
-            using var normalized = ImageProcessor.NormalizeToReferenceScale(preprocessed, scale);
+            using var preprocessed = ImageProcessor.PreprocessScaled(cropped, scale);
 
             var reference = ImageProcessor.GetReferenceImage(ReferenceKeys.MainPlay);
 
             DebugCropped = MatToAvaloniaBitmap(cropped);
-            DebugPreprocessed = MatToAvaloniaBitmap(normalized);
+            DebugPreprocessed = MatToAvaloniaBitmap(preprocessed);
             DebugReference = MatToAvaloniaBitmap(reference);
 
-            var confidence = ImageProcessor.GetMatchConfidence(normalized, reference);
+            var confidence = ImageProcessor.GetMatchConfidence(preprocessed, reference);
             var matchText = confidence >= DetectionThresholds.ButtonHighConfidence ? "MATCH" : "NO MATCH";
 
             DetectionResult = $"{matchText} — Confidence: {confidence:P2} (threshold: {DetectionThresholds.ButtonHighConfidence:P2})"
                 + $"\nViewport: L={viewport.Left} T={viewport.Top} {viewport.Width}x{viewport.Height} (scale: {scale:F3})"
                 + $"\nCrop region: L={region.Left} T={region.Top} R={region.Right} B={region.Bottom} ({region.Width}x{region.Height})"
                 + $"\nCapture: {_lastCapture.Dimensions.Width}x{_lastCapture.Dimensions.Height} ch={_lastCapture.Screenshot.Channels()}"
-                + $"\nCropped: {cropped.Width}x{cropped.Height} -> Preprocessed: {preprocessed.Width}x{preprocessed.Height}"
-                + $"\nNormalized: {normalized.Width}x{normalized.Height} ch={normalized.Channels()}"
+                + $"\nCropped: {cropped.Width}x{cropped.Height}"
+                + $"\nPreprocessed: {preprocessed.Width}x{preprocessed.Height} ch={preprocessed.Channels()}"
                 + $"\nReference: {reference.Width}x{reference.Height} ch={reference.Channels()}";
         }
         catch (Exception ex)
