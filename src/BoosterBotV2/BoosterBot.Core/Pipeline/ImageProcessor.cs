@@ -118,6 +118,29 @@ public static class ImageProcessor
         return maxVal;
     }
 
+    public static Mat NormalizeToReferenceScale(Mat source, double scale)
+    {
+        if (Math.Abs(scale - 1.0) < 0.01)
+            return source.Clone();
+
+        var targetWidth = (int)Math.Round(source.Width / scale);
+        var targetHeight = (int)Math.Round(source.Height / scale);
+
+        if (targetWidth <= 0 || targetHeight <= 0)
+            return source.Clone();
+
+        var resized = new Mat();
+        var interpolation = source.Channels() == 1
+            ? InterpolationFlags.Nearest   // binary/preprocessed: preserve sharp edges
+            : scale > 1.0
+                ? InterpolationFlags.Area   // color downscaling: area averaging
+                : InterpolationFlags.Cubic; // color upscaling: bicubic
+        Cv2.Resize(source, resized, new OpenCvSharp.Size(targetWidth, targetHeight), interpolation: interpolation);
+        return resized;
+    }
+
+    internal static Mat ConvertToGrayPublic(Mat source) => ConvertToGray(source);
+
     private static Mat ConvertToGray(Mat source)
     {
         if (source.Channels() == 1)

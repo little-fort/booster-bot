@@ -75,7 +75,11 @@ public partial class MainWindowViewModel : ObservableObject
 
         try
         {
-            var region = ComponentMappings.GetBtnPlay(_lastCapture.Dimensions, _lastCapture.Center);
+            var viewport = ViewportDetector.Detect(_lastCapture.Screenshot);
+            var scale = ViewportDetector.GetScale(viewport);
+            var region = ComponentMappings.PadForSearch(
+                ComponentMappings.GetBtnPlay(viewport), scale);
+
             using var cropped = ImageProcessor.CropRegion(_lastCapture.Screenshot, region);
 
             if (cropped.Empty())
@@ -85,21 +89,23 @@ public partial class MainWindowViewModel : ObservableObject
             }
 
             using var preprocessed = ImageProcessor.Preprocess(cropped);
+            using var normalized = ImageProcessor.NormalizeToReferenceScale(preprocessed, scale);
 
             var reference = ImageProcessor.GetReferenceImage(ReferenceKeys.MainPlay);
 
             DebugCropped = MatToAvaloniaBitmap(cropped);
-            DebugPreprocessed = MatToAvaloniaBitmap(preprocessed);
+            DebugPreprocessed = MatToAvaloniaBitmap(normalized);
             DebugReference = MatToAvaloniaBitmap(reference);
 
-            var confidence = ImageProcessor.GetMatchConfidence(preprocessed, reference);
+            var confidence = ImageProcessor.GetMatchConfidence(normalized, reference);
             var matchText = confidence >= DetectionThresholds.ButtonHighConfidence ? "MATCH" : "NO MATCH";
 
             DetectionResult = $"{matchText} — Confidence: {confidence:P2} (threshold: {DetectionThresholds.ButtonHighConfidence:P2})"
+                + $"\nViewport: L={viewport.Left} T={viewport.Top} {viewport.Width}x{viewport.Height} (scale: {scale:F3})"
                 + $"\nCrop region: L={region.Left} T={region.Top} R={region.Right} B={region.Bottom} ({region.Width}x{region.Height})"
                 + $"\nCapture: {_lastCapture.Dimensions.Width}x{_lastCapture.Dimensions.Height} ch={_lastCapture.Screenshot.Channels()}"
-                + $"\nCropped: {cropped.Width}x{cropped.Height} ch={cropped.Channels()}"
-                + $"\nPreprocessed: {preprocessed.Width}x{preprocessed.Height} ch={preprocessed.Channels()}"
+                + $"\nCropped: {cropped.Width}x{cropped.Height} -> Preprocessed: {preprocessed.Width}x{preprocessed.Height}"
+                + $"\nNormalized: {normalized.Width}x{normalized.Height} ch={normalized.Channels()}"
                 + $"\nReference: {reference.Width}x{reference.Height} ch={reference.Channels()}";
         }
         catch (Exception ex)

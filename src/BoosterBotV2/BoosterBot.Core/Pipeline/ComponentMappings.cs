@@ -71,161 +71,260 @@ public static class ReferenceKeys
 
 public static class ComponentMappings
 {
+    // All V1 pixel offsets were calibrated at 1080p. The Scale() helper
+    // converts them to the detected viewport's actual size so crop regions
+    // land on the correct pixels at any resolution or aspect ratio.
+
+    private static int S(int v1Offset, double scale) => (int)(v1Offset * scale);
+
+    // Search padding added around crop regions (in 1080p reference pixels).
+    // Gives template matching room to slide and find the best alignment
+    // even when the crop isn't pixel-perfect.
+    private const int SearchPadding = 15;
+
+    public static Rect PadForSearch(Rect region, double scale)
+    {
+        int pad = S(SearchPadding, scale);
+        return new()
+        {
+            Left = region.Left - pad,
+            Top = region.Top - pad,
+            Right = region.Right + pad,
+            Bottom = region.Bottom + pad
+        };
+    }
+
     // Shared
 
-    public static Rect GetBtnPlay(Dimension screen, int center) => new()
+    public static Rect GetBtnPlay(GameViewport vp)
     {
-        Left = center - 45,
-        Right = center + 40,
-        Top = screen.Height - 235,
-        Bottom = screen.Height - 195
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(45, s),
+            Right = vp.CenterX + S(40, s),
+            Top = vp.Bottom - S(235, s),
+            Bottom = vp.Bottom - S(195, s)
+        };
+    }
 
-    public static Rect GetEnergy(Dimension screen, int center) => new()
+    public static Rect GetEnergy(GameViewport vp)
     {
-        Left = center - 30,
-        Right = center + 20,
-        Top = screen.Height - 90,
-        Bottom = screen.Height - 45
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(30, s),
+            Right = vp.CenterX + S(20, s),
+            Top = vp.Bottom - S(90, s),
+            Bottom = vp.Bottom - S(45, s)
+        };
+    }
 
     // Ladder
 
-    public static Rect GetLadderMatchmakingCancel(Dimension screen, int center) => new()
+    public static Rect GetLadderMatchmakingCancel(GameViewport vp)
     {
-        Left = center - 50,
-        Right = center + 40,
-        Top = screen.Height - 85,
-        Bottom = screen.Height - 55
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(50, s),
+            Right = vp.CenterX + S(40, s),
+            Top = vp.Bottom - S(85, s),
+            Bottom = vp.Bottom - S(55, s)
+        };
+    }
 
-    public static Rect GetLadderBtnRetreat(Dimension screen, int center) => new()
+    public static Rect GetLadderBtnRetreat(GameViewport vp)
     {
-        Left = center - 385,
-        Right = center - 275,
-        Top = screen.Height - 80,
-        Bottom = screen.Height - 60
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(385, s),
+            Right = vp.CenterX - S(275, s),
+            Top = vp.Bottom - S(80, s),
+            Bottom = vp.Bottom - S(60, s)
+        };
+    }
 
-    public static Rect GetLadderBtnCollect(Dimension screen, int center) => new()
+    public static Rect GetLadderBtnCollect(GameViewport vp)
     {
-        Left = center + 245,
-        Right = center + 375,
-        Top = screen.Height - 80,
-        Bottom = screen.Height - 60
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX + S(245, s),
+            Right = vp.CenterX + S(375, s),
+            Top = vp.Bottom - S(80, s),
+            Bottom = vp.Bottom - S(60, s)
+        };
+    }
 
     // Conquest
 
-    public static Rect GetConquestBannerCrop(Dimension screen, int center) => new()
+    public static Rect GetConquestBannerCrop(GameViewport vp)
     {
-        Left = center - 60,
-        Right = center + 50,
-        Top = 20,
-        Bottom = 55
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(60, s),
+            Right = vp.CenterX + S(50, s),
+            Top = vp.Top + S(20, s),
+            Bottom = vp.Top + S(55, s)
+        };
+    }
 
-    public static Rect GetConquestLobbySelection(Dimension screen, int center) => new()
+    public static Rect GetConquestLobbySelection(GameViewport vp)
     {
-        Left = center - 130,
-        Right = center + 120,
-        Top = 135,
-        Bottom = 160
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(130, s),
+            Right = vp.CenterX + S(120, s),
+            Top = vp.Top + S(135, s),
+            Bottom = vp.Top + S(160, s)
+        };
+    }
 
-    public static Rect GetConquestLobbyRewardCrop(Dimension screen, int center) => new()
+    public static Rect GetConquestLobbyRewardCrop(GameViewport vp)
     {
-        Left = center + 95,
-        Right = center + 195,
-        Top = 465,
-        Bottom = 485
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX + S(95, s),
+            Right = vp.CenterX + S(195, s),
+            Top = vp.Top + S(465, s),
+            Bottom = vp.Top + S(485, s)
+        };
+    }
 
-    public static Rect GetConquestOwnedTicketsIcon(Dimension screen, int center) => new()
+    public static Rect GetConquestOwnedTicketsIcon(GameViewport vp)
     {
-        Left = center - 85,
-        Right = center + 75,
-        Top = screen.Height - 155,
-        Bottom = screen.Height - 125
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(85, s),
+            Right = vp.CenterX + S(75, s),
+            Top = vp.Bottom - S(155, s),
+            Bottom = vp.Bottom - S(125, s)
+        };
+    }
 
-    public static Rect GetConquestMatchmakingCancel(Dimension screen, int center) => new()
+    public static Rect GetConquestMatchmakingCancel(GameViewport vp)
     {
-        Left = center - 55,
-        Right = center + 40,
-        Top = screen.Height - 85,
-        Bottom = screen.Height - 55
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(55, s),
+            Right = vp.CenterX + S(40, s),
+            Top = vp.Bottom - S(85, s),
+            Bottom = vp.Bottom - S(55, s)
+        };
+    }
 
-    public static Rect GetConquestBtnConcede(Dimension screen, int center) => new()
+    public static Rect GetConquestBtnConcede(GameViewport vp)
     {
-        Left = center - 380,
-        Right = center - 265,
-        Top = screen.Height - 80,
-        Bottom = screen.Height - 55
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(380, s),
+            Right = vp.CenterX - S(265, s),
+            Top = vp.Bottom - S(80, s),
+            Bottom = vp.Bottom - S(55, s)
+        };
+    }
 
-    public static Rect GetConquestBtnRetreat(Dimension screen, int center) => new()
+    public static Rect GetConquestBtnRetreat(GameViewport vp)
     {
-        Left = center - 375,
-        Right = center - 285,
-        Top = screen.Height - 90,
-        Bottom = screen.Height - 70
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(375, s),
+            Right = vp.CenterX - S(285, s),
+            Top = vp.Bottom - S(90, s),
+            Bottom = vp.Bottom - S(70, s)
+        };
+    }
 
-    public static Rect GetConquestBtnEndTurn(Dimension screen, int center) => new()
+    public static Rect GetConquestBtnEndTurn(GameViewport vp)
     {
-        Left = center + 325,
-        Right = center + 370,
-        Top = screen.Height - 90,
-        Bottom = screen.Height - 70
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX + S(325, s),
+            Right = vp.CenterX + S(370, s),
+            Top = vp.Bottom - S(90, s),
+            Bottom = vp.Bottom - S(70, s)
+        };
+    }
 
-    public static Rect GetConquestBtnWaiting(Dimension screen, int center) => new()
+    public static Rect GetConquestBtnWaiting(GameViewport vp)
     {
-        Left = center + 265,
-        Right = center + 355,
-        Top = screen.Height - 90,
-        Bottom = screen.Height - 70
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX + S(265, s),
+            Right = vp.CenterX + S(355, s),
+            Top = vp.Bottom - S(90, s),
+            Bottom = vp.Bottom - S(70, s)
+        };
+    }
 
-    public static Rect GetConquestBtnMatchEndNext1(Dimension screen, int center) => new()
+    public static Rect GetConquestBtnMatchEndNext1(GameViewport vp)
     {
-        Left = center + 285,
-        Right = center + 350,
-        Top = screen.Height - 80,
-        Bottom = screen.Height - 60
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX + S(285, s),
+            Right = vp.CenterX + S(350, s),
+            Top = vp.Bottom - S(80, s),
+            Bottom = vp.Bottom - S(60, s)
+        };
+    }
 
-    public static Rect GetConquestBtnMatchEndNext2(Dimension screen, int center) => new()
+    public static Rect GetConquestBtnMatchEndNext2(GameViewport vp)
     {
-        Left = center + 285,
-        Right = center + 355,
-        Top = screen.Height - 70,
-        Bottom = screen.Height - 40
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX + S(285, s),
+            Right = vp.CenterX + S(355, s),
+            Top = vp.Bottom - S(70, s),
+            Bottom = vp.Bottom - S(40, s)
+        };
+    }
 
-    public static Rect GetConquestBtnContinue(Dimension screen, int center) => new()
+    public static Rect GetConquestBtnContinue(GameViewport vp)
     {
-        Left = center - 85,
-        Right = center + 85,
-        Top = screen.Height - 180,
-        Bottom = screen.Height - 145
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(85, s),
+            Right = vp.CenterX + S(85, s),
+            Top = vp.Bottom - S(180, s),
+            Bottom = vp.Bottom - S(145, s)
+        };
+    }
 
-    public static Rect GetConquestVictoryNext(Dimension screen, int center) => new()
+    public static Rect GetConquestVictoryNext(GameViewport vp)
     {
-        Left = center - 55,
-        Right = center + 40,
-        Top = screen.Height - 180,
-        Bottom = screen.Height - 145
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(55, s),
+            Right = vp.CenterX + S(40, s),
+            Top = vp.Bottom - S(180, s),
+            Bottom = vp.Bottom - S(145, s)
+        };
+    }
 
-    public static Rect GetConquestTicketClaim(Dimension screen, int center) => new()
+    public static Rect GetConquestTicketClaim(GameViewport vp)
     {
-        Left = center - 65,
-        Right = center + 40,
-        Top = screen.Height - 160,
-        Bottom = screen.Height - 130
-    };
+        double s = ViewportDetector.GetScale(vp);
+        return new()
+        {
+            Left = vp.CenterX - S(65, s),
+            Right = vp.CenterX + S(40, s),
+            Top = vp.Bottom - S(160, s),
+            Bottom = vp.Bottom - S(130, s)
+        };
+    }
 }
