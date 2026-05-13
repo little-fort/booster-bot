@@ -88,25 +88,24 @@ public partial class MainWindowViewModel : ObservableObject
                 return;
             }
 
-            using var preprocessed = ImageProcessor.Preprocess(cropped);
-
+            // Preprocess normalizes to 1080p (grayscale + downscale + blur),
+            // so the reference at 1080p matches directly — no scaling needed.
+            using var preprocessed = ImageProcessor.Preprocess(cropped, scale);
             var reference = ImageProcessor.GetReferenceImage(ReferenceKeys.MainPlay);
-            using var scaledRef = ImageProcessor.ScaleReferenceToCapture(reference, scale);
 
             DebugCropped = MatToAvaloniaBitmap(cropped);
             DebugPreprocessed = MatToAvaloniaBitmap(preprocessed);
-            DebugReference = MatToAvaloniaBitmap(scaledRef);
+            DebugReference = MatToAvaloniaBitmap(reference);
 
-            var confidence = ImageProcessor.GetMatchConfidence(preprocessed, scaledRef);
+            var confidence = ImageProcessor.GetMatchConfidence(preprocessed, reference);
             var matchText = confidence >= DetectionThresholds.ButtonHighConfidence ? "MATCH" : "NO MATCH";
 
             DetectionResult = $"{matchText} — Confidence: {confidence:P2} (threshold: {DetectionThresholds.ButtonHighConfidence:P2})"
                 + $"\nViewport: L={viewport.Left} T={viewport.Top} {viewport.Width}x{viewport.Height} (scale: {scale:F3})"
                 + $"\nCrop region: L={region.Left} T={region.Top} R={region.Right} B={region.Bottom} ({region.Width}x{region.Height})"
-                + $"\nCapture: {_lastCapture.Dimensions.Width}x{_lastCapture.Dimensions.Height} ch={_lastCapture.Screenshot.Channels()}"
-                + $"\nCropped: {cropped.Width}x{cropped.Height}"
-                + $"\nPreprocessed: {preprocessed.Width}x{preprocessed.Height} ch={preprocessed.Channels()}"
-                + $"\nScaled ref: {scaledRef.Width}x{scaledRef.Height} ch={scaledRef.Channels()}";
+                + $"\nCapture: {_lastCapture.Dimensions.Width}x{_lastCapture.Dimensions.Height}"
+                + $"\nPreprocessed: {preprocessed.Width}x{preprocessed.Height}"
+                + $"\nRef: {reference.Width}x{reference.Height}";
         }
         catch (Exception ex)
         {

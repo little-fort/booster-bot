@@ -53,36 +53,37 @@ public static class ImageProcessor
         return result;
     }
 
-    public static Mat Preprocess(Mat source)
+    /// <summary>
+    /// Normalizes a crop to 1080p resolution and applies Gaussian blur for
+    /// grayscale template matching. This replaces the binary adaptive threshold
+    /// pipeline which was resolution-sensitive. CCoeffNormed handles brightness
+    /// normalization natively on grayscale, so binarization is unnecessary.
+    /// </summary>
+    public static Mat Preprocess(Mat source, double scale = 1.0)
     {
         using var gray = ConvertToGray(source);
 
+        // Normalize to 1080p reference resolution before blurring so the
+        // kernel covers the same physical area regardless of source resolution
+        Mat toBlur;
+        if (Math.Abs(scale - 1.0) > 0.01)
+        {
+            int normW = (int)Math.Round(gray.Width / scale);
+            int normH = (int)Math.Round(gray.Height / scale);
+            toBlur = new Mat();
+            Cv2.Resize(gray, toBlur, new OpenCvSharp.Size(normW, normH),
+                interpolation: scale > 1 ? InterpolationFlags.Area : InterpolationFlags.Cubic);
+        }
+        else
+        {
+            toBlur = gray.Clone();
+        }
+
         var blurred = new Mat();
-        Cv2.GaussianBlur(gray, blurred, new OpenCvSharp.Size(5, 5), 0);
+        Cv2.GaussianBlur(toBlur, blurred, new OpenCvSharp.Size(5, 5), 0);
+        toBlur.Dispose();
 
-        var thresh = new Mat();
-        Cv2.AdaptiveThreshold(blurred, thresh, 255,
-            AdaptiveThresholdTypes.MeanC, ThresholdTypes.BinaryInv, 11, 2);
-        blurred.Dispose();
-
-        return thresh;
-    }
-
-    public static Mat ScaleReferenceToCapture(Mat reference, double scale)
-    {
-        if (Math.Abs(scale - 1.0) < 0.01)
-            return reference.Clone();
-
-        var targetWidth = (int)Math.Round(reference.Width * scale);
-        var targetHeight = (int)Math.Round(reference.Height * scale);
-
-        if (targetWidth <= 0 || targetHeight <= 0)
-            return reference.Clone();
-
-        var resized = new Mat();
-        Cv2.Resize(reference, resized, new OpenCvSharp.Size(targetWidth, targetHeight),
-            interpolation: InterpolationFlags.Nearest);
-        return resized;
+        return blurred;
     }
 
     public static PipelineResult<bool> IsReferencePresent(Mat captured, Mat reference, double threshold = DetectionThresholds.Default)
@@ -127,41 +128,7 @@ public static class ImageProcessor
         return maxVal;
     }
 
-    public static Mat NormalizeToReferenceScale(Mat source, double scale)
-    {
-        if (Math.Abs(scale - 1.0) < 0.01)
-            return source.Clone();
-
-        var targetWidth = (int)Math.Round(source.Width / scale);
-        var targetHeight = (int)Math.Round(source.Height / scale);
-
-        if (targetWidth <= 0 || targetHeight <= 0)
-            return source.Clone();
-
-        var resized = new Mat();
-
-        if (source.Channels() == 1)
-        {
-            // Binary/preprocessed image: Area interpolation produces smooth anti-aliased
-            // edges during downscaling, then re-threshold to get clean binary output
-            // that approximates what native-resolution preprocessing would produce.
-            Cv2.Resize(source, resized, new OpenCvSharp.Size(targetWidth, targetHeight),
-                interpolation: InterpolationFlags.Area);
-            var clean = new Mat();
-            Cv2.Threshold(resized, clean, 128, 255, ThresholdTypes.Binary);
-            resized.Dispose();
-            return clean;
-        }
-
-        var interpolation = scale > 1.0
-            ? InterpolationFlags.Area
-            : InterpolationFlags.Cubic;
-        Cv2.Resize(source, resized, new OpenCvSharp.Size(targetWidth, targetHeight),
-            interpolation: interpolation);
-        return resized;
-    }
-
-    internal static Mat ConvertToGrayPublic(Mat source) => ConvertToGray(source);
+    public static Mat ConvertToGrayPublic(Mat source) => ConvertToGray(source);
 
     private static Mat ConvertToGray(Mat source)
     {
