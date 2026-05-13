@@ -72,7 +72,67 @@ On startup (without `--masked`), the app copies itself to a randomly-named `.exe
 
 `appsettings.json` is the runtime config file (copied to output). CLI args override appsettings values. Key settings: `scaling`, `downscaledMode`, `eventModeActive`, `defaultRunSettings.*`.
 
-## Memory
+## General Guidelines
+
+### 1. Think Before Coding
+
+**Don't assume. Don't hide confusion. Surface tradeoffs.**
+
+Before implementing:
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
+IMPORTANT: You MUST do research whenever a solution is not immediately clear or you have tried to solve the same problem multiple times without success. Do not assume that all of your training data is still correct and valid. If there is any uncertainty in your response, do research first. Quality is ALWAYS more important than speed.
+
+### 2. Simplicity First
+
+**Minimum code that solves the problem. Nothing speculative.**
+
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+### 3. Surgical Changes
+
+**Touch only what you must. Clean up only your own mess.**
+
+When editing existing code:
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+### 4. Goal-Driven Execution
+
+**Define success criteria. Loop until verified.**
+
+Transform tasks into verifiable goals:
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+```
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+```
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+### 5. Memory
 
 IMPORTANT: You MUST update the repo-specific memory files *as you are working*. Do not wait to update memory until the end of a session. When you learn something new, update the relevant files immediately. If the specified file does not exist, you should create it.
 
@@ -85,14 +145,12 @@ IMPORTANT: You MUST update the repo-specific memory files *as you are working*. 
 
 **What to skip:** Quick factual questions, trivial tasks with no new info.
 
-When updating the session history, keep descriptions to high level summaries of what was accomplished, not play-by-play logs. Focus on outcomes and insights, not minutiae. The goal is to create a useful record for future reference, not a detailed transcript.
-
 **DO NOT ASK. Just update the files when you learn something.**
-
-## When Compacting
 
 When compacting, always preserve: the full list of modified files, any failing test names, the current feature branch name, and outstanding TODOs.
 
-## Research
+### 6. Code Comments
 
-IMPORTANT: You MUST do research whenver a solution is not immediately clear or you have tried to solve the same problem multiple times without success. Do not assume that all of your training data is still correct and valid. If there is any uncertainty in your response, do research first. Quality is ALWAYS more important than speed.
+You should use comments intelligently throughout your code to help explain what the code does and why. For standard and/or boilerplate code, comments should be kept concise. For unique or novel solutions, more detailed comments should be used. 
+
+When writing comments, assume that your target audience is an experienced developer looking at the code for the first time. Such a developer should be able to use comments to understand the code even if they are not deeply familiar with the framework.
