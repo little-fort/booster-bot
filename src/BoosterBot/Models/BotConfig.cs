@@ -171,7 +171,9 @@ namespace BoosterBot
         public List<Point> Cards { get; set; }
         public List<Point> Locations { get; set; }
 
-        public BotConfig(IConfiguration settings, LocalizationManager localizer, double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath, bool useEvent, bool downscaled)
+        public int TerminateAfter { get; set; }
+
+        public BotConfig(IConfiguration settings, LocalizationManager localizer, double scaling, bool verbose, bool autoplay, bool saveScreens, string logPath, bool useEvent, bool downscaled, int terminateAfter = 0)
         {
             _settings = settings;
             _localizer = localizer;
@@ -182,6 +184,7 @@ namespace BoosterBot
             _downscaled = downscaled;
             _logPath = logPath;
             _useEvent = useEvent;
+            TerminateAfter = terminateAfter;
         }
 
         public int Scale(int x) => (int)(Scaling * x);

@@ -79,6 +79,10 @@ Specifies the game mode that the bot should play. Valid arguments: `c`, `conques
 
 Configures the turn at which the bot should auto-retreat, if desired. Valid arguments: any integer. Value can be ignored or set to `0` if the bot should play matches to the end. Only applicable in ranked mode and will be ignored in Conquest.
 
+`-ta`, `--terminate-after`
+
+Specifies a total runtime duration in seconds after which the bot will automatically shut itself down. The check occurs between matches so the current match will always finish. Useful for running the bot for a fixed period of time. Valid arguments: any integer. Set to `0` or omit to run indefinitely.
+
 `-ct`, `--tier`
 
 Specifies the maximum tier that the bot should play if the bot was set to play Conquest. Valid arguments: `pg` (Proving Grounds), `s` (Silver), `g` (Gold), `i` (Infinite)
@@ -86,6 +90,7 @@ Specifies the maximum tier that the bot should play if the bot was set to play C
 Usage:
 - `BoosterBot.exe --mode ranked --turns 3` - Bot will farm ladder on startup, and will auto-retreat after 3 turns.
 - `BoosterBot.exe -m c -ct s` - Bot will farm Conquest on startup, but only at Silver tier or lower.
+- `BoosterBot.exe -m ranked -ta 3600` - Bot will farm ladder and shut itself down after 1 hour.
 
 **Event UI** 
 
@@ -112,7 +117,8 @@ Alternatively, many of the command-line options shown in the previous section ca
     "enabled": false,
     "gameMode": "conquest",
     "maxConquestTier": "silver",
-    "maxRankedTurns": 3
+    "maxRankedTurns": 3,
+    "terminateAfter": 0
   }
 }
 ```

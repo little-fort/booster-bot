@@ -447,6 +447,7 @@ namespace BoosterBot
                 if (totalSleep > 4000 && Check(_game.CanIdentifyAnyConquestLobby))
                 {
                     Log("Conquest_Log_Menu_DetectedLobby");
+                    CheckForTerminate();
                     return true;
                 }
 
@@ -457,6 +458,7 @@ namespace BoosterBot
                 }
             }
 
+            CheckForTerminate();
             return AcceptResult();
         }
 

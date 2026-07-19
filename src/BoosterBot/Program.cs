@@ -47,6 +47,7 @@ internal class Program
         string? gameMode = null;
         string? maxConquestTier = null;
         int? maxTurns = null;
+        int? terminateAfter = null;
 
         // Parse flags:
         if (args.Length > 0)
@@ -107,6 +108,11 @@ internal class Program
                     case "--repair":
                         repair = true;
                         break;
+                    case "-terminate":
+                    case "--terminate-after":
+                    case "-ta":
+                        terminateAfter = int.Parse(args[i + 1]);
+                        break;
                 }
 
         try
@@ -138,6 +144,7 @@ internal class Program
                     gameMode ??= _configuration["defaultRunSettings:gameMode"];
                     maxConquestTier ??= _configuration["defaultRunSettings:maxConquestTier"];
                     maxTurns ??= int.Parse(_configuration["defaultRunSettings:maxRankedTurns"] ?? "0");
+                    terminateAfter ??= int.Parse(_configuration["defaultRunSettings:terminateAfter"] ?? "0");
                 }
 
                 // Process configured values and prompt user for any that are missing
@@ -169,13 +176,15 @@ internal class Program
                         };
                 }
 
-                var retreat = maxTurns > 0 || repair ? maxTurns : GetRetreatAfterTurn();
+                var retreat = maxTurns.HasValue || repair ? maxTurns : GetRetreatAfterTurn();
+                if (retreat.HasValue && (retreat < 1 || retreat > 7))
+                    retreat = 99;
 
                 PrintTitle(args);
 
                 var type = (GameMode)mode;
                 var logPath = $"logs\\{type.ToString().ToLower()}-log-{DateTime.Now.ToString("yyyyMMddHHmmss")}.txt";
-                var config = new BotConfig(_configuration, _localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled);
+                var config = new BotConfig(_configuration, _localizer, (double)scaling, (bool)verbose, autoplay, saveScreens, logPath, (bool)ltm, (bool)downscaled, terminateAfter ?? 0);
                 IBoosterBot bot = mode switch
                 {
                     1 => new ConquestBot(config, retreat ?? 0, maxTier),

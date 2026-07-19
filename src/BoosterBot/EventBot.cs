@@ -314,6 +314,7 @@ namespace BoosterBot
                 _config.GetWindowPositions();
             }
 
+            CheckForTerminate();
             return true;
         }
     }
