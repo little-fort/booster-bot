@@ -306,6 +306,9 @@
   <data name="Log_Match_Exiting" xml:space="preserve">
     <value>退出比赛……</value>
   </data>
+  <data name="Log_TerminatingAfter" xml:space="preserve">
+    <value>已达到 %SECONDS% 秒的终止时间。正在关闭……</value>
+  </data>
   <data name="Log_Check_PostMatchScreen" xml:space="preserve">
     <value>检查赛后界面……</value>
   </data>

@@ -94,11 +94,12 @@ namespace BoosterBot
         {
             Log("Event_Log_Menu_ModeTab");
 
-            for (int x = 0; x < 3; x++)
-            {
-                SystemUtilities.Click(_config.EventBannerPoint);
-                Thread.Sleep(1000);
-            }
+            // Click the event banner once to open the event menu. This previously
+            // clicked three times, but the event screen is already loaded after the
+            // first click, so the remaining clicks landed on its body and interfered
+            // with the run before the Play button was pressed.
+            SystemUtilities.Click(_config.EventBannerPoint);
+            Thread.Sleep(2500);
         }
 
         private bool DetermineLoopEntryPoint(int attempts = 0)
@@ -314,6 +315,7 @@ namespace BoosterBot
                 _config.GetWindowPositions();
             }
 
+            CheckForTerminate();
             return true;
         }
     }

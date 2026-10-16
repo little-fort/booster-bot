@@ -306,6 +306,9 @@
   <data name="Log_Match_Exiting" xml:space="preserve">
     <value>Exiting match...</value>
   </data>
+  <data name="Log_TerminatingAfter" xml:space="preserve">
+    <value>Terminate-after duration of %SECONDS% seconds reached. Shutting down...</value>
+  </data>
   <data name="Log_Check_PostMatchScreen" xml:space="preserve">
     <value>Checking for post-match screens...</value>
   </data>

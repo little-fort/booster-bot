@@ -17,6 +17,7 @@ namespace BoosterBot
         protected readonly int _retreatAfterTurn;
         protected Random _rand { get; set; }
         protected Stopwatch _matchTimer { get; set; }
+        protected Stopwatch _startTime { get; set; }
 
         public BaseBot(BotConfig config, int retreat)
         {
@@ -25,6 +26,8 @@ namespace BoosterBot
             _retreatAfterTurn = retreat;
             _game = new GameUtilities(_config);
             _rand = new Random();
+            _startTime = new Stopwatch();
+            _startTime.Start();
 
             // If the bot is running on a lower resolution, we need to adjust the confidence level to account for slight variations in image quality
             if (_config.Downscaled)
@@ -75,6 +78,18 @@ namespace BoosterBot
             var result = funcCheck();
             Log(result.Logs, true);
             return result.IsMatch;
+        }
+
+        protected void CheckForTerminate()
+        {
+            if (_config.TerminateAfter > 0 && _startTime.Elapsed.TotalSeconds >= _config.TerminateAfter)
+            {
+                Log("Log_TerminatingAfter", replace: [new("%SECONDS%", _config.TerminateAfter.ToString())]);
+                Console.WriteLine();
+                Log("Menu_PressKeyToExit");
+                Thread.Sleep(2000);
+                Environment.Exit(0);
+            }
         }
 
         protected void CheckForPause()
