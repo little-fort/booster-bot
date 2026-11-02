@@ -1,0 +1,6 @@
+# Game screenshots are short-term reference material (including the labeled detection
+# corpus in docs/screens/corpus). Keep them in Git LFS so they don't bloat the repo.
+# Reference images used for matching (src/**/Reference, src/BoosterBotV1/**/reference) are
+# build inputs and intentionally stay in regular git so CI and clones work without LFS.
+docs/screens/**/*.png filter=lfs diff=lfs merge=lfs -text
+src/docs/screens/**/*.png filter=lfs diff=lfs merge=lfs -text
