@@ -22,9 +22,7 @@ public class Win32WindowManager : IWindowManager
         if (handle == IntPtr.Zero)
             return null;
 
-        var rect = new Rect();
-        NativeMethods.GetWindowRect(handle, ref rect);
-
+        var rect = GetClientScreenRect(handle);
         var processName = GetProcessName(handle);
 
         return new WindowInfo(handle, processName ?? "unknown", rect, 1.0);
@@ -46,9 +44,21 @@ public class Win32WindowManager : IWindowManager
         if (handle == IntPtr.Zero)
             throw new InvalidOperationException("Game window not found");
 
-        var rect = new Rect();
-        NativeMethods.GetWindowRect(handle, ref rect);
-        return rect;
+        return GetClientScreenRect(handle);
+    }
+
+    /// <summary>
+    /// The window's client area in screen coordinates. In windowed mode the game has a title bar
+    /// and borders; only the client area holds game pixels, so capture and click mapping use it.
+    /// (Borderless fullscreen has no non-client area, so client == window there.)
+    /// </summary>
+    private static Rect GetClientScreenRect(IntPtr handle)
+    {
+        var client = new Rect();
+        NativeMethods.GetClientRect(handle, ref client);
+        var origin = new NativeMethods.POINT();
+        NativeMethods.ClientToScreen(handle, ref origin);
+        return new Rect { Left = origin.X, Top = origin.Y, Right = origin.X + client.Width, Bottom = origin.Y + client.Height };
     }
 
     private IntPtr GetWindowHandle()

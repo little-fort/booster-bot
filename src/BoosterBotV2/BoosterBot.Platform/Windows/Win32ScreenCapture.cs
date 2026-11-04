@@ -44,10 +44,11 @@ public class Win32ScreenCapture : IScreenCapture
             var hdc = graphics.GetHdc();
             try
             {
+                // Client area only, to match the client-area bounds used for sizing and click mapping
                 NativeMethods.PrintWindow(
                     _windowManager.FindGameWindow()?.Handle ?? throw new InvalidOperationException("Game window not found"),
                     hdc,
-                    NativeMethods.PW_RENDERFULLCONTENT);
+                    NativeMethods.PW_CLIENTONLY | NativeMethods.PW_RENDERFULLCONTENT);
             }
             finally
             {

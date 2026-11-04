@@ -4,6 +4,7 @@ namespace BoosterBot.Platform.Windows;
 
 internal static class NativeMethods
 {
+    public const uint PW_CLIENTONLY = 0x1;
     public const uint PW_RENDERFULLCONTENT = 0x2;
     public const int INPUT_MOUSE = 0;
     public const int INPUT_KEYBOARD = 1;
@@ -17,15 +18,18 @@ internal static class NativeMethods
 
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool GetWindowRect(IntPtr hwnd, ref Core.Models.Rect rectangle);
+    public static extern bool GetClientRect(IntPtr hwnd, ref Core.Models.Rect rectangle);
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct POINT { public int X; public int Y; }
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    public static extern bool ClientToScreen(IntPtr hwnd, ref POINT point);
 
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool SetForegroundWindow(IntPtr hwnd);
-
-    [DllImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    public static extern bool SetCursorPos(int x, int y);
 
     [DllImport("user32.dll")]
     public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
@@ -36,6 +40,15 @@ internal static class NativeMethods
     [DllImport("user32.dll")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool IsWindowVisible(IntPtr hwnd);
+
+    // Virtual desktop bounds (spans all monitors; can start at negative coordinates)
+    public const int SM_XVIRTUALSCREEN = 76;
+    public const int SM_YVIRTUALSCREEN = 77;
+    public const int SM_CXVIRTUALSCREEN = 78;
+    public const int SM_CYVIRTUALSCREEN = 79;
+
+    [DllImport("user32.dll")]
+    public static extern int GetSystemMetrics(int nIndex);
 
     [Flags]
     public enum MouseEventFlags : uint
