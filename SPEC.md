@@ -287,6 +287,7 @@ public interface IWindowManager
     WindowInfo? FindGameWindow();
     void FocusWindow(WindowInfo window);
     bool IsWindowVisible(WindowInfo window);
+    Rect ResizeClient(int width, int height);   // windowed mode only; returns the resulting client area
 }
 // Capture is a separate concern: IScreenCapture.Capture() (see 3.1.1)
 
@@ -301,6 +302,16 @@ public record WindowInfo(
 - Window handle is cached and refreshed on a configurable interval (e.g., 10 seconds) or when capture fails
 - `ScalingFactor` is detected from the display rather than requiring manual configuration
 - Process name matching supports configurable names (for the game's various executable names across regions)
+- **DPI awareness**: window geometry from another process is DPI-virtualized for DPI-unaware callers, so non-GUI entry points call `Win32WindowManager.EnablePerMonitorDpiAwareness()` before anything else. Avalonia does the equivalent for the GUI
+
+#### 3.5.1 Resizing the Game Window
+
+Verified 2026-11 against Unity 6000.0.58f2 (the game's engine):
+
+- **Runtime (implemented)**: `ResizeClient` resizes the client area with a single `SetWindowPos`. This is the same API manual tools use; Scott's Window Resizing Utility imports `SetWindowPos`, `ShowWindow`, `IsIconic`/`IsZoomed`, and `Get/SetWindowLong`. Guards: windowed mode required (fullscreen is a borderless popup the game sizes itself), size limited to 100–16384px, window frame validated, the game must respond before and after, minimized/maximized windows are restored first (a minimized window reports a 0x0 client), and requests are posted asynchronously (`SWP_ASYNCWINDOWPOS`, `ShowWindowAsync`) so a hung game can't block the caller. It then waits until the client reaches the target. Tested on a live client: 22 resizes across widths 480–1280 and heights 720–1080 (14 with the first synchronous version, 8 with the final async one, including one from a minimized window), with landscape-shaped windows and with the Settings dialog open. Each landed exactly in 120–250ms with no render errors, and the main menu was detected at every size. The fullscreen-refusal path is untested (logic only).
+- **Launch time (documented, not tested with Marvel Snap)**: Unity player arguments `-screen-width`, `-screen-height`, `-screen-fullscreen 0`, `-window-mode`, `-monitor` (e.g., via Steam launch options). Unity also persists the windowed size and position in `HKCU\Software\Second Dinner\SNAP` (`Screenmanager Resolution Window Width/Height`, `Screenmanager Window Position X/Y`, `Screenmanager Fullscreen mode`; 3 = windowed); editing these before launch should set the initial window. The game's own Fullscreen setting may override either one
+- **Embedding (future idea)**: Unity's `-parentHWND <HWND> delayed` hosts the player inside another app's window, e.g., the BoosterBot GUI. Untested
+- **Open design point**: `ResizeClient` keeps the window's position, so a tall client can extend past the monitor's work area. Capture still works (`PrintWindow`), but clicks below the screen edge won't reach the game. Automatic resizing should keep the client on-screen
 
 ### 3.6 Configuration
 

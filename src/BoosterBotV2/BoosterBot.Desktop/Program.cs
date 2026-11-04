@@ -10,6 +10,8 @@ class Program
         // Developer tooling (reference capture, detection tests, game input) — see DevCommands
         if (args.Length > 0 && args[0] == "dev")
         {
+            // The GUI gets this from Avalonia; the CLI path must opt in itself
+            BoosterBot.Platform.Windows.Win32WindowManager.EnablePerMonitorDpiAwareness();
             Environment.ExitCode = DevCommands.Run(args[1..]);
             return;
         }

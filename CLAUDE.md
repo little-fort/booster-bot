@@ -68,7 +68,11 @@ $ref = "src/BoosterBotV2/BoosterBot.Desktop/Assets/Reference"
 & $exe dev test --file shot.png --ref-dir $ref               # score every reference (with match offsets)
 & $exe dev save-ref btn-main-play --ref-dir $ref --file shot.png     # regenerate a reference
 & $exe dev eval corpus/manifest.txt --ref-dir $ref           # labeled-corpus pass/fail per reference
+& $exe dev window                                            # mode, client size, DPI
+& $exe dev resize 744 975                                    # resize the client area (windowed mode)
 ```
+
+Run `dev` commands from Bash: the exe is a WinExe (GUI subsystem), so PowerShell launches it detached and captures no output. The `dev` path declares per-monitor DPI awareness itself (Avalonia does this for the GUI); without it, Windows would report scaled window coordinates on monitors above 100%.
 
 ### Adding or Regenerating a Reference (V2)
 
@@ -77,7 +81,7 @@ $ref = "src/BoosterBotV2/BoosterBot.Desktop/Assets/Reference"
 3. Add the key to `ReferenceKeys` and an entry to `ReferenceCatalog.All` (region, threshold, padding)
 4. `dev save-ref <key> --ref-dir <Reference dir> --file shot.png` (expects self-match 100%)
 5. Add the screenshot to `docs/screens/corpus/` and a line to its `manifest.txt` (format documented in `DevCommands.Eval`), then run `dev eval docs/screens/corpus/manifest.txt`: the lowest score where the element is present must clear the threshold, and the highest score where it's absent must stay below it. `rescale.ps1` in the same folder builds letterboxed/pillarboxed/other-resolution copies of the corpus
-6. Resizing the game window in windowed mode is fine with a normal tool (the user uses Scott's Window Resizing Utility). One scripted `SetWindowPos` resize did crash the client (D3D11 failed to create a 1000x65496 render texture); the cause wasn't determined, so prefer the user's tool over scripting resizes
+6. Resize the game (windowed mode only) with `dev resize <w> <h>`, which calls `Win32WindowManager.ResizeClient` (validated single `SetWindowPos`, waits for the size to land and checks the game still responds). The one resize crash on record came from an ad-hoc PowerShell script whose `$h` (window handle) overwrote its `$H` (height), because PowerShell variable names are case-insensitive, so it requested a height in the millions. Don't hand-roll resize scripts
 7. After relaunching the game, check the logged-in account (player name/deck) before doing anything: a Steam relaunch once came up on a different account
 
 Screenshots under `docs/screens/` (including the corpus) are stored in **Git LFS** (`.gitattributes`); run `git lfs pull` after cloning to get them. Matching reference images are regular git so builds never depend on LFS.

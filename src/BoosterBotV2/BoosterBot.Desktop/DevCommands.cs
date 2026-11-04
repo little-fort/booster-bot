@@ -36,6 +36,8 @@ internal static class DevCommands
           drag <x1> <y1> <x2> <y2>                       Drag between reference coordinates
           hold <x> <y> <ms>                              Press and hold (e.g., "HOLD TO CONFIRM" buttons)
           key <escape|enter|space>                       Send a key to the game
+          window                                         Show the game window's mode, client size, and DPI
+          resize <w> <h>                                 Resize the game's client area (windowed mode only)
           wait <ms>                                      Pause between chained commands
 
         --ref-dir is the folder that contains the culture folders (en/, zh/).
@@ -101,6 +103,8 @@ internal static class DevCommands
             case "drag": Drag(a.Int(1), a.Int(2), a.Int(3), a.Int(4)); break;
             case "hold": Hold(a.Int(1), a.Int(2), a.Int(3)); break;
             case "key": SendKey(a.Positional(1)); break;
+            case "window": Console.WriteLine(WindowManager.DescribeWindow()); break;
+            case "resize": Resize(a.Int(1), a.Int(2)); break;
             case "wait": Thread.Sleep(a.Int(1)); break;
             default: Console.WriteLine(Usage); throw new ArgumentException($"Unknown command '{a.Positional(0)}'");
         }
@@ -422,6 +426,15 @@ internal static class DevCommands
         var (sx, sy) = RefToScreen(x, y);
         Input.DragAndDrop(sx, sy, sx, sy, new Core.Input.DragOptions(Steps: Math.Max(1, ms / 20), StepDelayMs: 20, AddJitter: false));
         Console.WriteLine($"Held ref ({x},{y}) for ~{ms}ms");
+    }
+
+    private static void Resize(int width, int height)
+    {
+        Console.WriteLine($"Before: {WindowManager.DescribeWindow()}");
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        var client = WindowManager.ResizeClient(width, height);
+        var landed = client.Width == width && client.Height == height ? "" : $" (requested {width}x{height})";
+        Console.WriteLine($"After:  client {client.Width}x{client.Height}{landed} in {sw.ElapsedMilliseconds}ms; {WindowManager.DescribeWindow()}");
     }
 
     private static void SendKey(string name)
