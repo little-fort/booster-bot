@@ -26,25 +26,31 @@ BoosterBot V2 is a ground-up redesign of the BoosterBot Marvel Snap automation t
 ### 2.1 Solution Structure
 
 ```
+global.json                        # Pins the .NET 10 SDK for V1 and V2 builds
 src/
-├── BoosterBot.Core/           # Platform-agnostic bot engine
-│   ├── Bots/                  # Bot implementations (Conquest, Ladder, Event)
-│   ├── Pipeline/              # Screenshot capture, image processing, state detection
-│   ├── Input/                 # Input simulation abstractions
-│   ├── Configuration/         # Settings management
-│   ├── Models/                # Shared data models, enums
-│   └── Localization/          # String resources
+├── BoosterBotV1/                  # Archived V1 console app (still the shipping release built by CI)
 │
-├── BoosterBot.Desktop/        # Avalonia GUI application
-│   ├── Views/                 # AXAML views
-│   ├── ViewModels/            # MVVM ViewModels
-│   ├── Controls/              # Custom controls (overlay, status indicators)
-│   ├── Services/              # UI-specific services (navigation, theming)
-│   └── Assets/                # Icons, images, styles
-│
-└── BoosterBot.Platform/       # Platform-specific implementations
-    ├── Windows/               # Win32 capture, SendInput, hotkeys
-    └── macOS/                 # macOS capture, input simulation (future)
+└── BoosterBotV2/
+    ├── BoosterBot.slnx            # V2 solution
+    │
+    ├── BoosterBot.Core/           # Platform-agnostic bot engine
+    │   ├── Bots/                  # Bot implementations (Conquest, Ladder, Event)
+    │   ├── Pipeline/              # Viewport detection, image processing, state detection
+    │   ├── Input/                 # Input simulation abstractions
+    │   ├── Configuration/         # Settings management
+    │   ├── Models/                # Shared data models, enums
+    │   └── Localization/          # String resources
+    │
+    ├── BoosterBot.Desktop/        # Avalonia GUI application (also hosts CLI/headless modes)
+    │   ├── Views/                 # AXAML views
+    │   ├── ViewModels/            # MVVM ViewModels
+    │   ├── Controls/              # Custom controls (overlay, status indicators)
+    │   ├── Services/              # UI-specific services (navigation, theming)
+    │   └── Assets/                # Icons, images, styles, Reference/{culture}/ images
+    │
+    └── BoosterBot.Platform/       # Platform-specific implementations
+        ├── Windows/               # Win32 capture, SendInput, hotkeys
+        └── macOS/                 # macOS capture, input simulation (future)
 ```
 
 ### 2.2 Project Dependencies
@@ -92,28 +98,44 @@ The V1 pipeline writes screenshots to disk, crops to files, and compares pixel-b
 
 ```
 IScreenCapture.Capture() → ScreenCaptureContext (IDisposable)
-    └── Contains: Bitmap, WindowRect, Dimensions
+    └── Contains: Screenshot (Mat), WindowRect, Dimensions
 ```
 
-- **Windows**: Uses `PrintWindow` with `PW_RENDERFULLCONTENT` to capture DirectX content without requiring focus (proven in TetraTalk V2)
+- **Windows**: Uses `PrintWindow` with `PW_CLIENTONLY | PW_RENDERFULLCONTENT` to capture DirectX content without requiring focus (proven in TetraTalk V2). Window bounds are the **client area** (`GetClientRect` + `ClientToScreen`): in windowed mode the game has a title bar and borders that contain no game pixels; in borderless fullscreen client and window are identical
 - **macOS** (future): `CGWindowListCreateImage` with `kCGWindowListOptionIncludingWindow`
-- The captured bitmap is wrapped in `ScreenCaptureContext`, a disposable container that ensures cleanup
+- The `System.Drawing` bitmap is converted to an OpenCV `Mat` at the platform boundary; Core only sees `Mat`. `ScreenCaptureContext` is a disposable container that ensures cleanup
 
-#### 3.1.2 Image Processing
+#### 3.1.2 Viewport Normalization
+
+```
+ViewportDetector (static utility class)
+    ├── Detect(Mat screenshot) → GameViewport   [game content bounds within the capture]
+    └── GetScale(GameViewport) → double         [viewport height / 1080]
+```
+
+- In the **portrait** UI, the game scales by window height and centers the UI horizontally in every window shape (verified 2026-11 at client 810x1080, 600x800, 1000x800, 600x1000, plus fullscreen 1920x1080). The viewport is therefore full height and horizontally centered
+- The one exception is fullscreen on a display taller than the game's frame (e.g., 16:10), where the game draws pure-black letterbox bars. Their height does **not** follow 16:9 geometry (a real 2560x1600 capture had 53px bars, not 80px), so the detector measures fully black rows at the top and bottom edges and accepts them only when symmetric and at least 1% of height. Bars are pure black; the space backgrounds that defeated the earlier brightness-scan approach never are
+- All crop regions in `ComponentMappings` are defined in **1080p reference pixels** relative to the viewport's horizontal center and top/bottom edge and multiplied by the scale, so a region lands on the same UI element at any resolution. Verified with synthetic 720p, 1440p, 1920x1200 (letterboxed), and 2560x1080 (pillarboxed) copies of the labeled corpus (`docs/screens/corpus/`, built with its `rescale.ps1`): every regenerated reference passes at every size
+- The **landscape** UI (in-game Landscape toggle) relocates the entire match UI and is not mapped (theory: it would need a second region set)
+- Untested theory: in windows narrower than 3:4, edge buttons (RETREAT, END TURN) may fall outside the client area because the UI keeps scaling by height
+
+#### 3.1.3 Image Processing
 
 ```
 ImageProcessor (static utility class)
-    ├── CropRegion(Bitmap source, Rect region) → Mat
-    ├── Preprocess(Mat source) → Mat  [grayscale → Gaussian blur → adaptive threshold]
-    ├── IsReferencePresent(Mat scene, Mat template, double threshold) → bool
+    ├── CropRegion(Mat source, Rect region) → Mat
+    ├── Preprocess(Mat source, double scale) → Mat  [grayscale → resize to 1080p scale → 5x5 Gaussian blur]
+    ├── IsReferencePresent(Mat scene, Mat template, double threshold) → PipelineResult<bool>
     └── GetMatchConfidence(Mat scene, Mat template) → double
 ```
 
-- **Template matching** via `Cv2.MatchTemplate(scene, template, result, TemplateMatchModes.CCoeffNormed)` replaces V1's pixel-by-pixel comparison
+- **Grayscale template matching** via `Cv2.MatchTemplate(scene, template, result, TemplateMatchModes.CCoeffNormed)` replaces V1's pixel-by-pixel comparison of binarized images. `CCoeffNormed` normalizes brightness and contrast on its own, so V1's adaptive-threshold binarization was dropped: its output varied with resolution (2026-05-12 decision)
+- Crops are resized to 1080p scale **before** blurring so the blur kernel covers the same physical area at every resolution
+- The scene crop is padded slightly beyond the reference's region so template matching can slide to the best alignment
 - Reference images loaded once at startup into a static `Dictionary<string, Mat>` cache
 - All intermediate `Mat` objects are properly disposed via `using` blocks
 
-#### 3.1.3 Detection Thresholds
+#### 3.1.4 Detection Thresholds
 
 Thresholds are defined per-component rather than scattered as magic numbers:
 
@@ -124,6 +146,8 @@ public static class DetectionThresholds
     public const double ButtonHighConfidence = 0.95;
     public const double ButtonLowConfidence = 0.80;
     public const double LobbyIndicator = 0.85;
+    public const double EnergyIndicator = 0.925;
+    public const double MatchmakingIndicator = 0.70;
 }
 ```
 
@@ -237,19 +261,20 @@ Key changes from V1:
 ```csharp
 public interface IInputSimulator
 {
-    void Click(Point position);
-    void DragAndDrop(Point from, Point to, DragOptions? options = null);
-    void SendKey(VirtualKey key);
+    void Click(int x, int y);                       // absolute screen coordinates
+    void DragAndDrop(int fromX, int fromY, int toX, int toY, DragOptions? options = null);
+    void SendKey(int virtualKeyCode);
 }
 
 public record DragOptions(
     int Steps = 50,
-    TimeSpan? StepDelay = null,
+    int StepDelayMs = 7,
     bool AddJitter = true
 );
 ```
 
-- **Windows**: `SendInput` for both mouse and keyboard (replaces V1's mixed `mouse_event`/`SendInput` approach)
+- **Windows**: `SendInput` for both mouse and keyboard (replaces V1's mixed `mouse_event`/`SendInput` approach). Cursor movement is an absolute `SendInput` move (`MOUSEEVENTF_MOVE | ABSOLUTE | VIRTUALDESK`), not `SetCursorPos`: Unity does not treat `SetCursorPos` as pointer motion, so drags (card plays, carousel swipes) silently fail with it. Measured accuracy is ±1px, from Windows' absolute-coordinate quantization
+- "HOLD TO CONFIRM" buttons (paid Conquest entry) need a press of about 2.5s
 - All input methods acquire focus via `SetForegroundWindow` before sending, then release
 - Randomized timing and jitter are configurable via `DragOptions`
 - Click point randomization (V1's `±20px` offsets) is handled at the bot level, not in the input simulator
@@ -260,10 +285,10 @@ public record DragOptions(
 public interface IWindowManager
 {
     WindowInfo? FindGameWindow();
-    ScreenCaptureContext CaptureWindow(WindowInfo window);
     void FocusWindow(WindowInfo window);
     bool IsWindowVisible(WindowInfo window);
 }
+// Capture is a separate concern: IScreenCapture.Capture() (see 3.1.1)
 
 public record WindowInfo(
     IntPtr Handle,
@@ -494,26 +519,28 @@ V2 retains V1's process masking strategy with minor improvements:
 
 ### 8.1 Build Commands
 
+The .NET SDK is pinned to 10.0.x (stable only) by `global.json` at the repo root.
+
 ```powershell
 # Build entire solution
-dotnet build src/BoosterBot.sln
+dotnet build src/BoosterBotV2/BoosterBot.slnx
 
 # Run GUI (development)
-dotnet run --project src/BoosterBot.Desktop
+dotnet run --project src/BoosterBotV2/BoosterBot.Desktop
 
-# Run headless (development)
-dotnet run --project src/BoosterBot.Desktop -- --headless --mode conquest
+# Run headless (development, Phase 5)
+dotnet run --project src/BoosterBotV2/BoosterBot.Desktop -- --headless --mode conquest
 
 # Publish self-contained
-dotnet publish src/BoosterBot.Desktop -o ./artifacts -c Release -r win-x64 --self-contained true
+dotnet publish src/BoosterBotV2/BoosterBot.Desktop -o ./artifacts -c Release -r win-x64 --self-contained true
 
 # Publish for macOS (future)
-dotnet publish src/BoosterBot.Desktop -o ./artifacts -c Release -r osx-arm64 --self-contained true
+dotnet publish src/BoosterBotV2/BoosterBot.Desktop -o ./artifacts -c Release -r osx-arm64 --self-contained true
 ```
 
 ### 8.2 CI/CD Pipeline
 
-Update GitHub Actions workflow to:
+The current workflow (`build-booster-bot.yml`) builds and publishes **V1** from `src/BoosterBotV1/`, installing the SDK via `actions/setup-dotnet` from `global.json`. In Phase 5, update it to:
 - Build on `windows-latest` (primary) and `macos-latest` (secondary, when macOS support is added)
 - Produce self-contained artifacts per platform
 - Retain manual dispatch with version/label inputs
@@ -523,14 +550,16 @@ Update GitHub Actions workflow to:
 ## 9. Development Roadmap
 
 ### Phase 1: Foundation
-- [ ] Create solution structure (`Core`, `Desktop`, `Platform` projects)
-- [ ] Set up Avalonia Desktop project with Fluent theme
-- [ ] Implement platform abstractions (`IScreenCapture`, `IInputSimulator`, `IWindowManager`)
-- [ ] Implement Windows platform layer (PrintWindow capture, SendInput)
-- [ ] Port `ImageProcessor` with in-memory pipeline and template matching
-- [ ] Port reference image loading and caching
+- [x] Create solution structure (`Core`, `Desktop`, `Platform` projects)
+- [x] Set up Avalonia Desktop project with Fluent theme
+- [x] Implement platform abstractions (`IScreenCapture`, `IInputSimulator`, `IWindowManager`)
+- [x] Implement Windows platform layer (PrintWindow capture, SendInput)
+- [x] Port `ImageProcessor` with in-memory pipeline and template matching
+- [x] Port reference image loading and caching
 
 ### Phase 2: Bot Engine
+- [ ] Regenerate reference images for the grayscale pipeline (English first, then Chinese). English: 38 of 39 done (2026-11). Redundant variants and the obsolete `conquest-continue` / `conquest-waiting-2` placeholders were removed (confirmed obsolete by the user). Labeled corpus: `docs/screens/corpus/` (85 screenshots)
+- [ ] **Deferred:** capture `btn-event-forfeit` the next time a recurring event that uses FORFEIT (instead of RETREAT) is live; it is still the V1 placeholder
 - [ ] Port `GameState` enum and state detection logic
 - [ ] Implement `IGameStateDetector` with template matching
 - [ ] Port `IBot` interface and `BaseBot` with async lifecycle
@@ -574,11 +603,11 @@ Update GitHub Actions workflow to:
 
 ### 10.1 V1 Preservation
 
-The existing V1 source code is moved to the `src/BoosterBotV1/`. V2 projects are to be created in the `src/BoosterBotV2/` directory. The final output of the V2 executable should still be `BoosterBot.exe` to maintain consistency for users, but the internal structure and namespaces will reflect the new architecture.
+The existing V1 source code has been moved to `src/BoosterBotV1/`. V2 projects live in the `src/BoosterBotV2/` directory. The final output of the V2 executable should still be `BoosterBot.exe` to maintain consistency for users, but the internal structure and namespaces will reflect the new architecture.
 
 ### 10.2 Reference Image Compatibility
 
-V1 reference images (already preprocessed) can be reused in V2. The preprocessing pipeline (grayscale -> Gaussian blur -> adaptive threshold) is identical. However, since V2 uses template matching instead of pixel comparison, threshold values will need recalibration.
+V1 reference images **cannot** be reused in V2. V1 references are binary (adaptive threshold) images captured via `CopyFromScreen`, while V2 references are blurred grayscale images normalized to 1080p and captured via `PrintWindow` (see 3.1.3). Every reference must be regenerated from a V2 capture, and detection thresholds recalibrated against the new `CCoeffNormed` scores. The V1 images were copied into `Assets/Reference/` as placeholders and are replaced as each one is regenerated.
 
 ### 10.3 Breaking Changes from V1
 

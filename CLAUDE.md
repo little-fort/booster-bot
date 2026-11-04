@@ -2,24 +2,89 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Repository Layout
+
+- `src/BoosterBotV2/` - **Active development.** Ground-up rewrite on .NET 10 + Avalonia. `SPEC.md` (repo root) is the design doc and roadmap; `.claude/rules/memory-*.md` hold the decision log and session history.
+- `src/BoosterBotV1/` - Archived V1 console app (.NET 8). Still the shipping release: CI builds and publishes it.
+- `docs/screens/` - Game screenshots (Git LFS). `docs/screens/corpus/` is the labeled detection corpus used by `dev eval`.
+- `global.json` - Pins the .NET SDK to 10.0.x (stable only). V1's `net8.0` target builds fine under it.
+
 ## Build & Run
+
+### V2
 
 ```powershell
 # Build
-dotnet build src/BoosterBot.sln
+dotnet build src/BoosterBotV2/BoosterBot.slnx
 
-# Run (from repo root)
-dotnet run --project src/BoosterBot/BoosterBot.csproj -- --masked --mode conquest --tier pg
-
-# Publish self-contained
-dotnet publish src/BoosterBot/BoosterBot.csproj -o ./artifacts -c Release -r win-x64 --self-contained true
+# Run the GUI (currently the Phase 1 pipeline verification window)
+dotnet run --project src/BoosterBotV2/BoosterBot.Desktop
 ```
 
-There are no tests in this project. The CI workflow (`build-booster-bot.yml`) runs on `windows-latest` and produces a self-contained win-x64 artifact.
+### V1
 
-## Architecture
+```powershell
+# Build
+dotnet build src/BoosterBotV1/BoosterBot.sln
 
-BoosterBot is a .NET 8 console application that automates Marvel Snap gameplay using computer vision (OpenCV) for state detection and Win32 `SendInput` for mouse/keyboard simulation. It runs in an infinite loop: detect game state, perform the appropriate action, repeat.
+# Run (from repo root)
+dotnet run --project src/BoosterBotV1/BoosterBot/BoosterBot.csproj -- --masked --mode conquest --tier pg
+
+# Publish self-contained
+dotnet publish src/BoosterBotV1/BoosterBot/BoosterBot.csproj -o ./artifacts -c Release -r win-x64 --self-contained true
+```
+
+There are no tests in either project. The CI workflow (`build-booster-bot.yml`) runs on `windows-latest`, builds **V1**, and produces a self-contained win-x64 artifact.
+
+## V2 Architecture
+
+Three projects (SPEC.md §2):
+
+- **BoosterBot.Core** (`net10.0`) - Platform-agnostic: models, `GameState`, the image pipeline, `ComponentMappings`. Never calls Win32 directly.
+- **BoosterBot.Platform** (`net10.0-windows`) - Win32 implementations of `IWindowManager`, `IScreenCapture` (`PrintWindow` of the client area, works without focus), and `IInputSimulator` (`SendInput`; cursor moves are absolute `SendInput` events because Unity ignores `SetCursorPos` for drags).
+- **BoosterBot.Desktop** (`net10.0-windows`, Avalonia 12) - The GUI, plus the `dev` CLI (`DevCommands.cs`) dispatched from `Program.cs`.
+
+### Detection Pipeline
+
+1. `IScreenCapture.Capture()` - Captures the game window's client area to an OpenCV `Mat`, in memory (no files)
+2. `ViewportDetector.Detect()` - Finds the game frame: full height, horizontally centered, minus any measured black letterbox bars (fullscreen on 16:10). `GetScale()` is viewport height / 1080
+3. `ReferenceCatalog` - Single source of truth pairing each reference key with its `ComponentMappings` region, threshold, and search padding
+4. `ComponentMappings.Get*()` - Returns a crop `Rect` in **1080p reference pixels** relative to the viewport's horizontal center and top/bottom edge, multiplied by scale. `ReferenceDefinition.GetSearchRegion()` pads it so matching can slide
+5. `ImageProcessor.Preprocess(crop, scale)` - Grayscale, resize to 1080p scale, 5x5 Gaussian blur
+6. `ImageProcessor.GetMatchConfidence()` / `FindBestMatch()` - `CCoeffNormed` template match against the cached reference, compared to the definition's threshold
+
+Reference images live in `BoosterBot.Desktop/Assets/Reference/{en,zh}/{name}-preproc.png` as blurred grayscale at 1080p scale. V1's binary reference images do **not** work with this pipeline (SPEC.md §10.2). Only the **portrait** UI is mapped; the game's Landscape setting moves the whole match UI.
+
+### Dev Tooling (`BoosterBot.Desktop.exe dev ...`)
+
+Coordinates are 1080p reference pixels: x measured on a 1920-wide frame centered on the viewport, y from the viewport top. Chain commands with ` + `. Run `dev` with no arguments for the full list.
+
+```powershell
+$exe = "src/BoosterBotV2/BoosterBot.Desktop/bin/Debug/net10.0-windows/BoosterBot.Desktop.exe"
+$ref = "src/BoosterBotV2/BoosterBot.Desktop/Assets/Reference"
+& $exe dev capture shot.png                                  # live capture
+& $exe dev click 958 862 + wait 1500 + capture after.png     # drive the game
+& $exe dev snip 1180 960 190 80 zoom.png --file shot.png --regions   # zoomed crop with grid + region overlay
+& $exe dev test --file shot.png --ref-dir $ref               # score every reference (with match offsets)
+& $exe dev save-ref btn-main-play --ref-dir $ref --file shot.png     # regenerate a reference
+& $exe dev eval corpus/manifest.txt --ref-dir $ref           # labeled-corpus pass/fail per reference
+```
+
+### Adding or Regenerating a Reference (V2)
+
+1. Capture the screen with `dev capture`, then measure the element's text bounds with `dev snip ... --regions`
+2. Add or adjust the region in `ComponentMappings.cs` (center-relative offsets, comment the measured bounds and date)
+3. Add the key to `ReferenceKeys` and an entry to `ReferenceCatalog.All` (region, threshold, padding)
+4. `dev save-ref <key> --ref-dir <Reference dir> --file shot.png` (expects self-match 100%)
+5. Add the screenshot to `docs/screens/corpus/` and a line to its `manifest.txt` (format documented in `DevCommands.Eval`), then run `dev eval docs/screens/corpus/manifest.txt`: the lowest score where the element is present must clear the threshold, and the highest score where it's absent must stay below it. `rescale.ps1` in the same folder builds letterboxed/pillarboxed/other-resolution copies of the corpus
+6. Resizing the game window in windowed mode is fine with a normal tool (the user uses Scott's Window Resizing Utility). One scripted `SetWindowPos` resize did crash the client (D3D11 failed to create a 1000x65496 render texture); the cause wasn't determined, so prefer the user's tool over scripting resizes
+7. After relaunching the game, check the logged-in account (player name/deck) before doing anything: a Steam relaunch once came up on a different account
+
+Screenshots under `docs/screens/` (including the corpus) are stored in **Git LFS** (`.gitattributes`); run `git lfs pull` after cloning to get them. Matching reference images are regular git so builds never depend on LFS.
+
+## V1 Architecture (archived)
+
+BoosterBot V1 is a .NET 8 console application that automates Marvel Snap gameplay using computer vision (OpenCV) for state detection and Win32 `SendInput` for mouse/keyboard simulation. It runs in an infinite loop: detect game state, perform the appropriate action, repeat.
 
 ### Bot Hierarchy
 
@@ -53,7 +118,7 @@ Detection confidence threshold defaults to 0.95 (0.9 in downscaled mode). Refere
 
 On startup (without `--masked`), the app copies itself to a randomly-named `.exe` and relaunches with `--masked`. The actual bot logic only runs in masked mode.
 
-## Adding a New State Check
+### Adding a New State Check (V1)
 
 1. Capture a screenshot of the UI element in the game
 2. Preprocess it (grayscale, blur, adaptive threshold) and save to `reference/en/` as `{name}-preproc.png`
@@ -62,13 +127,13 @@ On startup (without `--masked`), the app copies itself to a randomly-named `.exe
 5. Add a `CanIdentify*` method in `GameUtilities.cs` using `CheckSimilarity` or `CheckMultipleSimilarities`
 6. Wire it into the relevant `Determine*GameState()` method
 
-## Localization
+### Localization (V1)
 
 - App strings: `Resources/Strings.resx` (English) and `Strings.zh-CN.resx` (Chinese)
 - Reference images are language-specific: `reference/en/` and `reference/zh/`
 - `ComponentMappings` resolves the culture from `gameLanguage` in `appsettings.json`
 
-## Configuration
+### Configuration (V1)
 
 `appsettings.json` is the runtime config file (copied to output). CLI args override appsettings values. Key settings: `scaling`, `downscaledMode`, `eventModeActive`, `defaultRunSettings.*`.
 
