@@ -1,0 +1,99 @@
+# Labeled screenshots for `BoosterBot.Desktop dev eval`. Portrait UI, English.
+# Format: file: present-keys  ?dont-care-keys   (all other keys are expected absent)
+# Most captured 2026-11-03 at 1920x1080; "may-*" files are 2026-05 captures (older UI build).
+
+# Menus
+menu-main.png: btn-main-play
+may-menu-main.png: btn-main-play
+may-menu-main-2560x1600.png: btn-main-play
+menu-modes.png:
+menu-inbox.png:
+event-tutorial.png:
+event-results-popup.png:
+event-menu.png: btn-event-play
+event-menu-2.png: btn-event-play
+
+# Matchmaking (identical CANCEL button in Ladder and Conquest)
+ladder-matchmaking.png: btn-ladder-matchmaking-cancel-1 btn-ladder-matchmaking-cancel-2 btn-conquest-matchmaking-cancel-1 btn-conquest-matchmaking-cancel-2
+ladder-matchmaking-2.png: btn-ladder-matchmaking-cancel-1 btn-ladder-matchmaking-cancel-2 btn-conquest-matchmaking-cancel-1 btn-conquest-matchmaking-cancel-2
+may-matchmaking.png: btn-ladder-matchmaking-cancel-1 btn-ladder-matchmaking-cancel-2 btn-conquest-matchmaking-cancel-1 btn-conquest-matchmaking-cancel-2
+cq-matchmaking.png: btn-ladder-matchmaking-cancel-1 btn-ladder-matchmaking-cancel-2 btn-conquest-matchmaking-cancel-1 btn-conquest-matchmaking-cancel-2
+cq-matchmaking-2.png: btn-ladder-matchmaking-cancel-1 btn-ladder-matchmaking-cancel-2 btn-conquest-matchmaking-cancel-1 btn-conquest-matchmaking-cancel-2
+
+# Ladder / Event matches (single-line RETREAT). Conquest RETREAT refs are don't-care here.
+ladder-t2-e1.png: btn-ladder-retreat ?btn-conquest-end-turn ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+ladder-t3-e3.png: btn-ladder-retreat btn-conquest-end-turn ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+ladder-t5-e5.png: btn-ladder-retreat btn-conquest-end-turn ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+may-ladder-match.png: btn-ladder-retreat btn-conquest-end-turn ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+ladder-location-detail.png:
+ladder-retreat-dialog.png:
+ladder-escaped.png:
+ladder-collect.png: btn-ladder-collect-rewards
+ladder-results.png: btn-ladder-match-end-next btn-conquest-match-end-next-2
+event-t1-e0.png: btn-ladder-retreat ?btn-conquest-end-turn lbl-energy-zero ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+event-t1-e1.png: btn-ladder-retreat btn-conquest-end-turn ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+event-playing.png: btn-ladder-retreat btn-conquest-playing btn-conquest-playing-2 ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+event-t2-e2.png: btn-ladder-retreat ?btn-conquest-end-turn ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+event-collect.png: btn-ladder-collect-rewards
+event-results.png: btn-ladder-match-end-next btn-conquest-match-end-next-2
+
+# Conquest entrance carousel and lobby
+cq-entrance-pg.png: lbl-conquest-pg-1 lbl-conquest-pg-3
+cq-entrance-pg-2.png: lbl-conquest-pg-1 lbl-conquest-pg-3
+cq-entrance-pg-popups.png: lbl-conquest-pg-1 ?lbl-conquest-pg-3
+cq-entrance-silver.png: lbl-conquest-silver-1 lbl-conquest-silver-4 btn-conquest-entrance-fee lbl-conquest-no-tickets
+cq-entrance-silver-shifted.png: lbl-conquest-silver-1 lbl-conquest-silver-4 btn-conquest-entrance-fee lbl-conquest-no-tickets
+cq-entrance-gold.png: lbl-conquest-gold-1 lbl-conquest-gold-4 btn-conquest-entrance-fee lbl-conquest-no-tickets
+cq-entrance-inf.png: lbl-conquest-infinite-1 lbl-conquest-infinite-4 btn-conquest-entrance-fee lbl-conquest-no-tickets
+cq-lobby-pg.png: btn-conquest-play lbl-conquest-pg-2
+cq-confirm-deck.png:
+
+# Conquest matches (two-line RETREAT / ROUND n). Ladder RETREAT refs are don't-care here.
+cq-intro.png: btn-conquest-retreat btn-conquest-retreat-2 ?lbl-energy-zero ?btn-conquest-end-turn ?btn-ladder-retreat ?btn-event-forfeit
+cq-r1-t1-e1.png: btn-conquest-retreat btn-conquest-retreat-2 btn-conquest-end-turn ?btn-ladder-retreat ?btn-event-forfeit
+cq-r1-t1-e0.png: btn-conquest-retreat btn-conquest-retreat-2 btn-conquest-end-turn lbl-energy-zero ?btn-ladder-retreat ?btn-event-forfeit
+cq-r1-playing.png: btn-conquest-retreat btn-conquest-retreat-2 btn-conquest-playing btn-conquest-playing-2 lbl-energy-zero ?btn-ladder-retreat ?btn-event-forfeit
+cq-r1-t2-e0.png: btn-conquest-retreat btn-conquest-retreat-2 btn-conquest-end-turn lbl-energy-zero ?btn-ladder-retreat ?btn-event-forfeit
+cq-r1-playing-2.png: btn-conquest-retreat btn-conquest-retreat-2 btn-conquest-playing btn-conquest-playing-2 lbl-energy-zero ?btn-ladder-retreat ?btn-event-forfeit
+cq-r1-t3-e3.png: btn-conquest-retreat btn-conquest-retreat-2 btn-conquest-end-turn ?btn-ladder-retreat ?btn-event-forfeit
+cq-r2-t1-e1.png: btn-conquest-retreat btn-conquest-retreat-2 btn-conquest-end-turn ?btn-ladder-retreat ?btn-event-forfeit
+cq-retreat-dialog.png:
+cq-escaped.png:
+cq-roundend.png: btn-conquest-concede btn-conquest-concede-2
+cq-roundend-2.png: btn-conquest-concede btn-conquest-concede-2
+cq-concede-dialog.png:
+cq-round2-splash.png: ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-ladder-retreat ?btn-event-forfeit ?btn-conquest-end-turn ?lbl-energy-zero
+cq-battle-over.png: btn-conquest-match-end-next-1
+cq-results.png: btn-ladder-match-end-next btn-conquest-match-end-next-2
+cq-results-card.png: btn-ladder-match-end-next btn-conquest-match-end-next-2
+cq-entrance-silver-2.png: lbl-conquest-silver-1 lbl-conquest-silver-4 btn-conquest-entrance-fee lbl-conquest-no-tickets
+cq-entrance-gold-2.png: lbl-conquest-gold-1 lbl-conquest-gold-4 btn-conquest-entrance-fee lbl-conquest-no-tickets
+cq-entrance-inf-2.png: lbl-conquest-infinite-1 lbl-conquest-infinite-4 btn-conquest-entrance-fee lbl-conquest-no-tickets
+cq-lobby-silver.png: btn-conquest-play lbl-conquest-silver-3
+cq-undo-end-turn.png: btn-conquest-waiting btn-conquest-retreat btn-conquest-retreat-2 ?btn-ladder-retreat ?btn-event-forfeit ?lbl-energy-zero
+cq-undo-end-turn-2.png: btn-conquest-waiting btn-conquest-retreat btn-conquest-retreat-2 ?btn-ladder-retreat ?btn-event-forfeit ?lbl-energy-zero
+cq-end-turn-pink.png: btn-conquest-end-turn btn-conquest-retreat btn-conquest-retreat-2 ?btn-ladder-retreat ?btn-event-forfeit ?lbl-energy-zero
+cq-end-turn-dim.png: ?btn-conquest-end-turn btn-conquest-retreat btn-conquest-retreat-2 ?btn-ladder-retreat ?btn-event-forfeit ?lbl-energy-zero
+cq-lobby-gold.png: btn-conquest-play lbl-conquest-gold-3
+menu-modes-run-in-progress.png:
+cq-lobby-infinite.png: btn-conquest-play lbl-conquest-infinite-3
+menu-reconnect-05.png: btn-main-reconnect
+menu-reconnect-25.png: btn-main-reconnect
+menu-reconnect-45.png: btn-main-reconnect
+menu-main-evo.png: btn-main-play
+ladder-card-reveal-popup.png:
+ladder-undo-end-turn.png: btn-ladder-retreat btn-conquest-waiting ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+ladder-playing.png: btn-ladder-retreat btn-conquest-playing btn-conquest-playing-2 ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+ladder-end-turn-evo.png: btn-ladder-retreat btn-conquest-end-turn ?btn-conquest-retreat ?btn-conquest-retreat-2 ?btn-event-forfeit
+# Conquest run won (PG), captured 2026-11-03 after a user-played victory
+cq-victory-board.png: btn-conquest-match-end-next-1
+cq-victory-results.png: btn-ladder-match-end-next btn-conquest-match-end-next-2
+cq-victory-card.png: btn-ladder-match-end-next btn-conquest-match-end-next-2
+cq-transition-black.png:
+cq-lobby-pg-defeated.png: btn-conquest-play lbl-conquest-pg-2
+cq-run-won.png: btn-conquest-victory-next
+cq-run-won-2.png: btn-conquest-victory-next
+cq-ticket-claim-flash.png: btn-conquest-ticket-claim
+cq-ticket-claim.png: btn-conquest-ticket-claim
+cq-entrance-silver-ticket-popup.png: lbl-conquest-silver-1 btn-conquest-entrance-fee ?lbl-conquest-silver-4
+cq-entrance-silver-ticket.png: lbl-conquest-silver-1 lbl-conquest-silver-4 btn-conquest-entrance-fee
