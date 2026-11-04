@@ -28,14 +28,21 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Path: src/BoosterBot.sln
-      Project_Path: src/BoosterBot/BoosterBot.csproj
+      # V1 is still the shipping release. V2 (src/BoosterBotV2) is not built here yet.
+      Solution_Path: src/BoosterBotV1/BoosterBot.sln
+      Project_Path: src/BoosterBotV1/BoosterBot/BoosterBot.csproj
       Version_Number: ${{ github.event.inputs.version || '1.4.9999' }}
       Version: ''
     steps:
     - name: Checkout
       uses: actions/checkout@v3
-        
+
+    # Install the SDK pinned by global.json so the runner image's defaults don't matter
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v6
+      with:
+        global-json-file: global.json
+
     - name: Restore
       run: dotnet restore ${{ env.Solution_Path }}
       
