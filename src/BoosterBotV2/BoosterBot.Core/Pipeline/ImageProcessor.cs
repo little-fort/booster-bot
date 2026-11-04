@@ -27,6 +27,15 @@ public static class ImageProcessor
         _referencesLoaded = true;
     }
 
+    /// <summary>Disposes cached references so the next load reads the current files from disk.</summary>
+    public static void ClearReferenceCache()
+    {
+        foreach (var mat in _referenceImages.Values)
+            mat.Dispose();
+        _referenceImages.Clear();
+        _referencesLoaded = false;
+    }
+
     public static Mat GetReferenceImage(string key)
     {
         if (_referenceImages.TryGetValue(key, out var mat))
@@ -111,21 +120,29 @@ public static class ImageProcessor
     }
 
     public static double GetMatchConfidence(Mat captured, Mat reference)
+        => FindBestMatch(captured, reference).Confidence;
+
+    /// <summary>
+    /// Returns the best match score and the top-left position of the best match within
+    /// <paramref name="captured"/>. The location reveals how far a crop region is from
+    /// where the reference actually appears (useful when calibrating regions).
+    /// </summary>
+    public static (double Confidence, OpenCvSharp.Point Location) FindBestMatch(Mat captured, Mat reference)
     {
         using var capturedGray = ConvertToGray(captured);
         using var referenceGray = ConvertToGray(reference);
 
         if (capturedGray.Empty() || referenceGray.Empty())
-            return 0.0;
+            return (0.0, default);
 
         if (referenceGray.Width > capturedGray.Width || referenceGray.Height > capturedGray.Height)
-            return 0.0;
+            return (0.0, default);
 
         using var result = new Mat();
         Cv2.MatchTemplate(capturedGray, referenceGray, result, TemplateMatchModes.CCoeffNormed);
-        Cv2.MinMaxLoc(result, out _, out double maxVal, out _, out _);
+        Cv2.MinMaxLoc(result, out _, out double maxVal, out _, out var maxLoc);
 
-        return maxVal;
+        return (maxVal, maxLoc);
     }
 
     public static Mat ConvertToGrayPublic(Mat source) => ConvertToGray(source);

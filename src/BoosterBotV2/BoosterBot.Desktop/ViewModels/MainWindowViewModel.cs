@@ -77,8 +77,8 @@ public partial class MainWindowViewModel : ObservableObject
         {
             var viewport = ViewportDetector.Detect(_lastCapture.Screenshot);
             var scale = ViewportDetector.GetScale(viewport);
-            var region = ComponentMappings.PadForSearch(
-                ComponentMappings.GetBtnPlay(viewport), scale);
+            var definition = ReferenceCatalog.Find(ReferenceKeys.MainPlay)!;
+            var region = definition.GetSearchRegion(viewport);
 
             using var cropped = ImageProcessor.CropRegion(_lastCapture.Screenshot, region);
 
@@ -98,9 +98,9 @@ public partial class MainWindowViewModel : ObservableObject
             DebugReference = MatToAvaloniaBitmap(reference);
 
             var confidence = ImageProcessor.GetMatchConfidence(preprocessed, reference);
-            var matchText = confidence >= DetectionThresholds.ButtonHighConfidence ? "MATCH" : "NO MATCH";
+            var matchText = confidence >= definition.Threshold ? "MATCH" : "NO MATCH";
 
-            DetectionResult = $"{matchText} — Confidence: {confidence:P2} (threshold: {DetectionThresholds.ButtonHighConfidence:P2})"
+            DetectionResult = $"{matchText} — Confidence: {confidence:P2} (threshold: {definition.Threshold:P2})"
                 + $"\nViewport: L={viewport.Left} T={viewport.Top} {viewport.Width}x{viewport.Height} (scale: {scale:F3})"
                 + $"\nCrop region: L={region.Left} T={region.Top} R={region.Right} B={region.Bottom} ({region.Width}x{region.Height})"
                 + $"\nCapture: {_lastCapture.Dimensions.Width}x{_lastCapture.Dimensions.Height}"
